@@ -18,6 +18,9 @@ import { HomePage } from "../pages/home";
 import type { AppDispatch } from "./store";
 
 import './app.css';
+import { AddMilkPage } from "../pages/add-milk";
+import { AnalyzeMilkPage } from "../pages/analyze-milk";
+import { ReportsPage } from "../pages/reports";
 
 setupIonicReact();
 
@@ -38,6 +41,15 @@ export const App: React.FC = () => {
 
           <ProtectedRoute exact path="/">
             <HomePage />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/add-milk">
+            <AddMilkPage />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/analyze-milk">
+            <AnalyzeMilkPage />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/reports">
+            <ReportsPage />
           </ProtectedRoute>
         </IonRouterOutlet>
       </IonReactRouter>
