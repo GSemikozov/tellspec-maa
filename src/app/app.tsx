@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
-import { Route } from 'react-router-dom';
+import { Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import {
-  IonApp,
-  IonRouterOutlet,
-  setupIonicReact
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import { IonReactRouter } from "@ionic/react-router";
 import { ProtectedRoute } from "./components/protected-route";
 
 import { fetchAppSettings } from "./model/app.actions";
@@ -17,7 +13,7 @@ import { HomePage } from "../pages/home";
 
 import type { AppDispatch } from "./store";
 
-import './app.css';
+import "./app.css";
 import { AddMilkPage } from "../pages/add-milk";
 import { AnalyzeMilkPage } from "../pages/analyze-milk";
 import { ReportsPage } from "../pages/reports";
@@ -55,4 +51,4 @@ export const App: React.FC = () => {
       </IonReactRouter>
     </IonApp>
   );
-}
+};
