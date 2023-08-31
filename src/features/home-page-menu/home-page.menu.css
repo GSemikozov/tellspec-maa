@@ -1,0 +1,46 @@
+.main-body {
+  height: 109%;
+  margin-top: 0 !important;
+  width: 100%;
+  background-color: white;
+}
+#menu-logo {
+  padding-top: 1rem;
+  background-color: white;
+  padding-right: 1rem;
+}
+
+.menu-tab {
+  height: 5rem;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+ion-text {
+  width: 9rem;
+}
+ion-tab-bar {
+  height: 4.5rem;
+  background-color: var(--ion-color-tertiary);
+}
+ion-tab-button {
+  background-color: var(--ion-color-tertiary);
+}
+
+.tabs {
+  height: 78%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logout-button {
+  background-color: var(--ion-color-tertiary);
+  color: var(--ion-color-primary);
+  height: 4.5rem;
+  border-top: 0.25px solid #e0e0e080;
+}
+
+.logout-button h4 {
+  font-size: 18px;
+  font-weight: 600;
+}

@@ -3,6 +3,7 @@ import { IonButton, IonInput, IonItem, IonList } from "@ionic/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userAsyncActions, userSelectors } from "../../entities/user";
+import './login-form.css'
 
 import type { AppDispatch } from "../../app/store";
 
@@ -31,9 +32,10 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <IonList>
-        <div className="ion-no-border">
+      <IonList class="ion-padding">
+        <IonItem lines="none">
           <IonInput
+            className="credential-input"
             label-placement="floating"
             fill="outline"
             label="Email"
@@ -47,26 +49,28 @@ export const LoginForm: React.FC = () => {
             })}
           />
           <span style={{ color: "red" }}>{errors.email?.message}</span>
-        </div>
+        </IonItem>
 
-        <div className="ion-no-border ion-margin-top ion-margin-bottom">
+        <IonItem lines="none">
           <IonInput
             label-placement="floating"
             fill="outline"
             label="Password"
             placeholder="Password"
             type="password"
+            className="credential-input"
             {...register("password", {
               required: "This is a required field",
             })}
           />
           <span style={{ color: "red" }}>{errors.password?.message}</span>
-        </div>
+        </IonItem>
 
-        <IonButton type="submit" size="large" disabled={isFetching}>
-          {isFetching ? "loading..." : "Sign in"}
-        </IonButton>
-      </IonList>
+          <IonButton type="submit" size="large" disabled={isFetching}>
+            {isFetching ? "loading..." : "Sign in"}
+          </IonButton>
+        </IonList>
+
     </form>
   );
 };

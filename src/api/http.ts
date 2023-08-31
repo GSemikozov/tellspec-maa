@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from "axios";
 import { getStorageData } from "../app/app.utils";
 
-import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import type { IUserData } from "../entities/user/model/user.types";
 
 export class Http {
@@ -10,7 +10,7 @@ export class Http {
   token = "";
 
   constructor() {
-    const baseUrl = 'https://demo.tellspec.com/v1/preemie/';
+    const baseUrl = "https://demo.tellspec.com/v1/preemie/";
 
     this.client = axios.create({
       baseURL: baseUrl,
@@ -21,20 +21,22 @@ export class Http {
     const state = await getStorageData();
     const { user } = state || { user: null };
     return user;
-  }
+  };
 
   private getHeader = async (headers: Record<string, string>) => {
     const composedHeaders = {
-      'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-      'Content-type': 'application/json;charset=UTF-8',
+      Accept: "application/json, application/xml, text/plain, text/html, *.*",
+      "Content-type": "application/json;charset=UTF-8",
       ...headers,
-    }
+    };
 
     const state = await getStorageData();
     const { token } = state?.user || { token: null };
 
     if (token) {
-      return Object.assign(composedHeaders, { Authorization: `Token ${token}` });
+      return Object.assign(composedHeaders, {
+        Authorization: `Token ${token}`,
+      });
     }
 
     return composedHeaders;
@@ -42,15 +44,15 @@ export class Http {
 
   get = async (
     pathUrl: string,
-    query: Record<string, string> = {},
+    query: Record<string, any> = {},
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: 'GET',
+      method: "GET",
       headers: await this.getHeader(header),
       url: pathUrl,
       params: query,
-      responseType: 'json',
+      responseType: "json",
     };
 
     // make sure that we append the users group id
@@ -70,18 +72,18 @@ export class Http {
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: 'POST',
+      method: "POST",
       headers: await this.getHeader(header),
       data,
       params: query,
-      responseType: 'json',
+      responseType: "json",
       url: pathUrl,
     };
 
     // make sure that we append the users group id
     const user = await this.getUser();
 
-    if(user?.metadata?.group_id) {
+    if (user?.metadata?.group_id) {
       args.params.preemie_group_id = user.metadata.group_id;
     }
 
@@ -95,31 +97,35 @@ export class Http {
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: 'PATCH',
+      method: "PATCH",
       headers: await this.getHeader(header),
       data,
       params: query,
-      responseType: 'json',
+      responseType: "json",
       url: pathUrl,
     };
 
     // make sure that we append the users group id
     const user = await this.getUser();
 
-    if(user?.metadata?.group_id) {
+    if (user?.metadata?.group_id) {
       args.params.preemie_group_id = user.metadata.group_id;
     }
 
     return this.request(args);
   };
 
-  delete = async (pathUrl: string, query: any = {}, header: any = {}): Promise<any | void> => {
+  delete = async (
+    pathUrl: string,
+    query: any = {},
+    header: any = {}
+  ): Promise<any | void> => {
     const args = {
-      method: 'DELETE',
+      method: "DELETE",
       headers: await this.getHeader(header),
       url: pathUrl,
       params: query,
-      responseType: 'json',
+      responseType: "json",
     };
 
     return this.request(args);
@@ -144,7 +150,7 @@ export class Http {
         },
       };
     }
-    return 'unknown';
+    return "unknown";
   };
 
   private parseApiSuccess = (response: AxiosResponse<any>) => {
@@ -155,6 +161,6 @@ export class Http {
       };
     }
 
-    throw new Error('No data to response');
+    throw new Error("No data to response");
   };
 }

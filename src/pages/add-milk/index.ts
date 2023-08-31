@@ -1,1 +1,1 @@
-export { AddMilkPage } from "./add-milk";
+export { AddMilkPage } from './add-milk.page';

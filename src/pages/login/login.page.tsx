@@ -3,34 +3,34 @@ import {
   IonCol,
   IonContent,
   IonGrid,
-  IonHeader,
+  IonItem,
   IonPage,
   IonRow,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import { LoginForm } from "../../features/login-form/login-form";
-import { Logo } from "../../app/components/logo";
+import './login-page.css'
+import { Logo } from "../../ui";
 
 export const LoginPage: React.FC = () => {
   return (
     <IonPage>
-      <IonContent className="ion-padding">
-        <IonGrid style={{ height: "100%" }}>
-          <div style={{ display: "flex", height: "100%" }}>
-            <IonCol size="8" style={{ background: "grey" }} />
-            <IonCol
-              size="4"
-              style={{ display: "flex", flexDirection: "column" }}
-              className="ion-justify-content-center ion-align-items-center"
-            >
-              <div style={{ maxWidth: "70%" }}>
+      <IonContent>
+        <IonGrid className="ion-no-padding">
+          <IonRow>
+            <IonCol size="8" className="login-img">
+              <IonItem lines="none">
+                <img
+                  src="../../resources/images/login-screen-hero.jpg"
+                  alt="milk bottle picture"
+                />
+              </IonItem>
+            </IonCol>
+            <IonCol>
                 <Logo />
                 <div className="ion-margin-top ion-margin-bottom" />
                 <LoginForm />
-              </div>
             </IonCol>
-          </div>
+          </IonRow>
         </IonGrid>
       </IonContent>
     </IonPage>

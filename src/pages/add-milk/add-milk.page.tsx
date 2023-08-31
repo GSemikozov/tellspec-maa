@@ -1,23 +1,29 @@
-import React from "react";
+import React from 'react';
 import {
+  IonBackButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
-} from "@ionic/react";
+  IonToolbar,
+} from '@ionic/react';
+import { AddMilkForm } from '../../features/add-milk-form';
 
 export const AddMilkPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Add milk</IonTitle>
+          <IonButtons slot='start'>
+            <IonBackButton />
+          </IonButtons>
+          <IonTitle>Add Milk</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        Content
+      <IonContent className='ion-padding'>
+        <AddMilkForm />
       </IonContent>
     </IonPage>
-  )
-}
+  );
+};
