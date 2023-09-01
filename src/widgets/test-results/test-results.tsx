@@ -1,6 +1,10 @@
 import React from "react";
+import {IReport} from "../../entities/reports/model/reports.types.ts";
 
-export const TestResults: React.FC = () => {
+import IntrinsicAttributes = JSX.IntrinsicAttributes;
+
+export const TestResults: React.FC<IntrinsicAttributes & IReport> = (props: IReport) => {
+    console.log("TestResults analyseData", props)
     return (
         <div>test results tab</div>
     )

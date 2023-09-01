@@ -1,7 +1,30 @@
 import React from "react";
 
-export const SpectrumAnalyse: React.FC = () => {
+import Chart from "react-apexcharts";
+import { defaultMilkChartConfig } from "./config";
+
+import type { IReport } from "../../entities/reports/model/reports.types";
+
+interface SpectrumAnalyseProps {
+    analyseData: IReport
+}
+
+export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
+    const { analyseData } = props;
+
+    if (!analyseData) {
+        return null;
+    }
+
     return (
-        <div>spectrum analyse tab</div>
+        <div>
+            {/* @ts-ignore, TODO: fix typing */}
+            <Chart
+                height={250}
+                options={defaultMilkChartConfig}
+                series={analyseData.data.analyseData}
+                type="line"
+            />
+        </div>
     )
 }

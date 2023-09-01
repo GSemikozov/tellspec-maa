@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
 import { BarcodeScanner } from "../../ui";
 import {
     IonLabel,
@@ -8,7 +9,11 @@ import {
 } from "@ionic/react";
 
 import { SpectrumAnalyse } from "../spectrum-analyse";
-import { TestResults } from "../test-results";
+// import { TestResults } from "../test-results";
+
+import { reportsAsyncActions, reportsSelectors } from "../../entities/reports";
+
+import type { AppDispatch } from "../../app/store";
 
 enum Tabs {
     'spectrum',
@@ -16,8 +21,19 @@ enum Tabs {
 }
 
 export const AnalyseMilkWidget: React.FC = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.spectrum)
     const [milkId, setMilkId] = useState<string>();
+
+    const analyseData = useSelector(reportsSelectors.selectReportByMilkId(milkId!))
+
+    useEffect(() => {
+        if (!milkId) {
+            return;
+        }
+
+        dispatch(reportsAsyncActions.fetchReport({ milk_id: milkId }))
+    }, [milkId]);
 
     return (
         <>
@@ -45,8 +61,12 @@ export const AnalyseMilkWidget: React.FC = () => {
                     </IonSegment>
 
                     { activeTab === Tabs.spectrum
-                        ? <SpectrumAnalyse />
-                        : <TestResults />
+                        ? <SpectrumAnalyse analyseData={analyseData!} />
+                        : (
+                            <div>
+                                Test results
+                            </div>
+                          )
                     }
 
                     {
