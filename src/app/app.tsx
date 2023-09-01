@@ -17,6 +17,8 @@ import { ReportsPage } from '../pages/reports';
 
 import './app.css';
 
+import "./app.css";
+
 setupIonicReact();
 
 export const App: React.FC = () => {

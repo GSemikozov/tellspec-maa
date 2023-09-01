@@ -1,20 +1,30 @@
 ion-content::part(native) {
   top: 0;
-  padding-inline-start: 0;
+  padding-inline-start: 0 !important;
   padding: 0;
   padding-bottom: 0;
 }
 ion-content::part(scroll) {
   top: 0;
-  padding-inline-start: 0;
+  padding-inline-start: 0 !important;
   padding: 0;
   padding-bottom: 0;
 }
-.login-img img {
+#img-login-screen {
   max-width: 60rem;
-  height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  margin: 0;
+  height: 50rem;
+  object-fit: cover;
+  object-position: 110% 0;
+}
+
+.logo-login-screen {
+  margin-top: 30%;
+  margin-bottom: 5rem;
+  margin-left: 10%;
+
+}
+
+.rights{
+  text-align: center;
+  margin-top: 36%;
 }

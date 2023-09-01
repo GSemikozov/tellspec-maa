@@ -35,16 +35,16 @@ export interface AddMilkFormFieldValues {
 }
 
 const defaultValues = {
-  milkId: '',
-  donorId: '',
-  milkVolume: '',
+  milkId: "",
+  donorId: "",
+  milkVolume: "",
   numberOfContainers: 1,
-  infantDeliveryDate: '',
-  milkExpressionDate: '',
-  milkExpirationDate: '',
-  receivedDate: '',
-  storageFreezer: '',
-  storageCompartment: '',
+  infantDeliveryDate: "",
+  milkExpressionDate: "",
+  milkExpirationDate: "",
+  receivedDate: "",
+  storageFreezer: "",
+  storageCompartment: "",
 };
 
 export const AddMilkForm: React.FC = () => {
@@ -53,7 +53,9 @@ export const AddMilkForm: React.FC = () => {
   const donorsList = useSelector(donorsSelectors.getAllDonors);
   const groupsList = useSelector(groupsSelectors.getGroup);
   const freezersList = useSelector(groupsSelectors.getFreezers);
-  const isFetching: boolean | undefined = useSelector(addMilkFormSelectors.isMilkFormFetching);
+  const isFetching: boolean | undefined = useSelector(
+    addMilkFormSelectors.isMilkFormFetching
+  );
   const [presentAlert] = useIonAlert();
   const {
     register,
@@ -97,9 +99,9 @@ export const AddMilkForm: React.FC = () => {
     // @ts-ignore
     dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
     await presentAlert({
-      header: 'The record has been saved',
-      buttons: ['OK'],
-      onDidDismiss: () => (window.location.href = '/'),
+      header: "The record has been saved",
+      buttons: ["OK"],
+      onDidDismiss: () => (window.location.href = "/"),
     });
   };
 

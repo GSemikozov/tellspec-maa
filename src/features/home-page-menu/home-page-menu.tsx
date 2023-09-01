@@ -1,30 +1,20 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../app/store";
-import { userAsyncActions, userSelectors } from "../../entities/user";
+import { userAsyncActions } from "../../entities/user";
 import {
   IonButton,
   IonCol,
-  IonContent,
   IonGrid,
-  IonHeader,
-  IonIcon,
   IonItem,
-  IonLabel,
-  IonList,
-  IonPage,
-  IonRouterOutlet,
   IonRow,
   IonTabBar,
   IonTabButton,
-  IonTabs,
   IonText,
 } from "@ionic/react";
 import { logoIonic } from "ionicons/icons";
 import "./home-page.menu.css";
-import { IonReactRouter } from "@ionic/react-router";
-import { Route } from "react-router";
-import { HomePage } from "../../pages/home/home.page";
+import {Logo} from "../../ui";
 
 export const HomePageMenu: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,20 +22,13 @@ export const HomePageMenu: React.FC = () => {
   const handleLogout = () => {
     dispatch(userAsyncActions.logout());
   };
+
   return (
     <>
       <div className="main-body">
-              <IonItem
-                className="ion-no-margin"
-                id="menu-logo"
-                lines="none"
-                color="tertiary"
-              >
-                <img
-                  src="../../resources/preemieLogoPink.svg"
-                  alt="Preemie Logo"
-                />
-              </IonItem>
+        <IonItem className="ion-no-margin" id="menu-logo" lines="none">
+          <Logo />
+        </IonItem>
         <IonGrid className="tabs ion-no-padding">
           <IonRow>
             <IonCol>

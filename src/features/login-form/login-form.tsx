@@ -1,5 +1,5 @@
 import React from "react";
-import { IonButton, IonInput, IonItem, IonList } from "@ionic/react";
+import { IonButton, IonInput, IonItem, IonList, IonText } from "@ionic/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userAsyncActions, userSelectors } from "../../entities/user";
@@ -37,7 +37,6 @@ export const LoginForm: React.FC = () => {
           <IonInput
             className="credential-input"
             label-placement="floating"
-            fill="outline"
             label="Email"
             placeholder="Email"
             {...register("email", {
@@ -54,7 +53,6 @@ export const LoginForm: React.FC = () => {
         <IonItem lines="none">
           <IonInput
             label-placement="floating"
-            fill="outline"
             label="Password"
             placeholder="Password"
             type="password"
@@ -66,11 +64,18 @@ export const LoginForm: React.FC = () => {
           <span style={{ color: "red" }}>{errors.password?.message}</span>
         </IonItem>
 
-          <IonButton type="submit" size="large" disabled={isFetching}>
-            {isFetching ? "loading..." : "Sign in"}
-          </IonButton>
-        </IonList>
-
+        <IonButton
+          type="submit"
+          expand="block"
+          size="default"
+          disabled={isFetching}
+        >
+          {isFetching ? "loading..." : "Log in"}
+        </IonButton>
+      </IonList>
+      <p className="forgot-password">
+        <IonText>Forgot your Password? <a href="/">Click Here</a></IonText>
+      </p>
     </form>
   );
 };
