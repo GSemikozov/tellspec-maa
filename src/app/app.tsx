@@ -15,8 +15,6 @@ import { AnalysePage } from '../pages/analyse';
 import { AddMilkPage } from '../pages/add-milk';
 import { ReportsPage } from '../pages/reports';
 
-import './app.css';
-
 import "./app.css";
 
 setupIonicReact();
@@ -24,9 +22,9 @@ setupIonicReact();
 export const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  // useEffect(() => {
-  //   dispatch(fetchAppSettings());
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchAppSettings());
+  }, []);
 
   return (
     <IonApp>
