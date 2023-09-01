@@ -40,10 +40,10 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       <IonContent>
         <IonGrid className='ion-no-padding'>
           <IonRow>
-            <IonCol size='2'>
+            <IonCol size='2.5'>
               <SidebarMenu />
             </IonCol>
-            <IonCol size='10'>
+            <IonCol size='9.5'>
               <div className='layout-body'>
                 <IonRow className='ion-align-items-center'>
                   <IonCol size='7.8'>
