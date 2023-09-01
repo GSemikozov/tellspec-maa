@@ -33,18 +33,17 @@ export const App: React.FC = () => {
           <Route exact path='/login'>
             <LoginPage />
           </Route>
-          <Redirect exact from="/" to="/login" />
 
-          <ProtectedRoute path={routesMapping.home}>
+          <ProtectedRoute exact path={routesMapping.home}>
             <HomePage />
           </ProtectedRoute>
-          <ProtectedRoute path={routesMapping.addMilk}>
+          <ProtectedRoute exact path={routesMapping.addMilk}>
             <AddMilkPage />
           </ProtectedRoute>
-          <ProtectedRoute path={routesMapping.analyse}>
+          <ProtectedRoute exact path={routesMapping.analyse}>
             <AnalysePage />
           </ProtectedRoute>
-          <ProtectedRoute path={routesMapping.reports}>
+          <ProtectedRoute exact path={routesMapping.reports}>
             <ReportsPage />
           </ProtectedRoute>
         </IonRouterOutlet>
