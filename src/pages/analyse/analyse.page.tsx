@@ -1,11 +1,11 @@
 import React from 'react';
 import { Layout } from '../../widgets/layout';
-import { NavTiles } from '../../widgets/nav-tiles';
+import { AnalyseMilkWidget } from "../../widgets/analyse-milk-widget";
 
 export const AnalysePage: React.FC = () => {
   return (
     <Layout title='Analyse Milk'>
-      <NavTiles />
+      <AnalyseMilkWidget />
     </Layout>
   );
 };

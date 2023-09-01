@@ -19,9 +19,7 @@ export const BarcodeScanner = forwardRef<
     const { value } = e.target as HTMLInputElement;
     const barcode = value.trim();
 
-    if (barcode) {
-      onChange && onChange(barcode);
-    }
+    onChange && onChange(barcode);
   };
 
   const openScanner = async () => {
