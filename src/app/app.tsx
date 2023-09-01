@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import {Redirect, Route} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from './store';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
@@ -22,9 +22,9 @@ setupIonicReact();
 export const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    dispatch(fetchAppSettings());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchAppSettings());
+  // }, []);
 
   return (
     <IonApp>
@@ -33,6 +33,7 @@ export const App: React.FC = () => {
           <Route exact path='/login'>
             <LoginPage />
           </Route>
+          <Redirect exact from="/" to="/login" />
 
           <ProtectedRoute path={routesMapping.home}>
             <HomePage />
