@@ -8,7 +8,7 @@ import {
   IonRow,
 } from "@ionic/react";
 import { LoginForm } from "../../features/login-form/login-form";
-import './login-page.css'
+import "./login-page.css";
 import { Logo } from "../../ui";
 
 export const LoginPage: React.FC = () => {
@@ -17,18 +17,24 @@ export const LoginPage: React.FC = () => {
       <IonContent>
         <IonGrid className="ion-no-padding">
           <IonRow>
-            <IonCol size="8" className="login-img">
-              <IonItem lines="none">
+            <IonCol size="8">
+              <IonItem lines="none" className="ion-no-padding">
                 <img
                   src="../../resources/images/login-screen-hero.jpg"
                   alt="milk bottle picture"
+                  id="img-login-screen"
                 />
               </IonItem>
             </IonCol>
             <IonCol>
-                <Logo />
-                <div className="ion-margin-top ion-margin-bottom" />
-                <LoginForm />
+              <div className="logo-login-screen">
+              <Logo />
+              </div>
+              <div className="ion-margin-top ion-margin-bottom" />
+              <LoginForm />
+              <p className="rights">
+                <small>© 2021-2023 TellSpec LTD All right Reserved</small>
+              </p>
             </IonCol>
           </IonRow>
         </IonGrid>
