@@ -12,13 +12,15 @@ import {
   IonTabButton,
   IonText,
 } from "@ionic/react";
-import { logoIonic } from "ionicons/icons";
+import { Route, useHistory } from "react-router";
 import "./home-page.menu.css";
-import {Logo} from "../../ui";
+import AddMilkIcon from "../../../resources/add-milk-selected.png";
+
+import { Logo } from "../../ui";
 
 export const HomePageMenu: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-
+  const history = useHistory();
   const handleLogout = () => {
     dispatch(userAsyncActions.logout());
   };
@@ -34,44 +36,93 @@ export const HomePageMenu: React.FC = () => {
             <IonCol>
               <IonTabBar>
                 <IonTabButton tab="home" href="/">
-                  <IonText>
-                    <h4 className="ion-text-start">Home</h4>
-                  </IonText>
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/home-icon-selected.png"
+                      className="ion-float-left ion-padding-right"
+                    />
+                    <h4>
+                      <IonText color="primary">Home</IonText>
+                    </h4>
+                  </div>
                 </IonTabButton>
               </IonTabBar>
               <IonTabBar>
-                <IonTabButton tab="addMilk" href="/">
-                  <IonText>
-                    <h4 className="ion-text-start">Add Milk</h4>
-                  </IonText>
+                <IonTabButton
+                  tab="addMilk"
+                  href="/"
+                  onClick={() => history.push("/add-milk")}
+                >
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/add-milk-notSelected.png"
+                      className="ion-float-left ion-padding-right"
+                    />
+                    <h4>
+                      <IonText color="tertiary">Add Milk</IonText>
+                    </h4>
+                  </div>
                 </IonTabButton>
               </IonTabBar>
               <IonTabBar>
                 <IonTabButton tab="analyseMilk" href="/">
-                  <IonText>
-                    <h4 className="ion-text-start">Analyse Milk</h4>
-                  </IonText>
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/analyse-milk-notSelected.png"
+                      className="ion-float-left"
+                    />
+                    <h4>
+                      <IonText color="tertiary">Analyse Milk</IonText>
+                    </h4>
+                  </div>
                 </IonTabButton>
               </IonTabBar>
               <IonTabBar>
                 <IonTabButton tab="reports" href="/">
-                  <IonText>
-                    <h4 className="ion-text-start">View Reports</h4>
-                  </IonText>
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/view-reports-notSelected.png"
+                      className="ion-float-left"
+                    />
+                    <h4>
+                      <IonText color="tertiary">View Reports</IonText>
+                    </h4>
+                  </div>
+                </IonTabButton>
+              </IonTabBar>
+              <IonTabBar>
+                <IonTabButton tab="settings" href="/">
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/settings-icon-notSelected.png"
+                      className="ion-float-left ion-padding-right"
+                    />
+                    <h4>
+                      <IonText color="tertiary">Settings</IonText>
+                    </h4>
+                  </div>
                 </IonTabButton>
               </IonTabBar>
             </IonCol>
           </IonRow>
           <IonRow>
-            <IonCol className="logout-button">
-              <div className="logout-button">
-                <IonButton onClick={handleLogout} color="primary" fill="clear">
-                  <h4>Logout</h4>
-                </IonButton>
-              </div>
+            <IonCol>
+              <IonTabBar>
+                <IonTabButton tab="settings" href="/" onClick={handleLogout}>
+                  <div className="menu-icon-tab ion-text-start">
+                    <img
+                      src="../../../resources/logout-icon-notSelected.png"
+                      className="ion-float-left ion-padding-right"
+                    />
+                    <h4>
+                      <IonText color="tertiary">Log out</IonText>
+                    </h4>
+                  </div>
+                </IonTabButton>
+              </IonTabBar>
             </IonCol>
           </IonRow>
-       </IonGrid>
+        </IonGrid>
       </div>
     </>
   );
