@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userAsyncActions, userSelectors } from "../../entities/user";
 import "./login-form.css";
-import CustomInput from "../../ui/input/input";
+import { CustomInput } from "../../ui/input/input";
 
 import type { AppDispatch } from "../../app/store";
 
@@ -26,7 +26,7 @@ export const LoginForm: React.FC = () => {
     mode: "onSubmit",
   });
   const { errors } = formState;
-  // const inputRef = useRef(defaultValues)
+  const inputRef = useRef(defaultValues);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     dispatch(userAsyncActions.login(data));
@@ -36,8 +36,9 @@ export const LoginForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <IonList class="ion-padding">
         <IonItem lines="none">
-          <IonInput
-            // ref={inputRef}
+          <CustomInput
+            //@ts-ignore
+            {...inputRef}
             label-placement="floating"
             label="Email"
             placeholder="Email"
@@ -53,7 +54,8 @@ export const LoginForm: React.FC = () => {
         </IonItem>
 
         <IonItem lines="none">
-          <IonInput
+          <CustomInput
+          {...inputRef}
             label-placement="floating"
             label="Password"
             placeholder="Password"
