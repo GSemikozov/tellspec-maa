@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { IonButton, IonInput, IonItem, IonList, IonText } from "@ionic/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { userAsyncActions, userSelectors } from "../../entities/user";
-import './login-form.css'
+import "./login-form.css";
+import CustomInput from "../../ui/input/input";
 
 import type { AppDispatch } from "../../app/store";
 
@@ -25,6 +26,7 @@ export const LoginForm: React.FC = () => {
     mode: "onSubmit",
   });
   const { errors } = formState;
+  // const inputRef = useRef(defaultValues)
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     dispatch(userAsyncActions.login(data));
@@ -35,7 +37,7 @@ export const LoginForm: React.FC = () => {
       <IonList class="ion-padding">
         <IonItem lines="none">
           <IonInput
-            className="credential-input"
+            // ref={inputRef}
             label-placement="floating"
             label="Email"
             placeholder="Email"
@@ -56,7 +58,6 @@ export const LoginForm: React.FC = () => {
             label="Password"
             placeholder="Password"
             type="password"
-            className="credential-input"
             {...register("password", {
               required: "This is a required field",
             })}
@@ -74,7 +75,9 @@ export const LoginForm: React.FC = () => {
         </IonButton>
       </IonList>
       <p className="forgot-password">
-        <IonText>Forgot your Password? <a href="/">Click Here</a></IonText>
+        <IonText>
+          Forgot your Password? <a href="/">Click Here</a>
+        </IonText>
       </p>
     </form>
   );

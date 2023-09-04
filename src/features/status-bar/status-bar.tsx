@@ -2,6 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { userSelectors } from "../../entities/user";
 import { IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
+import { User } from "../../entities/user";
+
+// ICONS
 import TargetOffline from "../../../resources/icons/target-offline.svg";
 import TargetYellow from "../../../resources/icons/target-yellow.svg"
 import TargetRed from "../../../resources/icons/target-red.svg"
@@ -22,9 +25,10 @@ export const StatusBar: React.FC = () => {
       <IonRow>
         <IonCol>
           <div className="ion-text-end user-name">
-            <h2>
+            {/* <h2>
               Welcome back {user.first_name} {user.last_name}!
-            </h2>
+            </h2> */}
+            <User />
           </div>
         </IonCol>
         <IonCol size="4.5">

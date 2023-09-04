@@ -28,7 +28,7 @@ export const SidebarMenu: React.FC = () => {
     <>
       <div className="sidebarMenu">
         <IonItem className="ion-no-margin" id="menu-logo" lines="none">
-          <img src="../../resources/preemieLogoPink.svg" alt="Preemie Logo" />
+          <img src="../../resources/preemieLogoPink.png" alt="Preemie Logo" />
         </IonItem>
 
         <IonGrid className="tabs ion-no-padding">
@@ -101,7 +101,6 @@ export const SidebarMenu: React.FC = () => {
               </IonTabBar>
             </IonCol>
           </IonRow>
-
           <IonRow>
             <IonCol className="logout-button">
               <IonTabBar>

@@ -17,7 +17,7 @@
   margin-bottom: 0.25rem;
 }
 
-ion-tab-button h4{
+ion-tab-button h4 {
   font-size: 18px;
   width: 100%;
   align-self: center;
@@ -31,29 +31,32 @@ ion-tab-bar {
   border: none;
 }
 
-ion-tab-button{
+ion-tab-button {
   max-width: 100% !important;
+  
 }
 .menu-icon-tab {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+ 
 }
 .menu-icon h4 {
   width: 18vw;
 }
 .tabs {
-  height: 78%;
+  height: 85%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: 1.7rem;
 }
 .logout-button {
   background-color: var(--ion-backgroud-color);
   color: var(--ion-color-tertiary);
   height: 4.5rem;
-  border-top: 0.25px solid #e0e0e080;
+  
 }
 .logout-button h4 {
   font-size: 18px;

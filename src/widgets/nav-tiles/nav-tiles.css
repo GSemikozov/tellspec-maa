@@ -17,12 +17,10 @@ ion-content::part(scroll) {
 .button-tab {
   width: 9rem;
   height: 9rem;
-  /* border: 1px solid black; */
+ 
   margin: 0.9rem;
 }
-.col {
-  border: 1px solid black;
-}
+
 h4,
 h3 {
   padding-right: 1rem;

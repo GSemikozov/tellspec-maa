@@ -2,9 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 1.5rem;
 }
 
 .user__name {
   margin-right: 1rem;
+  padding-top: 0.5rem;
+}
+.user__avatar {
+  width: 2rem;
+  height: 2rem;
 }

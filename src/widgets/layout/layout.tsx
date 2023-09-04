@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   IonBackButton,
   IonButtons,
@@ -10,12 +10,13 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
-} from '@ionic/react';
-import { SidebarMenu } from '../sidebar-menu';
-import { User } from '../../entities/user';
-import { SensorInstructions, SensorStatus } from '../../entities/sensor';
+} from "@ionic/react";
+import { SidebarMenu } from "../sidebar-menu";
 
-import './layout.css';
+import { SensorInstructions, SensorStatus } from "../../entities/sensor";
+import { StatusBar } from "../../features/status-bar/status-bar";
+
+import "./layout.css";
 
 interface LayoutProps {
   title?: string;
@@ -28,38 +29,38 @@ export const Layout: React.FC<LayoutProps> = (props) => {
 
   return (
     <IonPage>
-      <IonHeader>
+      {/* <IonHeader>
         <IonToolbar>
-          <IonButtons slot='start'>
+          <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
           <IonTitle>{title}</IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
 
       <IonContent>
-        <IonGrid className='ion-no-padding'>
+        <IonGrid className="ion-no-padding">
           <IonRow>
-            <IonCol size='2.5'>
+            <IonCol size="2.5">
               <SidebarMenu />
             </IonCol>
-            <IonCol size='9.5'>
-              <div className='layout-body'>
-                <IonRow className='ion-align-items-center'>
-                  <IonCol size='7.8'>
+            <IonCol size="9.5">
+                <StatusBar />
+              <div className="layout-body">
+                {/* <IonRow className="ion-align-items-center">
+                  <IonCol size="7.8">
                     <User />
                   </IonCol>
-                  <IonCol size='3.3'>
+                  <IonCol size="3.3">
                     <SensorStatus />
                   </IonCol>
-                </IonRow>
-
+                </IonRow> */}
                 <IonRow>
-                  <IonCol size='7.5' className='ion-margin main'>
+                  <IonCol size="7.5" className="ion-margin main">
                     {children}
                   </IonCol>
 
-                  <IonCol size='4' className='ion-padding'>
+                  <IonCol size="4" className="ion-padding">
                     {rightSideBar}
                   </IonCol>
                 </IonRow>

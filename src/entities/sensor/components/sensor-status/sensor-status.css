@@ -5,6 +5,7 @@
   border-radius: 20px;
   padding: 0.3rem 1rem;
   background-color: var(--ion-color-secondary);
+  border: 1px solid black;
 }
 
 .sensor p {
