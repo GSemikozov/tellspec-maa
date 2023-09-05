@@ -28,7 +28,10 @@ export const SidebarMenu: React.FC = () => {
     <>
       <div className="sidebarMenu">
         <IonItem className="ion-no-margin" id="menu-logo" lines="none">
-          <img src="../../resources/preemieLogoPink.png" alt="Preemie Logo" />
+          <img
+            src="../../assets/images/preemieLogoPink.png"
+            alt="Preemie Logo"
+          />
         </IonItem>
 
         <IonGrid className="tabs ion-no-padding">
@@ -38,7 +41,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="home" href={routesMapping.home}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/home-icon-selected.png"
+                      src="../../../assets/images/home-icon-selected.png"
                       className="ion-float-left ion-padding-right"
                     />
                     <h4>
@@ -51,7 +54,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="add" href={routesMapping.addMilk}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/add-milk-notSelected.png"
+                      src="../../../assets/images/add-milk-notSelected.png"
                       className="ion-float-left ion-padding-right"
                     />
                     <h4>
@@ -64,7 +67,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="analyse" href={routesMapping.analyse}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/analyse-milk-notSelected.png"
+                      src="../../../assets/images/analyse-milk-notSelected.png"
                       className="ion-float-left"
                     />
                     <h4>
@@ -77,7 +80,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="reports" href={routesMapping.reports}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/view-reports-notSelected.png"
+                      src="../../../assets/images/view-reports-notSelected.png"
                       className="ion-float-left"
                     />
                     <h4>
@@ -90,7 +93,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="settings" href="/">
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/settings-icon-notSelected.png"
+                      src="../../../assets/images/settings-icon-notSelected.png"
                       className="ion-float-left ion-padding-right"
                     />
                     <h4>
@@ -107,7 +110,7 @@ export const SidebarMenu: React.FC = () => {
                 <IonTabButton tab="settings" href="/" onClick={handleLogout}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
-                      src="../../../resources/logout-icon-notSelected.png"
+                      src="../../../assets/images/logout-icon-notSelected.png"
                       className="ion-float-left ion-padding-right"
                     />
                     <h4>

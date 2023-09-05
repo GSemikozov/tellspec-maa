@@ -12,7 +12,7 @@ export const NavTiles: React.FC = () => {
         <div className="button-tab ion-float-left">
           <img
             className="icons"
-            src="../../../resources/add-milk-selected.png"
+            src="../../../assets/images/add-milk-selected.png"
             alt="add milk icon"
           />
         </div>
@@ -33,7 +33,7 @@ export const NavTiles: React.FC = () => {
         <div className="button-tab ion-float-left">
           <img
             className="icons"
-            src="../../../resources/analyse-milk-selected.png"
+            src="../../../assets/images/analyse-milk-selected.png"
             alt="analyse milk icon"
           />
         </div>
@@ -55,7 +55,7 @@ export const NavTiles: React.FC = () => {
         <div className="button-tab ion-float-left">
           <img
             className="icons"
-            src="../../../resources/view-reports-selected.png"
+            src="../../../assets/images/view-reports-selected.png"
             alt="view reports icon"
           />
         </div>
