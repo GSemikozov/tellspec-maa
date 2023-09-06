@@ -39,15 +39,15 @@ export const Layout: React.FC<LayoutProps> = (props) => {
               <SidebarMenu />
             </IonCol>
             <IonCol size="9.5">
-                <SensorStatus />
+              <SensorStatus />
               <div className="layout-body">
                 <IonRow className="ion-align-items-center">
-                  <IonCol size="7.8">
+                  {/*<IonCol size="7.8">
                     <User />
                   </IonCol>
                   <IonCol size="3.3">
                     <SensorStatus />
-                  </IonCol>
+                  </IonCol>*/}
                 </IonRow>
                 <IonRow>
                   {/* TODO: something strange is here in the size property */}
