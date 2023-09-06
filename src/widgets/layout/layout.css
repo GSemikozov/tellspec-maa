@@ -6,10 +6,11 @@ ion-content::part(scroll) {
 }
 .layout-body {
   margin: 1rem;
-  background-color: #fff;
+  border-top: 2px solid var(--ion-color-tertiary-tint);
+  /* background-color: #fff;
   border: 1px solid #f0f0f0;
   border-radius: 20px;
-  box-shadow: 0 4px 11px 2px #ffb6cc;
+  box-shadow: 0 4px 11px 2px #ffb6cc; */
 }
 
 .main {
