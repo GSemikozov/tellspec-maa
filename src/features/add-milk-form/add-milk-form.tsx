@@ -126,7 +126,7 @@ export const AddMilkForm: React.FC = () => {
 
   return (
     <form>
-      <IonGrid>
+      <IonGrid id="add-milk-wrapper">
         <IonRow>
           <div className="ion-margin-top ion-margin-bottom" id="milk-id">
             <Controller
@@ -297,9 +297,9 @@ export const AddMilkForm: React.FC = () => {
           </IonCol>
         </IonRow>
         <IonRow>
-          <IonCol size="6">
+          <IonCol size="4">
             <IonButton
-            className="ion-padding ion-margin"
+              className="ion-padding save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndClearForm}
@@ -307,9 +307,9 @@ export const AddMilkForm: React.FC = () => {
               {isFetching ? "loading..." : "Save & Add Another Milk"}
             </IonButton>
           </IonCol>
-          <IonCol size="6">
+          <IonCol size="4">
             <IonButton
-            className="ion-padding ion-margin"
+              className="ion-padding save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndClose}
@@ -317,11 +317,10 @@ export const AddMilkForm: React.FC = () => {
               {isFetching ? "loading..." : "Save this Milk and Close"}
             </IonButton>
           </IonCol>
-          </IonRow>
-          <IonRow>
-          <IonCol >
+
+          <IonCol size="4">
             <IonButton
-            className="ion-padding ion-margin"
+              className="ion-padding save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndAnalyse}

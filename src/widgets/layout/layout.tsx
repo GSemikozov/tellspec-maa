@@ -14,7 +14,7 @@ import {
 import { SidebarMenu } from "../sidebar-menu";
 
 import { SensorInstructions, SensorStatus } from "../../entities/sensor";
-import { StatusBar } from "../../features/status-bar/status-bar";
+
 
 import "./layout.css";
 
@@ -45,7 +45,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
               <SidebarMenu />
             </IonCol>
             <IonCol size="9.5">
-                <StatusBar />
+                <SensorStatus />
               <div className="layout-body">
                 {/* <IonRow className="ion-align-items-center">
                   <IonCol size="7.8">

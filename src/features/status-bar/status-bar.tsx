@@ -21,7 +21,7 @@ import "./status-bar.css";
 export const StatusBar: React.FC = () => {
   const user = useSelector(userSelectors.getUser);
   return (
-    <IonGrid fixed={true} style={{ height: "8%" }}>
+    <IonGrid fixed={true} style={{ height: "10%" }}>
       <IonRow>
         <IonCol>
           <div className="ion-text-end user-name">
