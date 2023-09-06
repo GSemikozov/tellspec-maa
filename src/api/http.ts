@@ -1,16 +1,16 @@
-import axios from "axios";
-import { getStorageData } from "../app/app.utils";
+import axios from 'axios';
+import { getStorageData } from '../app/app.utils';
 
-import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import type { IUserData } from "../entities/user/model/user.types";
+import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import type { IUserData } from '../entities/user/model/user.types';
 
 export class Http {
   client: AxiosInstance;
 
-  token = "";
+  token = '';
 
   constructor() {
-    const baseUrl = "https://demo.tellspec.com/v1/preemie/";
+    const baseUrl = 'https://api.preemiesensor.com/v1/preemie/';
 
     this.client = axios.create({
       baseURL: baseUrl,
@@ -25,8 +25,8 @@ export class Http {
 
   private getHeader = async (headers: Record<string, string>) => {
     const composedHeaders = {
-      Accept: "application/json, application/xml, text/plain, text/html, *.*",
-      "Content-type": "application/json;charset=UTF-8",
+      Accept: 'application/json, application/xml, text/plain, text/html, *.*',
+      'Content-type': 'application/json;charset=UTF-8',
       ...headers,
     };
 
@@ -48,11 +48,11 @@ export class Http {
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: "GET",
+      method: 'GET',
       headers: await this.getHeader(header),
       url: pathUrl,
       params: query,
-      responseType: "json",
+      responseType: 'json',
     };
 
     // make sure that we append the users group id
@@ -72,11 +72,11 @@ export class Http {
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: "POST",
+      method: 'POST',
       headers: await this.getHeader(header),
       data,
       params: query,
-      responseType: "json",
+      responseType: 'json',
       url: pathUrl,
     };
 
@@ -97,11 +97,11 @@ export class Http {
     header: Record<string, string> = {}
   ): Promise<any | void> => {
     const args = {
-      method: "PATCH",
+      method: 'PATCH',
       headers: await this.getHeader(header),
       data,
       params: query,
-      responseType: "json",
+      responseType: 'json',
       url: pathUrl,
     };
 
@@ -115,17 +115,13 @@ export class Http {
     return this.request(args);
   };
 
-  delete = async (
-    pathUrl: string,
-    query: any = {},
-    header: any = {}
-  ): Promise<any | void> => {
+  delete = async (pathUrl: string, query: any = {}, header: any = {}): Promise<any | void> => {
     const args = {
-      method: "DELETE",
+      method: 'DELETE',
       headers: await this.getHeader(header),
       url: pathUrl,
       params: query,
-      responseType: "json",
+      responseType: 'json',
     };
 
     return this.request(args);
@@ -150,7 +146,7 @@ export class Http {
         },
       };
     }
-    return "unknown";
+    return 'unknown';
   };
 
   private parseApiSuccess = (response: AxiosResponse<any>) => {
@@ -161,6 +157,6 @@ export class Http {
       };
     }
 
-    throw new Error("No data to response");
+    throw new Error('No data to response');
   };
 }
