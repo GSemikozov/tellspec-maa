@@ -1,15 +1,11 @@
 import { RootState } from "../../../app/store";
 
-export const selectReportByMilkId = (milkId: string) => (state: RootState) => {
-    if (!milkId) {
-        return null;
-    }
-
-    // @ts-ignore
+import type { IReport } from "./reports.types";
+export const selectReportByMilkId = (milkId: string) => (state: RootState): IReport | null => {
     const reports = state.reports.entities;
     const uuids = Object.keys(reports);
 
-    if (!uuids.length) {
+    if (!milkId || !uuids.length) {
         return null;
     }
 

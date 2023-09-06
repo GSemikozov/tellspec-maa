@@ -7,12 +7,22 @@ import type { IApp } from "./app.types";
 const initialState: IApp = {
   status: "idle",
   online: false,
+  layout: {
+    isSidebarVisible: true,
+  }
 };
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {},
+  reducers: {
+    hideSidebar: (state) => {
+      state.layout.isSidebarVisible = false;
+    },
+    showSidebar: (state) => {
+      state.layout.isSidebarVisible = true;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAppSettings.pending, (state) => {
       state.status = "loading";

@@ -12,11 +12,13 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { SidebarMenu } from "../sidebar-menu";
-
+import { useSelector } from "react-redux";
 import { SensorInstructions, SensorStatus } from "../../entities/sensor";
 import { StatusBar } from "../../features/status-bar/status-bar";
+import { appSelectors } from "../../app";
 
 import "./layout.css";
+import {User} from "../../entities/user";
 
 interface LayoutProps {
   title?: string;
@@ -26,18 +28,10 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = (props) => {
   const { title, children, rightSideBar = <SensorInstructions /> } = props;
+  const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>{title}</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
-
       <IonContent>
         <IonGrid className="ion-no-padding">
           <IonRow>
@@ -47,22 +41,27 @@ export const Layout: React.FC<LayoutProps> = (props) => {
             <IonCol size="9.5">
                 <StatusBar />
               <div className="layout-body">
-                {/* <IonRow className="ion-align-items-center">
+                <IonRow className="ion-align-items-center">
                   <IonCol size="7.8">
                     <User />
                   </IonCol>
                   <IonCol size="3.3">
                     <SensorStatus />
                   </IonCol>
-                </IonRow> */}
+                </IonRow>
                 <IonRow>
-                  <IonCol size="7.5" className="ion-margin main">
+                  {/* TODO: something strange is here in the size property */}
+                  <IonCol size={isSidebarVisible ? '7.5' : '11.5'} className="ion-margin main">
                     {children}
                   </IonCol>
 
-                  <IonCol size="4" className="ion-padding">
-                    {rightSideBar}
-                  </IonCol>
+                  {
+                    isSidebarVisible ? (
+                        <IonCol size="4" className="ion-padding">
+                          {rightSideBar}
+                        </IonCol>
+                    ) : null
+                  }
                 </IonRow>
               </div>
             </IonCol>

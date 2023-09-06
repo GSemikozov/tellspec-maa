@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Redirect, Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from './store';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';

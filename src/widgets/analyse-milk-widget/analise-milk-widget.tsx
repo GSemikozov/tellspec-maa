@@ -9,11 +9,12 @@ import {
 } from "@ionic/react";
 
 import { SpectrumAnalyse } from "../spectrum-analyse";
-// import { TestResults } from "../test-results";
-
-import { reportsAsyncActions, reportsSelectors } from "../../entities/reports";
+import { TestResults } from "../test-results";
+import { reportsSelectors, reportsAsyncActions } from "../../entities/reports";
 
 import type { AppDispatch } from "../../app/store";
+
+import "./analyse-milk-widget.css";
 
 enum Tabs {
     'spectrum',
@@ -25,15 +26,23 @@ export const AnalyseMilkWidget: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.spectrum)
     const [milkId, setMilkId] = useState<string>();
 
-    const analyseData = useSelector(reportsSelectors.selectReportByMilkId(milkId!))
+    const report = useSelector(reportsSelectors.selectReportByMilkId(milkId!));
+    const ActiveTabComponent = activeTab === Tabs.spectrum
+        ? SpectrumAnalyse
+        : TestResults;
 
     useEffect(() => {
         if (!milkId) {
             return;
         }
 
-        dispatch(reportsAsyncActions.fetchReport({ milk_id: milkId }))
+        dispatch(reportsAsyncActions.fetchReport({ milk_id: milkId }));
     }, [milkId]);
+
+    useEffect(() => {
+        if (!report) return;
+        setActiveTab(Tabs.results);
+    }, [milkId, report]);
 
     return (
         <>
@@ -45,7 +54,7 @@ export const AnalyseMilkWidget: React.FC = () => {
             />
 
             <div>
-                <IonRow>
+                <IonRow class="ion-justify-content-start">
                     <IonSegment
                         value={activeTab}
                         disabled={!milkId}
@@ -59,20 +68,15 @@ export const AnalyseMilkWidget: React.FC = () => {
                             <IonLabel>Test Results</IonLabel>
                         </IonSegmentButton>
                     </IonSegment>
+                </IonRow>
 
-                    { activeTab === Tabs.spectrum
-                        ? <SpectrumAnalyse analyseData={analyseData!} />
-                        : (
-                            <div>
-                                Test results
-                            </div>
-                          )
-                    }
-
-                    {
-                        !milkId ? (
-                            <div>Scan the milk barcode first</div>
-                        ) : null
+                <IonRow class="ion-justify-content-around">
+                    { milkId
+                        // @ts-ignore // TODO: milk_id?
+                        ? <ActiveTabComponent milkID={milkId} report={report} />
+                        : <div className="analyseMilkWidget__placeholder">
+                            Scan or enter the milk barcode first
+                        </div>
                     }
                 </IonRow>
             </div>

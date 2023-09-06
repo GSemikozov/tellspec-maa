@@ -3,28 +3,26 @@ import React from "react";
 import Chart from "react-apexcharts";
 import { defaultMilkChartConfig } from "./config";
 
-import type { IReport } from "../../entities/reports/model/reports.types";
-
 interface SpectrumAnalyseProps {
-    analyseData: IReport
+    milkID: string;
 }
 
 export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
-    const { analyseData } = props;
+    const { milkID } = props;
 
-    if (!analyseData) {
+    if (!milkID) {
         return null;
     }
 
     return (
         <div>
             {/* @ts-ignore, TODO: fix typing */}
-            <Chart
+            {/*<Chart
                 height={250}
                 options={defaultMilkChartConfig}
                 series={analyseData.data.analyseData}
                 type="line"
-            />
+            />*/}
         </div>
     )
 }
