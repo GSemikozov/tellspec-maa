@@ -39,7 +39,6 @@ export const BarcodeScanner = forwardRef<
         label={title}
         value={value}
         label-placement="floating"
-        fill="outline"
         onIonInput={handleChange}
       />
       <IonButton slot="end" fill="clear" onClick={openScanner}>

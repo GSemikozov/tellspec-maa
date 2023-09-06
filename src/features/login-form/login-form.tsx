@@ -37,7 +37,6 @@ export const LoginForm: React.FC = () => {
       <IonList class="ion-padding">
         <IonItem lines="none">
           <CustomInput
-            //@ts-ignore
             {...inputRef}
             label-placement="floating"
             label="Email"

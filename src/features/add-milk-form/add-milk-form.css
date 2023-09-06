@@ -1,3 +1,25 @@
 #add-milk-wrapper {
   margin-top: 0% !important;
 }
+
+.add-milk-input{
+   border-bottom: 1px solid var(--ion-color-primary);
+  margin: 0.5rem 1.5rem;
+  background-color: white;
+  width: 18rem;
+}
+#milk-id{
+  border-bottom: 1px solid var(--ion-color-primary);
+  margin: 0.5rem 1.5rem;
+  background-color: white;
+  width: 100vw;
+}
+
+.button-wrapper{
+  display: flex;
+ justify-content: center;
+}
+ion-button{
+  margin-right: 0 !important;
+  width: 15rem;
+}
