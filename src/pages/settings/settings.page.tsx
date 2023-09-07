@@ -17,12 +17,14 @@ import { Layout } from "../../widgets/layout";
 import "./settings.css";
 import { CustomButton } from "../../ui/button/button";
 import TickIcon from '../../../assets/icons/chip-tick-icon.svg'
+import CloseIcon from '../../../assets/icons/close-icon.svg'
 
 import SettingsIcon from "../../../assets/images/settings-icon-selected.png";
 import TargetIcon from "../../../assets/icons/target-pink.svg";
 import { useSelector } from "react-redux";
 import { groupsSelectors } from "../../entities/groups";
 import { IFreezer } from "../../entities/groups/model/groups.types";
+import { CustomInput } from "../../ui/input/input";
 
 export const SettingsPage: React.FC = () => {
   const freezersList = useSelector(groupsSelectors.getFreezers);
@@ -80,6 +82,7 @@ export const SettingsPage: React.FC = () => {
               <IonSelect
                 label="Milk Expiration Date"
                 label-placement="floating"
+               
               >
                 {ExpirationMonth.map((month) => (
                   <IonSelectOption value={month}>{month}</IonSelectOption>
@@ -99,7 +102,7 @@ export const SettingsPage: React.FC = () => {
                 {freezersList.map((freezer: IFreezer) => (
                   <IonChip key={freezer.freezer_id}>
                     <IonIcon icon={TickIcon} />
-                    {freezer.name}
+                    {freezer.name}<button style={{"background": "none"}} className="close-button"><IonIcon icon={CloseIcon}  /></button>
                   </IonChip>
                 ))}
               </div>
@@ -116,6 +119,11 @@ export const SettingsPage: React.FC = () => {
                 <IonText>Add another Storage</IonText>
               </p>
               <button className="add-button">ADD</button>
+              {/* <CustomInput
+              type="text"
+              label-placement="floating"
+              label="Add Storage"
+               /> */}
             </div>
             <div className="line" />
             <div className="button-wrapper">

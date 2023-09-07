@@ -61,3 +61,16 @@ button.add-button {
   margin-bottom: 1rem;
   margin-top: 2rem;
 }
+.available-storage-chip{
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+.available-storage-chip ion-icon {
+  margin-right: 0.5rem;
+}
+.close-button ion-icon {
+  margin-left: 0.5rem;
+  font-size: 1.3rem;
+  margin-right: 0;
+}
