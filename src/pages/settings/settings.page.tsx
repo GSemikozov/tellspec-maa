@@ -19,6 +19,15 @@ import SettingsIcon from "../../../assets/images/settings-icon-selected.png";
 import TargetIcon from "../../../assets/icons/target-pink.svg";
 
 export const SettingsPage: React.FC = () => {
+  const ExpirationMonth = [
+    "1 month",
+    "2 months",
+    "3 months",
+    "4 months",
+    "5 months",
+    "6 months",
+  ];
+
   return (
     <IonPage>
       <IonContent className="ion-padding">
@@ -65,9 +74,9 @@ export const SettingsPage: React.FC = () => {
                 label="Milk Expiration Date"
                 label-placement="floating"
               >
-                <IonSelectOption value="6 months">6 Months</IonSelectOption>
-                <IonSelectOption value="9 months">9 Months</IonSelectOption>
-                <IonSelectOption value="12 months">12 Months</IonSelectOption>
+                {ExpirationMonth.map((month) => (
+                  <IonSelectOption value={month}>{month}</IonSelectOption>
+                ))}
               </IonSelect>
             </div>
             <div className="settings-title">
