@@ -1,6 +1,6 @@
 .sensor-manager-instructions {
-    padding: 16px;
-    margin-bottom: 28px;
+    padding: 1.6rem;
+    margin-bottom: 2.8rem;
 
     font-family: Campton;
     letter-spacing: 0.15px;
@@ -17,7 +17,7 @@
 }
 
 .sensor-manager-instructions__content {
-    margin-top: 4px;
+    margin-top: 0.4rem;
 
     color: var(--color-text-main-text-mid);
     font-size: 1.8rem;

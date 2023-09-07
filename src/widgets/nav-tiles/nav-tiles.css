@@ -8,43 +8,48 @@ ion-content::part(scroll) {
 .logo-tile-top {
     position: absolute;
     opacity: 5%;
-    width: 18rem;
-    left: 17.8rem;
-    top: 0.9rem;
+    width: 50%;
+    left: 50%;
+    top: 1.6rem;
     border-bottom-right-radius: 10px;
 }
 
 .logo-tile-middle {
     position: absolute;
     opacity: 5%;
-    width: 18rem;
-    left: 17.8rem;
-    top: 0.1rem;
+    width: 50%;
+    left: 50%;
+    top: 0.2rem;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 .logo-tile-bottom {
     position: absolute;
     opacity: 5%;
-    width: 18rem;
-    left: 17.8rem;
-    bottom: 0.7rem;
+    width: 50%;
+    left: 50%;
+    bottom: 1.6rem;
     border-bottom-right-radius: 10px;
 }
 
-.tab {
+.nav-tiles__tab:not(:last-child) {
+    margin-bottom: 1.2rem;
+}
+
+.nav-tiles__tab {
     text-decoration: none;
     position: relative;
-    width: 36rem;
-    height: 11rem;
+    width: 100%;
+    height: 18rem;
     border: 2px solid var(--ion-color-primary-contrast);
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0px 5px 5px 0px rgba(229, 3, 176, 0.1);
 
-    margin: 0.7rem;
     display: inline-block;
+    overflow: hidden;
 }
-.tab:first-child {
+
+.nav-tiles__tab:first-child {
     background: linear-gradient(
         153deg,
         rgba(255, 255, 255, 1) 0%,
@@ -52,10 +57,12 @@ ion-content::part(scroll) {
         rgba(255, 161, 233, 0.3) 100% /* rgba(255, 255, 255, 1) 100% */
     );
 }
-.tab:nth-child(2) {
+
+.nav-tiles__tab:nth-child(2) {
     background: linear-gradient(153deg, rgba(255, 161, 233, 0.3) 0%, rgba(255, 161, 233, 0.3) 100%);
 }
-.tab:last-child {
+
+.nav-tiles__tab:last-child {
     background: linear-gradient(
         153deg,
         rgba(255, 161, 233, 0.3) 35%,
@@ -63,13 +70,14 @@ ion-content::part(scroll) {
         rgba(255, 255, 255, 1) 100%
     );
 }
+
 .button-tab .icons {
-    width: 4rem;
+    width: 6.4rem;
 }
 
 .button-tab {
-    width: 6rem;
-    padding: 1rem;
+    width: 9.6rem;
+    padding: 1.6rem;
 }
 
 ion-text h3 {
@@ -79,9 +87,9 @@ ion-text h3 {
     line-height: 23px;
     letter-spacing: 0.25px;
     text-align: left;
-    height: 5rem;
-    padding-top: 1rem;
-    padding-left: 1rem;
+    height: 80px;
+    padding-top: 16px;
+    padding-left: 16px;
 }
 ion-text h4 {
     font-family: Poppins, sans-serif;

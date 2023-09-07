@@ -300,9 +300,10 @@ export const AddMilkForm: React.FC = () => {
                         </div>
                     </IonCol>
                 </IonRow>
+
                 <IonRow className='button-wrapper'>
                     <CustomButton
-                        id='save-button'
+                        className='button'
                         size='small'
                         disabled={isFetching}
                         onClick={handleAddMilkAndClearForm}
@@ -311,7 +312,7 @@ export const AddMilkForm: React.FC = () => {
                     </CustomButton>
 
                     <CustomButton
-                        id='save-button'
+                        className='button'
                         size='small'
                         disabled={isFetching}
                         onClick={handleAddMilkAndClose}
@@ -320,7 +321,7 @@ export const AddMilkForm: React.FC = () => {
                     </CustomButton>
 
                     <CustomButton
-                        id='save-button'
+                        className='button'
                         size='small'
                         disabled={isFetching}
                         onClick={handleAddMilkAndAnalyse}

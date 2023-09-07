@@ -1,3 +1,15 @@
 .sensor-manager {
     width: 100%;
 }
+
+.sensor-manager__instructions p {
+    margin: 0;
+}
+
+.sensor-manager__actions {
+    margin: 16px 0 8px 0;
+}
+
+.sensor-manager__actions .button {
+    margin: 0;
+}

@@ -1,29 +1,28 @@
 import React from 'react';
-import { IonModal } from '@ionic/react';
+
+import { classname } from '@shared/utils';
 
 import './sensor-manager-instructions.css';
+
+const cn = classname('sensor-manager-instructions');
 
 type SensorManagerInstructionsProps = {
     title: string;
     children: React.ReactNode;
+
+    className?: string;
 };
 
 export const SensorManagerInstructions: React.FunctionComponent<SensorManagerInstructionsProps> = ({
     title,
     children,
+
+    className,
 }) => {
-    const [open, setOpen] = React.useState(false);
-
     return (
-        <>
-            <div className='sensor-manager-instructions' onClick={() => setOpen(true)}>
-                <div className='sensor-manager-instructions__title'>{title}</div>
-                <div className='sensor-manager-instructions__content'>{children}</div>
-            </div>
-
-            <IonModal showBackdrop isOpen={open} onDidDismiss={() => setOpen(false)}>
-                asdasd
-            </IonModal>
-        </>
+        <div className={cn()}>
+            <div className={cn('title')}>{title}</div>
+            <div className={cn('content', [className])}>{children}</div>
+        </div>
     );
 };

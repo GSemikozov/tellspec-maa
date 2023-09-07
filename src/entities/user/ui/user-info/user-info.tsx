@@ -5,11 +5,11 @@ import { IonAvatar } from '@ionic/react';
 import { classname } from '@shared/utils';
 import { getUser } from '@entities/user/model/user.selectors';
 
-import './user.css';
+import './user-info.css';
 
-const cn = classname('user');
+const cn = classname('user-info');
 
-export const User: React.FunctionComponent = () => {
+export const UserInfo: React.FunctionComponent = () => {
     const user = useSelector(getUser);
     const fullName = `${user.first_name} ${user.last_name}`;
 

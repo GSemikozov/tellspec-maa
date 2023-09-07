@@ -2,23 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { IonText } from '@ionic/react';
 
-import { routesMapping } from '../../app/routes';
+import { routesMapping } from '@app/routes';
+import { classname } from '@shared/utils';
 
 import './nav-tiles.css';
 
-export const NavTiles: React.FC = () => {
+const cn = classname('nav-tiles');
+
+export const NavTiles: React.FunctionComponent = () => {
     return (
-        <>
-            <Link className='tab' to={routesMapping.addMilk}>
+        <div className={cn()}>
+            <Link className={cn('tab')} to={routesMapping.addMilk}>
                 <img
-                    src='../../assets/images/logo-tile-top.svg'
+                    src='./img/logo-tile-top.svg'
                     alt='top part of logo'
                     className='logo-tile-top'
                 />
                 <div className='button-tab ion-float-right'>
                     <img
                         className='icons'
-                        src='../../../assets/images/add-milk-selected.png'
+                        src='./icons/milk/add-milk-selected.png'
                         alt='add milk icon'
                     />
                 </div>
@@ -35,16 +38,16 @@ export const NavTiles: React.FC = () => {
                 </IonText>
             </Link>
 
-            <Link className='tab' to={routesMapping.analyse}>
+            <Link className={cn('tab')} to={routesMapping.analyse}>
                 <img
-                    src='../../assets/images/logo-tile-middle.svg'
+                    src='./img/logo-tile-middle.svg'
                     alt='top part of logo'
                     className='logo-tile-middle'
                 />
                 <div className='button-tab ion-float-right'>
                     <img
                         className='icons'
-                        src='../../../assets/images/analyse-milk-selected.png'
+                        src='./icons/milk/analyse-milk-selected.png'
                         alt='analyse milk icon'
                     />
                 </div>
@@ -62,16 +65,16 @@ export const NavTiles: React.FC = () => {
                 </IonText>
             </Link>
 
-            <Link className='tab' to={routesMapping.reports}>
+            <Link className={cn('tab')} to={routesMapping.reports}>
                 <img
-                    src='../../assets/images/logo-tile-bottom.svg'
+                    src='./img/logo-tile-bottom.svg'
                     alt='top part of logo'
                     className='logo-tile-bottom'
                 />
                 <div className='button-tab ion-float-right'>
                     <img
                         className='icons'
-                        src='../../../assets/images/view-reports-selected.png'
+                        src='./icons/general/view-reports-selected.png'
                         alt='view reports icon'
                     />
                 </div>
@@ -88,6 +91,6 @@ export const NavTiles: React.FC = () => {
                     <h3>View Reports</h3>
                 </IonText>
             </Link>
-        </>
+        </div>
     );
 };

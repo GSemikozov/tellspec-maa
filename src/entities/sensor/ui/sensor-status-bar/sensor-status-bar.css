@@ -4,8 +4,8 @@
     align-items: center;
 
     width: 100%;
-    height: 32px;
-    padding: 0 16px;
+    height: 3.2rem;
+    padding: 0 1.6rem;
 
     background-color: var(--ion-color-tertiary-tint);
 
@@ -13,7 +13,7 @@
 }
 
 .sensor__status {
-    margin-top: 3px;
+    margin-top: 0.4rem;
 
     font-family: 'Campton';
     font-size: 2rem;

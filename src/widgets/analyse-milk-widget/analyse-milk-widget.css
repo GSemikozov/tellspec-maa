@@ -1,25 +1,26 @@
 .analyse-wrapper {
-  border: 2px solid var(--ion-color-tertiary-tint);
-  border-radius: 5px;
-  padding: 1rem;
+    border: 2px solid var(--ion-color-tertiary-tint);
+    border-radius: 5px;
+    padding: 1rem;
 }
 
 .analyseMilkWidget__placeholder {
-  margin: 20px 0;
+    margin: 20px 0;
+
+    font-size: 1.6rem;
 }
 
 .analyse-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 }
-.analyse-header img{
-  width: 2rem;
-  margin-right: 1rem;
-  
+.analyse-header img {
+    width: 3.2rem;
+    margin-right: 1rem;
 }
 
-.milkId-scanner{
-  border-bottom: 1px solid var(--ion-color-primary);
-  color: var(--ion-color-primary);
+.milkId-scanner {
+    border-bottom: 1px solid var(--ion-color-primary);
+    color: var(--ion-color-primary);
 }

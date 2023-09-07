@@ -66,3 +66,7 @@ export interface SensorPostScanResult {
     success: boolean;
     'failed-scan': []; // [scan uuid]
 }
+
+export type SensorState = {
+    status: CalibrationType;
+};

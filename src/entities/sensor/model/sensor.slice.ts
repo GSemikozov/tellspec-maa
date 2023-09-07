@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { CalibrationType } from './sensor.types';
-
-interface SensorState {
-    status: CalibrationType;
-}
+import { SensorState, CalibrationType } from './sensor.types';
 
 const initialState: SensorState = {
     status: CalibrationType.DISCONNECTED,

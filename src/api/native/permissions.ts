@@ -13,3 +13,21 @@ export const requestBlePermissions = async () => {
 
     return permissionsResponse.coarseLocation;
 };
+
+export const retrieveBlePermissions = async (): Promise<boolean> => {
+    try {
+        const hasBlePermissions = await checkBlePermission();
+
+        if (!hasBlePermissions) {
+            const blePermissions = await requestBlePermissions();
+
+            return blePermissions === 'granted';
+        }
+
+        return true;
+    } catch (error) {
+        console.error('[retrieveBlePermissions]', error);
+
+        return true;
+    }
+};

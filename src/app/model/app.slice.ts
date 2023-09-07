@@ -1,21 +1,14 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-
 import { createSlice } from '@reduxjs/toolkit';
 
 import { checkNetworkConnection } from '../app.utils';
 
-import { fetchAppSettings, retrieveBlePermissions } from './app.actions';
-import { BluetoothStatus } from './app.types';
+import { fetchAppSettings } from './app.actions';
 
 import type { IApp } from './app.types';
 
 const initialState: IApp = {
     status: 'idle',
     online: false,
-    bluetooth: {
-        status: BluetoothStatus.OFF,
-        permission: 'denied',
-    },
     layout: {
         isSidebarVisible: true,
     },
@@ -28,20 +21,13 @@ export const appSlice = createSlice({
         hideSidebar: state => {
             state.layout.isSidebarVisible = false;
         },
+
         showSidebar: state => {
             state.layout.isSidebarVisible = true;
-        },
-
-        setBluetoothStatus: (state, action: PayloadAction<BluetoothStatus>) => {
-            state.bluetooth.status = action.payload;
         },
     },
 
     extraReducers: builder => {
-        builder.addCase(retrieveBlePermissions.fulfilled, (state, action) => {
-            state.bluetooth.permission = action.payload;
-        });
-
         builder.addCase(fetchAppSettings.pending, state => {
             state.status = 'loading';
             state.online = checkNetworkConnection();

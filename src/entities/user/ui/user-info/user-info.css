@@ -1,4 +1,4 @@
-.user {
+.user-info {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -7,14 +7,14 @@
     gap: 8px;
 }
 
-.user__name {
+.user-info__name {
     margin-top: 3px;
 
     font-family: 'Campton';
     font-size: 2rem;
 }
 
-.user__avatar {
+.user-info__avatar {
     width: 24px;
     height: 24px;
 }

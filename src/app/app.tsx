@@ -11,8 +11,10 @@ import { AddMilkPage } from '@pages/add-milk';
 import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { userSelectors } from '@entities/user';
+import { retrieveBlePermissions } from '@api/native';
+import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 
-import { fetchAppSettings, retrieveBlePermissions } from './model/app.actions';
+import { fetchAppSettings } from './model/app.actions';
 import { routesMapping } from './routes';
 import { ProtectedRoute } from './components/protected-route';
 
@@ -36,38 +38,40 @@ export const App: React.FunctionComponent = () => {
             return;
         }
 
-        dispatch(retrieveBlePermissions());
+        retrieveBlePermissions();
     }, [isAuthenticated]);
 
     return (
-        <IonApp>
-            <IonReactRouter>
-                <IonRouterOutlet>
-                    <Route exact path={routesMapping.login}>
-                        <LoginPage />
-                    </Route>
+        <SensorConnectionProcessProvider>
+            <IonApp>
+                <IonReactRouter>
+                    <IonRouterOutlet>
+                        <Route exact path={routesMapping.login}>
+                            <LoginPage />
+                        </Route>
 
-                    <ProtectedRoute exact path={routesMapping.home}>
-                        <HomePage />
-                    </ProtectedRoute>
+                        <ProtectedRoute exact path={routesMapping.home}>
+                            <HomePage />
+                        </ProtectedRoute>
 
-                    <ProtectedRoute exact path={routesMapping.addMilk}>
-                        <AddMilkPage />
-                    </ProtectedRoute>
+                        <ProtectedRoute exact path={routesMapping.addMilk}>
+                            <AddMilkPage />
+                        </ProtectedRoute>
 
-                    <ProtectedRoute exact path={routesMapping.analyse}>
-                        <AnalysePage />
-                    </ProtectedRoute>
+                        <ProtectedRoute exact path={routesMapping.analyse}>
+                            <AnalysePage />
+                        </ProtectedRoute>
 
-                    <ProtectedRoute exact path={routesMapping.reports}>
-                        <ReportsPage />
-                    </ProtectedRoute>
+                        <ProtectedRoute exact path={routesMapping.reports}>
+                            <ReportsPage />
+                        </ProtectedRoute>
 
-                    <ProtectedRoute exact path={routesMapping.settings}>
-                        <SettingsPage />
-                    </ProtectedRoute>
-                </IonRouterOutlet>
-            </IonReactRouter>
-        </IonApp>
+                        <ProtectedRoute exact path={routesMapping.settings}>
+                            <SettingsPage />
+                        </ProtectedRoute>
+                    </IonRouterOutlet>
+                </IonReactRouter>
+            </IonApp>
+        </SensorConnectionProcessProvider>
     );
 };
