@@ -21,7 +21,7 @@ import './sensor-status.css'
 export const SensorStatus: React.FC = () => {
   const user = useSelector(userSelectors.getUser);
   return (
-    <IonGrid fixed={true} style={{ height: "10%" }}>
+    <IonGrid fixed={true} style={{ height: "8%" }}>
       <IonRow>
         <IonCol>
           <div className="ion-text-end user-name">

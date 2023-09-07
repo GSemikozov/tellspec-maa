@@ -14,7 +14,6 @@ import {
 import { SidebarMenu } from "../sidebar-menu";
 import { useSelector } from "react-redux";
 import { SensorInstructions, SensorStatus } from "../../entities/sensor";
-import { StatusBar } from "../../features/status-bar/status-bar";
 import { appSelectors } from "../../app";
 
 import "./layout.css";

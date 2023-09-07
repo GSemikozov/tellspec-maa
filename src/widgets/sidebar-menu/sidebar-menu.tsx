@@ -14,7 +14,7 @@ import {
 } from "@ionic/react";
 import { userAsyncActions } from "../../entities/user";
 import { routesMapping } from "../../app/routes";
-
+import { useHistory } from "react-router";
 import type { AppDispatch } from "../../app/store";
 
 import "./sidebar-menu.css";
@@ -22,7 +22,7 @@ import "./sidebar-menu.css";
 export const SidebarMenu: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState("home");
-
+  const history = useHistory();
   const handleLogout = () => {
     dispatch(userAsyncActions.logout());
   };
@@ -45,11 +45,7 @@ export const SidebarMenu: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonTabBar>
-                <IonTabButton
-                  tab="home"
-                  href={routesMapping.home}
-                  onClick={() => handleTabChange("home")}
-                >
+                <IonTabButton tab="home" href={routesMapping.home}>
                   <div className="menu-icon-tab ion-text-start">
                     {activeTab === "home" ? (
                       <img
@@ -73,11 +69,7 @@ export const SidebarMenu: React.FC = () => {
                 </IonTabButton>
               </IonTabBar>
               <IonTabBar>
-                <IonTabButton
-                  tab="add"
-                  href={routesMapping.addMilk}
-                  onClick={() => handleTabChange("addMilk")}
-                >
+                <IonTabButton tab="add" href={routesMapping.addMilk}>
                   <div className="menu-icon-tab ion-text-start">
                     {activeTab === "addMilk" ? (
                       <img
@@ -127,11 +119,11 @@ export const SidebarMenu: React.FC = () => {
                 </IonTabButton>
               </IonTabBar>
               <IonTabBar>
-                <IonTabButton tab="settings" href="/">
+                <IonTabButton tab="settings" href={routesMapping.settings}>
                   <div className="menu-icon-tab ion-text-start">
                     <img
                       src="../../../assets/images/settings-icon-notSelected.png"
-                      className="ion-float-left ion-padding-right"
+                      className="ion-float-left"
                     />
                     <h4>
                       <IonText color="tertiary">Settings</IonText>

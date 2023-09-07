@@ -296,8 +296,8 @@ export const AddMilkForm: React.FC = () => {
             </div>
           </IonCol>
         </IonRow>
-        <IonRow>
-          <IonCol size="4">
+        <IonRow className="button-wrapper">
+          {/* <IonCol size="4"> */}
             <IonButton
               className="ion-padding save-button"
               size="small"
@@ -306,8 +306,8 @@ export const AddMilkForm: React.FC = () => {
             >
               {isFetching ? "loading..." : "Save & Add Another Milk"}
             </IonButton>
-          </IonCol>
-          <IonCol size="4">
+          {/* </IonCol>
+          <IonCol size="4"> */}
             <IonButton
               className="ion-padding save-button"
               size="small"
@@ -316,9 +316,9 @@ export const AddMilkForm: React.FC = () => {
             >
               {isFetching ? "loading..." : "Save this Milk and Close"}
             </IonButton>
-          </IonCol>
+          {/* </IonCol>
 
-          <IonCol size="4">
+          <IonCol size="4"> */}
             <IonButton
               className="ion-padding save-button"
               size="small"
@@ -327,7 +327,7 @@ export const AddMilkForm: React.FC = () => {
             >
               {isFetching ? "loading..." : "Save this Milk & Analyse"}
             </IonButton>
-          </IonCol>
+          {/* </IonCol> */}
         </IonRow>
       </IonGrid>
     </form>

@@ -1,10 +1,11 @@
 .sensor {
-  
-  width: 80%;
+  margin: 0;
+  width: 60%;
 }
 .sensor-instructions{
   width: 100%;
-  height: 10rem;
+  height: 12rem;
+  margin-bottom: 1rem;
   border: 1px solid black;
 }
 

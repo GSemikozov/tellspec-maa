@@ -19,11 +19,16 @@
 
 .button-wrapper {
   display: flex;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 .save-button {
   margin-right: 0 !important;
-  width: 14rem;
+  width: 13rem;
   margin-left: 0 !important;
+  padding: 0 1rem 1rem 0.5rem !important;
 
+}
+ion-button{
+  font-size: 12px;
 }

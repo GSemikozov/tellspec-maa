@@ -4,7 +4,7 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from "@ionic/react";
 
 export const ReportsPage: React.FC = () => {
@@ -15,9 +15,7 @@ export const ReportsPage: React.FC = () => {
           <IonTitle>Reports</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        Content
-      </IonContent>
+      <IonContent className="ion-padding">Content</IonContent>
     </IonPage>
-  )
-}
+  );
+};

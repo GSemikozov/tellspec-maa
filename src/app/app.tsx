@@ -14,6 +14,7 @@ import { HomePage } from '../pages/home';
 import { AnalysePage } from '../pages/analyse';
 import { AddMilkPage } from '../pages/add-milk';
 import { ReportsPage } from '../pages/reports';
+import { SettingsPage } from '../pages/settings';
 
 import "./app.css";
 
@@ -30,7 +31,7 @@ export const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path='/login'>
+          <Route exact path="/login">
             <LoginPage />
           </Route>
 
@@ -45,6 +46,9 @@ export const App: React.FC = () => {
           </ProtectedRoute>
           <ProtectedRoute exact path={routesMapping.reports}>
             <ReportsPage />
+          </ProtectedRoute>
+          <ProtectedRoute exact path={routesMapping.settings}>
+            <SettingsPage />
           </ProtectedRoute>
         </IonRouterOutlet>
       </IonReactRouter>

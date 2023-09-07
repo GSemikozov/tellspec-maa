@@ -12,7 +12,6 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { AddMilkForm } from '../../features/add-milk-form';
-import { SidebarMenu } from '../../widgets/sidebar-menu';
 import { Layout } from '../../widgets/layout/layout';
 
 export const AddMilkPage: React.FC = () => {
