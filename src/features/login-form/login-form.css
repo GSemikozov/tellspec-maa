@@ -1,18 +1,25 @@
 .credential-input {
-  border-bottom: 1px solid var(--ion-color-tertiary-shade);
-  margin: 0.5rem 1.5rem;
-  background-color: white;
-  width: 18rem;
+    width: 100%;
+
+    background-color: white;
 }
+
+.credential-input .input-wrapper {
+    border-bottom: 1px solid var(--ion-color-tertiary-shade);
+}
+
+.credential-input.ion-invalid .input-wrapper {
+    border-bottom-color: transparent;
+}
+
 ion-button {
-  margin-left: 1.5rem;
-  margin-top: 1.5rem;
-margin-left: 2.5rem;
-margin-right: 4rem;
+    margin: 4rem 1.5rem;
 }
-.forgot-password{
- text-align: center;
+
+.forgot-password {
+    text-align: center;
 }
-.forgot-password a{
-  text-decoration: none;
+
+.forgot-password a {
+    text-decoration: none;
 }

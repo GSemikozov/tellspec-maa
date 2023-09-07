@@ -1,7 +1,7 @@
 {
-  "name": "HMB",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
+    "name": "HMB",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "react-vite"
 }

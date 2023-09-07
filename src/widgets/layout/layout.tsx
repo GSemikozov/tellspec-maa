@@ -1,73 +1,56 @@
 import React from 'react';
-import {
-  IonBackButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
-import { SidebarMenu } from '../sidebar-menu';
-import { User } from '../../entities/user';
-import { SensorInstructions, SensorStatus } from '../../entities/sensor';
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from '@ionic/react';
+
+import { User } from '@entities/user';
+import { SensorManager, SensorStatusBar } from '@entities/sensor';
+import { SidebarMenu } from '@widgets/sidebar-menu';
 
 import './layout.css';
 
 interface LayoutProps {
-  title?: string;
-  children?: React.ReactNode;
-  rightSideBar?: React.ReactNode;
+    title?: string;
+    children?: React.ReactNode;
+    rightSideBar?: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = (props) => {
-  const { title, children, rightSideBar = <SensorInstructions /> } = props;
+export const Layout: React.FunctionComponent<LayoutProps> = props => {
+    const { children, rightSideBar = <SensorManager /> } = props;
 
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start'>
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>{title}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    return (
+        <IonPage>
+            <IonContent>
+                <IonGrid className='ion-no-padding'>
+                    <IonRow>
+                        <IonCol size='2'>
+                            <SidebarMenu />
+                        </IonCol>
 
-      <IonContent>
-        <IonGrid className='ion-no-padding'>
-          <IonRow>
-            <IonCol size='2.5'>
-              <SidebarMenu />
-            </IonCol>
-            <IonCol size='9.5'>
-              <div className='layout-body'>
-                <IonRow className='ion-align-items-center'>
-                  <IonCol size='7.8'>
-                    <User />
-                  </IonCol>
-                  <IonCol size='3.3'>
-                    <SensorStatus />
-                  </IonCol>
-                </IonRow>
+                        <IonCol size='10'>
+                            <div className='layout-body'>
+                                <IonRow className='header ion-align-items-center'>
+                                    <IonCol size='7' className='header-user'>
+                                        <User />
+                                    </IonCol>
 
-                <IonRow>
-                  <IonCol size='7.5' className='ion-margin main'>
-                    {children}
-                  </IonCol>
+                                    <IonCol size='5' className='header-sensor-status'>
+                                        <SensorStatusBar />
+                                    </IonCol>
+                                </IonRow>
 
-                  <IonCol size='4' className='ion-padding'>
-                    {rightSideBar}
-                  </IonCol>
-                </IonRow>
-              </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
-  );
+                                <IonRow>
+                                    <IonCol size='7' className='main-container'>
+                                        {children}
+                                    </IonCol>
+
+                                    <IonCol size='5' className='sensor-container'>
+                                        {rightSideBar}
+                                    </IonCol>
+                                </IonRow>
+                            </div>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+            </IonContent>
+        </IonPage>
+    );
 };

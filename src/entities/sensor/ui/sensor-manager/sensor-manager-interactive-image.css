@@ -1,0 +1,70 @@
+/**
+    --status-icon-color - local css variables for this module
+**/
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(var(--status-icon-color), 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 0 6px rgba(var(--status-icon-color), 0);
+    }
+}
+
+.sensor-manager-interactive-image {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    margin-top: 28px;
+}
+
+.sensor-manager-interactive-image__status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 96px;
+
+    width: 86px;
+    height: 12px;
+    margin: auto;
+}
+
+.sensor-manager-interactive-image__status-bar-item {
+    --status-icon-color: #c2c2c2;
+
+    width: 10px;
+    height: 10px;
+
+    background-color: rgb(var(--status-icon-color));
+    border-radius: 50%;
+}
+
+.sensor-manager-interactive-image__status-bar-item_pulse {
+    animation: pulse 2s infinite;
+}
+
+.sensor-manager-interactive-image__status-bar-item_power {
+    --status-icon-color: 61, 192, 74; /* #3dc04a; */
+}
+
+.sensor-manager-interactive-image__status-bar-item_bluetooth {
+    --status-icon-color: 44, 146, 240; /* #2c92f0 */
+}
+
+.sensor-manager-interactive-image__status-bar-item_scan {
+    --status-icon-color: 246, 166, 73; /* #f6a649 */
+}
+
+.sensor-manager-interactive-image__status-bar-item_battery {
+    --status-icon-color: 250, 9, 9; /* #fa0909 */
+}

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
+import Chart from 'react-apexcharts';
 
-import Chart from "react-apexcharts";
-import { defaultMilkChartConfig } from "./config";
+import { defaultMilkChartConfig } from './config';
 
-import type { IReport } from "../../entities/reports/model/reports.types";
+import type { IReport } from '@entities/reports/model/reports.types';
 
 interface SpectrumAnalyseProps {
-    analyseData: IReport
+    analyseData: IReport;
 }
 
-export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
+export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = props => {
     const { analyseData } = props;
 
     if (!analyseData) {
@@ -23,8 +23,8 @@ export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
                 height={250}
                 options={defaultMilkChartConfig}
                 series={analyseData.data.analyseData}
-                type="line"
+                type='line'
             />
         </div>
-    )
-}
+    );
+};

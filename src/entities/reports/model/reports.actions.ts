@@ -1,18 +1,17 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { API } from "../../../api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { IReport, IReportRequestParam } from "./reports.types";
+import { apiInstance } from '@api/network';
 
-const api = new API();
+import type { IReport, IReportRequestParam } from './reports.types';
 
 export const fetchReport = createAsyncThunk(
-    "reports/fetch",
+    'reports/fetch',
     async (data: IReportRequestParam): Promise<IReport[]> => {
         try {
-            return await api.reports.fetchReport(data);
+            return await apiInstance.reports.fetchReport(data);
         } catch (error) {
             console.error(error);
             throw new Error("Can't fetch report. Try again later");
         }
-    }
+    },
 );

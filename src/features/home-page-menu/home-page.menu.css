@@ -1,61 +1,67 @@
 .main-body {
-  height: 100%;
-  margin-top: 0 !important;
-  width: 100%;
-  background-color: white;
-  border-right: 2px solid #e0e0e080;
+    height: 100%;
+    margin-top: 0 !important;
+    width: 100%;
+    background-color: white;
+    border-right: 2px solid #e0e0e080;
 }
+
 #menu-logo {
-  padding-top: 1rem;
-  background-color: white;
-  padding-right: 1rem;
+    padding-top: 1rem;
+    background-color: white;
+    padding-right: 1rem;
 }
 
 .menu-tab {
-  height: 5rem;
-  width: 100%;
-  margin-bottom: 0.25rem;
+    height: 5rem;
+    width: 100%;
+    margin-bottom: 0.25rem;
 }
-ion-tab-button h4{
-  font-size: 18px;
-  width: 100%;
-  align-self: center;
-  margin-left: 2rem;
-  padding-bottom: 0.7rem;
-  border-bottom: 2px solid #e0e0e080;
+
+ion-tab-button h4 {
+    font-size: 18px;
+    width: 100%;
+    align-self: center;
+    margin-left: 2rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid #e0e0e080;
 }
+
 ion-tab-bar {
-  height: 8vh;
-  border: none;
+    height: 8vh;
+    border: none;
 }
-ion-tab-button{
-  max-width: 100% !important;
+
+ion-tab-button {
+    max-width: 100% !important;
 }
+
 .menu-icon-tab {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
+
 .menu-icon h4 {
-  width: 18vw;
+    width: 18vw;
 }
 
 .tabs {
-  height: 78%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    height: 78%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .logout-button {
-  background-color: var(--ion-color-tertiary);
-  color: var(--ion-color-primary);
-  height: 4.5rem;
-  border-top: 0.25px solid #e0e0e080;
+    background-color: var(--ion-color-tertiary);
+    color: var(--ion-color-primary);
+    height: 4.5rem;
+    border-top: 0.25px solid #e0e0e080;
 }
 
 .logout-button h4 {
-  font-size: 18px;
-  font-weight: 600;
+    font-size: 18px;
+    font-weight: 600;
 }

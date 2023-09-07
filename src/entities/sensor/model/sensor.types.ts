@@ -5,16 +5,16 @@ export enum CalibrationType {
     DISCONNECTED = 'disconnected',
     PAIRED = 'paired',
     LAST = 'last',
-    FACTORY = 'factory'
+    FACTORY = 'factory',
 }
 
 /**
  * This is the parameter for running the trained model
  */
 export interface SensorModelType {
-    scans:  string[], // [uuids]
-    average: boolean,
-    "calib-to-use": CalibrationType // paired|last|factory,
+    scans: string[]; // [uuids]
+    average: boolean;
+    'calib-to-use': CalibrationType; // paired|last|factory,
 }
 
 /**
@@ -55,7 +55,7 @@ export interface SensorScannerResult {
             config: string; // ie. TSH20X9
             last_modified_at: string; // ie 2020-02-26 13:51:21
             created_at: string; // ie, 2019-10-18 15:49:56
-        }
+        },
     ];
 }
 

@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { CalibrationType } from "./sensor.types";
+import { CalibrationType } from './sensor.types';
 
 interface SensorState {
     status: CalibrationType;
@@ -11,10 +11,10 @@ const initialState: SensorState = {
 };
 
 export const sensorSlice = createSlice({
-    name: "sensor",
+    name: 'sensor',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {},
+    extraReducers: () => {},
 });
 
 export const sensorActions = sensorSlice.actions;

@@ -1,1 +1,1 @@
-export { AnalyseMilkWidget } from "./analise-milk-widget.tsx";
+export { AnalyseMilkWidget } from './analise-milk-widget.tsx';

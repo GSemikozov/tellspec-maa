@@ -1,0 +1,17 @@
+.nav-tiles {
+    width: 100%;
+}
+
+.nav-tiles .tab {
+    display: inline-block;
+
+    width: 100%;
+    height: 240px;
+
+    border-radius: 8px;
+    box-shadow: 0 4px 11px 2px #ffb6cc;
+}
+
+.nav-tiles .tab:not(:last-child) {
+    margin-bottom: 32px;
+}

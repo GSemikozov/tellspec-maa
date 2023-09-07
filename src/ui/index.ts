@@ -1,2 +1,2 @@
-export * from "./logo";
-export * from "./barcode-scanner";
+export * from './logo';
+export * from './barcode-scanner';

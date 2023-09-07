@@ -1,1 +1,1 @@
-export { SpectrumAnalyse } from "./spectrum-analyse";
+export { SpectrumAnalyse } from './spectrum-analyse';
