@@ -22,13 +22,12 @@
   flex-wrap: nowrap;
   justify-content: center;
 }
-.save-button {
+#save-button {
   margin-right: 0 !important;
   width: 13rem;
   margin-left: 0 !important;
   padding: 0 1rem 1rem 0.5rem !important;
+  font-size: 12px;
 
 }
-ion-button{
-  font-size: 12px;
-}
+

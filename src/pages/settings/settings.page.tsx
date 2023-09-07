@@ -14,6 +14,7 @@ import {
 } from "@ionic/react";
 import { Layout } from "../../widgets/layout";
 import "./settings.css";
+import { CustomButton } from "../../ui/button/button";
 
 import SettingsIcon from "../../../assets/images/settings-icon-selected.png";
 import TargetIcon from "../../../assets/icons/target-pink.svg";
@@ -104,8 +105,8 @@ export const SettingsPage: React.FC = () => {
             </div>
             <div className="line" />
             <div className="button-wrapper">
-              <IonButton fill="outline">CANCEL</IonButton>
-              <IonButton>SAVE CHANGES</IonButton>
+              <CustomButton fill="outline">CANCEL</CustomButton>
+              <CustomButton>SAVE CHANGES</CustomButton>
             </div>
           </div>
         </Layout>

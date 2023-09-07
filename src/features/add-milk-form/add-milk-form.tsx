@@ -25,6 +25,7 @@ import type { IDonor } from "../../entities/donors/model/donors.types";
 import { IFreezer } from "../../entities/groups/model/groups.types";
 import { BarcodeScanner } from "../../ui";
 import { CustomInput } from "../../ui/input/input";
+import { CustomButton } from "../../ui/button/button";
 import "./add-milk-form.css";
 
 export interface AddMilkFormFieldValues {
@@ -298,35 +299,35 @@ export const AddMilkForm: React.FC = () => {
         </IonRow>
         <IonRow className="button-wrapper">
           {/* <IonCol size="4"> */}
-            <IonButton
-              className="ion-padding save-button"
+            <CustomButton
+              id="save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndClearForm}
             >
               {isFetching ? "loading..." : "Save & Add Another Milk"}
-            </IonButton>
+            </CustomButton>
           {/* </IonCol>
           <IonCol size="4"> */}
-            <IonButton
-              className="ion-padding save-button"
+            <CustomButton
+              id="save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndClose}
             >
               {isFetching ? "loading..." : "Save this Milk and Close"}
-            </IonButton>
+            </CustomButton>
           {/* </IonCol>
 
           <IonCol size="4"> */}
-            <IonButton
-              className="ion-padding save-button"
+            <CustomButton
+              id="save-button"
               size="small"
               disabled={isFetching}
               onClick={handleAddMilkAndAnalyse}
             >
               {isFetching ? "loading..." : "Save this Milk & Analyse"}
-            </IonButton>
+            </CustomButton>
           {/* </IonCol> */}
         </IonRow>
       </IonGrid>

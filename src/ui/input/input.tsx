@@ -8,7 +8,7 @@ export interface InputProps {
   placeholder?: string;
   type?: TextFieldTypes | undefined;
   fill?: "outline" | "solid";
-  //   innerRef?: React.Ref<HTMLInputElement> | undefined;
+ 
 }
 
 export const CustomInput = forwardRef<HTMLIonInputElement, InputProps>(
