@@ -11,7 +11,7 @@ export class Http {
     token = '';
 
     constructor() {
-        const baseUrl = 'https://demo.tellspec.com/v1/preemie/';
+        const baseUrl = 'https://api.preemiesensor.com/v1/preemie/';
 
         this.client = axios.create({
             baseURL: baseUrl,

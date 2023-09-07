@@ -14,6 +14,7 @@ export default defineConfig({
             '@app': path.resolve(rootDir, 'src/app'),
             '@widgets': path.resolve(rootDir, 'src/widgets'),
             '@pages': path.resolve(rootDir, 'src/pages'),
+            '@middlewares': path.resolve(rootDir, 'src/middlewares'),
             '@features': path.resolve(rootDir, 'src/features'),
             '@entities': path.resolve(rootDir, 'src/entities'),
 

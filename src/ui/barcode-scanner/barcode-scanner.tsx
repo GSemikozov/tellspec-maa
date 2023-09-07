@@ -30,17 +30,16 @@ export const BarcodeScanner = forwardRef<HTMLIonInputElement, BarcodeScannerProp
     };
 
     return (
-        <IonItem>
+        <IonItem lines='none'>
             <IonInput
                 ref={ref}
                 type='text'
                 label={title}
                 value={value}
                 label-placement='floating'
-                fill='outline'
                 onIonInput={handleChange}
             />
-            <IonButton slot='end' fill='clear' onClick={openScanner}>
+            <IonButton slot='end' fill='clear' onClick={openScanner} style={{ margin: '0' }}>
                 <IonIcon icon={BarCodeSearchIcon} />
             </IonButton>
         </IonItem>

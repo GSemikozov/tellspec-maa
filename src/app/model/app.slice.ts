@@ -16,12 +16,22 @@ const initialState: IApp = {
         status: BluetoothStatus.OFF,
         permission: 'denied',
     },
+    layout: {
+        isSidebarVisible: true,
+    },
 };
 
 export const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
+        hideSidebar: state => {
+            state.layout.isSidebarVisible = false;
+        },
+        showSidebar: state => {
+            state.layout.isSidebarVisible = true;
+        },
+
         setBluetoothStatus: (state, action: PayloadAction<BluetoothStatus>) => {
             state.bluetooth.status = action.payload;
         },

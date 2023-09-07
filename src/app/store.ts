@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { userReducer } from '../entities/user';
-import { donorsReducer } from '../entities/donors';
-import { groupsReducer } from '../entities/groups';
-import { addMilkFormReducer } from '../features/add-milk-form';
-import { saveToStorage } from '../middlewares/storage';
-import { reportsReducer } from '../entities/reports';
+import { saveToStorage } from '@middlewares/storage';
+import { userReducer } from '@entities/user';
+import { donorsReducer } from '@entities/donors';
+import { groupsReducer } from '@entities/groups';
+import { addMilkFormReducer } from '@features/add-milk-form';
+import { reportsReducer } from '@entities/reports';
 
 import { appReducer } from './model/app.slice';
 

@@ -9,6 +9,7 @@ import { HomePage } from '@pages/home';
 import { AnalysePage } from '@pages/analyse';
 import { AddMilkPage } from '@pages/add-milk';
 import { ReportsPage } from '@pages/reports';
+import { SettingsPage } from '@pages/settings';
 import { userSelectors } from '@entities/user';
 
 import { fetchAppSettings, retrieveBlePermissions } from './model/app.actions';
@@ -60,6 +61,10 @@ export const App: React.FunctionComponent = () => {
 
                     <ProtectedRoute exact path={routesMapping.reports}>
                         <ReportsPage />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute exact path={routesMapping.settings}>
+                        <SettingsPage />
                     </ProtectedRoute>
                 </IonRouterOutlet>
             </IonReactRouter>

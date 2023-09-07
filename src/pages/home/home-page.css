@@ -1,15 +1,15 @@
-ion-content::part(scroll) {
-    top: 0;
-    padding-inline-start: 0;
-    padding: 0;
-    padding-bottom: 0;
+/* ion-content::part(scroll) {
+  top: 0;
+  padding-inline-start: 0;
+  padding: 0;
+  padding-bottom: 0;
 }
 
 .button-tab {
-    width: 9rem;
-    height: 9rem;
-    border: 1px solid black;
-    margin: 0.9rem;
+  width: 9rem;
+  height: 9rem;
+  /* border: 1px solid black; */
+/* margin: 0.9rem;
 }
 
 .col {
@@ -18,5 +18,5 @@ ion-content::part(scroll) {
 
 h4,
 h3 {
-    padding-right: 1rem;
-}
+  padding-right: 1rem;
+} */

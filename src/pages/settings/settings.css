@@ -1,0 +1,76 @@
+.settings-wrapper {
+  border: 2px solid var(--ion-color-tertiary-tint);
+  border-radius: 5px;
+}
+.settings-wrapper .settings-icon {
+  width: 2rem;
+}
+.settings-title {
+  height: 2.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--ion-color-tertiary-tint);
+  border-bottom: 1px solid var(--ion-color-tertiary);
+}
+.settings-title ion-text {
+  padding-left: 1rem;
+}
+.calibrate-sensor button {
+  color: var(--ion-color-primary);
+  font-size: 17px;
+  text-decoration: underline;
+}
+.calibrate-sensor img {
+  padding: 0 1rem;
+  text-decoration: none;
+}
+.options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.options ion-select {
+  width: 27%;
+  margin-right: 1rem;
+}
+.options p {
+  height: 1.2rem;
+}
+.options ion-text {
+  padding-left: 1rem;
+}
+.line {
+  width: 97.6%;
+  height: 1px;
+  background-color: var(--ion-color-tertiary-shade);
+  margin-left: 1rem;
+}
+button.add-button {
+  background-color: var(--ion-color-primary-contrast);
+  font-size: 20px;
+  margin-right: 3rem;
+}
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+.button-wrapper ion-button {
+  margin-left: 0;
+  margin-right: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+.available-storage-chip{
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+.available-storage-chip ion-icon {
+  margin-right: 0.5rem;
+}
+.close-button ion-icon {
+  margin-left: 0.5rem;
+  font-size: 1.3rem;
+  margin-right: 0;
+}

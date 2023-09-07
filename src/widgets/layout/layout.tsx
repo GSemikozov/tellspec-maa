@@ -1,9 +1,10 @@
 import React from 'react';
 import { IonCol, IonContent, IonGrid, IonPage, IonRow } from '@ionic/react';
+import { useSelector } from 'react-redux';
 
-import { User } from '@entities/user';
-import { SensorManager, SensorStatusBar } from '@entities/sensor';
 import { SidebarMenu } from '@widgets/sidebar-menu';
+import { SensorManager, SensorStatusBar } from '@entities/sensor';
+import { appSelectors } from '@app';
 
 import './layout.css';
 
@@ -15,36 +16,45 @@ interface LayoutProps {
 
 export const Layout: React.FunctionComponent<LayoutProps> = props => {
     const { children, rightSideBar = <SensorManager /> } = props;
+    const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
 
     return (
         <IonPage>
             <IonContent>
                 <IonGrid className='ion-no-padding'>
                     <IonRow>
-                        <IonCol size='2'>
+                        <IonCol size='2.5'>
                             <SidebarMenu />
                         </IonCol>
 
-                        <IonCol size='10'>
+                        <IonCol size='9.5'>
+                            <SensorStatusBar />
                             <div className='layout-body'>
-                                <IonRow className='header ion-align-items-center'>
-                                    <IonCol size='7' className='header-user'>
-                                        <User />
-                                    </IonCol>
-
-                                    <IonCol size='5' className='header-sensor-status'>
-                                        <SensorStatusBar />
-                                    </IonCol>
+                                <IonRow className='ion-align-items-center'>
+                                    {/*
+                                        <IonCol size="7.8">
+                                            <User />
+                                        </IonCol>
+                                        <IonCol size="3.3">
+                                            <SensorStatus />
+                                        </IonCol>
+                                    */}
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size='7' className='main-container'>
+                                    {/* TODO: something strange is here in the size property */}
+                                    <IonCol
+                                        size={isSidebarVisible ? '7.5' : '11.5'}
+                                        className='ion-margin main'
+                                    >
                                         {children}
                                     </IonCol>
 
-                                    <IonCol size='5' className='sensor-container'>
-                                        {rightSideBar}
-                                    </IonCol>
+                                    {isSidebarVisible ? (
+                                        <IonCol size='4' className='ion-padding'>
+                                            {rightSideBar}
+                                        </IonCol>
+                                    ) : null}
                                 </IonRow>
                             </div>
                         </IonCol>

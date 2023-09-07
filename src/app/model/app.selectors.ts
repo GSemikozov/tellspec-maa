@@ -6,6 +6,8 @@ export const selectAppState = (state: RootState) => state.app;
 
 export const isAppFetching = (state: RootState) => state.app.status === 'loading';
 
+export const isSidebarVisible = (state: RootState) => state.app.layout.isSidebarVisible;
+
 export const selectBluetoothState = createSelector(
     [selectAppState],
     appState => appState.bluetooth,
@@ -13,5 +15,5 @@ export const selectBluetoothState = createSelector(
 
 export const selectBluetoothHasPermssion = createSelector(
     [selectBluetoothState],
-    appState => appState.bluetooth,
+    appState => appState.permission === 'granted',
 );
