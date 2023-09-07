@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { BarcodeScanner as Scanner } from "@ionic-native/barcode-scanner";
 import { IonButton, IonIcon, IonInput, IonItem } from "@ionic/react";
 import BarCodeSearchIcon from "./icons/barcode-search.svg";
+import { CustomInput } from "../input/input";
 
 export interface BarcodeScannerProps {
   title: string;
@@ -32,7 +33,7 @@ export const BarcodeScanner = forwardRef<
   };
 
   return (
-    <IonItem>
+    <IonItem lines="none">
       <IonInput
         ref={ref}
         type="text"
@@ -41,7 +42,7 @@ export const BarcodeScanner = forwardRef<
         label-placement="floating"
         onIonInput={handleChange}
       />
-      <IonButton slot="end" fill="clear" onClick={openScanner}>
+      <IonButton slot="end" fill="clear" onClick={openScanner} style={{"margin": "0"}}>
         <IonIcon icon={BarCodeSearchIcon} />
       </IonButton>
     </IonItem>

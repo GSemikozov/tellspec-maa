@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAsyncActions, userSelectors } from "../../entities/user";
 import "./login-form.css";
 import { CustomInput } from "../../ui/input/input";
+import { CustomButton } from "../../ui/button/button";
 
 import type { AppDispatch } from "../../app/store";
 
@@ -66,14 +67,14 @@ export const LoginForm: React.FC = () => {
           <span style={{ color: "red" }}>{errors.password?.message}</span>
         </IonItem>
 
-        <IonButton
+        <CustomButton
           type="submit"
           expand="block"
           size="default"
           disabled={isFetching}
         >
           {isFetching ? "loading..." : "Log in"}
-        </IonButton>
+        </CustomButton>
       </IonList>
       <p className="forgot-password">
         <IonText>

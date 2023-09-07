@@ -6,6 +6,7 @@ import {
     IonRow,
     IonSegment,
     IonSegmentButton,
+    IonText,
 } from "@ionic/react";
 
 import { SpectrumAnalyse } from "../spectrum-analyse";
@@ -13,6 +14,7 @@ import { TestResults } from "../test-results";
 import { reportsSelectors, reportsAsyncActions } from "../../entities/reports";
 
 import type { AppDispatch } from "../../app/store";
+import AnalyseIcon from '../../../assets/images/analyse-milk-selected.png'
 
 import "./analyse-milk-widget.css";
 
@@ -45,41 +47,51 @@ export const AnalyseMilkWidget: React.FC = () => {
     }, [milkId, report]);
 
     return (
-        <>
-            <h2>analyse</h2>
-            <BarcodeScanner
-                title="Please select, scan or enter Milk ID"
+      <>
+        <div className="analyse-wrapper">
+          <div className="analyse-header">
+            <h2>
+              <IonText>
+                <img src={AnalyseIcon} /> Analyse Milk
+              </IonText>
+            </h2>
+            <div className="milkId-scanner">
+              <BarcodeScanner
+                title="Select, Scan or Enter Milk ID"
                 onChange={setMilkId}
                 value={milkId}
-            />
-
-            <div>
-                <IonRow class="ion-justify-content-start">
-                    <IonSegment
-                        value={activeTab}
-                        disabled={!milkId}
-                        onIonChange={(e) => setActiveTab(e.target.value as Tabs)}
-                    >
-                        <IonSegmentButton value={Tabs.spectrum}>
-                            <IonLabel>Spectrum</IonLabel>
-                        </IonSegmentButton>
-
-                        <IonSegmentButton value={Tabs.results}>
-                            <IonLabel>Test Results</IonLabel>
-                        </IonSegmentButton>
-                    </IonSegment>
-                </IonRow>
-
-                <IonRow class="ion-justify-content-around">
-                    { milkId
-                        // @ts-ignore // TODO: milk_id?
-                        ? <ActiveTabComponent milkID={milkId} report={report} />
-                        : <div className="analyseMilkWidget__placeholder">
-                            Scan or enter the milk barcode first
-                        </div>
-                    }
-                </IonRow>
+              />
             </div>
-        </>
-    )
+          </div>
+          <div>
+            <IonRow class="ion-justify-content-start">
+              <IonSegment
+                value={activeTab}
+                disabled={!milkId}
+                onIonChange={(e) => setActiveTab(e.target.value as Tabs)}
+              >
+                <IonSegmentButton value={Tabs.spectrum}>
+                  <IonLabel>Spectrum</IonLabel>
+                </IonSegmentButton>
+
+                <IonSegmentButton value={Tabs.results}>
+                  <IonLabel>Test Results</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </IonRow>
+
+            <IonRow class="ion-justify-content-around">
+              {milkId ? (
+                // @ts-ignore // TODO: milk_id?
+                <ActiveTabComponent milkID={milkId} report={report} />
+              ) : (
+                <div className="analyseMilkWidget__placeholder">
+                  Scan or enter the milk barcode first
+                </div>
+              )}
+            </IonRow>
+          </div>
+        </div>
+      </>
+    );
 }

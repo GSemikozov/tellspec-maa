@@ -8,6 +8,7 @@ import {
   IonRow,
   IonSelect,
   IonSelectOption,
+  IonText,
   useIonAlert,
 } from "@ionic/react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,13 +20,13 @@ import { donorsAsyncActions, donorsSelectors } from "../../entities/donors";
 import { groupsAsyncActions, groupsSelectors } from "../../entities/groups";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../app/store";
-// import Input
 
 import type { IDonor } from "../../entities/donors/model/donors.types";
 import { IFreezer } from "../../entities/groups/model/groups.types";
 import { BarcodeScanner } from "../../ui";
 import { CustomInput } from "../../ui/input/input";
 import { CustomButton } from "../../ui/button/button";
+import AddMilkIcon from "../../../assets/images/add-milk-selected.png";
 import "./add-milk-form.css";
 
 export interface AddMilkFormFieldValues {
@@ -128,7 +129,15 @@ export const AddMilkForm: React.FC = () => {
   return (
     <form>
       <IonGrid id="add-milk-wrapper">
-        <IonRow>
+        <div className="add-milk-header">
+          <h2>
+            <IonText>
+              {" "}
+              <img src={AddMilkIcon} />
+              Add Milk
+            </IonText>
+          </h2>
+
           <div className="ion-margin-top ion-margin-bottom" id="milk-id">
             <Controller
               defaultValue=""
@@ -148,7 +157,7 @@ export const AddMilkForm: React.FC = () => {
             />
             <span style={{ color: "red" }}>{errors.milkVolume?.message}</span>
           </div>
-        </IonRow>
+        </div>
         <IonRow>
           <IonCol size="6">
             <div className="ion-margin-top ion-margin-bottom">
@@ -299,35 +308,35 @@ export const AddMilkForm: React.FC = () => {
         </IonRow>
         <IonRow className="button-wrapper">
           {/* <IonCol size="4"> */}
-            <CustomButton
-              id="save-button"
-              size="small"
-              disabled={isFetching}
-              onClick={handleAddMilkAndClearForm}
-            >
-              {isFetching ? "loading..." : "Save & Add Another Milk"}
-            </CustomButton>
+          <CustomButton
+            id="save-button"
+            size="small"
+            disabled={isFetching}
+            onClick={handleAddMilkAndClearForm}
+          >
+            {isFetching ? "loading..." : "Save & Add Another Milk"}
+          </CustomButton>
           {/* </IonCol>
           <IonCol size="4"> */}
-            <CustomButton
-              id="save-button"
-              size="small"
-              disabled={isFetching}
-              onClick={handleAddMilkAndClose}
-            >
-              {isFetching ? "loading..." : "Save this Milk and Close"}
-            </CustomButton>
+          <CustomButton
+            id="save-button"
+            size="small"
+            disabled={isFetching}
+            onClick={handleAddMilkAndClose}
+          >
+            {isFetching ? "loading..." : "Save this Milk and Close"}
+          </CustomButton>
           {/* </IonCol>
 
           <IonCol size="4"> */}
-            <CustomButton
-              id="save-button"
-              size="small"
-              disabled={isFetching}
-              onClick={handleAddMilkAndAnalyse}
-            >
-              {isFetching ? "loading..." : "Save this Milk & Analyse"}
-            </CustomButton>
+          <CustomButton
+            id="save-button"
+            size="small"
+            disabled={isFetching}
+            onClick={handleAddMilkAndAnalyse}
+          >
+            {isFetching ? "loading..." : "Save this Milk & Analyse"}
+          </CustomButton>
           {/* </IonCol> */}
         </IonRow>
       </IonGrid>

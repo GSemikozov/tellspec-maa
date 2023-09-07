@@ -1,6 +1,7 @@
 import React from "react";
 import {
   IonButton,
+  IonChip,
   IonContent,
   IonHeader,
   IonIcon,
@@ -15,11 +16,16 @@ import {
 import { Layout } from "../../widgets/layout";
 import "./settings.css";
 import { CustomButton } from "../../ui/button/button";
+import TickIcon from '../../../assets/icons/chip-tick-icon.svg'
 
 import SettingsIcon from "../../../assets/images/settings-icon-selected.png";
 import TargetIcon from "../../../assets/icons/target-pink.svg";
+import { useSelector } from "react-redux";
+import { groupsSelectors } from "../../entities/groups";
+import { IFreezer } from "../../entities/groups/model/groups.types";
 
 export const SettingsPage: React.FC = () => {
+  const freezersList = useSelector(groupsSelectors.getFreezers);
   const ExpirationMonth = [
     "1 month",
     "2 months",
@@ -89,6 +95,14 @@ export const SettingsPage: React.FC = () => {
               <p>
                 <IonText>Available storages</IonText>
               </p>
+              <div className="available-storage-chip">
+                {freezersList.map((freezer: IFreezer) => (
+                  <IonChip key={freezer.freezer_id}>
+                    <IonIcon icon={TickIcon} />
+                    {freezer.name}
+                  </IonChip>
+                ))}
+              </div>
             </div>
             <div className="line" />
             <div className="options">

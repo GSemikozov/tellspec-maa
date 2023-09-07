@@ -5,7 +5,7 @@ import { IonCol, IonGrid, IonIcon, IonRow, IonText } from "@ionic/react";
 import { User } from "../../../user";
 
 // ICONS
-import TargetOffline from "../../../../../assets/icons/target-offline.svg"
+import TargetOffline from "../../../../../assets/icons/target-offline.svg";
 import TargetYellow from "../../../../../assets/icons/target-yellow.svg";
 import TargetRed from "../../../../../assets/icons/target-red.svg";
 import BatteryOffline from "../../../../../assets/icons/battery-offline.svg";
@@ -16,7 +16,7 @@ import BluetoothOffline from "../../../../../assets/icons/bluetooth-offline.svg"
 import BluetoothBlue from "../../../../../assets/icons/bluetooth-blue.svg";
 import BluetoothGreen from "../../../../../assets/icons/bluetooth-green.svg";
 
-import './sensor-status.css'
+import "./sensor-status.css";
 
 export const SensorStatus: React.FC = () => {
   const user = useSelector(userSelectors.getUser);
@@ -31,7 +31,7 @@ export const SensorStatus: React.FC = () => {
             <User />
           </div>
         </IonCol>
-        <IonCol size="4.5">
+        <IonCol size="5">
           <div className="ion-text-start bluetoothSensor">
             <div className="sensor-status">
               <h5>
@@ -49,4 +49,3 @@ export const SensorStatus: React.FC = () => {
     </IonGrid>
   );
 };
-

@@ -1,7 +1,16 @@
 #add-milk-wrapper {
   border: 1px solid var(--ion-color-tertiary-tint);
   border-radius: 5px;
-  
+  padding: 1rem;
+}
+.add-milk-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-milk-header img{
+  width: 2rem;
+  margin-right: 1rem;
 }
 
 .add-milk-input {
@@ -14,7 +23,7 @@
   border-bottom: 1px solid var(--ion-color-primary);
   margin: 0.5rem;
   background-color: white;
-  width: 100vw;
+  width: 22vw;
 }
 
 .button-wrapper {
@@ -24,10 +33,12 @@
 }
 #save-button {
   margin-right: 0 !important;
-  width: 13rem;
-  margin-left: 0 !important;
+  width: 12.8rem; 
   padding: 0 1rem 1rem 0.5rem !important;
-  font-size: 12px;
+  font-size: 11px;
 
+}
+.available-storage-chip ion-icon{
+  margin-right: 0.5rem;
 }
 
