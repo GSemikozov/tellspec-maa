@@ -6,6 +6,8 @@ import { appSelectors } from '@app';
 import { SensorManager } from '@entities/sensor';
 import { SidebarMenu } from '@widgets/sidebar-menu';
 import { Header } from '@widgets/header';
+import { Alert } from "@features/alert";
+import { Backdrop } from "@features/backdrop";
 
 import './layout.css';
 
@@ -53,6 +55,8 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                     </IonRow>
                 </IonGrid>
             </IonContent>
+            <Alert />
+            <Backdrop />
         </IonPage>
     );
 };

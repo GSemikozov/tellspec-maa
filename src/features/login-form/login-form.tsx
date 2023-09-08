@@ -4,12 +4,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { userAsyncActions, userSelectors } from '@entities/user';
-
-import './login-form.css';
-import { CustomInput } from '../../ui/input/input';
-import { CustomButton } from '../../ui/button/button';
+import { CustomInput } from '@ui/input';
+import { CustomButton } from '@ui/button';
 
 import type { AppDispatch } from '@app/store';
+
+import './login-form.css';
 
 interface FieldValues {
     email: string;
