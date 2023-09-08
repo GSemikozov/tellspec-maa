@@ -1,16 +1,29 @@
+import type {PayloadAction} from "@reduxjs/toolkit"
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import { checkNetworkConnection } from '../app.utils';
 
 import { fetchAppSettings } from './app.actions';
 
-import type { IApp } from './app.types';
+import type { IApp, IAlertActionPayload, IBackdropPayload } from "./app.types";
 
 const initialState: IApp = {
     status: 'idle',
     online: false,
     layout: {
         isSidebarVisible: true,
+    },
+    alert: {
+        isAlertVisible: false,
+        alertHeader: '',
+        alertSubHeader: '',
+        alertMessage: '',
+    },
+    backdrop: {
+        isBackdropVisible: false,
+        backdropText: '',
+        delay: 1000,
     },
 };
 
@@ -25,6 +38,27 @@ export const appSlice = createSlice({
         showSidebar: state => {
             state.layout.isSidebarVisible = true;
         },
+
+        showAlert: (state, action: PayloadAction<IAlertActionPayload>) => {
+            state.alert = {
+                ...action.payload,
+                isAlertVisible: true,
+            }
+        },
+
+        hideAlert: (state) => {
+            state.alert.isAlertVisible = false;
+        },
+
+        showBackdrop: (state, action: PayloadAction<IBackdropPayload>) => {
+            state.backdrop.backdropText = action.payload.backdropText;
+            state.backdrop.delay = action.payload.delay || 1000;
+            state.backdrop.isBackdropVisible = true;
+        },
+
+        hideBackdrop: (state) => {
+            state.backdrop.isBackdropVisible = false;
+        }
     },
 
     extraReducers: builder => {
