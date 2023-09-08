@@ -3,6 +3,7 @@ import { Geolocation } from '@capacitor/geolocation';
 export const checkBlePermission = async () => {
     const permissionsResponse = await Geolocation.checkPermissions();
 
+    console.log('[checkBlePermission]:', permissionsResponse.coarseLocation);
     return permissionsResponse.coarseLocation === 'granted';
 };
 
@@ -24,7 +25,7 @@ export const retrieveBlePermissions = async (): Promise<boolean> => {
             return blePermissions === 'granted';
         }
 
-        return false;
+        return hasBlePermissions;
     } catch (error) {
         console.error('[retrieveBlePermissions]', error);
 

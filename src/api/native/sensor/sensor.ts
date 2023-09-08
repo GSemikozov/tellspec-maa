@@ -1,76 +1,80 @@
-import { WebPlugin } from '@capacitor/core';
-import {
-    TellspecSensorSdkPlugin,
-    ScanResultType,
-    TellspecDeviceConfig,
-    SensorState,
-} from 'tellspec-sensor-sdk/src/definitions';
+import { Plugins } from '@capacitor/core';
+// import {
+//     TellspecSensorSdkPlugin,
+//     ScanResultType,
+//     TellspecDeviceConfig,
+//     SensorState,
+// } from 'tellspec-sensor-sdk/src/definitions';
 
 import { TellspecSensorBaseResponse, retrieveBlePermissions } from '@api/native';
 
 import { createTellspecErrorResponse } from './utils';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+import 'tellspec-sensor-sdk/src';
 
-export class TellspecSensorSdkWeb extends WebPlugin implements TellspecSensorSdkPlugin {
-    constructor() {
-        super({
-            name: 'TellspecSensorSdk',
-            platforms: ['web'],
-        });
-    }
+// const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-    async initialize(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
+// export class TellspecSensorSdkWeb extends WebPlugin implements TellspecSensorSdkPlugin {
+//     constructor() {
+//         super({
+//             name: 'TellspecSensorSdk',
+//             platforms: ['web'],
+//         });
+//     }
 
-    async startScan(): Promise<ScanResultType> {
-        throw new Error('Method not implemented.');
-    }
-    async warmup(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async enableDiscovery(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async savePreferDevice(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async getPreferredDevices(): Promise<{ value: { device: any } }> {
-        throw new Error('Method not implemented.');
-    }
-    async connect(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async disconnect(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async readScannerInfo(): Promise<{ model: string; serial: string }> {
-        throw new Error('Method not implemented.');
-    }
-    async getSensorStatus(): Promise<SensorState> {
-        throw new Error('Method not implemented.');
-    }
-    async getConfigs(): Promise<TellspecDeviceConfig> {
-        throw new Error('Method not implemented.');
-    }
-    async setActiveConfig(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async forgetDevice(): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
-    async getConnectionState(): Promise<{ state: boolean; ble: boolean }> {
-        await sleep(1_500);
+//     async initialize(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
 
-        return {
-            ble: true,
-            state: true,
-        };
-    }
-}
+//     async startScan(): Promise<ScanResultType> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async warmup(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async enableDiscovery(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async savePreferDevice(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async getPreferredDevices(): Promise<{ value: { device: any } }> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async connect(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async disconnect(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async readScannerInfo(): Promise<{ model: string; serial: string }> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async getSensorStatus(): Promise<SensorState> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async getConfigs(): Promise<TellspecDeviceConfig> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async setActiveConfig(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async forgetDevice(): Promise<void> {
+//         throw new Error('Method not implemented.');
+//     }
+//     async getConnectionState(): Promise<{ state: boolean; ble: boolean }> {
+//         await sleep(1_500);
 
-const TellspecSensorSdk = new TellspecSensorSdkWeb();
+//         return {
+//             ble: true,
+//             state: true,
+//         };
+//     }
+// }
+
+// const TellspecSensorSdk = new TellspecSensorSdkWeb();
+console.log(Plugins);
+const { TellspecSensorSdk } = Plugins;
 
 export const tellspecCheckBleState = async (): Promise<TellspecSensorBaseResponse> => {
     try {
