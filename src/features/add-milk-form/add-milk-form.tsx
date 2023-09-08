@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     IonCol,
     IonGrid,
@@ -9,7 +10,6 @@ import {
     useIonAlert,
 } from '@ionic/react';
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { userSelectors } from '@entities/user';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
