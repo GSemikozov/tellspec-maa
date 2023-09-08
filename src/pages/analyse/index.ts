@@ -1,1 +1,1 @@
-export { AnalysePage } from "./analyse.page";
+export { AnalysePage } from './analyse.page';

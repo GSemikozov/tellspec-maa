@@ -1,0 +1,26 @@
+.sensor-manager-instructions {
+    padding: 1.6rem;
+    margin-bottom: 2.8rem;
+
+    font-family: Campton;
+    letter-spacing: 0.15px;
+
+    background-color: var(--ion-color-tertiary-tint);
+    border-radius: 16px;
+}
+
+.sensor-manager-instructions__title {
+    color: var(--color-text-main-text-extra-dark);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.sensor-manager-instructions__content {
+    margin-top: 0.4rem;
+
+    color: var(--color-text-main-text-mid);
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 22px;
+}

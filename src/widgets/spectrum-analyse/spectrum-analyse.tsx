@@ -1,13 +1,10 @@
-import React from "react";
-
-import Chart from "react-apexcharts";
-import { defaultMilkChartConfig } from "./config";
+import React from 'react';
 
 interface SpectrumAnalyseProps {
     milkID: string;
 }
 
-export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
+export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = props => {
     const { milkID } = props;
 
     if (!milkID) {
@@ -24,5 +21,5 @@ export const SpectrumAnalyse: React.FC<SpectrumAnalyseProps> = (props) => {
                 type="line"
             />*/}
         </div>
-    )
-}
+    );
+};

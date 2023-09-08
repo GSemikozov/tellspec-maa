@@ -1,29 +1,49 @@
 #add-milk-wrapper {
-  border: 1px solid var(--ion-color-tertiary-tint);
-  border-radius: 5px;
-  
+    border: 1px solid var(--ion-color-tertiary-tint);
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.add-milk-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-milk-header img {
+    width: 2rem;
+    margin-right: 1rem;
 }
 
 .add-milk-input {
-  border-bottom: 1px solid var(--ion-color-primary);
-  margin: 0.5rem;
-  background-color: white;
-  width: 18rem;
+    width: calc(100% - 1rem);
+    margin: 0.5rem;
+
+    font-size: 1.4rem;
+
+    background-color: white;
+    border-bottom: 1px solid var(--ion-color-primary);
 }
+
 #milk-id {
-  border-bottom: 1px solid var(--ion-color-primary);
-  margin: 0.5rem;
-  background-color: white;
-  width: 100vw;
+    border-bottom: 1px solid var(--ion-color-primary);
+    margin: 0.5rem;
+    background-color: white;
+    width: 22vw;
 }
 
 .button-wrapper {
-  display: flex;
-  justify-content: center;
-}
-.save-button {
-  margin-right: 0 !important;
-  width: 14rem;
-  margin-left: 0 !important;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
 
+    margin-top: 2rem;
+}
+
+.button-wrapper .button {
+    width: 30%;
+    margin: 0 1rem;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    white-space: pre-wrap;
 }

@@ -5,4 +5,4 @@ export * as userConstants from './user.constants';
 export * as userAsyncActions from './model/user.actions';
 export * as userSelectors from './model/user.selectors';
 
-export { User } from './components/user';
+export * from './ui';

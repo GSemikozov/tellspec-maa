@@ -1,0 +1,29 @@
+.sensor {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    width: 100%;
+    height: 3.2rem;
+    padding: 0 1.6rem;
+
+    background-color: var(--ion-color-tertiary-tint);
+
+    border-radius: 16px;
+}
+
+.sensor__status {
+    margin-top: 0.4rem;
+
+    font-family: 'Campton';
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.sensor__status-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+
+    margin-left: auto;
+}

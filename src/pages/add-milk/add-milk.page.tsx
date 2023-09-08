@@ -1,24 +1,13 @@
 import React from 'react';
-import {
-  IonBackButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
-import { AddMilkForm } from '../../features/add-milk-form';
-import { SidebarMenu } from '../../widgets/sidebar-menu';
-import { Layout } from '../../widgets/layout/layout';
+import { IonContent, IonPage } from '@ionic/react';
+
+import { AddMilkForm } from '@features/add-milk-form';
+import { Layout } from '@widgets/layout/layout';
 
 export const AddMilkPage: React.FC = () => {
-  return (
-    <IonPage>
-      {/* <IonHeader>
+    return (
+        <IonPage>
+            {/* <IonHeader>
         <IonToolbar>
           <IonButtons slot='start'>
             <IonBackButton />
@@ -26,9 +15,9 @@ export const AddMilkPage: React.FC = () => {
           <IonTitle>Add Milk</IonTitle>
         </IonToolbar>
       </IonHeader> */}
-      <IonContent className='ion-no-padding'>
-        <Layout>
-        {/* <IonGrid>
+            <IonContent className='ion-no-padding'>
+                <Layout>
+                    {/* <IonGrid>
           <IonRow>
             <IonCol size='2.5'>
             <SidebarMenu />
@@ -38,10 +27,9 @@ export const AddMilkPage: React.FC = () => {
             </IonCol>
             </IonRow>
           </IonGrid> */}
-          <AddMilkForm />
-
-        </Layout>
-      </IonContent>
-    </IonPage>
-  );
+                    <AddMilkForm />
+                </Layout>
+            </IonContent>
+        </IonPage>
+    );
 };

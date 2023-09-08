@@ -1,20 +1,19 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { API } from "../../../api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { IDonor, IDonorAllRequestData } from "./donors.types";
+import { apiInstance } from '@api/network';
 
-const api = new API();
+import type { IDonor, IDonorAllRequestData } from './donors.types';
 
 export const fetchDonors = createAsyncThunk(
-  "donors/fetch",
-  async (data: IDonorAllRequestData): Promise<IDonor[]> => {
-    const { completeData, showArchived } = data;
+    'donors/fetch',
+    async (data: IDonorAllRequestData): Promise<IDonor[]> => {
+        const { completeData, showArchived } = data;
 
-    try {
-      return await api.donors.getAllDonors(completeData, showArchived);
-    } catch (error) {
-      console.error(error);
-      throw new Error("Can't fetch donors list. Try again later");
-    }
-  }
+        try {
+            return await apiInstance.donors.getAllDonors(completeData, showArchived);
+        } catch (error) {
+            console.error(error);
+            throw new Error("Can't fetch donors list. Try again later");
+        }
+    },
 );

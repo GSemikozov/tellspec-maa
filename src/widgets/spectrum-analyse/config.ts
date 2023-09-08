@@ -4,21 +4,21 @@ export const defaultMilkChartConfig = {
         height: 280,
         type: 'line',
         zoom: {
-            enabled: false
+            enabled: false,
         },
         tools: {
-            download: false
+            download: false,
         },
         toolbar: {
-            show: false
-        }
+            show: false,
+        },
     },
 
     dataLabels: {
-        enabled: false
+        enabled: false,
     },
     stroke: {
-        curve: 'smooth'
+        curve: 'smooth',
     },
     grid: {
         show: false,
@@ -26,18 +26,18 @@ export const defaultMilkChartConfig = {
             top: 10,
             right: 25,
             bottom: 10,
-            left: 25
+            left: 25,
         },
         xaxis: {
             lines: {
-                show: true
-            }
+                show: true,
+            },
         },
         yaxis: {
             lines: {
-                show: true
-            }
-        }
+                show: true,
+            },
+        },
     },
     yaxis: {
         tickAmount: 5,
@@ -47,8 +47,8 @@ export const defaultMilkChartConfig = {
             offsetX: -10,
             style: {
                 fontSize: '1.5em',
-                fontWeight: 400
-            }
+                fontWeight: 400,
+            },
         },
         labels: {
             style: { fontSize: '1.5em', fontWeight: 400 },
@@ -59,10 +59,10 @@ export const defaultMilkChartConfig = {
              * @param { String } value - The generated value of the y-axis tick
              * @param { index } index of the tick / currently executing iteration in yaxis labels array
              */
-            formatter: function (val: number, index: number) {
-                return val.toFixed(2)
-            }
-        }
+            formatter: function (val: number) {
+                return val.toFixed(2);
+            },
+        },
     },
     colors: ['#E503B0'],
     xaxis: {
@@ -72,8 +72,8 @@ export const defaultMilkChartConfig = {
             text: 'Wavelength (nm)',
             style: {
                 fontSize: '1.5em',
-                fontWeight: 400
-            }
+                fontWeight: 400,
+            },
         },
         categories: [],
         labels: {
@@ -84,9 +84,9 @@ export const defaultMilkChartConfig = {
              * @param { String } value - The generated value of the y-axis tick
              * @param { index } index of the tick / currently executing iteration in yaxis labels array
              */
-            formatter: function (val: number, index: number) {
-                return val.toFixed(1) //`${(1350 + ((val - 1) * 3.137254902)).toFixed(0)}` ;
-            }
-        }
-    }
-}
+            formatter: function (val: number) {
+                return val.toFixed(1); //`${(1350 + ((val - 1) * 3.137254902)).toFixed(0)}` ;
+            },
+        },
+    },
+};

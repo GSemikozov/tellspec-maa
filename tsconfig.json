@@ -1,22 +1,70 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "allowImportingTsExtensions": true
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "skipLibCheck": true,
+        "esModuleInterop": false,
+        "module": "ESNext",
+
+        /* Bundler mode */
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+
+        /* Linting */
+        "strict": true,
+        "noImplicitAny": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "useDefineForClassFields": true,
+        "allowJs": false,
+
+        /* Experimental */
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+
+        "baseUrl": "./",
+        "paths": {
+            "@config": ["./config"],
+            "@config/*": ["./config/*"],
+
+            "@app": ["./src/app"],
+            "@app/*": ["./src/app/*"],
+
+            "@widgets": ["./src/widgets"],
+            "@widgets/*": ["./src/widgets/*"],
+
+            "@pages": ["./src/pages"],
+            "@pages/*": ["./src/pages/*"],
+
+            "@middlewares": ["./src/middlewares"],
+            "@middlewares/*": ["./src/middlewares/*"],
+
+            "@routing": ["./src/routing"],
+            "@routing/*": ["./src/routing/*"],
+
+            "@features": ["./src/features"],
+            "@features/*": ["./src/features/*"],
+
+            "@entities": ["./src/entities"],
+            "@entities/*": ["./src/entities/*"],
+
+            /* TODO: move to shared */
+            "@api": ["./src/api"],
+            "@api/*": ["./src/api/*"],
+            "@ui": ["./src/ui"],
+            "@ui/*": ["./src/ui/*"],
+
+            "@shared": ["./src/shared"],
+            "@shared/*": ["./src/shared/*"]
+        }
+    },
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }]
 }

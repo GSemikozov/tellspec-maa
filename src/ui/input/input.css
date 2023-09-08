@@ -1,6 +1,9 @@
-.custom-input{
-  border-bottom: 1px solid var(--ion-color-primary);
-  margin: 0.5rem;
-  background-color: white;
-  width: 18rem;
+.custom-input {
+    width: calc(100% - 1rem);
+    margin: 0.5rem;
+
+    font-size: 1.4rem;
+
+    background-color: white;
+    border-bottom: 1px solid var(--ion-color-primary);
 }

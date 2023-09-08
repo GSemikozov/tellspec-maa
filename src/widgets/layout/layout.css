@@ -1,16 +1,11 @@
 ion-content::part(scroll) {
-  top: 0;
-  padding-inline-start: 0;
-  padding: 0;
-  padding-bottom: 0;
-}
-.layout-body {
-  margin-top: 1rem;
-  border-top: 2px solid var(--ion-color-tertiary-tint);
- 
+    top: 0;
+    padding-inline-start: 0;
+    padding: 0;
+    padding-bottom: 0;
 }
 
 .main {
-  border-radius: 10px;
-  background-color: white;
+    border-radius: 10px;
+    background-color: white;
 }

@@ -1,19 +1,18 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { API } from "../../../api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import type { IMilk, IMilkList } from "../../../entities/milk/model/milk.types";
+import { apiInstance } from '@api/network';
 
-const api = new API();
+import type { IMilk, IMilkList } from '@entities/milk/model/milk.types';
 
 export const addMilk = createAsyncThunk(
-  "addMilkForm/fetch",
-  async (data: IMilk): Promise<IMilkList> => {
-    try {
-      const response = await api.milk.addMilk(data);
-      return response;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Can't save milk. Try again later");
-    }
-  }
+    'addMilkForm/fetch',
+    async (data: IMilk): Promise<IMilkList> => {
+        try {
+            const response = await apiInstance.milk.addMilk(data);
+            return response;
+        } catch (error) {
+            console.error(error);
+            throw new Error("Can't save milk. Try again later");
+        }
+    },
 );

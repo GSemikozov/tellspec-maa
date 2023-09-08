@@ -1,73 +1,58 @@
-import React from "react";
-import {
-  IonBackButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { SidebarMenu } from "../sidebar-menu";
-import { useSelector } from "react-redux";
-import { SensorInstructions, SensorStatus } from "../../entities/sensor";
-import { StatusBar } from "../../features/status-bar/status-bar";
-import { appSelectors } from "../../app";
+import React from 'react';
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from '@ionic/react';
+import { useSelector } from 'react-redux';
 
-import "./layout.css";
-import {User} from "../../entities/user";
+import { appSelectors } from '@app';
+import { SensorManager } from '@entities/sensor';
+import { SidebarMenu } from '@widgets/sidebar-menu';
+import { Header } from '@widgets/header';
+
+import './layout.css';
 
 interface LayoutProps {
-  title?: string;
-  children?: React.ReactNode;
-  rightSideBar?: React.ReactNode;
+    title?: string;
+    children?: React.ReactNode;
+    rightSideBar?: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = (props) => {
-  const { title, children, rightSideBar = <SensorInstructions /> } = props;
-  const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
+export const Layout: React.FunctionComponent<LayoutProps> = props => {
+    const { children, rightSideBar = <SensorManager /> } = props;
 
-  return (
-    <IonPage>
-      <IonContent>
-        <IonGrid className="ion-no-padding">
-          <IonRow>
-            <IonCol size="2.5">
-              <SidebarMenu />
-            </IonCol>
-            <IonCol size="9.5">
-              <SensorStatus />
-              <div className="layout-body">
-                <IonRow className="ion-align-items-center">
-                  {/*<IonCol size="7.8">
-                    <User />
-                  </IonCol>
-                  <IonCol size="3.3">
-                    <SensorStatus />
-                  </IonCol>*/}
-                </IonRow>
-                <IonRow>
-                  {/* TODO: something strange is here in the size property */}
-                  <IonCol size={isSidebarVisible ? '7.5' : '11.5'} className="ion-margin main">
-                    {children}
-                  </IonCol>
+    const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
 
-                  {
-                    isSidebarVisible ? (
-                        <IonCol size="4" className="ion-padding">
-                          {rightSideBar}
+    return (
+        <IonPage>
+            <IonContent>
+                <IonGrid className='ion-no-padding'>
+                    <IonRow>
+                        <IonCol size='3'>
+                            <SidebarMenu />
                         </IonCol>
-                    ) : null
-                  }
-                </IonRow>
-              </div>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
-  );
+
+                        <IonCol size='9'>
+                            <Header />
+
+                            <div className='layout-body'>
+                                <IonRow>
+                                    {/* TODO: something strange is here in the size property */}
+                                    <IonCol
+                                        size={isSidebarVisible ? '7' : '11.5'}
+                                        className='ion-padding main'
+                                    >
+                                        {children}
+                                    </IonCol>
+
+                                    {isSidebarVisible ? (
+                                        <IonCol size='5' className='ion-padding'>
+                                            {rightSideBar}
+                                        </IonCol>
+                                    ) : null}
+                                </IonRow>
+                            </div>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+            </IonContent>
+        </IonPage>
+    );
 };
