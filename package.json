@@ -42,6 +42,7 @@
         "@types/react-router-dom": "^5.3.3",
         "apexcharts": "^3.42.0",
         "axios": "^1.4.0",
+        "barcode-printer": "./barcode-printer",
         "cordova-plugin-screen-orientation": "^3.0.3",
         "crypto-js": "^4.1.1",
         "es6-promise-plugin": "^4.2.2",
