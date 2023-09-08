@@ -1,4 +1,4 @@
-import { registerWebPlugin, WebPlugin } from '@capacitor/core';
+import { WebPlugin } from '@capacitor/core';
 import {
     TellspecSensorSdkPlugin,
     ScanResultType,
@@ -9,8 +9,6 @@ import {
 import { TellspecSensorBaseResponse, retrieveBlePermissions } from '@api/native';
 
 import { createTellspecErrorResponse } from './utils';
-
-import 'tellspec-sensor-sdk/src';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

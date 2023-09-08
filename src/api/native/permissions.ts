@@ -24,10 +24,10 @@ export const retrieveBlePermissions = async (): Promise<boolean> => {
             return blePermissions === 'granted';
         }
 
-        return true;
+        return false;
     } catch (error) {
         console.error('[retrieveBlePermissions]', error);
 
-        return true;
+        return false;
     }
 };
