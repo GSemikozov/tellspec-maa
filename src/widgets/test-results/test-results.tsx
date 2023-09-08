@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux';
 import { appActions } from '@app';
 
 import { Scale } from './scale';
+import { ActionsPanel } from "./actions-panel";
 
 import type { IReport, IResult } from '@entities/reports/model/reports.types';
 import type { AppDispatch } from '@app/store';
+
 
 interface TestResultsProps {
     report: IReport | null;
@@ -81,6 +83,7 @@ export const TestResults: React.FC<TestResultsProps> = props => {
                     />
                 );
             })}
+            <ActionsPanel />
         </div>
     );
 };
