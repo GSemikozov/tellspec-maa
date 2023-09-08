@@ -1,10 +1,10 @@
 .sensor-manager-instructions {
-    padding: 1.6rem;
-    margin-bottom: 2.8rem;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
 
     font-family: Campton;
     letter-spacing: 0.15px;
-
+   
     background-color: var(--ion-color-tertiary-tint);
     border-radius: 16px;
 }
