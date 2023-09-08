@@ -284,20 +284,6 @@ export const AddMilkForm: React.FC = () => {
                             </IonSelect>
                             <span style={{ color: 'red' }}>{errors.storageFreezer?.message}</span>
                         </div>
-
-                        <div className='ion-margin-top ion-margin-bottom'>
-                            <CustomInput
-                                type='text'
-                                label='Storage Compartment'
-                                label-placement='floating'
-                                {...register('storageCompartment', {
-                                    required: 'This is a required field',
-                                })}
-                            />
-                            <span style={{ color: 'red' }}>
-                                {errors.storageCompartment?.message}
-                            </span>
-                        </div>
                     </IonCol>
                 </IonRow>
 
