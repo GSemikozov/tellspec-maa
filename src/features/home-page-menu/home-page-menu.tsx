@@ -50,7 +50,6 @@ export const HomePageMenu: React.FC = () => {
               <IonTabBar>
                 <IonTabButton
                   tab="addMilk"
-                  href="/"
                   onClick={() => history.push("/add-milk")}
                 >
                   <div className="menu-icon-tab ion-text-start">
