@@ -11,11 +11,11 @@ const cn = classname('header');
 export const Header: React.FunctionComponent = () => {
     return (
         <div className={cn()}>
-            <IonCol size='6' className={cn('user-info')}>
+            <IonCol size='5' className={cn('user-info')}>
                 <UserInfo />
             </IonCol>
 
-            <IonCol size='6' className={cn('status')}>
+            <IonCol size='7' className={cn('status')}>
                 <SensorStatusBar />
             </IonCol>
         </div>
