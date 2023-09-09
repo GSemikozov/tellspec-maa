@@ -25,5 +25,7 @@ ion-content::part(scroll) {
 
 .rights {
     text-align: center;
-    margin-top: 30%;
+    margin-top: 10%;
+    font-family: Campton;
+    margin-bottom: 0 !important;
 }

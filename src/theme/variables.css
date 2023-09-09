@@ -3,6 +3,7 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
+    --ion-font-family: Campton;
     --ion-background-color: #fff;
     /** primary **/
     --ion-color-primary: #e503b0;

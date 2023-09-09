@@ -81,7 +81,7 @@ ion-content::part(scroll) {
 }
 
 ion-text h3 {
-    font-family: Poppins, sans-serif;
+    font-family: Campton, sans-serif;
     font-size: 46px;
     font-weight: 600;
     line-height: 23px;
@@ -92,7 +92,7 @@ ion-text h3 {
     padding-left: 16px;
 }
 ion-text h4 {
-    font-family: Poppins, sans-serif;
+    font-family: Campton, sans-serif;
     color: black;
     font-size: 18px;
     font-weight: 400;

@@ -27,11 +27,11 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
             <IonContent>
                 <IonGrid className='ion-no-padding'>
                     <IonRow>
-                        <IonCol size='3'>
+                        <IonCol size='2.5'>
                             <SidebarMenu />
                         </IonCol>
 
-                        <IonCol size='9'>
+                        <IonCol size='9.5'>
                             <Header />
 
                             <div className='layout-body'>

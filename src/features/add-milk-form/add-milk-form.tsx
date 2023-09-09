@@ -287,7 +287,7 @@ export const AddMilkForm: React.FC = () => {
                     </IonCol>
                 </IonRow>
 
-                <IonRow className='button-wrapper'>
+                <IonRow className='button-wrapper-add-milk'>
                     <CustomButton
                         className='button'
                         size='small'

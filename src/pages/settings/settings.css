@@ -56,7 +56,7 @@
     width: 97.6%;
     height: 1px;
     background-color: var(--ion-color-tertiary-shade);
-    margin-left: 1rem;
+    margin-left: 1.5rem;
 }
 button.add-button {
     background-color: var(--ion-color-primary-contrast);
@@ -73,6 +73,7 @@ button.add-button {
     margin-right: 2rem;
     margin-bottom: 1rem;
     margin-top: 2rem;
+    font-weight: 600;
 }
 .available-storage-chip {
     display: flex;

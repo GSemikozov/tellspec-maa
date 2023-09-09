@@ -77,11 +77,11 @@ export const LoginForm: React.FunctionComponent = () => {
                 </CustomButton>
             </IonList>
 
-            <p className='forgot-password'>
+            <h5 className='forgot-password'>
                 <IonText>
                     Forgot your Password? <a href='/'>Click Here</a>
                 </IonText>
-            </p>
+            </h5>
         </form>
     );
 };

@@ -29,21 +29,22 @@
     border-bottom: 1px solid var(--ion-color-primary);
     margin: 0.5rem;
     background-color: white;
-    width: 22vw;
+    width: 20vw;
 }
 
-.button-wrapper {
+.button-wrapper-add-milk {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
 
-    margin-top: 2rem;
+    margin-top: 14rem;
 }
 
-.button-wrapper .button {
+.button-wrapper-add-milk .button {
     width: 30%;
     margin: 0 1rem;
     font-size: 1.4rem;
-    line-height: 2rem;
+    font-weight: 600;
+    letter-spacing: 1.5;
     white-space: pre-wrap;
 }

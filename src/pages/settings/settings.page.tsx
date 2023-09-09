@@ -33,7 +33,7 @@ export const SettingsPage: React.FC = () => {
             <IonContent className='ion-padding'>
                 <Layout>
                     <div className='settings-wrapper'>
-                        <IonItem>
+                        <IonItem lines='none'>
                             <img src={SettingsIcon} className='settings-icon' />
                             <h4>
                                 <IonText className='ion-padding'>Settings</IonText>
