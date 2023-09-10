@@ -34,7 +34,7 @@ export const DateRange: React.FC<DataRangeProps> = (props) => {
             <IonButton fill="outline" onClick={handlePopoverToggle}>
                 { from && to ? `${from} - ${to}` : 'Select dates' }
             </IonButton>
-            <h1>{from}</h1>
+           
 
             {
                 isOpened ? createPortal((
