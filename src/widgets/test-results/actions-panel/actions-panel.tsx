@@ -6,6 +6,7 @@ import { IonButton, IonCol, IonRow } from '@ionic/react';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
 import type { AppDispatch } from '@app';
+import { CustomButton } from '@ui/button/button';
 
 export const ActionsPanel: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -27,13 +28,15 @@ export const ActionsPanel: React.FC = () => {
     return (
         <IonRow>
             <IonCol className='ion-justify-content-start'>
-                <IonButton>Print Label</IonButton>
-                <IonButton onClick={handlePrintTestResults}>Print Milk Test Results</IonButton>
+                <CustomButton expand='full'>Print Label</CustomButton>
+                <CustomButton expand='full' onClick={handlePrintTestResults}>
+                    Print Milk Test Results
+                </CustomButton>
             </IonCol>
 
             <IonCol className='ion-justify-content-end'>
-                <IonButton>Analyse Another Milk</IonButton>
-                <IonButton>Reanalyse This Milk</IonButton>
+                <CustomButton expand='full'>Analyse Another Milk</CustomButton>
+                <CustomButton expand='full'>Reanalyse This Milk</CustomButton>
             </IonCol>
         </IonRow>
     );

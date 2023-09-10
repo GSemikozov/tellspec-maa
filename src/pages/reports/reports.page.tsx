@@ -9,12 +9,15 @@ import {
 
 import { DateRange } from "@ui/date-range";
 import {Layout} from "@widgets/layout";
+import ReportsIcon from '../../../assets/images/view-reports-selected.png'
 
 import { reportsAsyncActions, reportsSelectors } from "../../entities/reports";
 
 import { ReportTable } from "./report-table";
 
 import type { AppDispatch } from "@app";
+
+import './reports.page.css'
 
 export const ReportsPage: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +46,7 @@ export const ReportsPage: React.FunctionComponent = () => {
             <IonContent className='ion-padding'>
                 <IonRow className="ion-align-items-center">
                     <IonCol>
-                        <h1>View Reports</h1>
+                        <h1><img src={ReportsIcon} id="reports-icon"/>View Reports</h1>
                         <IonCheckbox
                             value={selectAll}
                             onIonChange={() => setSelectAll(!selectAll)}
