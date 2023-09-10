@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useIonAlert } from "@ionic/react";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIonAlert } from '@ionic/react';
 
-import { appActions, appSelectors } from "@app";
+import { appActions, appSelectors } from '@app';
 
-import type { AppDispatch } from "@app";
+import type { AppDispatch } from '@app';
 
 export const Alert: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [presentAlert] = useIonAlert();
-    const {
-        alertHeader,
-        alertSubHeader,
-        alertMessage,
-        isAlertVisible
-    } = useSelector(appSelectors.getAlert);
+    const { alertHeader, alertSubHeader, alertMessage, isAlertVisible } = useSelector(
+        appSelectors.getAlert,
+    );
 
     useEffect(() => {
         if (isAlertVisible) {
@@ -33,4 +30,4 @@ export const Alert: React.FC = () => {
     }, [isAlertVisible]);
 
     return null;
-}
+};

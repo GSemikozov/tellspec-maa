@@ -1,7 +1,13 @@
-#reports-icon{
+#reports-icon {
     width: 3rem;
 }
 
-ion-content{
-    width: 100%;
+.select-all-checkbox {
+    font-size: initial;
+    margin-left: 1rem;
+}
+
+.select-all-wrapper {
+    display: flex;
+    align-items: center;
 }

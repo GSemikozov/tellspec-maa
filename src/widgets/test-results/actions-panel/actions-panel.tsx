@@ -28,16 +28,18 @@ export const ActionsPanel: React.FC = () => {
     return (
         <IonRow>
             <IonCol>
-                <IonButton expand="full">Print Label</IonButton>
+                <IonButton expand='full'>Print Label</IonButton>
             </IonCol>
             <IonCol>
-                <IonButton expand="full" onClick={handlePrintTestResults}>Print Milk Test Results</IonButton>
+                <IonButton expand='full' onClick={handlePrintTestResults}>
+                    Print Milk Test Results
+                </IonButton>
             </IonCol>
             <IonCol>
-                <IonButton expand="full">Analyse Another Milk</IonButton>
+                <IonButton expand='full'>Analyse Another Milk</IonButton>
             </IonCol>
             <IonCol>
-                <IonButton expand="full">Reanalyse This Milk</IonButton>
+                <IonButton expand='full'>Reanalyse This Milk</IonButton>
             </IonCol>
         </IonRow>
     );
