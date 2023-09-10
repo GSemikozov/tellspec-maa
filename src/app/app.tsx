@@ -11,10 +11,10 @@ import { AddMilkPage } from '@pages/add-milk';
 import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { userSelectors } from '@entities/user';
-import { NativeStorageKeys, nativeStore, retrieveBlePermissions, useSetupStore } from '@api/native';
+import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 
-import { fetchAppSettings } from './model/app.actions';
+import { fetchAppSettings, fetchBleStatus } from './model/app.actions';
 import { routesMapping } from './routes';
 import { ProtectedRoute } from './components/protected-route';
 
@@ -41,9 +41,7 @@ export const App: React.FunctionComponent = () => {
         if (typeof window !== 'undefined') {
             const searchParams = new URLSearchParams(window.location.search);
 
-            if (searchParams.has('emulate')) {
-                nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, true);
-            }
+            nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, searchParams.has('emulate'));
         }
     }, [readyStore]);
 
@@ -56,7 +54,7 @@ export const App: React.FunctionComponent = () => {
             return;
         }
 
-        retrieveBlePermissions();
+        dispatch(fetchBleStatus());
     }, [isAuthenticated]);
 
     if (!readyStore) {

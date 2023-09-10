@@ -8,7 +8,6 @@ import {
     isEmulateNativeSdk,
     NativeStorageKeys,
     nativeStore,
-    retrieveBlePermissions,
     TellspecSensorBaseResponse,
 } from '@api/native';
 import { apiInstance } from '@api/network';
@@ -73,12 +72,6 @@ export const tellspecDisconnect = async () => {
 
 export const tellspecCheckBleState = async (): Promise<TellspecSensorBaseResponse> => {
     try {
-        const hasBlePermission = await retrieveBlePermissions();
-
-        if (!hasBlePermission) {
-            return createTellspecErrorResponse('Missing Bluetooth permission');
-        }
-
         const tellspecSensorConnectionState = await TellspecSensorSdk.getConnectionState();
 
         if (!tellspecSensorConnectionState.ble) {
@@ -155,8 +148,19 @@ export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any>
     return getCalibration(configs.activeConfig);
 };
 
+export const tellspecGetPairDevice = async (): Promise<BleDeviceInfo | null> => {
+    const storeDevice = await nativeStore.get(NativeStorageKeys.DEVICE);
+
+    return storeDevice?.device ?? null;
+};
+
 export const tellspecSavePairDevice = async (device: BleDeviceInfo): Promise<void> => {
     await nativeStore.set(NativeStorageKeys.DEVICE, { device, scan: null });
+};
+
+export const tellspecRemoveDevice = async (): Promise<void> => {
+    await TellspecSensorSdk.forgetDevice();
+    await nativeStore.remove(NativeStorageKeys.DEVICE);
 };
 
 export const tellspecNormalizeScanCalibration = (

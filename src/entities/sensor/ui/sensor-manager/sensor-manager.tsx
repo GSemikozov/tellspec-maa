@@ -4,14 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
 import {
-    CalibrationStatus,
     calibrateDevice,
-    selectSensorCalibrationStatus,
+    removeDevice,
+    selectSensorCalibrationDisconnected,
+    selectSensorCalibrationLoading,
+    selectSensorCalibrationRequired,
 } from '@entities/sensor';
-import { useSensorConnectionProcess } from '@widgets/sensor-connection-process';
+import {
+    SensorConnectionProcessStatus,
+    useSensorConnectionProcess,
+} from '@widgets/sensor-connection-process';
+import { PreemieToast } from '@shared/ui';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
+import { SensorManagerToast } from './sensor-manager-toast';
 
 import './sensor-manager.css';
 import type { AppDispatch } from '@app';
@@ -21,12 +28,24 @@ const cn = classname('sensor-manager');
 export const SensorManager: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { onStartDiscovery } = useSensorConnectionProcess();
+    const { status: sensorConnectionProcessStatus, onStartDiscovery } =
+        useSensorConnectionProcess();
 
-    const deviceCalibrationStatus = useSelector(selectSensorCalibrationStatus);
+    const [hasUnpairedError, setHasUnpairedError] = React.useState(false);
+
+    const calibrationDisconnected = useSelector(selectSensorCalibrationDisconnected);
+    const calibrationRequired = useSelector(selectSensorCalibrationRequired);
+    const calibrationLoading = useSelector(selectSensorCalibrationLoading);
 
     const getInstructions = React.useCallback(() => {
-        if (deviceCalibrationStatus === CalibrationStatus.DISCONNECTED) {
+        if (calibrationDisconnected) {
+            const discovering = [
+                SensorConnectionProcessStatus.CHECKING_BLE,
+                SensorConnectionProcessStatus.DISCOVERING,
+                SensorConnectionProcessStatus.CHOOSE_DISCOVERED_DEVICE,
+                SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE,
+            ].includes(sensorConnectionProcessStatus);
+
             return {
                 title: 'Connect a sensor',
                 content: (
@@ -39,7 +58,7 @@ export const SensorManager: React.FunctionComponent = () => {
                         </p>
 
                         <div className={cn('actions')}>
-                            <IonButton onClick={onStartDiscovery}>
+                            <IonButton disabled={discovering} onClick={onStartDiscovery}>
                                 Start Discovery Devices
                             </IonButton>
                         </div>
@@ -48,9 +67,17 @@ export const SensorManager: React.FunctionComponent = () => {
             };
         }
 
-        if (deviceCalibrationStatus === CalibrationStatus.REQUIRED) {
+        if (calibrationRequired) {
             const handleStartCalibration = () => {
                 dispatch(calibrateDevice());
+            };
+
+            const handleRemoveDevice = async () => {
+                try {
+                    await dispatch(removeDevice()).unwrap();
+                } catch {
+                    setHasUnpairedError(true);
+                }
             };
 
             return {
@@ -61,13 +88,15 @@ export const SensorManager: React.FunctionComponent = () => {
                             <IonButton onClick={handleStartCalibration}>
                                 Start Calibration
                             </IonButton>
+
+                            <IonButton onClick={handleRemoveDevice}>Unpair Device</IonButton>
                         </div>
                     </>
                 ),
             };
         }
 
-        if (deviceCalibrationStatus === CalibrationStatus.PROGRESS) {
+        if (calibrationLoading) {
             return {
                 title: 'Calibration in Progress',
                 content: (
@@ -83,22 +112,34 @@ export const SensorManager: React.FunctionComponent = () => {
         }
 
         return null;
-    }, [deviceCalibrationStatus, onStartDiscovery]);
+    }, [
+        sensorConnectionProcessStatus,
+        calibrationDisconnected,
+        calibrationRequired,
+        calibrationLoading,
+        onStartDiscovery,
+    ]);
 
     const instructions = getInstructions();
 
     return (
-        <div className={cn()}>
-            {instructions ? (
-                <SensorManagerInstructions
-                    title={instructions.title}
-                    className={cn('instructions')}
-                >
-                    {instructions.content}
-                </SensorManagerInstructions>
-            ) : null}
+        <>
+            <div className={cn()}>
+                {instructions ? (
+                    <SensorManagerInstructions
+                        title={instructions.title}
+                        className={cn('instructions')}
+                    >
+                        {instructions.content}
+                    </SensorManagerInstructions>
+                ) : null}
 
-            <SensorManagerInteractiveImage />
-        </div>
+                <SensorManagerInteractiveImage />
+            </div>
+
+            <SensorManagerToast />
+
+            <PreemieToast isOpen={hasUnpairedError} message='An error occurred during unpairing' />
+        </>
     );
 };

@@ -1,0 +1,19 @@
+.preemie-toast {
+    --background: var(--ion-color-secondary-shade);
+}
+
+.preemie-toast_success {
+    --background: var(--ion-color-success);
+}
+
+.preemie-toast_error {
+    --background: var(--ion-color-danger);
+}
+
+.preemie-toast::part(message) {
+    font-size: 1.6rem;
+}
+
+.preemie-toast::part(button) {
+    color: var(--ion-color-primary-contrast);
+}

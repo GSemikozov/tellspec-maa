@@ -1,3 +1,12 @@
+export enum BleStatus {
+    ON = 'on',
+    OFF = 'off',
+}
+
+export type BleState = {
+    status: BleStatus;
+};
+
 export type LayoutSettings = {
     isSidebarVisible: boolean;
 };
@@ -15,14 +24,6 @@ interface IBackdropSettings {
     delay: number;
 }
 
-export interface IApp {
-    status: 'idle' | 'loading' | 'success' | 'error';
-    online: boolean;
-    layout: LayoutSettings;
-    alert: IAlertSettings;
-    backdrop: IBackdropSettings;
-}
-
 export interface IAlertActionPayload {
     alertHeader: string;
     alertSubHeader?: string;
@@ -32,4 +33,13 @@ export interface IAlertActionPayload {
 export interface IBackdropPayload {
     backdropText: string;
     delay?: number;
+}
+
+export interface IApp {
+    status: 'idle' | 'loading' | 'success' | 'error';
+    online: boolean;
+    ble: BleState;
+    layout: LayoutSettings;
+    alert: IAlertSettings;
+    backdrop: IBackdropSettings;
 }

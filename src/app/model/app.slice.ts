@@ -1,16 +1,20 @@
-import type {PayloadAction} from "@reduxjs/toolkit"
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { createSlice } from '@reduxjs/toolkit';
 
 import { checkNetworkConnection } from '../app.utils';
 
-import { fetchAppSettings } from './app.actions';
+import { fetchAppSettings, fetchBleStatus } from './app.actions';
+import { BleStatus } from './app.types';
 
-import type { IApp, IAlertActionPayload, IBackdropPayload } from "./app.types";
+import type { IApp, IAlertActionPayload, IBackdropPayload } from './app.types';
 
 const initialState: IApp = {
     status: 'idle',
     online: false,
+    ble: {
+        status: BleStatus.OFF,
+    },
     layout: {
         isSidebarVisible: true,
     },
@@ -43,10 +47,10 @@ export const appSlice = createSlice({
             state.alert = {
                 ...action.payload,
                 isAlertVisible: true,
-            }
+            };
         },
 
-        hideAlert: (state) => {
+        hideAlert: state => {
             state.alert.isAlertVisible = false;
         },
 
@@ -56,9 +60,9 @@ export const appSlice = createSlice({
             state.backdrop.isBackdropVisible = true;
         },
 
-        hideBackdrop: (state) => {
+        hideBackdrop: state => {
             state.backdrop.isBackdropVisible = false;
-        }
+        },
     },
 
     extraReducers: builder => {
@@ -70,13 +74,21 @@ export const appSlice = createSlice({
         builder.addCase(fetchAppSettings.fulfilled, (state, action) => {
             return {
                 ...state,
-                status: 'success',
                 ...action.payload?.app,
+                status: 'success',
             };
         });
 
         builder.addCase(fetchAppSettings.rejected, state => {
             state.status = 'error';
+        });
+
+        builder.addCase(fetchBleStatus.rejected, state => {
+            state.ble.status = BleStatus.OFF;
+        });
+
+        builder.addCase(fetchBleStatus.fulfilled, state => {
+            state.ble.status = BleStatus.ON;
         });
     },
 });

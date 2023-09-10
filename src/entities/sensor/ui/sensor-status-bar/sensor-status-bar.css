@@ -23,7 +23,23 @@
 .sensor__status-icons {
     display: flex;
     flex-wrap: wrap;
-    gap: 2px;
+    gap: 4px;
 
     margin-left: auto;
+}
+
+.sensor__target-icon_required-calibration {
+    fill: #f6a649;
+}
+
+.sensor__target-icon_progress-calibration {
+    fill: #fa0909;
+}
+
+.sensor__bluetooth-icon_enabled {
+    fill: #3dc04a;
+}
+
+.sensor__bluetooth-icon_connected {
+    fill: #2c92f0;
 }

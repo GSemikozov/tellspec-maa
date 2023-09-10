@@ -32,6 +32,6 @@ export const classname = (block: string) => {
             return elementClassName;
         }
 
-        return elementClassName + ' ' + classNamesMods;
+        return elementClassName + ' ' + classNamesMods.trim();
     };
 };

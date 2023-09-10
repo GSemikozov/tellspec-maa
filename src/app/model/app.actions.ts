@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { apiInstance } from '@api/network';
 import { clearStorageData, getStorageData } from '@app/app.utils';
 import { RootState } from '@app/store';
+import { retrieveBlePermissions } from '@api/native';
 
 type State = RootState | null;
 
@@ -23,3 +24,10 @@ export const fetchAppSettings = createAsyncThunk('app/fetching', async (): Promi
         return null;
     }
 });
+
+export const fetchBleStatus = createAsyncThunk(
+    'app/fetch-ble-status',
+    async (): Promise<boolean> => {
+        return retrieveBlePermissions();
+    },
+);

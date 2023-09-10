@@ -4,6 +4,7 @@ import { TellspecSensorDevice } from '@api/native';
 
 export enum CalibrationStatus {
     DISCONNECTED = 'disconnected',
+    ERROR = 'error',
     REQUIRED = 'required',
     PROGRESS = 'progress',
     READY = 'ready',

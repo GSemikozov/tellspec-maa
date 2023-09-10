@@ -8,6 +8,7 @@ import {
     tellspecGetConfigs,
     tellspecNormalizeScanCalibration,
     tellspecReadScannerInfo,
+    tellspecRemoveDevice,
     tellspecSavePairDevice,
     tellspecSetActiveConfig,
     tellspecStartScan,
@@ -134,4 +135,8 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
         calibrationData: result,
         updatedDevice,
     };
+});
+
+export const removeDevice = createAsyncThunk('sensor/remove-device', async () => {
+    await tellspecRemoveDevice();
 });

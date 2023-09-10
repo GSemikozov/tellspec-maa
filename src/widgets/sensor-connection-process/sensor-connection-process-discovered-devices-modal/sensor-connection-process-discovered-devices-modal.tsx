@@ -13,7 +13,8 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
         discoveredDevices,
         discoveredDevicesModalOpen,
         onCloseDiscoveryDevicesModal,
-        onChooseDiscoveredDevice,
+        onConnectDevice,
+        onCancelDiscovery,
     } = useSensorConnectionProcess();
 
     const hasDiscoveredDevices = discoveredDevices.length > 0;
@@ -36,13 +37,13 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
                                 <BluetoothItem
                                     key={device.uuid}
                                     device={device}
-                                    onClick={onChooseDiscoveredDevice}
+                                    onClick={onConnectDevice}
                                 />
                             ))}
                         </div>
 
                         <div className={cn('main-actions')}>
-                            <IonButton fill='outline' color='tertiary'>
+                            <IonButton fill='outline' color='tertiary' onClick={onCancelDiscovery}>
                                 Cancel
                             </IonButton>
                         </div>

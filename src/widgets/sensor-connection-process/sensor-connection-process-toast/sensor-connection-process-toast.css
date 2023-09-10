@@ -1,19 +1,2 @@
 .sensor-connection-process-toast {
-    --background: var(--ion-color-primary-tint);
-}
-
-.sensor-connection-process-toast_success {
-    --background: var(--ion-color-success);
-}
-
-.sensor-connection-process-toast_error {
-    --background: var(--ion-color-danger);
-}
-
-.sensor-connection-process-toast::part(message) {
-    font-size: 1.6rem;
-}
-
-.sensor-connection-process-toast::part(button) {
-    color: var(--ion-color-primary-contrast);
 }

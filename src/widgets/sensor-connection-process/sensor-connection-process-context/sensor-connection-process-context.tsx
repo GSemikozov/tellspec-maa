@@ -12,8 +12,10 @@ import {
     tellspecDisconnect,
     tellspecGetDeviceInfo,
     tellspecSavePairDevice,
+    tellspecGetPairDevice,
 } from '@api/native';
 import { sensorActions } from '@entities/sensor';
+import { fetchBleStatus } from '@app/model/app.actions';
 
 import { SensorConnectionProcessToast } from '../sensor-connection-process-toast';
 import { SensorConnectionProcessDiscoveredDevicesModal } from '../sensor-connection-process-discovered-devices-modal';
@@ -22,6 +24,7 @@ import { STATUS_TOAST_MESSAGE } from './const';
 import { SensorConnectionProcessStatus } from './types';
 
 import type { PluginListenerHandle } from '@capacitor/core';
+import type { AppDispatch } from '@app';
 import type { TellspecListenerEvents, TellspecSensorDevice } from '@api/native';
 
 export type SensorConnectionProcessContextValue = {
@@ -35,12 +38,15 @@ export type SensorConnectionProcessContextValue = {
     onCancelDiscovery: () => void;
     onOpenDiscoveryDevicesModal: () => void;
     onCloseDiscoveryDevicesModal: () => void;
-    onChooseDiscoveredDevice: (device: TellspecSensorDevice) => void;
+    onConnectDevice: (device: TellspecSensorDevice) => void;
+
+    onResetStatus: () => void;
 };
 
 type setConnectionProcessStatusOptions = {
     payload?: Record<string, any>;
     customMessage?: string;
+    silent?: boolean;
 };
 
 export const SensorConnectionProcessContext =
@@ -50,7 +56,9 @@ export const SensorConnectionProcessContext =
 export const SensorConnectionProcessProvider: React.FunctionComponent<React.PropsWithChildren> = ({
     children,
 }) => {
-    const dispatch = useDispatch();
+    const mountedRef = React.useRef(false);
+
+    const dispatch = useDispatch<AppDispatch>();
 
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
         SensorConnectionProcessStatus.IDLE,
@@ -72,15 +80,25 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             status: SensorConnectionProcessContextValue['status'],
             options: setConnectionProcessStatusOptions = {},
         ) => {
-            const { customMessage, payload = {} } = options;
+            const { customMessage, payload = {}, silent } = options;
 
             const statusToastMessage = STATUS_TOAST_MESSAGE[status] ?? '';
             const toastMessage = customMessage ?? statusToastMessage;
 
             setStatus(status);
+
+            if (silent) {
+                return;
+            }
+
             setToastMessage(fillTemplateValues(toastMessage, payload));
         },
         [],
+    );
+
+    const handleResetStatus = React.useCallback(
+        () => setConnectionProcessStatus(SensorConnectionProcessStatus.IDLE),
+        [setConnectionProcessStatus],
     );
 
     const handleOpenDiscoveryDevicesModal = React.useCallback(() => {
@@ -106,6 +124,12 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const handleStartDiscovery = React.useCallback(async () => {
         try {
             setConnectionProcessStatus(SensorConnectionProcessStatus.CHECKING_BLE);
+
+            const nativeBleState = await dispatch(fetchBleStatus()).unwrap();
+
+            if (!nativeBleState) {
+                throw new Error('Missing Bluetooth permission');
+            }
 
             const tellspecBleState = await tellspecCheckBleState();
 
@@ -144,12 +168,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         }
     }, [setConnectionProcessStatus]);
 
-    const handleChooseDiscoveredDevice = React.useCallback(async (device: TellspecSensorDevice) => {
-        setConnectionProcessStatus(SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE);
-
+    const connectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
         try {
-            handleCloseDiscoveryDevicesModal();
-
             const shallowDevice = { ...device };
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const requiredCalibration = Boolean(calibrationData);
@@ -167,20 +187,54 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     requiredCalibration,
                 }),
             );
-
-            setConnectionProcessStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
         } catch (error: any) {
-            console.error('[onChooseDiscoveredDevice]: ', error);
+            console.error('[connectDevice]: ', error);
 
             const errorMessage = error.message ?? 'Unabled to pair with sensor';
 
-            setConnectionProcessStatus(SensorConnectionProcessStatus.ERROR, {
-                customMessage: errorMessage,
-            });
+            throw new Error(errorMessage);
         } finally {
             await tellspecDisconnect();
         }
     }, []);
+
+    const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
+        setConnectionProcessStatus(SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE);
+
+        try {
+            handleCloseDiscoveryDevicesModal();
+
+            await connectDevice(device);
+
+            setConnectionProcessStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
+        } catch (error: any) {
+            setConnectionProcessStatus(SensorConnectionProcessStatus.ERROR, {
+                customMessage: error.message,
+            });
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const retrievePairedDeviceFromStorage = async () => {
+            const storeDevice = await tellspecGetPairDevice();
+
+            if (storeDevice === null) {
+                return;
+            }
+
+            await connectDevice(storeDevice);
+
+            setConnectionProcessStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS, {
+                silent: true,
+            });
+        };
+
+        if (!mountedRef.current) {
+            mountedRef.current = true;
+
+            retrievePairedDeviceFromStorage();
+        }
+    }, [connectDevice]);
 
     React.useEffect(() => {
         if (updateDiscoveredDevicesListener === null) {
@@ -225,7 +279,9 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             onCancelDiscovery: handleCancelDiscovery,
             onOpenDiscoveryDevicesModal: handleOpenDiscoveryDevicesModal,
             onCloseDiscoveryDevicesModal: handleCloseDiscoveryDevicesModal,
-            onChooseDiscoveredDevice: handleChooseDiscoveredDevice,
+            onConnectDevice: handleConnectDevice,
+
+            onResetStatus: handleResetStatus,
         }),
         [
             status,
@@ -237,7 +293,9 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             handleCancelDiscovery,
             handleOpenDiscoveryDevicesModal,
             handleCloseDiscoveryDevicesModal,
-            handleChooseDiscoveredDevice,
+            handleConnectDevice,
+
+            handleResetStatus,
         ],
     );
 

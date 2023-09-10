@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SensorState, SetDeviceAction, CalibrationStatus } from './sensor.types';
-import { calibrateDevice } from './sensor.actions';
+import { CalibrationStatus } from './sensor.types';
+import { calibrateDevice, removeDevice } from './sensor.actions';
+
+import type { SensorState, SetDeviceAction } from './sensor.types';
 
 const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
@@ -28,6 +30,10 @@ export const sensorSlice = createSlice({
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
 
+        builder.addCase(calibrateDevice.rejected, state => {
+            state.calibrationStatus = CalibrationStatus.ERROR;
+        });
+
         builder.addCase(calibrateDevice.fulfilled, (state, action) => {
             state.calibrationStatus = CalibrationStatus.READY;
 
@@ -36,6 +42,11 @@ export const sensorSlice = createSlice({
             }
 
             state.device = action.payload.updatedDevice;
+        });
+
+        builder.addCase(removeDevice.fulfilled, state => {
+            state.device = null;
+            state.calibrationStatus = CalibrationStatus.DISCONNECTED;
         });
     },
 });

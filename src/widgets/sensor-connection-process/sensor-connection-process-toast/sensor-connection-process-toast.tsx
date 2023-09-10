@@ -1,6 +1,6 @@
 import React from 'react';
-import { IonToast } from '@ionic/react';
 
+import { PreemieToast } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { useEvent } from '@shared/hooks';
 
@@ -29,6 +29,11 @@ const LOADING_STATUSES: SensorConnectionProcessStatus[] = [
     SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE,
 ];
 
+const TOAST_TYPE_BY_STATUS = {
+    [SensorConnectionProcessStatus.ERROR]: 'error',
+    [SensorConnectionProcessStatus.PAIRING_SUCCESS]: 'success',
+};
+
 export const SensorConnectionProcessToast: React.FunctionComponent = () => {
     const {
         status,
@@ -42,8 +47,11 @@ export const SensorConnectionProcessToast: React.FunctionComponent = () => {
     const handleOpenDiscoveryDevicesModalEvent = useEvent(onOpenDiscoveryDevicesModal);
     const handleCancelDiscoveryEvent = useEvent(onCancelDiscovery);
 
-    const isOpen = !discoveredDevicesModalOpen && OPENED_STATUSES.includes(status);
-    const duration = LOADING_STATUSES.includes(status) ? undefined : 6_000;
+    const [toastOpen, setToastOpen] = React.useState(false);
+
+    const handleCloseToast = () => setToastOpen(false);
+
+    const duration = LOADING_STATUSES.includes(status) ? undefined : 3_000;
 
     const toastButtons = React.useMemo(() => {
         const discoveredDevicesLength = discoveredDevices.length;
@@ -73,16 +81,24 @@ export const SensorConnectionProcessToast: React.FunctionComponent = () => {
         handleCancelDiscoveryEvent,
     ]);
 
+    React.useEffect(() => {
+        setToastOpen(
+            !discoveredDevicesModalOpen &&
+                Boolean(toastMessage) &&
+                OPENED_STATUSES.includes(status),
+        );
+    }, [discoveredDevicesModalOpen, toastMessage, status]);
+
     return (
-        <IonToast
-            className={cn('', {
-                success: status === SensorConnectionProcessStatus.PAIRING_SUCCESS,
-                error: status === SensorConnectionProcessStatus.ERROR,
-            })}
-            isOpen={isOpen}
+        <PreemieToast
+            id='sensor-connection-process-toast'
+            className={cn('')}
+            type={TOAST_TYPE_BY_STATUS[status]}
+            isOpen={toastOpen}
             message={toastMessage}
             duration={duration}
             buttons={toastButtons}
+            onDidDismiss={handleCloseToast}
         />
     );
 };

@@ -5433,7 +5433,7 @@ tar@^6.1.11:
 
 "tellspec-sensor-sdk@git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#next":
   version "0.0.2"
-  resolved "git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#28259871a706641e441c68a99b7da1ebe5640208"
+  resolved "git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#f7615a77c5b91cb546a2a305bd8bcb8ccd0e0336"
   dependencies:
     "@capacitor/cli" "^3.2.0"
 
