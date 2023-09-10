@@ -1,11 +1,9 @@
 import type { Action } from '@reduxjs/toolkit';
 
-import { Storage } from '@ionic/storage';
+import { NativeStorageKeys, nativeStore } from '@api/native';
 
 import type { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import type { RootState } from '@app/store';
-
-const store = new Storage();
 
 export const saveToStorage: Middleware = ({ getState }: MiddlewareAPI) => {
     return (next: Dispatch) => (action: Action) => {
@@ -16,15 +14,17 @@ export const saveToStorage: Middleware = ({ getState }: MiddlewareAPI) => {
         }
 
         const state = getState();
-        storeState('state', state);
+
+        storeState(NativeStorageKeys.STATE, state);
+
         return result;
     };
 };
 
-async function storeState(key: string, state: RootState) {
+const storeState = async (key: NativeStorageKeys, state: RootState) => {
     if (key !== null && key !== undefined) {
-        await store.create();
-        await store.set(key, JSON.stringify(state));
+        await nativeStore.set(key, JSON.stringify(state));
+
         console.info('Storage: set state', state);
     }
-}
+};

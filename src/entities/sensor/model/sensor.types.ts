@@ -1,8 +1,18 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { TellspecSensorDevice } from '@api/native';
+
+export enum CalibrationStatus {
+    DISCONNECTED = 'disconnected',
+    REQUIRED = 'required',
+    PROGRESS = 'progress',
+    READY = 'ready',
+}
+
 /**
  * this is the calibration type that is supported by the model.
  */
 export enum CalibrationType {
-    DISCONNECTED = 'disconnected',
     PAIRED = 'paired',
     LAST = 'last',
     FACTORY = 'factory',
@@ -67,6 +77,16 @@ export interface SensorPostScanResult {
     'failed-scan': []; // [scan uuid]
 }
 
+export type SensorDevice = TellspecSensorDevice;
+
 export type SensorState = {
-    status: CalibrationType;
+    calibrationStatus: CalibrationStatus;
+    device: SensorDevice | null;
 };
+
+export type SetDeviceAction = PayloadAction<{
+    device: SensorDevice;
+    requiredCalibration: boolean;
+}>;
+
+export type SetSensorDeviceAction = PayloadAction<SensorDevice>;
