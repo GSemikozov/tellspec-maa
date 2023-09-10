@@ -16,3 +16,5 @@ export const selectReportByMilkId =
 
         return uuid ? reports[uuid] : null;
     };
+
+export const selectAllReports = (state: RootState) => Object.values(state.reports.entities);

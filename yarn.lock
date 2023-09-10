@@ -910,6 +910,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.21.0":
+  version "7.22.15"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.15.tgz#38f46494ccf6cf020bd4eed7124b425e83e523b8"
+  integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.5":
   version "7.22.5"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.22.5.tgz"
@@ -1553,6 +1560,18 @@
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@swc/types/-/types-0.1.4.tgz#8d647e111dc97a8e2881bf71c2ee2d011698ff10"
   integrity sha512-z/G02d+59gyyUb7KYhKi9jOhicek6QD2oMaotUyG+lUkybpXoV49dY9bj7Ah5Q+y7knK2jU67UTX9FyfGzaxQg==
+
+"@tanstack/react-table@^8.9.7":
+  version "8.9.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.9.7.tgz#ae32e7c93b6392927208f63dbc89d409d19b4e4f"
+  integrity sha512-UKUekM8JNUyWbjT1q3s1GpH5OtBL9mJ4258Il23fsahvkh3ou9TuFVmqI0/UPiFROgHkRlCBDNPUhcsC9YPFgg==
+  dependencies:
+    "@tanstack/table-core" "8.9.7"
+
+"@tanstack/table-core@8.9.7":
+  version "8.9.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.7.tgz#54c08abf10b98070efb1cd760db3859669b802a3"
+  integrity sha512-lkhVcGDxa9GSoDFPkplPDvzsiUACPZrxT3U1edPs0DCMKFhBDgZ7d1DPd7cqHH0JoybfbQ/qiTQYOQBg8sinJg==
 
 "@testing-library/dom@^9.0.0":
   version "9.3.1"
@@ -2621,6 +2640,13 @@ data-urls@^4.0.0:
     abab "^2.0.6"
     whatwg-mimetype "^3.0.0"
     whatwg-url "^12.0.0"
+
+date-fns@^2.30.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
+  integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
 
 dayjs@^1.10.4:
   version "1.11.9"
