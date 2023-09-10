@@ -27,16 +27,17 @@ export const ActionsPanel: React.FC = () => {
 
     return (
         <IonRow>
-            <IonCol className='ion-justify-content-start'>
-                <CustomButton expand='full'>Print Label</CustomButton>
-                <CustomButton expand='full' onClick={handlePrintTestResults}>
-                    Print Milk Test Results
-                </CustomButton>
+            <IonCol>
+                <IonButton expand="full">Print Label</IonButton>
             </IonCol>
-
-            <IonCol className='ion-justify-content-end'>
-                <CustomButton expand='full'>Analyse Another Milk</CustomButton>
-                <CustomButton expand='full'>Reanalyse This Milk</CustomButton>
+            <IonCol>
+                <IonButton expand="full" onClick={handlePrintTestResults}>Print Milk Test Results</IonButton>
+            </IonCol>
+            <IonCol>
+                <IonButton expand="full">Analyse Another Milk</IonButton>
+            </IonCol>
+            <IonCol>
+                <IonButton expand="full">Reanalyse This Milk</IonButton>
             </IonCol>
         </IonRow>
     );
