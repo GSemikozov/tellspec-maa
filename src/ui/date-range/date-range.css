@@ -1,0 +1,10 @@
+.dateRange__popover {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    transform: translate(-50%, -50%);
+    background: white;
+    z-index: 100;
+    color: black;
+}
