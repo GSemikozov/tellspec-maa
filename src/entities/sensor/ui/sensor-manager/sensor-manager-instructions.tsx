@@ -10,6 +10,7 @@ type SensorManagerInstructionsProps = {
     title: string;
     children: React.ReactNode;
 
+    highlight?: boolean;
     className?: string;
 };
 
@@ -17,12 +18,18 @@ export const SensorManagerInstructions: React.FunctionComponent<SensorManagerIns
     title,
     children,
 
+    highlight,
     className,
 }) => {
+    const rootClassName = [
+        cn('', [className]) ?? '',
+        cn('', { highlight: Boolean(highlight) }) ?? '',
+    ].join(' ');
+
     return (
-        <div className={cn()}>
+        <div className={rootClassName}>
             <div className={cn('title')}>{title}</div>
-            <div className={cn('content', [className])}>{children}</div>
+            <div className={cn('content')}>{children}</div>
         </div>
     );
 };

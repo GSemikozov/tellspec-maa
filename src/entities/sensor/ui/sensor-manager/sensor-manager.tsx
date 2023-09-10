@@ -21,6 +21,7 @@ import { SensorManagerInteractiveImage } from './sensor-manager-interactive-imag
 import { SensorManagerToast } from './sensor-manager-toast';
 
 import './sensor-manager.css';
+
 import type { AppDispatch } from '@app';
 
 const cn = classname('sensor-manager');
@@ -28,8 +29,11 @@ const cn = classname('sensor-manager');
 export const SensorManager: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { status: sensorConnectionProcessStatus, onStartDiscovery } =
-        useSensorConnectionProcess();
+    const {
+        status: sensorConnectionProcessStatus,
+        onStartDiscovery,
+        onResetStatus,
+    } = useSensorConnectionProcess();
 
     const [hasUnpairedError, setHasUnpairedError] = React.useState(false);
 
@@ -75,6 +79,7 @@ export const SensorManager: React.FunctionComponent = () => {
             const handleRemoveDevice = async () => {
                 try {
                     await dispatch(removeDevice()).unwrap();
+                    onResetStatus();
                 } catch {
                     setHasUnpairedError(true);
                 }
@@ -118,6 +123,7 @@ export const SensorManager: React.FunctionComponent = () => {
         calibrationRequired,
         calibrationLoading,
         onStartDiscovery,
+        onResetStatus,
     ]);
 
     const instructions = getInstructions();
@@ -127,6 +133,7 @@ export const SensorManager: React.FunctionComponent = () => {
             <div className={cn()}>
                 {instructions ? (
                     <SensorManagerInstructions
+                        highlight={calibrationLoading}
                         title={instructions.title}
                         className={cn('instructions')}
                     >

@@ -37,9 +37,31 @@ export const SensorStatusBar: React.FunctionComponent = () => {
         return <BatteryOfflineIcon />;
     }, [devicePaired]);
 
+    const statusTitle = React.useMemo(() => {
+        if (!devicePaired) {
+            if (bleStatusOn) {
+                return 'Please connect a sensor';
+            }
+        }
+
+        if (devicePaired) {
+            if (calibrationRequired) {
+                return 'Please sensor calibration is needed';
+            }
+
+            if (calibrationLoading) {
+                return 'Please wait, the sensor is calibrating';
+            }
+
+            return 'The sensor is connected & ready';
+        }
+
+        return 'Turn on and connect a sensor';
+    }, [bleStatusOn, devicePaired, calibrationRequired, calibrationLoading]);
+
     return (
         <div className={cn()}>
-            <div className={cn('status')}>Turn on and connect a sensor</div>
+            <div className={cn('status')}>{statusTitle}</div>
 
             <div className={cn('status-icons')}>
                 <TargetOfflineIcon
