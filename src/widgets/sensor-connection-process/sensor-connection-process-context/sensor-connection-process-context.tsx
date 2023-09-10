@@ -172,9 +172,9 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         try {
             const shallowDevice = { ...device };
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
-            const requiredCalibration = Boolean(calibrationData);
+            const calibrationReady = Boolean(calibrationData);
 
-            if (!requiredCalibration) {
+            if (calibrationReady) {
                 shallowDevice.activeCal = calibrationData;
                 shallowDevice.activeConfig = calibrationData.config;
             }
@@ -184,7 +184,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             dispatch(
                 sensorActions.setSensorState({
                     device: shallowDevice,
-                    requiredCalibration,
+                    requiredCalibration: !calibrationReady,
                 }),
             );
         } catch (error: any) {
