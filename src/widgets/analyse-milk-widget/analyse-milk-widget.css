@@ -3,24 +3,33 @@
     border-radius: 5px;
     padding: 1rem;
 }
-
-.analyseMilkWidget__placeholder {
-    margin: 20px 0;
-
-    font-size: 1.6rem;
-}
-
 .analyse-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
 }
+
 .analyse-header img {
     width: 3.2rem;
     margin-right: 1rem;
 }
 
-.milkId-scanner {
-    border-bottom: 1px solid var(--ion-color-primary);
+.analyse-tabs {
+    margin-top: 16px;
+}
+
+.analyse-tabs__content {
+    width: 100%;
+    margin: 32px 0 16px 0;
+    text-align: center;
+}
+
+.analyse-tabs__content-placeholder {
+    font-size: 1.6rem;
+}
+
+.milk-id-scanner {
     color: var(--ion-color-primary);
+
+    border-bottom: 1px solid var(--ion-color-primary);
 }

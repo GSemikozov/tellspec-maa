@@ -6,7 +6,7 @@ import {
     tellspecCleanScanData,
     tellspecConnect,
     tellspecGetConfigs,
-    tellspecNormalizeScanCalibration,
+    tellspecPrepareScanCalibration,
     tellspecReadScannerInfo,
     tellspecRemoveDevice,
     tellspecSavePairDevice,
@@ -47,7 +47,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
         const requestCalibration: SensorCalibrationPostType = {
             model: sensor.device.name,
             serial_number: sensor.device.serial,
-            white_reference: tellspecNormalizeScanCalibration(
+            white_reference: tellspecPrepareScanCalibration(
                 scan,
                 sensor.device.name,
                 preferConfig,
@@ -62,7 +62,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
             model: sensor.device.name,
             serial_number: sensor.device.serial,
             config: preferConfig,
-            scan: tellspecNormalizeScanCalibration(
+            scan: tellspecPrepareScanCalibration(
                 scan,
                 sensor.device.name,
                 preferConfig,

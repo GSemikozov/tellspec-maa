@@ -1,0 +1,12 @@
+.barcode-scanner {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.barcode-scanner__scanner-button {
+    margin: 0 !important;
+}
+
+.barcode-scanner__scanner-button::part(native) {
+    padding: 8px;
+}

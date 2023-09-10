@@ -1,8 +1,16 @@
-import { forwardRef } from 'react';
+import React from 'react';
 import { BarcodeScanner as Scanner } from '@ionic-native/barcode-scanner';
 import { IonButton, IonIcon, IonInput, IonItem } from '@ionic/react';
 
+import { classname } from '@shared/utils';
+
+import './barcode-scanner.css';
+
 import BarCodeSearchIcon from './icons/barcode-search.svg';
+
+import type { IonInputCustomEvent, InputInputEventDetail } from '@ionic/core';
+
+const cn = classname('barcode-scanner');
 
 export interface BarcodeScannerProps {
     title: string;
@@ -10,38 +18,53 @@ export interface BarcodeScannerProps {
     onChange?: (barcode: string) => void;
 }
 
-export const BarcodeScanner = forwardRef<HTMLIonInputElement, BarcodeScannerProps>((props, ref) => {
-    const { title, value, onChange } = props;
+export const BarcodeScanner = React.forwardRef<HTMLIonInputElement, BarcodeScannerProps>(
+    ({ title, value, onChange }, forwardRef) => {
+        const handleChange = (event: IonInputCustomEvent<InputInputEventDetail>) => {
+            const { value } = event.target;
 
-    const handleChange = (e: any) => {
-        const { value } = e.target as HTMLInputElement;
-        const barcode = value.trim();
+            if (!value) {
+                return;
+            }
 
-        onChange && onChange(barcode);
-    };
+            const barcode = String(value).trim();
 
-    const openScanner = async () => {
-        try {
-            const data = await Scanner.scan();
-            onChange && onChange(data.text);
-        } catch (e) {
-            console.error(e);
-        }
-    };
+            if (onChange) {
+                onChange(barcode);
+            }
+        };
 
-    return (
-        <IonItem lines='none'>
-            <IonInput
-                ref={ref}
-                type='text'
-                label={title}
-                value={value}
-                label-placement='floating'
-                onIonInput={handleChange}
-            />
-            <IonButton slot='end' fill='clear' onClick={openScanner} style={{ margin: '0' }}>
-                <IonIcon icon={BarCodeSearchIcon} />
-            </IonButton>
-        </IonItem>
-    );
-});
+        const handleOpenScanner = async () => {
+            try {
+                const data = await Scanner.scan();
+
+                if (onChange) {
+                    onChange(data.text);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        return (
+            <IonItem lines='none' className={cn('')}>
+                <IonInput
+                    ref={forwardRef}
+                    type='text'
+                    label={title}
+                    value={value}
+                    label-placement='floating'
+                    onIonInput={handleChange}
+                />
+
+                <IonButton
+                    fill='clear'
+                    className={cn('scanner-button')}
+                    onClick={handleOpenScanner}
+                >
+                    <IonIcon icon={BarCodeSearchIcon} />
+                </IonButton>
+            </IonItem>
+        );
+    },
+);

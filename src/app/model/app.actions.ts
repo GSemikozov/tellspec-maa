@@ -28,7 +28,7 @@ export const fetchAppSettings = createAsyncThunk('app/fetching', async (): Promi
 export const fetchBleStatus = createAsyncThunk(
     'app/fetch-ble-status',
     async (): Promise<boolean> => {
-        const hasPermissions = retrieveBlePermissions();
+        const hasPermissions = await retrieveBlePermissions();
 
         console.log('[fetchBleStatus]', hasPermissions);
 

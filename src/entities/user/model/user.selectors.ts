@@ -1,4 +1,9 @@
+import { createSelector } from '@reduxjs/toolkit';
+
 import { RootState } from '@app/store';
+
+export const selectUserState = (state: RootState) => state.user;
+export const selectUserEmail = createSelector([selectUserState], userState => userState.email);
 
 export const isUserFetching = (state: RootState) => state.user.status === 'loading';
 export const isUserAuthenticated = (state: RootState) => parseInt(state.user.pk) >= 0;

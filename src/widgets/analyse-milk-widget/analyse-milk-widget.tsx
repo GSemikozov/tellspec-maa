@@ -20,6 +20,7 @@ enum Tabs {
 
 export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
+
     const [activeTab, setActiveTab] = useState<Tabs>(Tabs.spectrum);
     const [milkId, setMilkId] = useState<string>();
 
@@ -48,15 +49,17 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                             <img src={AnalyseIcon} /> Analyse Milk
                         </IonText>
                     </h2>
-                    <div className='milkId-scanner'>
+
+                    <div className='milk-id-scanner'>
                         <BarcodeScanner
                             title='Select, Scan or Enter Milk ID'
-                            onChange={setMilkId}
                             value={milkId}
+                            onChange={setMilkId}
                         />
                     </div>
                 </div>
-                <div>
+
+                <div className='analyse-tabs'>
                     <IonRow class='ion-justify-content-start'>
                         <IonSegment
                             value={activeTab}
@@ -74,14 +77,16 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     </IonRow>
 
                     <IonRow class='ion-justify-content-around'>
-                        {milkId ? (
-                            // @ts-ignore // TODO: milk_id?
-                            <ActiveTabComponent milkID={milkId} report={report} />
-                        ) : (
-                            <div className='analyseMilkWidget__placeholder'>
-                                Scan or enter the milk barcode first
-                            </div>
-                        )}
+                        <div className='analyse-tabs__content'>
+                            {milkId ? (
+                                // @ts-ignore // TODO: milk_id?
+                                <ActiveTabComponent milkID={milkId} report={report} />
+                            ) : (
+                                <div className='analyse-tabs__content-placeholder'>
+                                    Scan or enter the milk barcode first
+                                </div>
+                            )}
+                        </div>
                     </IonRow>
                 </div>
             </div>

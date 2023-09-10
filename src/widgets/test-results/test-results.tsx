@@ -2,13 +2,17 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { appActions } from '@app';
+import { classname } from '@shared/utils';
 
 import { Scale } from './scale';
-import { ActionsPanel } from "./actions-panel";
+import { ActionsPanel } from './actions-panel';
+
+import './test-results.css';
 
 import type { IReport, IResult } from '@entities/reports/model/reports.types';
 import type { AppDispatch } from '@app/store';
 
+const cn = classname('test-results');
 
 interface TestResultsProps {
     report: IReport | null;
@@ -60,10 +64,15 @@ export const TestResults: React.FC<TestResultsProps> = props => {
     }, [report]);
 
     if (!report || !report.data.analyseData) {
-        return <div>We haven't found a report. Please analyse the milk</div>;
+        return (
+            <div className={cn('placeholder')}>
+                We haven't found a report. Please analyse the milk
+            </div>
+        );
     }
 
     const latestAnalyse = report.data.analyseData[report.data.analyseData.length - 1];
+
     return (
         <div className='scales'>
             {latestAnalyse.result.map((data: IResult) => {
@@ -83,6 +92,7 @@ export const TestResults: React.FC<TestResultsProps> = props => {
                     />
                 );
             })}
+
             <ActionsPanel />
         </div>
     );

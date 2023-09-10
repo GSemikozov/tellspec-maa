@@ -1,13 +1,14 @@
-export const defaultMilkChartConfig = {
+import type { ApexOptions } from 'apexcharts';
+
+export const DEFAULT_SERIES_DATA = [{ data: [] }];
+
+export const DEFAULT_MILK_CHART_OPTIONS: ApexOptions = {
     chart: {
         background: '#FFF',
         height: 280,
         type: 'line',
         zoom: {
             enabled: false,
-        },
-        tools: {
-            download: false,
         },
         toolbar: {
             show: false,
@@ -41,7 +42,6 @@ export const defaultMilkChartConfig = {
     },
     yaxis: {
         tickAmount: 5,
-        tickPlacement: 'between',
         title: {
             text: 'Absorbance',
             offsetX: -10,
@@ -84,8 +84,8 @@ export const defaultMilkChartConfig = {
              * @param { String } value - The generated value of the y-axis tick
              * @param { index } index of the tick / currently executing iteration in yaxis labels array
              */
-            formatter: function (val: number) {
-                return val.toFixed(1); //`${(1350 + ((val - 1) * 3.137254902)).toFixed(0)}` ;
+            formatter: function (value: string) {
+                return Number(value).toFixed(1); //`${(1350 + ((val - 1) * 3.137254902)).toFixed(0)}` ;
             },
         },
     },
