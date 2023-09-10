@@ -9,6 +9,7 @@ export class UserApi extends BaseEndpoint {
      */
     login = async (loginData: ILoginData): Promise<IUserData> => {
         const result: IReturnLogin = await this.http.post('users/rest-auth/login/', loginData);
+
         return {
             ...result.data.user,
             token: result.data.key,
@@ -19,7 +20,7 @@ export class UserApi extends BaseEndpoint {
      * Logout method.
      */
     logout = async () => {
-        return await this.http.post('users/rest-auth/logout/');
+        return this.http.post('users/rest-auth/logout/');
     };
 
     /**
@@ -27,6 +28,6 @@ export class UserApi extends BaseEndpoint {
      * @summary Check if the current token is valid
      */
     checkToken = async () => {
-        return await this.http.get('users/check-token/');
+        return this.http.get('users/check-token/');
     };
 }

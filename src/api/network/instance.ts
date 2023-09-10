@@ -3,6 +3,7 @@ import { DonorsApi } from '@entities/donors/donors.api';
 import { GroupsApi } from '@entities/groups/groups.api';
 import { MilkApi } from '@entities/milk/milk.api';
 import { ReportsApi } from '@entities/reports/reports.api';
+import { SensorApi } from '@entities/sensor/sensor.api';
 
 export class API {
     public readonly users: UserApi;
@@ -10,6 +11,7 @@ export class API {
     public readonly groups: GroupsApi;
     public readonly milk: MilkApi;
     public readonly reports: ReportsApi;
+    public readonly sensor: SensorApi;
 
     constructor() {
         this.users = new UserApi(this);
@@ -17,6 +19,7 @@ export class API {
         this.groups = new GroupsApi(this);
         this.milk = new MilkApi(this);
         this.reports = new ReportsApi(this);
+        this.sensor = new SensorApi(this);
     }
 }
 

@@ -1,13 +1,6 @@
 import * as crypto from 'crypto-js';
-import { Storage } from '@ionic/storage';
 
-import { STORE_GROUP_KEY } from '@app/app.constants';
-
-export const getKey = async () => {
-    const store = new Storage();
-    await store.create();
-    return store.get(STORE_GROUP_KEY);
-};
+import { NativeStorageKeys, nativeStore } from '@api/native';
 
 /**
  * Encrypt method
@@ -15,7 +8,7 @@ export const getKey = async () => {
  * @param key Key used to encrypt
  */
 export const encrypt = async (data: string, key: string | null = null) => {
-    const token = key ? key : await getKey();
+    const token = key ? key : await nativeStore.get(NativeStorageKeys.GROUP_KEY);
 
     if (!token) {
         throw new Error('Cannot encrypt data. Set the group key first');
@@ -30,7 +23,7 @@ export const encrypt = async (data: string, key: string | null = null) => {
  * @param key Key used to decrypt
  */
 export const decrypt = async (data: string, key: string | null = null) => {
-    const token = key ? key : await getKey();
+    const token = key ? key : await nativeStore.get(NativeStorageKeys.GROUP_KEY);
 
     if (!token) {
         throw new Error('Cannot decrypt data. Set the group key first');
