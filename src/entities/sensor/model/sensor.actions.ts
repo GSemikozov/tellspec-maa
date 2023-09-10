@@ -76,6 +76,8 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
         return toNativeStore;
     };
 
+    await new Promise(resolve => setTimeout(resolve, 5_000));
+
     // get the ScannerData
     const scannerData = await apiInstance.sensor.getScanner(
         sensor.device.name,

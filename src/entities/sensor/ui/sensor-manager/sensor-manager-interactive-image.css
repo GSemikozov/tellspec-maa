@@ -19,21 +19,24 @@
     justify-content: center;
 
     position: relative;
+
+    max-width: 320px;
+    width: 100%;
 }
 
 .sensor-manager-interactive-image__status-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.2rem;
+    gap: 12px;
 
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    left: 9.6rem;
+    left: 96px;
 
-    width: 8.6rem;
-    height: 1.2rem;
+    width: 86px;
+    height: 12px;
     margin: auto;
 }
 
@@ -65,4 +68,29 @@
 
 .sensor-manager-interactive-image__status-bar-item_battery {
     --status-icon-color: 250, 9, 9; /* #fa0909 */
+}
+
+.sensor-manager-interactive-image__calibration-progress {
+    position: absolute;
+    top: 194px;
+    right: 0;
+    bottom: 0;
+    left: 82px;
+    margin: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    color: var(--ion-color-primary);
+    font-family: Campton;
+    font-size: 1.6rem;
+}
+
+.sensor-manager-interactive-image__calibration-progress span {
+    margin-top: 2px;
 }
