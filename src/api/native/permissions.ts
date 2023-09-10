@@ -1,13 +1,16 @@
 import { Geolocation } from '@capacitor/geolocation';
 
-export const checkBlePermission = async () => {
+import { isEmulateNativeSdk } from '@api/native';
+
+const checkBlePermission = async () => {
     const permissionsResponse = await Geolocation.checkPermissions();
 
     console.log('[checkBlePermission]:', permissionsResponse.coarseLocation);
+
     return permissionsResponse.coarseLocation === 'granted';
 };
 
-export const requestBlePermissions = async () => {
+const requestBlePermissions = async () => {
     const permissionsResponse = await Geolocation.requestPermissions({
         permissions: ['coarseLocation'],
     });
@@ -16,6 +19,13 @@ export const requestBlePermissions = async () => {
 };
 
 export const retrieveBlePermissions = async (): Promise<boolean> => {
+    if (await isEmulateNativeSdk()) {
+        const emulateResponse = true;
+
+        console.log('[retrieveBlePermissions/emulate]:', emulateResponse);
+        return emulateResponse;
+    }
+
     try {
         const hasBlePermissions = await checkBlePermission();
 

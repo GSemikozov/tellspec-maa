@@ -6,6 +6,7 @@ import { donorsReducer } from '@entities/donors';
 import { groupsReducer } from '@entities/groups';
 import { addMilkFormReducer } from '@features/add-milk-form';
 import { reportsReducer } from '@entities/reports';
+import { sensorReducer } from '@entities/sensor';
 
 import { appReducer } from './model/app.slice';
 
@@ -16,6 +17,7 @@ export const store = configureStore({
         donors: donorsReducer,
         groups: groupsReducer,
         reports: reportsReducer,
+        sensor: sensorReducer,
         addMilkForm: addMilkFormReducer,
     },
     middleware: getDefaultMiddleware => {

@@ -11,7 +11,7 @@ import { AddMilkPage } from '@pages/add-milk';
 import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { userSelectors } from '@entities/user';
-import { retrieveBlePermissions } from '@api/native';
+import { NativeStorageKeys, nativeStore, retrieveBlePermissions, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 
 import { fetchAppSettings } from './model/app.actions';
@@ -25,21 +25,43 @@ import './app.css';
 setupIonicReact();
 
 export const App: React.FunctionComponent = () => {
+    const readyStore = useSetupStore();
+
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
 
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {
+        if (!readyStore) {
+            return;
+        }
+
         dispatch(fetchAppSettings());
-    }, []);
+
+        if (typeof window !== 'undefined') {
+            const searchParams = new URLSearchParams(window.location.search);
+
+            if (searchParams.has('emulate')) {
+                nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, true);
+            }
+        }
+    }, [readyStore]);
 
     React.useEffect(() => {
+        if (!readyStore) {
+            return;
+        }
+
         if (!isAuthenticated) {
             return;
         }
 
-        retrieveBlePermissions();
+        retrieveBlePermissions().then(() => console.log("retrieveBlePermissions"));
     }, [isAuthenticated]);
+
+    if (!readyStore) {
+        return null;
+    }
 
     return (
         <SensorConnectionProcessProvider>

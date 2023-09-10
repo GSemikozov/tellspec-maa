@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { BatteryOfflineIcon, BluetoohIcon, TargetOfflineIcon } from '@ui/icons';
 import { classname } from '@shared/utils';
+import { BatteryOfflineIcon, BluetoohIcon, TargetOfflineIcon } from '@ui/icons';
 
 import './sensor-status-bar.css';
 

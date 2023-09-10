@@ -1,0 +1,32 @@
+.sensor-connection-process-discovered-devices-modal {
+    --width: fit-content;
+    --min-width: 360px;
+    --height: fit-content;
+    --border-radius: 8px;
+}
+
+.sensor-connection-process-discovered-devices-modal__container {
+    padding: 16px 24px;
+}
+
+.sensor-connection-process-discovered-devices-modal__header h3 {
+    margin: 0;
+}
+
+.sensor-connection-process-discovered-devices-modal__main {
+    margin-top: 16px;
+}
+
+.sensor-connection-process-discovered-devices-modal__main-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    margin-top: 16px;
+}
+
+.sensor-connection-process-discovered-devices-modal__main-actions ion-button {
+    margin: 0 !important;
+}
