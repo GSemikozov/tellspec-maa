@@ -1,21 +1,41 @@
-import { Geolocation } from '@capacitor/geolocation';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 import { isEmulateNativeSdk } from '@api/native';
 
+const PERMISSIONS = {
+    BLUETOOTH_CONNECT: 'android.permission.BLUETOOTH_CONNECT',
+    BLUETOOTH_SCAN: 'android.permission.BLUETOOTH_SCAN',
+};
+
 const checkBlePermission = async () => {
-    const permissionsResponse = await Geolocation.checkPermissions();
+    const bluetoothConnectPermission = await AndroidPermissions.checkPermission(
+        PERMISSIONS.BLUETOOTH_CONNECT,
+    );
 
-    console.log('[checkBlePermission]:', permissionsResponse.coarseLocation);
+    const bluetoothScanPermission = await AndroidPermissions.checkPermission(
+        PERMISSIONS.BLUETOOTH_SCAN,
+    );
 
-    return permissionsResponse.coarseLocation === 'granted';
+    console.log(
+        `[checkBlePermission]: ${PERMISSIONS.BLUETOOTH_CONNECT}`,
+        bluetoothConnectPermission.hasPermission,
+    );
+
+    console.log(
+        `[checkBlePermission]: ${PERMISSIONS.BLUETOOTH_SCAN}`,
+        bluetoothScanPermission.hasPermission,
+    );
+
+    return bluetoothConnectPermission.hasPermission && bluetoothScanPermission.hasPermission;
 };
 
 const requestBlePermissions = async () => {
-    const permissionsResponse = await Geolocation.requestPermissions({
-        permissions: ['coarseLocation'],
-    });
+    const permissionsResponse = await AndroidPermissions.requestPermissions([
+        PERMISSIONS.BLUETOOTH_CONNECT,
+        PERMISSIONS.BLUETOOTH_SCAN,
+    ]);
 
-    return permissionsResponse.coarseLocation;
+    return permissionsResponse.hasPermission;
 };
 
 export const retrieveBlePermissions = async (): Promise<boolean> => {
@@ -27,12 +47,10 @@ export const retrieveBlePermissions = async (): Promise<boolean> => {
     }
 
     try {
-        const hasBlePermissions = await checkBlePermission();
+        let hasBlePermissions = await checkBlePermission();
 
         if (!hasBlePermissions) {
-            const blePermissions = await requestBlePermissions();
-
-            return blePermissions === 'granted';
+            hasBlePermissions = await requestBlePermissions();
         }
 
         return hasBlePermissions;
