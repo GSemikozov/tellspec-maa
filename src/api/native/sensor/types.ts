@@ -1,14 +1,10 @@
-export enum TellspecSensorEvent {
-    LOG = 'log',
-    SCANNER_STATUS = 'scannerStatus',
-    CONNECTION = 'connectionState',
-    SCANNER_RESULT = 'ScannerResult',
-    INIT = 'Initialize',
-    SCANER_INFO = 'scannerInfoPromise',
-    CONFIG = 'Configs',
-    DEVICE_INFO = 'DeviceInfo',
-    DEVICE_LIST = 'updateDeviceList',
+import type { EventUpdateDeviceListType, BleDeviceInfo } from 'tellspec-sensor-sdk/src/definitions';
+
+export namespace TellspecListenerEvents {
+    export type UpdateDeviceList = EventUpdateDeviceListType;
 }
+
+export type TellspecSensorDevice = BleDeviceInfo;
 
 export type TellspecBaseResponseStatus = 'ok' | 'error';
 

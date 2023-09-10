@@ -1,16 +1,10 @@
-import { Storage } from '@ionic/storage';
-
 import { decrypt } from '@api/shared';
-
-import { STORE_GROUP_KEY } from './app.constants';
+import { NativeStorageKeys, nativeStore } from '@api/native';
 
 import type { RootState } from './store';
 
-const Store = new Storage();
-
 export const getStorageData = async (): Promise<RootState | null> => {
-    const store = await Store.create();
-    const state = await store.get('state');
+    const state = await nativeStore.get(NativeStorageKeys.STATE);
 
     if (state) {
         const parsedState = JSON.parse(state);
@@ -22,8 +16,7 @@ export const getStorageData = async (): Promise<RootState | null> => {
 };
 
 export const clearStorageData = async (): Promise<void> => {
-    const store = await Store.create();
-    await store.clear();
+    await nativeStore.clear();
 };
 
 export const checkNetworkConnection = () => {
@@ -31,8 +24,7 @@ export const checkNetworkConnection = () => {
 };
 
 export const saveGroupKey = async (data: string, password: string) => {
-    const store = new Storage();
-    await store.create();
     const groupKey = await decrypt(data, password);
-    return await store.set(STORE_GROUP_KEY, groupKey);
+
+    return nativeStore.set(NativeStorageKeys.GROUP_KEY, groupKey);
 };
