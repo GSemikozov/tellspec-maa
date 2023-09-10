@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonContent, IonRow, IonCol, IonCheckbox, IonPage } from '@ionic/react';
+import { IonContent, IonRow, IonCol, IonCheckbox, IonPage, IonText } from '@ionic/react';
 
 import { DateRange } from '@ui/date-range';
 import { Layout } from '@widgets/layout';
@@ -39,7 +39,7 @@ export const ReportsPage: React.FunctionComponent = () => {
     };
 
     return (
-        <IonPage>
+        <IonPage title='Reports Page'>
             <IonContent className='ion-padding'>
                 <Layout rightSideBar={null}>
                     <IonRow className='ion-align-items-center'>
@@ -48,15 +48,19 @@ export const ReportsPage: React.FunctionComponent = () => {
                                 <img src={ReportsIcon} id='reports-icon' />
                                 View Reports
                             </h1>
-                            <IonCheckbox
-                                value={selectAll}
-                                onIonChange={() => setSelectAll(!selectAll)}
-                            >
-                                Select All
-                            </IonCheckbox>
+                            <div className='select-all-wrapper'>
+                                <h3>
+                                    <IonText> Select All</IonText>
+                                </h3>
+                                <IonCheckbox
+                                    value={selectAll}
+                                    onIonChange={() => setSelectAll(!selectAll)}
+                                    className='select-all-checkbox'
+                                ></IonCheckbox>
+                            </div>
                         </IonCol>
 
-                        <IonCol>
+                        <IonCol className='ion-justify-content-end'>
                             <DateRange from={from} to={to} onChange={handleDateRangeChange} />
                         </IonCol>
                     </IonRow>

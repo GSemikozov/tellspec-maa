@@ -5,6 +5,8 @@
 }
 
 .reportTable th {
+    text-align: start;
+    font-size: initial;
     padding: 1rem;
     background-color: var(--ion-color-tertiary-tint);
 }
