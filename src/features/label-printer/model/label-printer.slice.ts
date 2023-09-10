@@ -1,29 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { pairPrinter } from "./label-printer.actions";
+import { pairPrinter } from './label-printer.actions';
 
 interface InitialState {
-    status: "idle" | "pairing" | "paired" | "error";
+    status: 'idle' | 'pairing' | 'paired' | 'error';
 }
 
 const initialState: InitialState = {
-    status: "idle",
+    status: 'idle',
 };
 
 export const labelPrinterSlice = createSlice({
-    name: "labelPrinter",
+    name: 'labelPrinter',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(pairPrinter.pending, (state) => {
-            state.status = "pairing";
+    extraReducers: builder => {
+        builder.addCase(pairPrinter.pending, state => {
+            state.status = 'pairing';
         });
         builder.addCase(pairPrinter.fulfilled, (state, action) => {
-            state.status = "paired";
-            console.log("pairPrinter action", action)
+            state.status = 'paired';
+            console.log('pairPrinter action', action);
         });
-        builder.addCase(pairPrinter.rejected, (state) => {
-            state.status = "error";
+        builder.addCase(pairPrinter.rejected, state => {
+            state.status = 'error';
         });
     },
 });

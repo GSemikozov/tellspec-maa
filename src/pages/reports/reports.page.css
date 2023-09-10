@@ -1,13 +1,13 @@
-#reports-icon{
+#reports-icon {
     width: 3rem;
 }
 
-.select-all-checkbox{
+.select-all-checkbox {
     font-size: initial;
     margin-left: 1rem;
 }
 
-.select-all-wrapper{
+.select-all-wrapper {
     display: flex;
     align-items: center;
 }
