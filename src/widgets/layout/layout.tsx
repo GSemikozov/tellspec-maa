@@ -38,7 +38,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                                 <IonRow>
                                     {/* TODO: something strange is here in the size property */}
                                     <IonCol
-                                        size={isSidebarVisible ? '7' : '11'}
+                                        size={isSidebarVisible ? '7' : '12'}
                                         className='ion-padding main'
                                     >
                                         {children}

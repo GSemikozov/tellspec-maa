@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonContent, IonRow, IonCol, IonCheckbox } from '@ionic/react';
+import { IonContent, IonRow, IonCol, IonCheckbox, IonPage } from '@ionic/react';
 
 import { DateRange } from '@ui/date-range';
 import { Layout } from '@widgets/layout';
@@ -39,28 +39,33 @@ export const ReportsPage: React.FunctionComponent = () => {
     };
 
     return (
-        <Layout rightSideBar={null}>
+        <IonPage>
             <IonContent className='ion-padding'>
-                <IonRow className='ion-align-items-center'>
-                    <IonCol>
-                        <h1>
-                            <img src={ReportsIcon} id='reports-icon' />
-                            View Reports
-                        </h1>
-                        <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                            Select All
-                        </IonCheckbox>
-                    </IonCol>
+                <Layout rightSideBar={null}>
+                    <IonRow className='ion-align-items-center'>
+                        <IonCol>
+                            <h1>
+                                <img src={ReportsIcon} id='reports-icon' />
+                                View Reports
+                            </h1>
+                            <IonCheckbox
+                                value={selectAll}
+                                onIonChange={() => setSelectAll(!selectAll)}
+                            >
+                                Select All
+                            </IonCheckbox>
+                        </IonCol>
 
-                    <IonCol>
-                        <DateRange from={from} to={to} onChange={handleDateRangeChange} />
-                    </IonCol>
-                </IonRow>
+                        <IonCol>
+                            <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                        </IonCol>
+                    </IonRow>
 
-                <IonRow>
-                    <ReportTable data={data} />
-                </IonRow>
+                    <IonRow>
+                        <ReportTable data={data} />
+                    </IonRow>
+                </Layout>
             </IonContent>
-        </Layout>
+        </IonPage>
     );
 };
