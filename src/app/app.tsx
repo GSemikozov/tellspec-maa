@@ -38,7 +38,7 @@ export const App: React.FunctionComponent = () => {
             return;
         }
 
-        retrieveBlePermissions();
+        retrieveBlePermissions().then(() => console.log("retrieveBlePermissions"));
     }, [isAuthenticated]);
 
     return (

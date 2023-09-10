@@ -39,7 +39,7 @@ export const ReportsPage: React.FunctionComponent = () => {
     }
 
     return (
-        <Layout>
+        <Layout rightSideBar={null}>
             <IonContent className='ion-padding'>
                 <IonRow className="ion-align-items-center">
                     <IonCol>
