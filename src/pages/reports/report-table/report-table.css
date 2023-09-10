@@ -2,21 +2,19 @@
     width: 100%;
     border: 2px solid var(--ion-color-tertiary-tint);
     margin: 1rem;
-   
 }
 
-.reportTable th{
+.reportTable th {
     padding: 1rem;
     background-color: var(--ion-color-tertiary-tint);
 }
 
-.reportTable td{
+.reportTable td {
     padding: 1rem;
+    font-size: initial;
     /* color: var(--ion-color-primary); */
 }
 
 .reportTable tr:nth-child(2n) td {
     background-color: #fff6f9;
-  }
-
-  
+}

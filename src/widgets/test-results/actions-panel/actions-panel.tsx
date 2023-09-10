@@ -6,7 +6,7 @@ import { IonButton, IonCol, IonRow } from '@ionic/react';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
 import type { AppDispatch } from '@app';
-import { CustomButton } from '@ui/button/button';
+// import { CustomButton } from '@ui/button/button';
 
 export const ActionsPanel: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
