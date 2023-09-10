@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCol, IonContent, IonGrid, IonPage, IonRow } from '@ionic/react';
+import { IonCol, IonGrid, IonRow } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { appSelectors } from '@app';
@@ -23,40 +23,38 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
     const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
 
     return (
-        <IonPage>
-            <IonContent>
-                <IonGrid className='ion-no-padding'>
-                    <IonRow>
-                        <IonCol size='2.5'>
-                            <SidebarMenu />
-                        </IonCol>
+        <>
+            <IonGrid className='ion-no-padding'>
+                <IonRow>
+                    <IonCol size='2.5'>
+                        <SidebarMenu />
+                    </IonCol>
 
-                        <IonCol size='9.5'>
-                            <Header />
+                    <IonCol size='9.5'>
+                        <Header />
 
-                            <div className='layout-body'>
-                                <IonRow>
-                                    {/* TODO: something strange is here in the size property */}
-                                    <IonCol
-                                        size={isSidebarVisible ? '7' : '12'}
-                                        className='ion-padding main'
-                                    >
-                                        {children}
+                        <div className='layout-body'>
+                            <IonRow>
+                                {/* TODO: something strange is here in the size property */}
+                                <IonCol
+                                    size={isSidebarVisible ? '7' : '12'}
+                                    className='ion-padding main'
+                                >
+                                    {children}
+                                </IonCol>
+
+                                {isSidebarVisible ? (
+                                    <IonCol size='5' className='ion-padding'>
+                                        {rightSideBar}
                                     </IonCol>
-
-                                    {isSidebarVisible ? (
-                                        <IonCol size='5' className='ion-padding'>
-                                            {rightSideBar}
-                                        </IonCol>
-                                    ) : null}
-                                </IonRow>
-                            </div>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-            </IonContent>
+                                ) : null}
+                            </IonRow>
+                        </div>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
             <Alert />
             <Backdrop />
-        </IonPage>
+        </>
     );
 };

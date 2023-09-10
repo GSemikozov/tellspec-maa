@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonRow, IonCol, IonCheckbox, IonText } from '@ionic/react';
+import { IonRow, IonCol, IonCheckbox, IonText, IonContent, IonPage } from '@ionic/react';
 
 import { DateRange } from '@ui/date-range';
 import { Layout } from '@widgets/layout';
@@ -39,33 +39,37 @@ export const ReportsPage: React.FunctionComponent = () => {
     };
 
     return (
-        <Layout rightSideBar={null}>
-            <IonRow className='ion-align-items-center'>
-                <IonCol>
-                    <h1>
-                        <img src={ReportsIcon} id='reports-icon' />
-                        View Reports
-                    </h1>
-                    <div className='select-all-wrapper'>
-                        <h3>
-                            <IonText> Select All</IonText>
-                        </h3>
-                        <IonCheckbox
-                            value={selectAll}
-                            onIonChange={() => setSelectAll(!selectAll)}
-                            className='select-all-checkbox'
-                        ></IonCheckbox>
-                    </div>
-                </IonCol>
+        <IonPage>
+            <IonContent>
+                <Layout rightSideBar={null}>
+                    <IonRow className='ion-align-items-center'>
+                        <IonCol>
+                            <h1>
+                                <img src={ReportsIcon} id='reports-icon' />
+                                View Reports
+                            </h1>
+                            <div className='select-all-wrapper'>
+                                <h3>
+                                    <IonText> Select All</IonText>
+                                </h3>
+                                <IonCheckbox
+                                    value={selectAll}
+                                    onIonChange={() => setSelectAll(!selectAll)}
+                                    className='select-all-checkbox'
+                                ></IonCheckbox>
+                            </div>
+                        </IonCol>
 
-                <IonCol className='ion-justify-content-end'>
-                    <DateRange from={from} to={to} onChange={handleDateRangeChange} />
-                </IonCol>
-            </IonRow>
+                        <IonCol className='ion-justify-content-end'>
+                            <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                        </IonCol>
+                    </IonRow>
 
-            <IonRow>
-                <ReportTable data={data} />
-            </IonRow>
-        </Layout>
+                    <IonRow>
+                        <ReportTable data={data} />
+                    </IonRow>
+                </Layout>
+            </IonContent>
+        </IonPage>
     );
 };
