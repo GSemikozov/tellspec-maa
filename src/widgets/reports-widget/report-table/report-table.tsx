@@ -5,13 +5,12 @@ import {
     getCoreRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import { IonCheckbox } from "@ionic/react";
 
 import type { IReport, IResult } from '@entities/reports/model/reports.types.ts';
 import type { IAnalyseData } from '@entities/analyse/analyse.types.ts';
 
 import './report-table.css';
-
-const columnHelper = createColumnHelper<IReport>();
 
 const getParameterByName = (name: string, analyseData?: IAnalyseData[]) => {
     if (!analyseData) {
@@ -29,7 +28,21 @@ enum ColumnNamesMapping {
     solids = 'Total solids',
 }
 
+const columnHelper = createColumnHelper<IReport>();
+
 const columns = [
+    columnHelper.display({
+        id: 'select',
+        cell: (info) => (
+            <IonCheckbox
+                {...{
+                    checked: info.row.getIsSelected(),
+                    disabled: !info.row.getCanSelect(),
+                    onIonChange: info.row.getToggleSelectedHandler(),
+                }}
+            />
+        ),
+    }),
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
     }),
@@ -80,10 +93,16 @@ interface ReportTableProps {
 }
 
 export const ReportTable: React.FC<ReportTableProps> = props => {
+    const [rowSelection, setRowSelection] = React.useState({});
+    console.log(rowSelection)
+
     const table = useReactTable({
         data: props.data,
-        columns,
+        state: { rowSelection },
+        enableRowSelection: true,
+        onRowSelectionChange: (value) => { console.log(value); setRowSelection(value) },
         getCoreRowModel: getCoreRowModel(),
+        columns,
     });
 
     return (

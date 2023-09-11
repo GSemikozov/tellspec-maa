@@ -65,7 +65,7 @@ button.add-button {
 }
 .button-wrapper {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-bottom: 2rem;
 }
 .button-wrapper ion-button {

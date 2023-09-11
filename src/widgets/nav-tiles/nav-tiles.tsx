@@ -25,17 +25,19 @@ export const NavTiles: React.FunctionComponent = () => {
                         alt='add milk icon'
                     />
                 </div>
-                <IonText className='ion-text-start'>
-                    <h4>
-                        Start By Scanning <br />
-                        The Barcode Or
-                        <br />
-                        Entering The Milk ID
-                    </h4>
-                </IonText>
-                <IonText className='ion-text-start'>
-                    <h3>Add Milk</h3>
-                </IonText>
+                <div className='tile-text-wrapper'>
+                    <IonText className='ion-text-start'>
+                        <h4>
+                            Scan 
+                            the Barcode or
+                            <br />
+                            Enter The Milk ID
+                        </h4>
+                    </IonText>
+                    <IonText className='ion-text-start'>
+                        <h3>Add Milk</h3>
+                    </IonText>
+                </div>
             </Link>
 
             <Link className={cn('tab')} to={routesMapping.analyse}>
@@ -51,18 +53,20 @@ export const NavTiles: React.FunctionComponent = () => {
                         alt='analyse milk icon'
                     />
                 </div>
-                <IonText className='ion-text-start'>
-                    <h4>
-                        Use PREEMIE SENSOR
-                        <br />
-                        To Analyse
-                        <br />
-                        Selected Milk
-                    </h4>
-                </IonText>
-                <IonText className='ion-text-start'>
-                    <h3>Analyse Milk</h3>
-                </IonText>
+                <div className='tile-text-wrapper'>
+                    <IonText className='ion-text-start'>
+                        <h4>
+                            Use PREEMIE SENSOR
+                            <br />
+                            to Analyse
+                            <br />
+                            Selected Milk
+                        </h4>
+                    </IonText>
+                    <IonText className='ion-text-start'>
+                        <h3>Analyse Milk</h3>
+                    </IonText>
+                </div>
             </Link>
 
             <Link className={cn('tab')} to={routesMapping.reports}>
@@ -78,18 +82,20 @@ export const NavTiles: React.FunctionComponent = () => {
                         alt='view reports icon'
                     />
                 </div>
-                <IonText className='ion-text-start'>
-                    <h4>
-                        PrintBags Labels
-                        <br />
-                        Or View & Print
-                        <br />
-                        Milk Reports
-                    </h4>
-                </IonText>
-                <IonText className='ion-text-start'>
-                    <h3>View Reports</h3>
-                </IonText>
+                <div className='tile-text-wrapper'>
+                    <IonText className='ion-text-start'>
+                        <h4>
+                            Print Bag's Labels
+                            <br />
+                            or View & Print
+                            <br />
+                            Milk Reports
+                        </h4>
+                    </IonText>
+                    <IonText className='ion-text-start'>
+                        <h3>View Reports</h3>
+                    </IonText>
+                </div>
             </Link>
         </div>
     );

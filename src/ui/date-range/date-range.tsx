@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonDatetime } from '@ionic/react';
+import { format } from "date-fns";
+
+import { setDefaultTime } from "./utils";
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
@@ -26,13 +29,18 @@ export const DateRange: React.FC<DataRangeProps> = props => {
     const handleDateChange = (e: CustomEvent<DatetimeChangeEventDetail>) => {
         const { target, detail } = e;
         const { name } = target as HTMLIonDatetimeElement;
-        onChange(name as Name, detail.value as string);
+        const date = new Date(detail.value as string);
+        onChange(name as Name, setDefaultTime(date));
     };
+
+    const buttonLabel = from && to
+        ? `${format(new Date(from), 'MM-dd-yy')} - ${format(new Date(to), 'MM-dd-yy')}`
+        : 'Select dates';
 
     return (
         <div className='dateRange'>
             <IonButton fill='outline' onClick={handlePopoverToggle}>
-                {from && to ? `${from} - ${to}` : 'Select dates'}
+                {buttonLabel}
             </IonButton>
 
             {isOpened

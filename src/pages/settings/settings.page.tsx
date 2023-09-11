@@ -30,7 +30,7 @@ export const SettingsPage: React.FC = () => {
     const ExpirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
 
 
-
+    
     return (
         <IonPage>
             <IonContent>
@@ -73,7 +73,6 @@ export const SettingsPage: React.FC = () => {
                             <p>
                                 <IonText>Expiring Date</IonText>
                             </p>
-                          
                             <IonSelect label='Milk Expiration Date' label-placement='floating'>
                                 {ExpirationMonth.map(month => (
                                     <IonSelectOption value={month}>{month}</IonSelectOption>
