@@ -16,7 +16,13 @@ export const nativeStore = {
             return;
         }
 
-        await nativeStorage.set(key, value);
+        let toStoreValue = value;
+
+        if (typeof value === 'object') {
+            toStoreValue = JSON.stringify(value);
+        }
+
+        await nativeStorage.set(key, toStoreValue);
     },
 
     get: async (key: NativeStorageKeys) => {
@@ -24,7 +30,13 @@ export const nativeStore = {
             return null;
         }
 
-        return nativeStorage.get(key);
+        try {
+            const storageValue = await nativeStorage.get(key);
+
+            return JSON.parse(storageValue);
+        } catch {
+            return nativeStorage.get(key);
+        }
     },
 
     remove: async (key: NativeStorageKeys) => {

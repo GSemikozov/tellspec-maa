@@ -71,6 +71,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
             ),
         };
 
+        console.log('[calibrateDevice]: saveCalibration', toNativeStore);
         await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, toNativeStore);
 
         return toNativeStore;
