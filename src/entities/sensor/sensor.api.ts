@@ -52,7 +52,7 @@ export class SensorApi extends BaseEndpoint {
     getScanner = async (model: string, serial: string): Promise<SensorScannerResult> => {
         const requestUrl = `${this.getScannerUrl}${model}/${serial}/`;
 
-        const response = await this.http.post(requestUrl, {}, {});
+        const response = await this.http.get(requestUrl, {}, {});
 
         return response.data;
     };
