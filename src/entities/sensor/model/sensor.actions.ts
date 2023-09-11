@@ -71,7 +71,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
             ),
         };
 
-        // console.log('[calibrateDevice]: saveCalibration', toNativeStore);
+        console.log('[calibrateDevice/saveCalibration]: toNativeStore', toNativeStore);
         await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, toNativeStore);
 
         return toNativeStore;
@@ -130,6 +130,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
     updatedDevice.activeCal = result;
     updatedDevice.activeConfig = result.config;
 
+    console.log('[calibrateDevice/final]: updatedDevice', updatedDevice);
     await tellspecSavePairDevice(updatedDevice);
 
     return {
