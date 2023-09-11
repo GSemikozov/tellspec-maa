@@ -21,6 +21,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
     const { children, rightSideBar = <SensorManager /> } = props;
 
     const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
+    const showSidebar = isSidebarVisible && rightSideBar;
 
     return (
         <>
@@ -37,13 +38,13 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                             <IonRow>
                                 {/* TODO: something strange is here in the size property */}
                                 <IonCol
-                                    size={isSidebarVisible ? '7' : '12'}
+                                    size={showSidebar ? '7' : '12'}
                                     className='ion-padding main'
                                 >
                                     {children}
                                 </IonCol>
 
-                                {isSidebarVisible ? (
+                                {showSidebar ? (
                                     <IonCol size='5' className='ion-padding'>
                                         {rightSideBar}
                                     </IonCol>

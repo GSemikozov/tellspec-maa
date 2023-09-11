@@ -23,10 +23,7 @@ import TargetIcon from '../../../assets/icons/target-pink.svg';
 import './settings.css';
 
 import type { IFreezer } from '@entities/groups/model/groups.types';
-<<<<<<< HEAD
-=======
 // import { appSelectors } from '@app';
->>>>>>> c1cf1ff224b448ab6305163d27d56a546f78b979
 
 export const SettingsPage: React.FC = () => {
     const freezersList = useSelector(groupsSelectors.getFreezers);
