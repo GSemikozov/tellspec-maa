@@ -241,7 +241,7 @@ export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): 
 
     const data = {
         show: true,
-        uuid: uuid,
+        uuid: newUuid,
         json_data: {
             'scan-data': {
                 'scanner-type-name': device.name,
@@ -250,7 +250,7 @@ export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): 
                 'scanner-firmware-version': scan.TivaRev,
                 'scanner-spectrum-version': scan.SpectrumRev,
                 'scan-performed-utc': date,
-                'scan-id': uuid,
+                'scan-id': newUuid,
                 'scan-source': 'white',
                 wavelengths: scan.wavelengths,
                 factory_white_ref: [scan.ReferenceIntensity],
@@ -306,7 +306,7 @@ export const tellspecPrepareScanCalibration = (
             'scanner-firmware-version': scan.TivaRev,
             'scanner-spectrum-version': scan.SpectrumRev,
             'scan-performed-utc': date,
-            'scan-id': uuid,
+            'scan-id': newUuid,
             'scan-source': 'white',
             wavelengths: scan.wavelengths,
             factory_white_ref: [scan.ReferenceIntensity],

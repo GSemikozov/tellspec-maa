@@ -171,11 +171,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const connectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
         try {
             const shallowDevice = { ...device };
-            console.log('[connectDevice/shallowDevice]: ', shallowDevice);
-
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
-            console.log('[connectDevice/calibrationData]: ', calibrationData);
-
             const calibrationReady = Boolean(calibrationData);
 
             if (calibrationReady) {
@@ -198,7 +194,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
             throw new Error(errorMessage);
         } finally {
-            console.log('[connectDevice/finally]');
             await tellspecDisconnect();
         }
     }, []);

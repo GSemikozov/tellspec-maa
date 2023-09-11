@@ -130,7 +130,6 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
     updatedDevice.activeCal = result;
     updatedDevice.activeConfig = result.config;
 
-    console.log('[calibrateDevice/final]: updatedDevice', updatedDevice);
     await tellspecSavePairDevice(updatedDevice);
 
     return {
