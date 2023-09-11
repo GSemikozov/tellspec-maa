@@ -183,10 +183,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 shallowDevice.activeConfig = calibrationData.config;
             }
 
-            console.log('[connectDevice/afterCalibration/shallowDevice]: ', calibrationData);
-
             await tellspecSavePairDevice(shallowDevice);
-            console.log('[connectDevice/afterCalibration/shallowDevice]: ', calibrationData);
 
             dispatch(
                 sensorActions.setSensorState({

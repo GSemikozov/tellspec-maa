@@ -30,8 +30,10 @@ export const sensorSlice = createSlice({
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
 
-        builder.addCase(calibrateDevice.rejected, state => {
+        builder.addCase(calibrateDevice.rejected, (state, action) => {
             state.calibrationStatus = CalibrationStatus.ERROR;
+
+            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
         });
 
         builder.addCase(calibrateDevice.fulfilled, (state, action) => {
