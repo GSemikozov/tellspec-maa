@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonButton } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
 import { classname } from '@shared/utils';
 import {
@@ -15,6 +16,7 @@ import {
     useSensorConnectionProcess,
 } from '@widgets/sensor-connection-process';
 import { PreemieToast } from '@shared/ui';
+import { tellspecAddListener } from '@api/native';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
@@ -22,6 +24,7 @@ import { SensorManagerToast } from './sensor-manager-toast';
 
 import './sensor-manager.css';
 
+import type { PluginListenerHandle } from '@capacitor/core';
 import type { AppDispatch } from '@app';
 
 const cn = classname('sensor-manager');
@@ -34,6 +37,9 @@ export const SensorManager: React.FunctionComponent = () => {
         onStartDiscovery,
         onResetStatus,
     } = useSensorConnectionProcess();
+
+    const [scannerStatusListener, setScannerStatusListener] =
+        React.useState<PluginListenerHandle | null>(null);
 
     const [hasUnpairedError, setHasUnpairedError] = React.useState(false);
 
@@ -125,6 +131,22 @@ export const SensorManager: React.FunctionComponent = () => {
         onStartDiscovery,
         onResetStatus,
     ]);
+
+    React.useEffect(() => {
+        if (scannerStatusListener === null) {
+            setScannerStatusListener(
+                tellspecAddListener(SensorEvent.SCANNER_STATUS, (data: any) => {
+                    console.log('[scanner status listener]', JSON.stringify(data));
+                }),
+            );
+        }
+
+        return () => {
+            if (scannerStatusListener) {
+                scannerStatusListener.remove();
+            }
+        };
+    }, []);
 
     const instructions = getInstructions();
 
