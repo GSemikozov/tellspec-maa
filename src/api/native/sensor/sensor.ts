@@ -122,7 +122,7 @@ export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any>
         // mismatch of serial number or the calibration is out of date
         if (mismatchSerialNumber || needRecalibrationTimeIssue) {
             await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, null);
-            
+
             return null;
         }
 
