@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IonCheckbox, IonCol, IonRow } from "@ionic/react";
+import { IonCheckbox, IonCol, IonRow, IonText } from "@ionic/react";
 
 import { DateRange } from "@ui/date-range";
 
@@ -10,6 +10,9 @@ import { ReportTable } from "./report-table";
 import { ActionsPanel } from "./actions-panel";
 
 import type { AppDispatch } from "@app";
+
+import ReportsIcon from '../../../assets/images/view-reports-selected.png'
+import './reports-widget.css'
 
 export const ReportsWidget: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -35,27 +38,27 @@ export const ReportsWidget: React.FC = () => {
 
     return (
         <>
-            <IonRow className="ion-align-items-center">
+            <IonRow className='ion-align-items-center'>
                 <IonCol>
-                    <h1>View Reports</h1>
-                    <IonCheckbox
-                        value={selectAll}
-                        onIonChange={() => setSelectAll(!selectAll)}
-                    >
+                    <h1>
+                        <IonText><img  src={ReportsIcon} className="reports-icon"/>View Reports</IonText>
+                    </h1>
+                    <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
                         Select All
                     </IonCheckbox>
                 </IonCol>
 
                 <IonCol>
-                    <DateRange from={from} to={to} onChange={handleDateRangeChange}/>
+                    
+                    <DateRange from={from} to={to} onChange={handleDateRangeChange} />
                 </IonCol>
             </IonRow>
 
             <IonRow>
-                <ReportTable data={data}/>
+                <ReportTable data={data} />
             </IonRow>
 
             <ActionsPanel />
         </>
-    )
+    );
 }

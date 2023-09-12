@@ -34,7 +34,7 @@ export const DateRange: React.FC<DataRangeProps> = props => {
     };
 
     const buttonLabel = from && to
-        ? `${format(new Date(from), 'MM-dd-yy')} - ${format(new Date(to), 'MM-dd-yy')}`
+        ? `${format(new Date(from), 'MM/dd/yy')} - ${format(new Date(to), 'MM/dd/yy')}`
         : 'Select dates';
 
     return (
