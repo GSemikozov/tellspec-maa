@@ -83,6 +83,11 @@ export type SensorDevice = TellspecSensorDevice;
 export type SensorState = {
     calibrationStatus: CalibrationStatus;
     device: SensorDevice | null;
+    scannerActive: boolean,
+    sensorModel: string,
+    enSensorEmulation : boolean,
+    calibrationRequired : boolean,
+    entities: any // TODO. Add type for scans
 };
 
 export type SetDeviceAction = PayloadAction<{

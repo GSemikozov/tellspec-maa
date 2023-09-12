@@ -8,6 +8,11 @@ import type { SensorState, SetDeviceAction } from './sensor.types';
 const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     device: null,
+    scannerActive: false,
+    sensorModel: '',
+    enSensorEmulation: true,
+    calibrationRequired: true,
+    entities: {},
 };
 
 export const sensorSlice = createSlice({
