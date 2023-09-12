@@ -6,6 +6,7 @@ import {
     tellspecCleanScanData,
     tellspecConnect,
     tellspecGetConfigs,
+    tellspecGetDeviceInfo,
     tellspecPrepareScanCalibration,
     tellspecReadScannerInfo,
     tellspecRemoveDevice,
@@ -17,7 +18,7 @@ import { apiInstance } from '@api/network';
 
 import type { RootState } from '@app/store';
 import type { TellspecSensorDevice } from '@api/native';
-import type { SensorCalibrationPostType } from './sensor.types';
+import type { SetCalibrationRequest } from '../api';
 
 export const getPairDevice = createAsyncThunk(
     'sensor/connect',
@@ -32,7 +33,35 @@ export const getPairDevice = createAsyncThunk(
     },
 );
 
-export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
+export const connectSensorDevice = createAsyncThunk(
+    'sensor/connect',
+    async (device: TellspecSensorDevice, { rejectWithValue }) => {
+        try {
+            const shallowDevice = { ...device };
+            const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
+            const calibrationReady = Boolean(calibrationData);
+
+            if (calibrationReady) {
+                shallowDevice.activeCal = calibrationData;
+                shallowDevice.activeConfig = calibrationData.config;
+            }
+
+            await tellspecSavePairDevice(shallowDevice);
+
+            return {
+                device: shallowDevice,
+                requiredCalibration: !calibrationReady,
+            };
+        } catch (error: any) {
+            console.error('[connectDevice]: ', error);
+            const errorMessage = error.message ?? 'Unabled to pair with sensor';
+
+            return rejectWithValue(errorMessage);
+        }
+    },
+);
+
+export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
     if (!sensor.device) {
@@ -44,7 +73,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
             return;
         }
 
-        const requestCalibration: SensorCalibrationPostType = {
+        const requestCalibration: SetCalibrationRequest = {
             model: sensor.device.name,
             serial_number: sensor.device.serial,
             white_reference: tellspecPrepareScanCalibration(
@@ -83,6 +112,10 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
         sensor.device.serial,
     );
 
+    if (!scannerData) {
+        return;
+    }
+
     await tellspecConnect({ address: sensor.device.uuid });
     await tellspecReadScannerInfo();
 
@@ -111,7 +144,7 @@ export const calibrateDevice = createAsyncThunk('sensor/calibrate', async (_, th
 
                 if (avaliableConfig === preferConfig) {
                     // we found a config that we can use. Its not active, se we need to set the device accordantly
-                    await tellspecSetActiveConfig(preferConfig);
+                    await tellspecSetActiveConfig({ name: preferConfig });
 
                     result = await saveCalibration(preferConfig, scanData);
 

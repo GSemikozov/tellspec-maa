@@ -8,9 +8,9 @@ import { retrieveBlePermissions } from '@api/native';
 type State = RootState | null;
 
 export const fetchAppSettings = createAsyncThunk('app/fetching', async (): Promise<State> => {
-    const state = await getStorageData();
+    const storageState = await getStorageData();
 
-    if (state) {
+    if (storageState) {
         const checkTokenResponse = await apiInstance.users.checkToken();
 
         if (checkTokenResponse.error?.code) {
@@ -19,10 +19,10 @@ export const fetchAppSettings = createAsyncThunk('app/fetching', async (): Promi
             return null;
         }
 
-        return state;
-    } else {
-        return null;
+        return storageState;
     }
+
+    return null;
 });
 
 export const fetchBleStatus = createAsyncThunk(

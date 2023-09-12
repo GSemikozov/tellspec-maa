@@ -14,6 +14,7 @@ export const isOnline = () => {
 export const logout = createAsyncThunk('user/logout', async (_, thunkAPI): Promise<any> => {
     await apiInstance.users.logout();
     thunkAPI.dispatch(userActions.clearUser);
+
     await clearStorageData();
     window.location.replace('/login');
 });
@@ -33,7 +34,7 @@ export const login = createAsyncThunk(
             }
 
             await saveGroupKey(response.metadata.group_key, data.password);
-            window.location.replace('/');
+
             return response;
         } catch (error) {
             console.error(error);

@@ -5,7 +5,7 @@ import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
 import { classname } from '@shared/utils';
 import {
-    calibrateDevice,
+    calibrateSensorDevice,
     removeDevice,
     selectSensorCalibrationDisconnected,
     selectSensorCalibrationLoading,
@@ -15,12 +15,11 @@ import {
     SensorConnectionProcessStatus,
     useSensorConnectionProcess,
 } from '@widgets/sensor-connection-process';
-import { PreemieToast } from '@shared/ui';
+import { usePreemieToast } from '@shared/ui';
 import { tellspecAddListener } from '@api/native';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
-import { SensorManagerToast } from './sensor-manager-toast';
 
 import './sensor-manager.css';
 
@@ -31,6 +30,7 @@ const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const [presentToast] = usePreemieToast();
 
     const {
         status: sensorConnectionProcessStatus,
@@ -40,8 +40,6 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const [scannerStatusListener, setScannerStatusListener] =
         React.useState<PluginListenerHandle | null>(null);
-
-    const [hasUnpairedError, setHasUnpairedError] = React.useState(false);
 
     const calibrationDisconnected = useSelector(selectSensorCalibrationDisconnected);
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
@@ -76,16 +74,31 @@ export const SensorManager: React.FunctionComponent = () => {
         }
 
         if (calibrationRequired) {
-            const handleStartCalibration = () => {
-                dispatch(calibrateDevice());
+            const handleStartCalibration = async () => {
+                try {
+                    await dispatch(calibrateSensorDevice()).unwrap();
+                } catch (error) {
+                    console.error('[handleStartCalibration]:', error);
+
+                    await presentToast({
+                        type: 'error',
+                        message: 'An error occurred during calibration',
+                    });
+                }
             };
 
             const handleRemoveDevice = async () => {
                 try {
                     await dispatch(removeDevice()).unwrap();
+
                     onResetStatus();
-                } catch {
-                    setHasUnpairedError(true);
+                } catch (error) {
+                    console.error('[handleRemoveDevice]:', error);
+
+                    await presentToast({
+                        type: 'error',
+                        message: 'An error occurred during unpairing',
+                    });
                 }
             };
 
@@ -134,6 +147,15 @@ export const SensorManager: React.FunctionComponent = () => {
         if (scannerStatusListener === null) {
             setScannerStatusListener(
                 tellspecAddListener(SensorEvent.SCANNER_STATUS, (data: any) => {
+                    const status = data.state;
+
+                    switch (status) {
+                        case 'off':
+                            dispatch(removeDevice());
+                            onResetStatus();
+                            break;
+                    }
+
                     console.log('[scanner status listener]', JSON.stringify(data));
                 }),
             );
@@ -149,24 +171,18 @@ export const SensorManager: React.FunctionComponent = () => {
     const instructions = getInstructions();
 
     return (
-        <>
-            <div className={cn()}>
-                {instructions ? (
-                    <SensorManagerInstructions
-                        highlight={calibrationLoading}
-                        title={instructions.title}
-                        className={cn('instructions')}
-                    >
-                        {instructions.content}
-                    </SensorManagerInstructions>
-                ) : null}
+        <div className={cn()}>
+            {instructions ? (
+                <SensorManagerInstructions
+                    highlight={calibrationLoading}
+                    title={instructions.title}
+                    className={cn('instructions')}
+                >
+                    {instructions.content}
+                </SensorManagerInstructions>
+            ) : null}
 
-                <SensorManagerInteractiveImage />
-            </div>
-
-            <SensorManagerToast />
-
-            <PreemieToast isOpen={hasUnpairedError} message='An error occurred during unpairing' />
-        </>
+            <SensorManagerInteractiveImage />
+        </div>
     );
 };

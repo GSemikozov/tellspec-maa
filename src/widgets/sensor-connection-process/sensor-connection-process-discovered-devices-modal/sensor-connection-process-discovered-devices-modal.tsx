@@ -3,19 +3,15 @@ import { IonButton, IonModal } from '@ionic/react';
 import { BluetoothItem } from '@entities/bluetooth/ui';
 import { classname } from '@shared/utils';
 
-import './sensor-connection-process-discovered-devices-modal.css';
 import { useSensorConnectionProcess } from '../sensor-connection-process-context';
+
+import './sensor-connection-process-discovered-devices-modal.css';
 
 const cn = classname('sensor-connection-process-discovered-devices-modal');
 
 export const SensorConnectionProcessDiscoveredDevicesModal = () => {
-    const {
-        discoveredDevices,
-        discoveredDevicesModalOpen,
-        onCloseDiscoveryDevicesModal,
-        onConnectDevice,
-        onCancelDiscovery,
-    } = useSensorConnectionProcess();
+    const { discoveredDevices, discoveredDevicesModalOpen, onConnectDevice, onCancelDiscovery } =
+        useSensorConnectionProcess();
 
     const hasDiscoveredDevices = discoveredDevices.length > 0;
 
@@ -23,7 +19,7 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
         <IonModal
             className={cn()}
             isOpen={discoveredDevicesModalOpen}
-            onDidDismiss={onCloseDiscoveryDevicesModal}
+            onDidDismiss={onCancelDiscovery}
         >
             <div className={cn('container')}>
                 <div className={cn('header')}>

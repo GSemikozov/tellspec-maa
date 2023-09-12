@@ -1,11 +1,12 @@
 import React from 'react';
-import { IonItem, IonList, IonText } from '@ionic/react';
+import { IonItem, IonList, IonText, useIonRouter } from '@ionic/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { userAsyncActions, userSelectors } from '@entities/user';
 import { CustomInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
+import { userAsyncActions, userSelectors } from '@entities/user';
+import { routesMapping } from '@app/routes';
 
 import type { AppDispatch } from '@app/store';
 
@@ -24,6 +25,8 @@ const defaultValues = {
 export const LoginForm: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
+    const ionRouter = useIonRouter();
+
     const inputRef = React.useRef(defaultValues);
 
     const isFetching = useSelector(userSelectors.isUserFetching);
@@ -34,8 +37,14 @@ export const LoginForm: React.FunctionComponent = () => {
 
     const { errors } = formState;
 
-    const onSubmit: SubmitHandler<FieldValues> = data => {
-        dispatch(userAsyncActions.login(data));
+    const onSubmit: SubmitHandler<FieldValues> = async data => {
+        try {
+            await dispatch(userAsyncActions.login(data)).unwrap();
+
+            ionRouter.push(routesMapping.home);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

@@ -43,11 +43,11 @@ export class Http {
         return composedHeaders;
     };
 
-    get = async (
+    get = async <T = any | void>(
         pathUrl: string,
         query: Record<string, any> = {},
         header: Record<string, string> = {},
-    ): Promise<any | void> => {
+    ) => {
         const args = {
             method: 'GET',
             headers: await this.getHeader(header),
@@ -63,15 +63,15 @@ export class Http {
             args.params.preemie_group_id = user.metadata.group_id;
         }
 
-        return this.request(args);
+        return this.request<T>(args);
     };
 
-    post = async (
+    post = async <T = any | void>(
         pathUrl: string,
         data: Record<string, any> = {},
         query: Record<string, any> = {},
         header: Record<string, string> = {},
-    ): Promise<any | void> => {
+    ) => {
         const args = {
             method: 'POST',
             headers: await this.getHeader(header),
@@ -88,7 +88,7 @@ export class Http {
             args.params.preemie_group_id = user.metadata.group_id;
         }
 
-        return this.request(args);
+        return this.request<T>(args);
     };
 
     patch = async (
@@ -128,29 +128,17 @@ export class Http {
         return this.request(args);
     };
 
-    private request = async (args: any): Promise<any> => {
+    private request = async <T = any>(args: any) => {
         try {
             const response = await this.client(args);
-            return this.parseApiSuccess(response);
+
+            return this.parseApiSuccess<T>(response);
         } catch (e) {
-            return this.parseApiError(e as AxiosError);
+            return this.parseApiError(e as AxiosError<null>);
         }
     };
 
-    private parseApiError = (error: AxiosError<any>) => {
-        if (error.response && error.response.data) {
-            return {
-                data: null,
-                error: {
-                    code: error.response.status,
-                    message: error.response.data,
-                },
-            };
-        }
-        return 'unknown';
-    };
-
-    private parseApiSuccess = (response: AxiosResponse<any>) => {
+    private parseApiSuccess = <T = any>(response: AxiosResponse<T>) => {
         if (response && response.data) {
             return {
                 data: response.data,
@@ -159,5 +147,18 @@ export class Http {
         }
 
         throw new Error('No data to response');
+    };
+
+    private parseApiError = (error: AxiosError<null>) => {
+        const errorCode = error.response?.status ?? 500;
+        const errorMessage = error.response?.data ?? 'Internal error';
+
+        return {
+            data: null,
+            error: {
+                code: errorCode,
+                message: errorMessage,
+            },
+        };
     };
 }

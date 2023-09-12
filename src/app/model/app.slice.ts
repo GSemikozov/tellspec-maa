@@ -10,7 +10,7 @@ import { BleStatus } from './app.types';
 import type { IApp, IAlertActionPayload, IBackdropPayload } from './app.types';
 
 const initialState: IApp = {
-    status: 'idle',
+    status: 'loading',
     online: false,
     ble: {
         status: BleStatus.OFF,

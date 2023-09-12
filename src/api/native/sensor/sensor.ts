@@ -17,7 +17,7 @@ import { isGivenDateOlderThan } from '@shared/time';
 import { createTellspecErrorResponse } from './utils';
 
 import type { ListenerCallback } from '@capacitor/core';
-import type { SensorModelType } from '@entities/sensor';
+import type { RunModelRequest } from '@entities/sensor';
 import type {
     SensorEvent,
     ScanResultType,
@@ -90,11 +90,18 @@ export const tellspecCheckBleState = async (): Promise<TellspecSensorBaseRespons
     };
 };
 
+export const tellspecRetrieveDeviceConnect = async (deviceUuid: string) => {
+    await tellspecConnect({ address: deviceUuid });
+    await tellspecReadScannerInfo();
+
+    return async () => {
+        await tellspecDisconnect();
+    };
+};
+
 export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any> => {
     if (await isEmulateNativeSdk()) {
-        const emulateResponse = {
-            scan: {},
-        };
+        const emulateResponse = null;
 
         console.log('[tellspecGetDeviceInfo/emulate]');
         return emulateResponse;
@@ -111,8 +118,13 @@ export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any>
             config,
         );
 
-        const mismatchSerialNumber =
-            device.serial !== sensorCalibration.scan['scan-data']['scanner-serial-number'];
+        if (!sensorCalibration) {
+            return null;
+        }
+
+        const mismatchSerialNumber = sensorCalibration.scan['scan-data'][
+            'scanner-serial-number'
+        ].startsWith(device.serial);
 
         const needRecalibrationTimeIssue = isGivenDateOlderThan(
             sensorCalibration['last_modified_at'],
@@ -179,32 +191,39 @@ export const tellspecRunScan = async (userEmail: string): Promise<any> => {
         throw new Error('not found paired device');
     }
 
-    await tellspecConnect({ address: pairedDevice.uuid });
-    await tellspecReadScannerInfo();
+    const disconnect = await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
 
     const startScanResult = await tellspecStartScan();
     const scanData = tellspecCleanScanData(startScanResult);
 
     await tellspecSaveScan(scanData, pairedDevice, userEmail);
+    await disconnect();
 
     return scanData;
 };
 
 export const tellspecGetScan = async (scanId: string): Promise<any> => {
-    const getScanResponse = await apiInstance.sensor.getScanData(scanId);
+    const scanDataResponse = await apiInstance.sensor.getScanData(scanId);
 
-    if (getScanResponse.length === 0 || !getScanResponse[0].json_data?.['scan-data']) {
+    if (
+        scanDataResponse === null ||
+        scanDataResponse.length === 0 ||
+        !scanDataResponse[0].json_data?.['scan-data']
+    ) {
         throw new Error('Scan data is not available');
     }
 
-    const [firstScanDataEntry] = getScanResponse;
+    const [firstScanDataEntry] = scanDataResponse;
 
     const scanData = firstScanDataEntry.json_data['scan-data'];
 
-    scanData.uuid = firstScanDataEntry.uuid;
-    scanData.absorbance = scanData.absorbance[0];
+    const result = {
+        ...scanData,
+        uuid: firstScanDataEntry.uuid,
+        absorbance: scanData.absorbance[0],
+    };
 
-    return scanData;
+    return result;
 };
 
 export const tellspecSaveScan = async (
@@ -345,7 +364,7 @@ export const tellspecGetModelResult = async (
     average?: boolean,
     calToUse?: CalibrationType,
 ): Promise<any> => {
-    const requestBody: SensorModelType = {
+    const requestBody: RunModelRequest = {
         scans: scans,
         average: average ? average : false,
         'calib-to-use': calToUse ? calToUse : CalibrationType.FACTORY,
@@ -360,10 +379,13 @@ export const tellspecGetModelResult = async (
  * Cleans update the data we received from the sensor
  */
 export const tellspecCleanScanData = (scanData: ScanResultType): ScanResultType => {
-    scanData.uuid = uuid();
-    scanData.wavelengths = JSON.parse(scanData.wavelengths);
-    scanData.ReferenceIntensity = JSON.parse(scanData.ReferenceIntensity);
-    scanData.Intensity = JSON.parse(scanData.Intensity);
+    const result = {
+        ...scanData,
+        uuid: uuid(),
+        wavelengths: JSON.parse(scanData.wavelengths),
+        ReferenceIntensity: JSON.parse(scanData.ReferenceIntensity),
+        Intensity: JSON.parse(scanData.Intensity),
+    };
 
-    return scanData;
+    return result;
 };

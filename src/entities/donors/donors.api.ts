@@ -151,9 +151,9 @@ export class DonorsApi extends BaseEndpoint {
         };
 
         const response = await this.http.get(`${this.DonorUrl}`, Param, {});
-        const { data, detail } = response;
+        const { data } = response;
 
-        if (!detail && data) {
+        if (data) {
             const decodedDonorInformation = await decodeDonorInformation(data);
             return decodedDonorInformation;
         }
@@ -174,11 +174,7 @@ export class DonorsApi extends BaseEndpoint {
             show_archived,
         };
 
-        const result: { data: IDonorEncrypted[] } = await this.http.get(
-            `${this.AllDonorsUrl}`,
-            Param,
-            {},
-        );
+        const result = await this.http.get<IDonorEncrypted[]>(`${this.AllDonorsUrl}`, Param, {});
 
         if (complete_data) {
             const decryptedArray: IDonor[] = [];

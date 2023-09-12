@@ -20,10 +20,8 @@ export interface IUserMetaData {
 }
 
 export interface IReturnLogin {
-    data: {
-        key: string;
-        user: IUserData;
-    };
+    key: string;
+    user: IUserData;
 }
 
 export interface IUpdateUser {
