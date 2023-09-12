@@ -1,6 +1,7 @@
 .settings-wrapper {
     border: 2px solid var(--ion-color-tertiary-tint);
     border-radius: 5px;
+    margin: 1rem 3rem;
 }
 
 .settings-wrapper .settings-icon {
@@ -67,7 +68,7 @@ button.add-button {
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 .settings-button{
     margin-left: 4rem; 
