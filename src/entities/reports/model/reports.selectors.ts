@@ -1,4 +1,4 @@
-import { isAfter, isBefore } from "date-fns";
+import { isAfter, isBefore } from 'date-fns';
 
 import { RootState } from '@app/store';
 // import { createSelector } from "@reduxjs/toolkit";
@@ -35,5 +35,5 @@ export const selectReportsByDate = (from?: string, to?: string) => (state: RootS
     return reports.filter(report => {
         const reportCreatedDate = new Date(report.created_at);
         return isAfter(reportCreatedDate, startDate) && isBefore(reportCreatedDate, endDate);
-    })
-}
+    });
+};

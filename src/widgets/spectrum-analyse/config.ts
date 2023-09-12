@@ -1,4 +1,4 @@
-import type {ApexOptions} from "apexcharts";
+import type { ApexOptions } from 'apexcharts';
 
 // TODO: scan type
 export const generateMilkChartConfig = (data: any): ApexOptions => ({
@@ -7,14 +7,14 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
         height: 280,
         type: 'line',
         zoom: {
-            enabled: false
+            enabled: false,
         },
         toolbar: {
-            show: false
-        }
+            show: false,
+        },
     },
     dataLabels: {
-        enabled: false
+        enabled: false,
     },
     stroke: {
         curve: 'smooth',
@@ -26,18 +26,18 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
             top: 10,
             right: 25,
             bottom: 10,
-            left: 25
+            left: 25,
         },
         xaxis: {
             lines: {
-                show: true
-            }
+                show: true,
+            },
         },
         yaxis: {
             lines: {
-                show: true
-            }
-        }
+                show: true,
+            },
+        },
     },
     yaxis: {
         tickAmount: 5,
@@ -46,11 +46,11 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
             offsetX: -10,
             style: {
                 fontSize: '1em',
-                fontWeight: 400
-            }
+                fontWeight: 400,
+            },
         },
         labels: {
-            style: {fontSize: '1em', fontWeight: 400},
+            style: { fontSize: '1em', fontWeight: 400 },
             /**
              * Allows users to apply a custom formatter function to yaxis labels.
              *
@@ -61,9 +61,9 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
             // @ts-ignore
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             formatter: function (val: number, index: number) {
-                return val.toFixed(2)
-            }
-        }
+                return val.toFixed(2);
+            },
+        },
     },
     colors: ['#E503B0'],
     xaxis: {
@@ -73,15 +73,15 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
             text: 'Wavelength (nm)',
             style: {
                 fontSize: '1em',
-                fontWeight: 400
-            }
+                fontWeight: 400,
+            },
         },
         categories: data?.wavelengths || [],
         labels: {
-            style: {fontSize: '1em', fontWeight: 400},
+            style: { fontSize: '1em', fontWeight: 400 },
             formatter: function (val: string) {
                 return parseFloat(val).toFixed(1);
-            }
-        }
-    }
+            },
+        },
+    },
 });

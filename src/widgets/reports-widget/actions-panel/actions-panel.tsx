@@ -1,7 +1,7 @@
-import React from "react";
-import { IonButton, IonCol, IonRow } from "@ionic/react";
+import React from 'react';
+import { IonButton, IonCol, IonRow } from '@ionic/react';
 
-import './actions-panel.css'
+import './actions-panel.css';
 
 export const ActionsPanel: React.FC = () => {
     return (
@@ -13,4 +13,4 @@ export const ActionsPanel: React.FC = () => {
             </IonCol>
         </IonRow>
     );
-}
+};

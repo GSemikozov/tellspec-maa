@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import Chart from "react-apexcharts";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Chart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
-import { getScanById } from "@entities/sensor";
-import { EMULATION_SCAN_ID } from "@entities/sensor/sensor.constants.ts";
+import { getScanById } from '@entities/sensor';
+import { EMULATION_SCAN_ID } from '@entities/sensor/sensor.constants.ts';
 
-import { generateMilkChartConfig } from "./config";
+import { generateMilkChartConfig } from './config';
 
-import "./spectrum-analyse.css";
+import './spectrum-analyse.css';
 
 type SpectrumAnalyseProps = {
     milkID: string;
@@ -34,17 +34,17 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = pr
     }, []);
 
     if (!scanData) {
-        return <div>Not found</div>
+        return <div>Not found</div>;
     }
 
     return (
-        <div className="spectrum-analyse" ref={containerRef}>
+        <div className='spectrum-analyse' ref={containerRef}>
             <Chart
                 width={width}
                 height={379}
                 options={options}
                 series={[{ data: scanData?.absorbance }]}
-                type="line"
+                type='line'
             />
         </div>
     );

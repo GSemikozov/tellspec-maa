@@ -1,8 +1,8 @@
-import {createSelector} from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
 
-import {RootState} from '@app';
+import { RootState } from '@app';
 
-import {CalibrationStatus} from './sensor.types';
+import { CalibrationStatus } from './sensor.types';
 
 export const selectSensorState = (state: RootState) => state.sensor;
 
@@ -27,8 +27,9 @@ export const selectSensorCalibrationLoading = createSelector(
     calibrationStatus => [CalibrationStatus.PROGRESS].includes(calibrationStatus),
 );
 
-export const isLoading = (state: RootState) => state.sensor.calibrationStatus === CalibrationStatus.PROGRESS;
+export const isLoading = (state: RootState) =>
+    state.sensor.calibrationStatus === CalibrationStatus.PROGRESS;
 
 export const getScanById = (id: string) => (state: RootState) => {
     return state.sensor.entities[id];
-}
+};
