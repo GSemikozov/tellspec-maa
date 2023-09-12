@@ -57,14 +57,12 @@ export const SensorManager: React.FunctionComponent = () => {
             ].includes(sensorConnectionProcessStatus);
 
             return {
-                title: 'Connect a sensor',
+                title: 'Connect a Preemie sensor',
                 content: (
                     <>
                         <p>
-                            To turn on your Preemie Sensor, locate the power switch on the side of
-                            the device. Slide the switch to the ON position (to the right). You will
-                            notice the green power LED illuminated on the top of the sensor. All of
-                            the LEDs flash briefly to show that they are working.
+                            If this is the first time you are using the Preemie Sensor, please click
+                            to see photos that explains how the sensor is turned on.
                         </p>
 
                         <div className={cn('actions')}>

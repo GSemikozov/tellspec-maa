@@ -34,7 +34,7 @@ export const SettingsPage: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
-                <Layout>
+                <Layout rightSideBar={null}>
                     <div className='settings-wrapper'>
                         <IonItem lines='none'>
                             <img src={SettingsIcon} className='settings-icon' />
@@ -122,9 +122,9 @@ export const SettingsPage: React.FC = () => {
                             /> */}
                         </div>
                         <div className='line' />
-                        <div className='button-wrapper'>
-                            <CustomButton fill='outline'>CANCEL</CustomButton>
-                            <CustomButton>SAVE CHANGES</CustomButton>
+                        <div className='settings-button-wrapper'>
+                            <CustomButton fill='outline' className='settings-button'>CANCEL</CustomButton>
+                            <CustomButton className='settings-button'>SAVE CHANGES</CustomButton>
                         </div>
                     </div>
                 </Layout>

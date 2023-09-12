@@ -28,10 +28,11 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            Scan 
-                            the Barcode or
+                           To add a human milk sample into database
                             <br />
-                            Enter The Milk ID
+                            you select this icon and you can either
+                            <br />
+                            scan the bracode or enter the milk ID
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -56,11 +57,10 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            Use PREEMIE SENSOR
+                            To analyse a selected human milk sample
                             <br />
-                            to Analyse
-                            <br />
-                            Selected Milk
+                            you select this icon and use the Preemie Sensor
+                            
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -85,11 +85,11 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            Print Bag's Labels
+                            Select this icon to print a label to be attached to a
                             <br />
-                            or View & Print
+                            human milk container or to view and print
                             <br />
-                            Milk Reports
+                            the analysis obtained for one or more human milk samples
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
