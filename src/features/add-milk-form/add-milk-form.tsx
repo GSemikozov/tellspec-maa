@@ -91,38 +91,50 @@ export const AddMilkForm: React.FC = () => {
 
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => reset(),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => reset(),
+            });
+        }
     };
 
     const handleAddMilkAndClose = async () => {
         const values = getValues();
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => (window.location.href = '/'),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => (window.location.href = '/'),
+            });
+        }
     };
 
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => (window.location.href = '/analyse'),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => (window.location.href = '/analyse'),
+            });
+        }
     };
 
     return (
@@ -208,18 +220,19 @@ export const AddMilkForm: React.FC = () => {
                                 {errors.numberOfContainers?.message}
                             </span>
                         </div>
-
                         <div className='ion-margin-top ion-margin-bottom'>
                             <CustomInput
                                 type='date'
-                                label='Infant Delivery Date'
+                                label='Milk Expression Date'
                                 label-placement='floating'
-                                {...register('infantDeliveryDate', {
+                                // className='expression-date-size'
+                                {...register('milkExpressionDate', {
                                     required: 'This is a required field',
                                 })}
                             />
+
                             <span style={{ color: 'red' }}>
-                                {errors.infantDeliveryDate?.message}
+                                {errors.milkExpressionDate?.message}
                             </span>
                         </div>
                     </IonCol>
@@ -227,14 +240,15 @@ export const AddMilkForm: React.FC = () => {
                         <div className='ion-margin-top ion-margin-bottom'>
                             <CustomInput
                                 type='date'
-                                label='Milk Expression Date'
+                                label='Infant Delivery Date'
                                 label-placement='floating'
-                                {...register('milkExpressionDate', {
+                                className='infant-delivery-size'
+                                {...register('infantDeliveryDate', {
                                     required: 'This is a required field',
                                 })}
                             />
                             <span style={{ color: 'red' }}>
-                                {errors.milkExpressionDate?.message}
+                                {errors.infantDeliveryDate?.message}
                             </span>
                         </div>
 
@@ -257,6 +271,7 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Received Date'
                                 label-placement='floating'
+                                className='received-date-size'
                                 {...register('receivedDate', {
                                     required: 'This is a required field',
                                 })}
