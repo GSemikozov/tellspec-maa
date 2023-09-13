@@ -10,16 +10,29 @@ import './sensor-connection-process-discovered-devices-modal.css';
 const cn = classname('sensor-connection-process-discovered-devices-modal');
 
 export const SensorConnectionProcessDiscoveredDevicesModal = () => {
-    const { discoveredDevices, discoveredDevicesModalOpen, onConnectDevice, onCancelDiscovery } =
-        useSensorConnectionProcess();
+    const {
+        discoveredDevices,
+        discoveredDevicesModalOpen,
+        onConnectDevice,
+        onCancelDiscovery,
+        onCloseDiscoveryDevicesModal,
+    } = useSensorConnectionProcess();
 
     const hasDiscoveredDevices = discoveredDevices.length > 0;
+
+    const handleDidDismiss = () => {
+        if (!discoveredDevicesModalOpen) {
+            return;
+        }
+
+        onCloseDiscoveryDevicesModal();
+    };
 
     return (
         <IonModal
             className={cn()}
             isOpen={discoveredDevicesModalOpen}
-            onDidDismiss={onCancelDiscovery}
+            onDidDismiss={handleDidDismiss}
         >
             <div className={cn('container')}>
                 <div className={cn('header')}>
@@ -35,17 +48,16 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
                                     device={device}
                                     onClick={onConnectDevice}
                                 />
-                               
                             ))}
                         </div>
+
                         <div className={cn('main-actions')}>
                             <IonButton fill='outline' color='tertiary' onClick={onCancelDiscovery}>
-                                Cancel
+                                Cancel discovery
                             </IonButton>
                         </div>
                     </div>
                 ) : null}
-               
             </div>
         </IonModal>
     );

@@ -4,13 +4,17 @@ import { SensorConnectionProcessStatus } from './types';
 
 import type { TellspecSensorDevice } from '@api/native';
 
+type onStartDiscoveryOptions = {
+    enableBleCheck?: boolean;
+};
+
 export type SensorConnectionProcessContextValue = {
     status: SensorConnectionProcessStatus;
 
     discoveredDevices: TellspecSensorDevice[];
     discoveredDevicesModalOpen: boolean;
 
-    onStartDiscovery: () => Promise<void>;
+    onStartDiscovery: (options?: onStartDiscoveryOptions) => Promise<void>;
     onCancelDiscovery: () => void;
     onOpenDiscoveryDevicesModal: () => void;
     onCloseDiscoveryDevicesModal: () => void;

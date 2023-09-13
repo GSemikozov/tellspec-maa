@@ -1,4 +1,4 @@
-.sidebarMenu {
+.sidebar-menu {
     height: 98vh;
     margin-top: 0 !important;
     width: 100%;
@@ -6,43 +6,6 @@
     border-right: 2px solid #e0e0e080;
 }
 
-#menu-logo {
-    padding-top: 2rem;
-    background-color: white;
-    padding-right: 1rem;
-}
-.menu-tab {
-    height: 5rem;
-    width: 100%;
-    margin-bottom: 0.25rem;
-}
-
-ion-tab-button h4 {
-    font-size: 18px;
-    width: 100%;
-    align-self: center;
-    margin-left: 2rem;
-    padding-bottom: 0.7rem;
-    border-bottom: 2px solid #e0e0e080;
-}
-
-ion-tab-bar {
-    height: 8vh;
-    border: none;
-}
-
-ion-tab-button {
-    max-width: 100% !important;
-}
-.menu-icon-tab {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-.menu-icon h4 {
-    width: 18vw;
-}
 .tabs {
     height: 85%;
     display: flex;
@@ -50,12 +13,63 @@ ion-tab-button {
     justify-content: space-between;
     margin-top: 1.7rem;
 }
-.logout-button {
-    background-color: var(--ion-backgroud-color);
-    color: var(--ion-color-tertiary);
-    height: 4.5rem;
+
+#menu-logo {
+    padding-top: 2rem;
+    background-color: white;
+    padding-right: 1rem;
 }
-.logout-button h4 {
-    font-size: 18px;
-    font-weight: 600;
+
+.sidebar-menu__list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.sidebar-menu__list > *:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+.sidebar-menu__list-item a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    width: 100%;
+    padding-left: 16px;
+
+    color: var(--ion-color-primary-shade);
+
+    text-decoration: none;
+}
+
+.sidebar-menu__list-item_active a {
+    color: var(--ion-color-primary);
+}
+
+.sidebar-menu__list-item_active .sidebar-menu__list-item-content {
+    border-bottom: 1px solid var(--ion-color-primary);
+}
+
+.sidebar-menu__list-item-image {
+    margin-right: 32px;
+}
+
+.sidebar-menu__list-item-content {
+    flex-grow: 1;
+
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ion-color-primary-shade);
+}
+
+.sidebar-menu__list-item-content h4 {
+    margin: 0;
+
+    font-family: Campton;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0.15px;
 }

@@ -1,12 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
+import { usePreemieToast } from '@shared/ui';
 import { BatteryFullIcon, BatteryOfflineIcon, BluetoohIcon, TargetOfflineIcon } from '@ui/icons';
 import { BleStatus, selectBleStatus } from '@app/model';
 import {
     selectSensorCalibrationLoading,
     selectSensorCalibrationRequired,
+    selectSensorCalibrationReady,
+    calibrateSensorDevice,
 } from '@entities/sensor/model';
 import {
     SensorConnectionProcessStatus,
@@ -15,13 +18,20 @@ import {
 
 import './sensor-status-bar.css';
 
+import type { AppDispatch } from '@app';
+
 const cn = classname('sensor');
 
 export const SensorStatusBar: React.FunctionComponent = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [presentToast] = usePreemieToast();
+
     const bleStatus = useSelector(selectBleStatus);
 
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
+    const calibrationReady = useSelector(selectSensorCalibrationReady);
 
     const { status: sensorConnectionProcessStatus } = useSensorConnectionProcess();
 
@@ -59,6 +69,23 @@ export const SensorStatusBar: React.FunctionComponent = () => {
         return 'Turn on and connect a sensor';
     }, [bleStatusOn, devicePaired, calibrationRequired, calibrationLoading]);
 
+    const handleClickTargetIcon = async () => {
+        if (calibrationRequired || calibrationReady) {
+            try {
+                await dispatch(calibrateSensorDevice()).unwrap();
+            } catch (error) {
+                console.error('[handleClickTargetIcon]:', error);
+
+                await presentToast({
+                    type: 'error',
+                    message: 'An error occurred during calibration',
+                });
+            }
+        }
+
+        return;
+    };
+
     return (
         <div className={cn()}>
             <div className={cn('status')}>{statusTitle}</div>
@@ -68,7 +95,9 @@ export const SensorStatusBar: React.FunctionComponent = () => {
                     className={cn('target-icon', {
                         'required-calibration': calibrationRequired,
                         'progress-calibration': calibrationLoading,
+                        clickable: calibrationRequired || calibrationReady,
                     })}
+                    onClick={handleClickTargetIcon}
                 />
 
                 {batteryIcon}

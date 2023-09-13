@@ -54,6 +54,10 @@ export const SensorManager: React.FunctionComponent = () => {
                 SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE,
             ].includes(sensorConnectionProcessStatus);
 
+            const handleClickStartDiscovery = () => {
+                onStartDiscovery({ enableBleCheck: true });
+            };
+
             return {
                 title: 'Connect a Preemie sensor',
                 content: (
@@ -64,7 +68,7 @@ export const SensorManager: React.FunctionComponent = () => {
                         </p>
 
                         <div className={cn('actions')}>
-                            <IonButton disabled={discovering} onClick={onStartDiscovery}>
+                            <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
                                 Start Discovery Devices
                             </IonButton>
                         </div>

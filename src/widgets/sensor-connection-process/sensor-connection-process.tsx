@@ -9,6 +9,7 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
     tellspecGetPairDevice,
+    tellspecDisconnect,
 } from '@api/native';
 import { connectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
@@ -56,65 +57,69 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const handleOpenDiscoveryDevicesModal = React.useCallback(() => {
         setStatus(SensorConnectionProcessStatus.CHOOSE_DISCOVERED_DEVICE);
         setDiscoveredDevicesModalOpen(true);
-
-        setUpdateDiscoveredDevicesListener(null);
     }, []);
 
     const handleCloseDiscoveryDevicesModal = React.useCallback(() => {
+        setStatus(SensorConnectionProcessStatus.DISCOVERING);
         setDiscoveredDevicesModalOpen(false);
     }, []);
 
-    const handleStartDiscovery = React.useCallback(async () => {
-        try {
-            setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
+    const handleStartDiscovery: SensorConnectionProcessContextValue['onStartDiscovery'] =
+        React.useCallback(async ({ enableBleCheck } = {}) => {
+            try {
+                if (enableBleCheck) {
+                    setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
 
-            const nativeBleState = await dispatch(fetchBleStatus()).unwrap();
+                    const nativeBleState = await dispatch(fetchBleStatus()).unwrap();
 
-            if (!nativeBleState) {
-                throw new Error('Missing Bluetooth permission');
-            }
+                    if (!nativeBleState) {
+                        throw new Error('Missing Bluetooth permission');
+                    }
 
-            const tellspecBleState = await tellspecCheckBleState();
+                    const tellspecBleState = await tellspecCheckBleState();
 
-            if (tellspecBleState.status === 'error') {
-                throw new Error(tellspecBleState.message);
-            }
+                    if (tellspecBleState.status === 'error') {
+                        throw new Error(tellspecBleState.message);
+                    }
+                }
 
-            setStatus(SensorConnectionProcessStatus.DISCOVERING);
+                setStatus(SensorConnectionProcessStatus.DISCOVERING);
 
-            await tellspecEnableDiscovery();
-        } catch (error: any) {
-            const errorMessage = error.message ?? 'Error on start discovery';
+                await tellspecEnableDiscovery();
+            } catch (error: any) {
+                const errorMessage = error.message ?? 'Error on start discovery';
 
-            setStatus(SensorConnectionProcessStatus.ERROR);
+                setStatus(SensorConnectionProcessStatus.ERROR);
 
-            await presentToast({
-                type: 'error',
-                message: errorMessage,
-            });
-        }
+                await tellspecDisconnect();
 
-        if (await isEmulateNativeSdk()) {
-            setTimeout(() => {
-                tellspecNotifyListeners(SensorEvent.DEVICE_LIST, {
-                    devices: [
-                        {
-                            name: 'T11-emulate-device-1',
-                            serial: 'emulate-device-1',
-                            uuid: 'emulate-device-1',
-                            rssi: 'emulate-device-1',
-                            type: 'emulate-device-1',
-                            originalName: 'emulate-device-1',
-                        },
-                    ],
+                await presentToast({
+                    type: 'error',
+                    message: errorMessage,
                 });
-            }, 1_000);
-        }
-    }, []);
+            }
+
+            if (await isEmulateNativeSdk()) {
+                setTimeout(() => {
+                    tellspecNotifyListeners(SensorEvent.DEVICE_LIST, {
+                        devices: [
+                            {
+                                name: 'T11-emulate-device-1',
+                                serial: 'emulate-device-1',
+                                uuid: 'emulate-device-1',
+                                rssi: 'emulate-device-1',
+                                type: 'emulate-device-1',
+                                originalName: 'emulate-device-1',
+                            },
+                        ],
+                    });
+                }, 1_000);
+            }
+        }, []);
 
     const handleCancelDiscovery = React.useCallback(() => {
         setStatus(SensorConnectionProcessStatus.IDLE);
-        handleCloseDiscoveryDevicesModal();
+        setDiscoveredDevicesModalOpen(false);
 
         setDiscoveredDevices([]);
         setUpdateDiscoveredDevicesListener(null);
@@ -122,10 +127,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
         setStatus(SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE);
+        setDiscoveredDevicesModalOpen(false);
 
         try {
-            handleCloseDiscoveryDevicesModal();
-
+            await new Promise(resolve => setTimeout(resolve, 5000));
             await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);

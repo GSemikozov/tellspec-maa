@@ -1,7 +1,17 @@
 import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { IonCol, IonGrid, IonItem, IonRow, IonTabBar, IonTabButton, IonText } from '@ionic/react';
+import { IonCol, IonGrid, IonItem, IonRow } from '@ionic/react';
 
+import { classname } from '@shared/utils';
+import {
+    HomeIcon,
+    AddMilkIcon,
+    AnalyseMilkIcon,
+    ReportsIcon,
+    SettingsIcon,
+    LogoutIcon,
+} from '@ui/icons';
 import { userAsyncActions } from '@entities/user';
 import { routesMapping } from '@app/routes';
 
@@ -9,136 +19,100 @@ import type { AppDispatch } from '@app/store';
 
 import './sidebar-menu.css';
 
-export const SidebarMenu: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const [activeTab] = React.useState('home');
+const cn = classname('sidebar-menu');
 
-    const handleLogout = () => {
+const MENU_ITEMS = [
+    {
+        id: 'home',
+        title: 'Home',
+        to: routesMapping.home,
+        icon: <HomeIcon size={32} color='currentColor' />,
+    },
+    {
+        id: 'add-milk',
+        title: 'Add Milk',
+        to: routesMapping.addMilk,
+        icon: <AddMilkIcon size={32} color='currentColor' />,
+    },
+    {
+        id: 'analyse-milk',
+        title: 'Analyse Milk',
+        to: routesMapping.analyse,
+        icon: <AnalyseMilkIcon size={32} color='currentColor' />,
+    },
+    {
+        id: 'reports',
+        title: 'Reports',
+        to: routesMapping.reports,
+        icon: <ReportsIcon size={32} color='currentColor' />,
+    },
+    {
+        id: 'settings',
+        title: 'Settings',
+        to: routesMapping.settings,
+        icon: <SettingsIcon size={32} color='currentColor' />,
+    },
+];
+
+export const SidebarMenu: React.FunctionComponent = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const { pathname } = useLocation();
+
+    const handleLogout = (event: React.MouseEvent) => {
+        event.preventDefault();
+
         dispatch(userAsyncActions.logout());
     };
 
     return (
-        <>
-            <div className='sidebarMenu'>
-                <IonItem className='ion-no-margin' id='menu-logo' lines='none'>
-                    <img src='./img/preemie-logo-pink.png' alt='Preemie Logo' />
-                </IonItem>
+        <div className={cn()}>
+            <IonItem className='ion-no-margin' id='menu-logo' lines='none'>
+                <img src='./img/preemie-logo-pink.png' alt='Preemie Logo' />
+            </IonItem>
 
-                <IonGrid className='tabs ion-no-padding'>
-                    <IonRow>
-                        <IonCol>
-                            <IonTabBar>
-                                <IonTabButton tab='home' href={routesMapping.home}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        {activeTab === 'home' ? (
-                                            <img
-                                                src='./icons/general/home-icon-selected.png'
-                                                className='ion-float-left ion-padding-right'
-                                            />
-                                        ) : (
-                                            <img
-                                                src='./icons/general/home-icon-notSelected.png'
-                                                className='ion-float-left ion-padding-right'
-                                            />
-                                        )}
-                                        <h4>
-                                            <IonText
-                                                color={
-                                                    activeTab === 'home' ? 'primary' : 'tertiary'
-                                                }
-                                            >
-                                                Home
-                                            </IonText>
-                                        </h4>
+            <IonGrid className='tabs ion-no-padding'>
+                <IonRow>
+                    <IonCol>
+                        <div className={cn('list')}>
+                            {MENU_ITEMS.map(menuItem => (
+                                <div
+                                    key={menuItem.id}
+                                    className={cn('list-item', {
+                                        active: pathname === menuItem.to,
+                                    })}
+                                >
+                                    <NavLink to={menuItem.to}>
+                                        <div className={cn('list-item-image')}>{menuItem.icon}</div>
+
+                                        <div className={cn('list-item-content')}>
+                                            <h4>{menuItem.title}</h4>
+                                        </div>
+                                    </NavLink>
+                                </div>
+                            ))}
+                        </div>
+                    </IonCol>
+                </IonRow>
+
+                <IonRow>
+                    <IonCol>
+                        <div className={cn('list')}>
+                            <div className={cn('list-item')}>
+                                <NavLink to={routesMapping.home} onClick={handleLogout}>
+                                    <div className={cn('list-item-image')}>
+                                        <LogoutIcon size={32} color='currentColor' />
                                     </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                            <IonTabBar>
-                                <IonTabButton tab='add' href={routesMapping.addMilk}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        {activeTab === 'addMilk' ? (
-                                            <img
-                                                src='./icons/milk/add-milk-selected.png'
-                                                className='ion-float-left ion-padding-right'
-                                            />
-                                        ) : (
-                                            <img
-                                                src='./icons/milk/add-milk-notSelected.png'
-                                                className='ion-float-left ion-padding-right'
-                                            />
-                                        )}
-                                        <h4>
-                                            <IonText
-                                                color={
-                                                    activeTab === 'addMilk' ? 'primary' : 'tertiary'
-                                                }
-                                            >
-                                                Add Milk
-                                            </IonText>
-                                        </h4>
+
+                                    <div className={cn('list-item-content')}>
+                                        <h4>Log out</h4>
                                     </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                            <IonTabBar>
-                                <IonTabButton tab='analyse' href={routesMapping.analyse}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        <img
-                                            src='./icons/milk/analyse-milk-notSelected.png'
-                                            className='ion-float-left'
-                                        />
-                                        <h4>
-                                            <IonText color='tertiary'>Analyse Milk</IonText>
-                                        </h4>
-                                    </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                            <IonTabBar>
-                                <IonTabButton tab='reports' href={routesMapping.reports}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        <img
-                                            src='./icons/general/view-reports-notSelected.png'
-                                            className='ion-float-left'
-                                        />
-                                        <h4>
-                                            <IonText color='tertiary'>View Reports</IonText>
-                                        </h4>
-                                    </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                            <IonTabBar>
-                                <IonTabButton tab='settings' href={routesMapping.settings}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        <img
-                                            src='./icons/general/settings-icon-notSelected.png'
-                                            className='ion-float-left'
-                                        />
-                                        <h4>
-                                            <IonText color='tertiary'>Settings</IonText>
-                                        </h4>
-                                    </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol className='logout-button'>
-                            <IonTabBar>
-                                <IonTabButton tab='settings' href='/' onClick={handleLogout}>
-                                    <div className='menu-icon-tab ion-text-start'>
-                                        <img
-                                            src='./icons/general/logout-icon-notSelected.png'
-                                            className='ion-float-left ion-padding-right'
-                                        />
-                                        <h4>
-                                            <IonText color='tertiary'>Log out</IonText>
-                                        </h4>
-                                    </div>
-                                </IonTabButton>
-                            </IonTabBar>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-            </div>
-        </>
+                                </NavLink>
+                            </div>
+                        </div>
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+        </div>
     );
 };

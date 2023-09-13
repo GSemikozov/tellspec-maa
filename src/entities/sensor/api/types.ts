@@ -60,8 +60,8 @@ export type GetCalibrationResponse = {
             wavelengths: number[];
             white_ref: number[][];
             factory_white_ref: number[][];
-            absorbance: string[]; // ie ["[0.04909865, 0.05166503, ...]"]
-            factory_absorbance: string[]; // ie ["[0.04909865, 0.05166503, ...]"]
+            absorbance: number[][];
+            factory_absorbance: number[][];
         };
 
         'scan-info': {

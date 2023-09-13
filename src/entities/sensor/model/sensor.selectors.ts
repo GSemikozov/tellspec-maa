@@ -27,6 +27,11 @@ export const selectSensorCalibrationLoading = createSelector(
     calibrationStatus => [CalibrationStatus.PROGRESS].includes(calibrationStatus),
 );
 
+export const selectSensorCalibrationReady = createSelector(
+    [selectSensorCalibrationStatus],
+    calibrationStatus => [CalibrationStatus.READY].includes(calibrationStatus),
+);
+
 export const isLoading = (state: RootState) =>
     state.sensor.calibrationStatus === CalibrationStatus.PROGRESS;
 

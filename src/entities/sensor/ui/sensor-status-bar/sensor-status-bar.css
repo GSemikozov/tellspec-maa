@@ -8,7 +8,6 @@
     height: 3.2rem;
     padding: 0 1.6rem;
 
-    
     border-radius: 16px;
 }
 
@@ -16,7 +15,7 @@
     margin-top: 0.4rem;
     margin-left: auto;
     margin-right: 4rem;
-  
+
     font-family: 'Campton';
     font-size: 2rem;
     font-weight: 500;
@@ -26,8 +25,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-
-
 }
 
 .sensor__target-icon_required-calibration {
@@ -36,6 +33,10 @@
 
 .sensor__target-icon_progress-calibration {
     fill: #fa0909;
+}
+
+.sensor__target-icon_clickable {
+    cursor: pointer;
 }
 
 .sensor__bluetooth-icon_enabled {

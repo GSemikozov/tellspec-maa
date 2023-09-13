@@ -302,13 +302,23 @@ export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): 
     return data;
 };
 
-export const tellspecPrepareScanCalibration = (
-    scan: any,
-    model: string,
-    serial: string,
-    originUuid = '',
-    userEmail: string,
-): any => {
+export type TellspecPrepareScanCalibrationOptions = {
+    scan: ScanResultType;
+    model: string;
+    activeConfigName: string;
+    userEmail: string;
+
+    uuid?: string;
+};
+
+export const tellspecPrepareScanCalibration = ({
+    scan,
+    model,
+    activeConfigName,
+    userEmail,
+
+    uuid: originUuid,
+}: TellspecPrepareScanCalibrationOptions): any => {
     const date = moment(scan.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
 
     let newUuid = originUuid;
@@ -332,7 +342,7 @@ export const tellspecPrepareScanCalibration = (
             white_ref: [scan.Intensity],
             absorbance: [scan.absorbance],
             factory_absorbance: [scan.absorbance],
-            'active-config-name': serial,
+            'active-config-name': activeConfigName,
             counts: [scan.Intensity],
             debug_trigger: 'N/A',
         },
@@ -385,6 +395,7 @@ export const tellspecCleanScanData = (scanData: ScanResultType): ScanResultType 
         wavelengths: JSON.parse(scanData.wavelengths),
         ReferenceIntensity: JSON.parse(scanData.ReferenceIntensity),
         Intensity: JSON.parse(scanData.Intensity),
+        absorbance: JSON.parse(scanData.absorbance),
     };
 
     return result;

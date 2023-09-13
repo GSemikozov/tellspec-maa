@@ -16,9 +16,51 @@ import {
 } from '@api/native';
 import { apiInstance } from '@api/network';
 
+import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 import type { RootState } from '@app/store';
 import type { TellspecSensorDevice } from '@api/native';
 import type { SetCalibrationRequest } from '../api';
+
+// TODO: move to service
+type saveCalibrationOptions = {
+    user: RootState['user'];
+    sensor: RootState['sensor'];
+    preferConfig: string;
+    scan: ScanResultType;
+};
+
+const saveCalibration = async ({ sensor, user, preferConfig, scan }: saveCalibrationOptions) => {
+    if (!sensor.device) {
+        return;
+    }
+
+    const scanCalibrationData = tellspecPrepareScanCalibration({
+        scan,
+        model: sensor.device.name,
+        activeConfigName: preferConfig,
+        userEmail: user.email,
+    });
+
+    const requestCalibration: SetCalibrationRequest = {
+        model: sensor.device.name,
+        serial_number: sensor.device.serial,
+        white_reference: scanCalibrationData,
+    };
+
+    await apiInstance.sensor.setCalibration(requestCalibration);
+
+    const toNativeStore = {
+        model: sensor.device.name,
+        serial_number: sensor.device.serial,
+        config: preferConfig,
+        scan: scanCalibrationData,
+    };
+
+    console.log('[calibrateDevice/saveCalibration]: toNativeStore', toNativeStore);
+    await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, toNativeStore);
+
+    return toNativeStore;
+};
 
 export const getPairDevice = createAsyncThunk(
     'sensor/connect',
@@ -68,44 +110,6 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         return;
     }
 
-    const saveCalibration = async (preferConfig: any, scan: any) => {
-        if (!sensor.device) {
-            return;
-        }
-
-        const requestCalibration: SetCalibrationRequest = {
-            model: sensor.device.name,
-            serial_number: sensor.device.serial,
-            white_reference: tellspecPrepareScanCalibration(
-                scan,
-                sensor.device.name,
-                preferConfig,
-                '',
-                user.email,
-            ),
-        };
-
-        await apiInstance.sensor.setCalibration(requestCalibration);
-
-        const toNativeStore = {
-            model: sensor.device.name,
-            serial_number: sensor.device.serial,
-            config: preferConfig,
-            scan: tellspecPrepareScanCalibration(
-                scan,
-                sensor.device.name,
-                preferConfig,
-                '',
-                user.email,
-            ),
-        };
-
-        console.log('[calibrateDevice/saveCalibration]: toNativeStore', toNativeStore);
-        await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, toNativeStore);
-
-        return toNativeStore;
-    };
-
     // get the ScannerData
     const scannerData = await apiInstance.sensor.getScanner(
         sensor.device.name,
@@ -130,7 +134,12 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
         if (preferConfig === configs.activeConfig) {
             // the config is already active.
-            result = await saveCalibration(preferConfig, scanData);
+            result = await saveCalibration({
+                user,
+                sensor,
+                preferConfig,
+                scan: scanData,
+            });
 
             return;
         } else {
@@ -146,7 +155,12 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     // we found a config that we can use. Its not active, se we need to set the device accordantly
                     await tellspecSetActiveConfig({ name: preferConfig });
 
-                    result = await saveCalibration(preferConfig, scanData);
+                    result = await saveCalibration({
+                        user,
+                        sensor,
+                        preferConfig,
+                        scan: scanData,
+                    });
 
                     return;
                 }

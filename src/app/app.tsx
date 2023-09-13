@@ -66,7 +66,7 @@ export const App: React.FunctionComponent = () => {
         <SensorConnectionProcessProvider>
             <IonApp>
                 <IonReactRouter>
-                    <IonRouterOutlet>
+                    <IonRouterOutlet animated={false}>
                         <PublicOnlyRoute exact path={routesMapping.login}>
                             <LoginPage />
                         </PublicOnlyRoute>
