@@ -242,6 +242,7 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Infant Delivery Date'
                                 label-placement='floating'
+                                className='infant-delivery-size'
                                 {...register('infantDeliveryDate', {
                                     required: 'This is a required field',
                                 })}
@@ -270,7 +271,7 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Received Date'
                                 label-placement='floating'
-                                // className='received-date-size'
+                                className='received-date-size'
                                 {...register('receivedDate', {
                                     required: 'This is a required field',
                                 })}
