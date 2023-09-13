@@ -11,7 +11,7 @@ export interface InputProps {
     placeholder?: string;
     type?: TextFieldTypes | undefined;
     fill?: 'outline' | 'solid';
-    value?: string;
+    value?: any;
     className?: string;
 }
 

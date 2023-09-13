@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonCol,
@@ -63,6 +63,8 @@ export const AddMilkForm: React.FC = () => {
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(groupsSelectors.getFreezers);
     const isFetching: boolean | undefined = useSelector(addMilkFormSelectors.isMilkFormFetching);
+    const [expressionValue, setExpressionValue] = useState('');
+    const [infantDeliveryValue, setInfantDeliveryValue] = useState('');
     const [presentAlert] = useIonAlert();
     const {
         register,
@@ -92,37 +94,50 @@ export const AddMilkForm: React.FC = () => {
 
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
-        console.log(values)
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => reset(),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => reset(),
+            });
+        }
     };
 
     const handleAddMilkAndClose = async () => {
         const values = getValues();
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => (window.location.href = '/'),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => (window.location.href = '/'),
+            });
+        }
     };
 
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            alert("Infant delivery date can't be after milk expression date");
+            return;
+        } else {
+            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => (window.location.href = '/analyse'),
-        });
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => (window.location.href = '/analyse'),
+            });
+        }
     };
 
     return (
@@ -218,6 +233,7 @@ export const AddMilkForm: React.FC = () => {
                                     required: 'This is a required field',
                                 })}
                             />
+
                             <span style={{ color: 'red' }}>
                                 {errors.milkExpressionDate?.message}
                             </span>
@@ -229,6 +245,7 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Infant Delivery Date'
                                 label-placement='floating'
+                                value={infantDeliveryValue}
                                 {...register('infantDeliveryDate', {
                                     required: 'This is a required field',
                                 })}
