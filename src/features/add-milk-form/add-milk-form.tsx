@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     IonCol,
     IonGrid,
+    IonInput,
     IonRow,
     IonSelect,
     IonSelectOption,
@@ -91,7 +92,7 @@ export const AddMilkForm: React.FC = () => {
 
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
-
+        console.log(values)
         dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
         await presentAlert({
@@ -115,7 +116,6 @@ export const AddMilkForm: React.FC = () => {
 
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
-
         dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
         await presentAlert({
@@ -208,7 +208,22 @@ export const AddMilkForm: React.FC = () => {
                                 {errors.numberOfContainers?.message}
                             </span>
                         </div>
-
+                        <div className='ion-margin-top ion-margin-bottom'>
+                            <CustomInput
+                                type='date'
+                                label='Milk Expression Date'
+                                label-placement='floating'
+                                // className='expression-date-size'
+                                {...register('milkExpressionDate', {
+                                    required: 'This is a required field',
+                                })}
+                            />
+                            <span style={{ color: 'red' }}>
+                                {errors.milkExpressionDate?.message}
+                            </span>
+                        </div>
+                    </IonCol>
+                    <IonCol size='6'>
                         <div className='ion-margin-top ion-margin-bottom'>
                             <CustomInput
                                 type='date'
@@ -220,21 +235,6 @@ export const AddMilkForm: React.FC = () => {
                             />
                             <span style={{ color: 'red' }}>
                                 {errors.infantDeliveryDate?.message}
-                            </span>
-                        </div>
-                    </IonCol>
-                    <IonCol size='6'>
-                        <div className='ion-margin-top ion-margin-bottom'>
-                            <CustomInput
-                                type='date'
-                                label='Milk Expression Date'
-                                label-placement='floating'
-                                {...register('milkExpressionDate', {
-                                    required: 'This is a required field',
-                                })}
-                            />
-                            <span style={{ color: 'red' }}>
-                                {errors.milkExpressionDate?.message}
                             </span>
                         </div>
 
@@ -257,6 +257,7 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Received Date'
                                 label-placement='floating'
+                                // className='received-date-size'
                                 {...register('receivedDate', {
                                     required: 'This is a required field',
                                 })}

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BarcodeScanner as Scanner } from '@ionic-native/barcode-scanner';
 import { IonButton, IonIcon, IonInput, IonItem } from '@ionic/react';

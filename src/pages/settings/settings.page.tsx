@@ -54,13 +54,13 @@ export const SettingsPage: React.FC = () => {
                         </div>
                         <div className='options'>
                             <p>
-                                <IonText>Connected to</IonText>
+                                <IonText>Paired to</IonText>
                             </p>
                         </div>
                         <div className='line' />
                         <div className='options'>
                             <p>
-                                <IonText>Connect another Sensor</IonText>
+                                <IonText>Pair another Sensor</IonText>
                             </p>
                             <button className='add-button'>ADD</button>
                         </div>
@@ -71,9 +71,15 @@ export const SettingsPage: React.FC = () => {
                         </div>
                         <div className='options'>
                             <p>
-                                <IonText>Expiring Date</IonText>
+                                <IonText>
+                                    Set at<IonText color='primary'>{ExpirationMonth[5]}</IonText>
+                                </IonText>
                             </p>
-                            <IonSelect label='Milk Expiration Date' label-placement='floating'>
+                            <IonSelect
+                                disabled
+                                label='Milk Expiration Date'
+                                label-placement='floating'
+                            >
                                 {ExpirationMonth.map(month => (
                                     <IonSelectOption value={month}>{month}</IonSelectOption>
                                 ))}
@@ -123,7 +129,9 @@ export const SettingsPage: React.FC = () => {
                         </div>
                         <div className='line' />
                         <div className='settings-button-wrapper'>
-                            <CustomButton fill='outline' className='settings-button'>CANCEL</CustomButton>
+                            <CustomButton fill='outline' className='settings-button'>
+                                CANCEL
+                            </CustomButton>
                             <CustomButton className='settings-button'>SAVE CHANGES</CustomButton>
                         </div>
                     </div>

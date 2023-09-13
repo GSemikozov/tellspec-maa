@@ -5,16 +5,18 @@ import type { TextFieldTypes } from '@ionic/core';
 
 import './input.css';
 
+
 export interface InputProps {
     label?: string;
     placeholder?: string;
     type?: TextFieldTypes | undefined;
     fill?: 'outline' | 'solid';
     value?: string;
+    className?: string;
 }
 
 export const CustomInput = React.forwardRef<HTMLIonInputElement, InputProps>((props, ref) => {
-    const { label, placeholder, type, fill, value } = props;
+    const { label, placeholder, type, fill, value, className } = props;
 
     return (
         <IonInput
@@ -25,7 +27,8 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement, InputProps>((pr
             fill={fill}
             type={type}
             value={value}
-            className='custom-input'
+            className={`custom-input ${className || ''}`}
+            id='custom-input'
         />
     );
 });

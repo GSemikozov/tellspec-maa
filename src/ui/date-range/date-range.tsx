@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonDatetime } from '@ionic/react';
-import { format } from "date-fns";
+import { format } from 'date-fns';
 
-import { setDefaultTime } from "./utils";
+import { setDefaultTime } from './utils';
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
 import './date-range.css';
+
 
 type Name = 'from' | 'to';
 
@@ -31,11 +32,14 @@ export const DateRange: React.FC<DataRangeProps> = props => {
         const { name } = target as HTMLIonDatetimeElement;
         const date = new Date(detail.value as string);
         onChange(name as Name, setDefaultTime(date));
+     
     };
 
-    const buttonLabel = from && to
-        ? `${format(new Date(from), 'MM/dd/yy')} - ${format(new Date(to), 'MM/dd/yy')}`
-        : 'Select dates';
+    const buttonLabel =
+        from && to
+            ? `${format(new Date(from), 'MM/dd/yy')} - ${format(new Date(to), 'MM/dd/yy')}`
+            : 'Select dates';
+    
 
     return (
         <div className='dateRange'>
