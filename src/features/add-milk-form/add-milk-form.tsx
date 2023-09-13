@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonCol,
     IonGrid,
-    IonInput,
     IonRow,
     IonSelect,
     IonSelectOption,
@@ -63,8 +62,6 @@ export const AddMilkForm: React.FC = () => {
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(groupsSelectors.getFreezers);
     const isFetching: boolean | undefined = useSelector(addMilkFormSelectors.isMilkFormFetching);
-    const [expressionValue, setExpressionValue] = useState('');
-    const [infantDeliveryValue, setInfantDeliveryValue] = useState('');
     const [presentAlert] = useIonAlert();
     const {
         register,
@@ -245,7 +242,6 @@ export const AddMilkForm: React.FC = () => {
                                 type='date'
                                 label='Infant Delivery Date'
                                 label-placement='floating'
-                                value={infantDeliveryValue}
                                 {...register('infantDeliveryDate', {
                                     required: 'This is a required field',
                                 })}
