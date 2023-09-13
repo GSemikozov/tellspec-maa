@@ -147,14 +147,14 @@ export const SensorManager: React.FunctionComponent = () => {
         if (scannerStatusListener === null) {
             setScannerStatusListener(
                 tellspecAddListener(SensorEvent.SCANNER_STATUS, (data: any) => {
-                    const status = data.state;
+                    // const status = data.state;
 
-                    switch (status) {
-                        case 'off':
-                            dispatch(removeDevice());
-                            onResetStatus();
-                            break;
-                    }
+                    // switch (status) {
+                    //     case 'off':
+                    //         dispatch(removeDevice());
+                    //         onResetStatus();
+                    //         break;
+                    // }
 
                     console.log('[scanner status listener]', JSON.stringify(data));
                 }),
