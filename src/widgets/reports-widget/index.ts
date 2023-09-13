@@ -1,1 +1,1 @@
-export { ReportsWidget } from "./reports-widget";
+export { ReportsWidget } from './reports-widget';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -13,10 +12,11 @@ import { SettingsPage } from '@pages/settings';
 import { userSelectors } from '@entities/user';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
+import { selectIsAppFetching } from '@app/model';
 
 import { fetchAppSettings, fetchBleStatus } from './model/app.actions';
 import { routesMapping } from './routes';
-import { ProtectedRoute } from './components/protected-route';
+import { PublicOnlyRoute, ProtectedRoute } from './components';
 
 import type { AppDispatch } from './store';
 
@@ -27,6 +27,7 @@ setupIonicReact();
 export const App: React.FunctionComponent = () => {
     const readyStore = useSetupStore();
 
+    const isAppFetching = useSelector(selectIsAppFetching);
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -57,7 +58,7 @@ export const App: React.FunctionComponent = () => {
         dispatch(fetchBleStatus());
     }, [isAuthenticated]);
 
-    if (!readyStore) {
+    if (!readyStore || isAppFetching) {
         return null;
     }
 
@@ -66,9 +67,9 @@ export const App: React.FunctionComponent = () => {
             <IonApp>
                 <IonReactRouter>
                     <IonRouterOutlet>
-                        <Route exact path={routesMapping.login}>
+                        <PublicOnlyRoute exact path={routesMapping.login}>
                             <LoginPage />
-                        </Route>
+                        </PublicOnlyRoute>
 
                         <ProtectedRoute exact path={routesMapping.home}>
                             <HomePage />

@@ -5,8 +5,6 @@ import { classname } from '@shared/utils';
 
 import type { JSX } from '@ionic/core/components';
 
-import './preemie-toast.css';
-
 const cn = classname('preemie-toast');
 
 export type PreemieToastProps = JSX.IonToast & {
@@ -29,5 +27,6 @@ export const PreemieToast: React.FunctionComponent<PreemieToastProps> = ({
     if (className) {
         toastClassName += ' ' + className;
     }
+
     return <IonToast className={toastClassName} {...otherProps} />;
 };

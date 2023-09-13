@@ -3,7 +3,9 @@ import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonDatetime } from '@ionic/react';
 import { format } from 'date-fns';
 
+
 import { setDefaultTime } from './utils';
+
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
@@ -39,7 +41,6 @@ export const DateRange: React.FC<DataRangeProps> = props => {
         from && to
             ? `${format(new Date(from), 'MM/dd/yy')} - ${format(new Date(to), 'MM/dd/yy')}`
             : 'Select dates';
-    
 
     return (
         <div className='dateRange'>

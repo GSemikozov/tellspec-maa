@@ -29,8 +29,6 @@ export const SettingsPage: React.FC = () => {
     const freezersList = useSelector(groupsSelectors.getFreezers);
     const ExpirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
 
-
-    
     return (
         <IonPage>
             <IonContent>

@@ -1,42 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { CalibrationStatus } from './sensor.types';
-import { calibrateDevice, removeDevice } from './sensor.actions';
+import { connectSensorDevice, calibrateSensorDevice, removeDevice } from './sensor.actions';
 
-import type { SensorState, SetDeviceAction } from './sensor.types';
+import type { SensorState } from './sensor.types';
 
 const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     device: null,
+    scannerActive: false,
+    sensorModel: '',
+    enSensorEmulation: true,
+    calibrationRequired: true,
+    entities: {},
 };
 
 export const sensorSlice = createSlice({
     name: 'sensor',
     initialState,
-    reducers: {
-        setSensorState: (state, action: SetDeviceAction) => {
+    reducers: {},
+
+    extraReducers: builder => {
+        // connect sensor device
+        builder.addCase(connectSensorDevice.fulfilled, (state, action) => {
             const { device, requiredCalibration } = action.payload;
+
+            state.device = device;
 
             state.calibrationStatus = requiredCalibration
                 ? CalibrationStatus.REQUIRED
                 : CalibrationStatus.READY;
+        });
 
-            state.device = device;
-        },
-    },
-
-    extraReducers: builder => {
-        builder.addCase(calibrateDevice.pending, state => {
+        // calibrate sensor device
+        builder.addCase(calibrateSensorDevice.pending, state => {
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
-
-        builder.addCase(calibrateDevice.rejected, (state, action) => {
-            state.calibrationStatus = CalibrationStatus.ERROR;
-
-            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
-        });
-
-        builder.addCase(calibrateDevice.fulfilled, (state, action) => {
+        builder.addCase(calibrateSensorDevice.fulfilled, (state, action) => {
             state.calibrationStatus = CalibrationStatus.READY;
 
             if (!action.payload) {
@@ -44,6 +44,11 @@ export const sensorSlice = createSlice({
             }
 
             state.device = action.payload.updatedDevice;
+        });
+        builder.addCase(calibrateSensorDevice.rejected, (state, action) => {
+            state.calibrationStatus = CalibrationStatus.ERROR;
+
+            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
         });
 
         builder.addCase(removeDevice.fulfilled, state => {

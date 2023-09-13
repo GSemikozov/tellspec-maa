@@ -1,8 +1,7 @@
 import type { ApexOptions } from 'apexcharts';
 
-export const DEFAULT_SERIES_DATA = [{ data: [] }];
-
-export const DEFAULT_MILK_CHART_OPTIONS: ApexOptions = {
+// TODO: scan type
+export const generateMilkChartConfig = (data: any): ApexOptions => ({
     chart: {
         background: '#FFF',
         height: 280,
@@ -14,12 +13,12 @@ export const DEFAULT_MILK_CHART_OPTIONS: ApexOptions = {
             show: false,
         },
     },
-
     dataLabels: {
         enabled: false,
     },
     stroke: {
         curve: 'smooth',
+        width: 3,
     },
     grid: {
         show: false,
@@ -46,20 +45,22 @@ export const DEFAULT_MILK_CHART_OPTIONS: ApexOptions = {
             text: 'Absorbance',
             offsetX: -10,
             style: {
-                fontSize: '1.5em',
+                fontSize: '1em',
                 fontWeight: 400,
             },
         },
         labels: {
-            style: { fontSize: '1.5em', fontWeight: 400 },
-
+            style: { fontSize: '1em', fontWeight: 400 },
             /**
              * Allows users to apply a custom formatter function to yaxis labels.
              *
              * @param { String } value - The generated value of the y-axis tick
              * @param { index } index of the tick / currently executing iteration in yaxis labels array
              */
-            formatter: function (val: number) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            formatter: function (val: number, index: number) {
                 return val.toFixed(2);
             },
         },
@@ -71,22 +72,16 @@ export const DEFAULT_MILK_CHART_OPTIONS: ApexOptions = {
         title: {
             text: 'Wavelength (nm)',
             style: {
-                fontSize: '1.5em',
+                fontSize: '1em',
                 fontWeight: 400,
             },
         },
-        categories: [],
+        categories: data?.wavelengths || [],
         labels: {
-            style: { fontSize: '1.5em', fontWeight: 400 },
-            /**
-             * Allows users to apply a custom formatter function to yaxis labels.
-             *
-             * @param { String } value - The generated value of the y-axis tick
-             * @param { index } index of the tick / currently executing iteration in yaxis labels array
-             */
-            formatter: function (value: string) {
-                return Number(value).toFixed(1); //`${(1350 + ((val - 1) * 3.137254902)).toFixed(0)}` ;
+            style: { fontSize: '1em', fontWeight: 400 },
+            formatter: function (val: string) {
+                return parseFloat(val).toFixed(1);
             },
         },
     },
-};
+});

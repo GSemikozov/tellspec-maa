@@ -1,1 +1,1 @@
-export { ActionsPanel } from "./actions-panel";
+export { ActionsPanel } from './actions-panel';

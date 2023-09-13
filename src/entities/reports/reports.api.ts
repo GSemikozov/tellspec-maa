@@ -64,12 +64,12 @@ export class ReportsApi extends BaseEndpoint {
         };
 
         const response = await this.http.get(this.reportUrl, tempParam);
-        const { data, detail } = response;
+        const { data } = response;
 
-        if (!detail && data) {
+        if (data) {
             return data;
         } else {
-            throw new Error(detail);
+            throw new Error('internal error');
         }
     };
 }

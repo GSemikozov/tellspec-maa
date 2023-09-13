@@ -88,12 +88,13 @@ export class MilkApi extends BaseEndpoint {
                 preemie_group_id: userData?.metadata.group_id,
                 milk_id: `${milkId}`,
             };
-            const { data, detail } = await this.http.get(`${this.milkUrl}`, Param, {});
+
+            const { data } = await this.http.get(`${this.milkUrl}`, Param, {});
 
             if (data) {
-                return await decodeMilkInformation(data);
+                return decodeMilkInformation(data);
             } else {
-                throw new Error(detail);
+                throw new Error('internal error');
             }
         } catch (error) {
             console.error(error);

@@ -1,8 +1,8 @@
-.reports-buttons-wrapper{
+.reports-buttons-wrapper {
     display: flex;
     justify-content: space-around;
 }
 
-.reports-buttons-wrapper ion-button{
+.reports-buttons-wrapper ion-button {
     margin-top: 2rem;
 }

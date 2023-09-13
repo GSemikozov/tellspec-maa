@@ -1,19 +1,23 @@
 import { BaseEndpoint } from '@api/network';
 
-import { ILoginData, IReturnLogin, IUserData } from './model/user.types';
+import { ILoginData, IReturnLogin } from './model/user.types';
 
 export class UserApi extends BaseEndpoint {
     /**
      * Login method.
      * @param loginData Object which contains credentials
      */
-    login = async (loginData: ILoginData): Promise<IUserData> => {
-        const result: IReturnLogin = await this.http.post('users/rest-auth/login/', loginData);
+    login = async (loginData: ILoginData) => {
+        const result = await this.http.post<IReturnLogin>('users/rest-auth/login/', loginData);
 
-        return {
-            ...result.data.user,
-            token: result.data.key,
-        };
+        if (result.data) {
+            return {
+                ...result.data.user,
+                token: result.data.key,
+            };
+        }
+
+        return null;
     };
 
     /**

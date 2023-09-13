@@ -3,7 +3,7 @@ import { DonorsApi } from '@entities/donors/donors.api';
 import { GroupsApi } from '@entities/groups/groups.api';
 import { MilkApi } from '@entities/milk/milk.api';
 import { ReportsApi } from '@entities/reports/reports.api';
-import { SensorApi } from '@entities/sensor/sensor.api';
+import { SensorApi } from '@entities/sensor';
 
 export class API {
     public readonly users: UserApi;

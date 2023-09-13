@@ -26,3 +26,10 @@ export const selectSensorCalibrationLoading = createSelector(
     [selectSensorCalibrationStatus],
     calibrationStatus => [CalibrationStatus.PROGRESS].includes(calibrationStatus),
 );
+
+export const isLoading = (state: RootState) =>
+    state.sensor.calibrationStatus === CalibrationStatus.PROGRESS;
+
+export const getScanById = (id: string) => (state: RootState) => {
+    return state.sensor.entities[id];
+};

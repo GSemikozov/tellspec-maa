@@ -46,6 +46,7 @@ export const userSlice = createSlice({
                 status: 'success',
             };
         });
+
         builder.addCase(login.pending, state => {
             state.status = 'loading';
         });
@@ -58,6 +59,7 @@ export const userSlice = createSlice({
         builder.addCase(login.rejected, state => {
             state.status = 'error';
         });
+
         builder.addCase(logout.pending, () => {});
         builder.addCase(logout.fulfilled, () => {
             return initialState;
