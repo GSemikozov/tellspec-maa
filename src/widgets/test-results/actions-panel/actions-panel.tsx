@@ -1,46 +1,64 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { IonButton, IonCol, IonRow } from '@ionic/react';
+import { IonButton } from '@ionic/react';
 // import { appActions } from "../../../app";
 
+import { useEvent } from '@shared/hooks';
+import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
 import type { AppDispatch } from '@app';
 // import { CustomButton } from '@ui/button/button';
 
-export const ActionsPanel: React.FC = () => {
+import './actions-panel.css';
+
+const cn = classname('actions-panel');
+
+type ActionsPanelProps = {
+    onAnalyseMilk: () => Promise<void>;
+
+    onlyAnalyse?: boolean;
+};
+
+export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
+    onlyAnalyse,
+    onAnalyseMilk,
+}) => {
     const dispatch = useDispatch<AppDispatch>();
 
+    const handleAnalyseMilkEvent = useEvent(onAnalyseMilk);
+
     const handlePrintTestResults = () => {
-        // dispatch(appActions.showAlert({
-        //   alertHeader: 'Test',
-        //   alertSubHeader: 'test subheader',
-        //   alertMessage: 'message'
-        // }));
-
-        // dispatch(appActions.showBackdrop({
-        //   backdropText: 'test',
-        // }))
-
         dispatch(labelPrinterAsyncActions.pairPrinter());
     };
 
-    return (
-        <IonRow>
-            <IonCol>
+    return React.useMemo(() => {
+        if (onlyAnalyse) {
+            return (
+                <div className={cn()}>
+                    <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
+                        Analyse This Milk
+                    </IonButton>
+                </div>
+            );
+        }
+
+        return (
+            <div className={cn()}>
                 <IonButton expand='full'>Print Label</IonButton>
-            </IonCol>
-            <IonCol>
+
                 <IonButton expand='full' onClick={handlePrintTestResults}>
                     Print Milk Test Results
                 </IonButton>
-            </IonCol>
-            <IonCol>
-                <IonButton expand='full'>Analyse Another Milk</IonButton>
-            </IonCol>
-            <IonCol>
-                <IonButton expand='full'>Reanalyse This Milk</IonButton>
-            </IonCol>
-        </IonRow>
-    );
+
+                <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
+                    Analyse Another Milk
+                </IonButton>
+
+                <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
+                    Reanalyse This Milk
+                </IonButton>
+            </div>
+        );
+    }, [onlyAnalyse, handleAnalyseMilkEvent]);
 };

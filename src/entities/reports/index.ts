@@ -1,3 +1,5 @@
+export * from './api';
+
 export { reportsReducer, reportsActions } from './model/reports.slice';
 
 export * as reportsTypes from './model/reports.types';

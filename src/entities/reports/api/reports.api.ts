@@ -1,12 +1,12 @@
 import { BaseEndpoint } from '@api/network';
 import { getUserLocalData } from '@entities/user/user.utils';
 
-import type { IReport, IReportRequestParam } from './model/reports.types';
+import type { Report, IReportRequestParam } from './types';
 
 export class ReportsApi extends BaseEndpoint {
-    private reportUrl = 'main/reports/';
+    private reportUrl = '/main/reports/';
 
-    addReport = async (report: IReport): Promise<void> => {
+    addReport = async (report: Report): Promise<void> => {
         const userData = await getUserLocalData();
         const response = await this.http.post(this.reportUrl, report, {
             preemie_group_id: userData?.metadata.group_id,
@@ -22,7 +22,7 @@ export class ReportsApi extends BaseEndpoint {
         }
     };
 
-    updateReport = async (report: IReport): Promise<void> => {
+    updateReport = async (report: Report): Promise<void> => {
         const userData = await getUserLocalData();
         const response = await this.http.patch(this.reportUrl, report, {
             uuid: report.uuid,
@@ -39,7 +39,7 @@ export class ReportsApi extends BaseEndpoint {
         }
     };
 
-    deleteReport = async (report: IReport): Promise<void> => {
+    deleteReport = async (report: Report): Promise<void> => {
         const userData = await getUserLocalData();
         const response = await this.http.delete(this.reportUrl, {
             uuid: report.uuid,
@@ -56,7 +56,7 @@ export class ReportsApi extends BaseEndpoint {
         }
     };
 
-    fetchReport = async (param: IReportRequestParam): Promise<IReport[]> => {
+    fetchReport = async (param: IReportRequestParam): Promise<Report[]> => {
         const userData = await getUserLocalData();
         const tempParam = {
             ...param,

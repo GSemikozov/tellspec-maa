@@ -1,35 +1,49 @@
-.analyse-wrapper {
-    border: 2px solid var(--ion-color-tertiary-tint);
-    border-radius: 5px;
-    padding: 1rem;
+.analyse-milk-widget {
+    background: var(--ion-background-color);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
 }
-.analyse-header {
+
+.analyse-milk-widget__header {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-end;
 }
 
-.analyse-header img {
-    width: 3.2rem;
-    margin-right: 1rem;
+.analyse-milk-widget__header-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    padding-left: 20px;
 }
 
-.analyse-tabs {
-    margin-top: 16px;
-}
-
-.analyse-tabs__content {
-    width: 100%;
-    margin: 32px 0 16px 0;
-    text-align: center;
-}
-
-.analyse-tabs__content-placeholder {
-    font-size: 1.6rem;
-}
-
-.milk-id-scanner {
+.analyse-milk-widget__header-title-icon {
+    margin-right: 16px;
     color: var(--ion-color-primary);
+}
 
-    border-bottom: 1px solid var(--ion-color-primary);
+.analyse-milk-widget__header-title-text {
+    color: var(--color-text-main-text-dark);
+    font-family: Campton;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.analyse-milk-widget__tabs {
+    margin-top: 8px;
+}
+
+.analyse-milk-widget__tab {
+    width: 100%;
+    padding: 16px 0;
+}
+
+.analyse-milk-widget__tab-placeholder {
+    padding: 16px 0;
+
+    font-size: 1.6rem;
+    text-align: center;
 }

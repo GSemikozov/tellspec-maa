@@ -79,6 +79,7 @@ http://ionicframework.com/docs/theming/ */
 
     /** Text **/
     --color-text-main-text-mid: #666;
+    --color-text-main-text-dark: #333;
     --color-text-main-text-extra-dark: #1a1a1a;
 }
 

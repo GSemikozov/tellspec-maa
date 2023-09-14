@@ -9,8 +9,9 @@ import {
     IonText,
     useIonAlert,
 } from '@ionic/react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
+import { usePreemieToast } from '@shared/ui';
 import { userSelectors } from '@entities/user';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { groupsAsyncActions, groupsSelectors } from '@entities/groups';
@@ -19,7 +20,6 @@ import { CustomInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
 import { AppDispatch } from '@app/store';
 import { IFreezer } from '@entities/groups/model/groups.types';
-import { BarcodeScanner } from '@ui';
 
 import AddMilkIcon from '../../../assets/images/add-milk-selected.png';
 
@@ -56,18 +56,21 @@ const defaultValues = {
     storageCompartment: '',
 };
 
-export const AddMilkForm: React.FC = () => {
+export const AddMilkForm: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const groupId = useSelector(userSelectors.getGroupId);
+
+    const groupId = useSelector(userSelectors.selectGroupId);
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(groupsSelectors.getFreezers);
-    const isFetching: boolean | undefined = useSelector(addMilkFormSelectors.isMilkFormFetching);
+    const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
+
     const [presentAlert] = useIonAlert();
+    const [presentToast] = usePreemieToast();
+
     const {
         register,
         getValues,
         reset,
-        control,
         formState: { errors },
         watch,
     } = useForm<AddMilkFormFieldValues>({
@@ -80,61 +83,76 @@ export const AddMilkForm: React.FC = () => {
     const compartmentList = useSelector(getCompartmentList(selectedStorageFreezer));
 
     React.useEffect(() => {
-        dispatch(
-            donorsAsyncActions.fetchDonors({
-                completeData: true,
-                showArchived: false,
-            }),
-        );
+        const fetchDonorsRequest = {
+            completeData: true,
+            showArchived: false,
+        };
+
+        dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
         dispatch(groupsAsyncActions.fetchGroup({ preemie_group_id: groupId }));
     }, []);
 
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
-            alert("Infant delivery date can't be after milk expression date");
-            return;
-        } else {
-            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-            await presentAlert({
-                header: 'The record has been saved',
-                buttons: ['OK'],
-                onDidDismiss: () => reset(),
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            await presentToast({
+                type: 'error',
+                message: "Infant delivery date can't be after milk expression date",
             });
+
+            return;
         }
+
+        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
+
+        await presentAlert({
+            header: 'The record has been saved',
+            buttons: ['OK'],
+            onDidDismiss: () => reset(),
+        });
     };
 
     const handleAddMilkAndClose = async () => {
         const values = getValues();
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
-            alert("Infant delivery date can't be after milk expression date");
-            return;
-        } else {
-            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-            await presentAlert({
-                header: 'The record has been saved',
-                buttons: ['OK'],
-                onDidDismiss: () => (window.location.href = '/'),
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            await presentToast({
+                type: 'error',
+                message: "Infant delivery date can't be after milk expression date",
             });
+
+            return;
         }
+
+        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
+
+        await presentAlert({
+            header: 'The record has been saved',
+            buttons: ['OK'],
+            // onDidDismiss: () => (window.location.href = '/'),
+        });
     };
 
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
-            alert("Infant delivery date can't be after milk expression date");
-            return;
-        } else {
-            dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
 
-            await presentAlert({
-                header: 'The record has been saved',
-                buttons: ['OK'],
-                onDidDismiss: () => (window.location.href = '/analyse'),
+        if (values.infantDeliveryDate > values.milkExpressionDate) {
+            await presentToast({
+                type: 'error',
+                message: "Infant delivery date can't be after milk expression date",
             });
+
+            return;
         }
+
+        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
+
+        await presentAlert({
+            header: 'The record has been saved',
+            buttons: ['OK'],
+            // onDidDismiss: () => (window.location.href = '/analyse'),
+        });
     };
 
     return (
@@ -143,31 +161,25 @@ export const AddMilkForm: React.FC = () => {
                 <div className='add-milk-header'>
                     <h2>
                         <IonText>
-                            {' '}
                             <img src={AddMilkIcon} />
                             Add Milk
                         </IonText>
                     </h2>
 
                     <div className='ion-margin-top ion-margin-bottom' id='milk-id'>
-                        <Controller
-                            defaultValue=''
-                            control={control}
-                            name='milkId'
-                            render={({ field }) => {
-                                return (
-                                    <BarcodeScanner
-                                        {...field}
-                                        title='Milk ID'
-                                        onChange={e => field.onChange(e)}
-                                        value={field.value}
-                                    />
-                                );
-                            }}
+                        <CustomInput
+                            type='text'
+                            label='Milk ID'
+                            label-placement='floating'
+                            {...register('milkId', {
+                                required: 'This is a required field',
+                            })}
                         />
+
                         <span style={{ color: 'red' }}>{errors.milkVolume?.message}</span>
                     </div>
                 </div>
+
                 <IonRow>
                     <IonCol size='6'>
                         <div className='ion-margin-top ion-margin-bottom'>

@@ -1,8 +1,8 @@
 import { UserApi } from '@entities/user/user.api';
 import { DonorsApi } from '@entities/donors/donors.api';
 import { GroupsApi } from '@entities/groups/groups.api';
-import { MilkApi } from '@entities/milk/milk.api';
-import { ReportsApi } from '@entities/reports/reports.api';
+import { MilkApi } from '@entities/milk';
+import { ReportsApi } from '@entities/reports';
 import { SensorApi } from '@entities/sensor';
 
 export class API {

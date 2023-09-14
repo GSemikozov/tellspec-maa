@@ -1,51 +1,53 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import Chart from 'react-apexcharts';
-import { useSelector } from 'react-redux';
 
-import { getScanById } from '@entities/sensor';
-import { EMULATION_SCAN_ID } from '@entities/sensor/sensor.constants.ts';
+import { classname } from '@shared/utils';
 
 import { generateMilkChartConfig } from './config';
 
+import type { ScanResultType } from 'tellspec-sensor-sdk/src';
+
 import './spectrum-analyse.css';
 
+const cn = classname('test-results');
+
 type SpectrumAnalyseProps = {
-    milkID: string;
+    sensorScannedData: ScanResultType | null;
+    onAnalyseMilk: () => Promise<void>;
 };
 
-export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = props => {
-    const { milkID } = props;
+export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
+    sensorScannedData,
+}) => {
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
-    const [width, setWidth] = useState(0);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const scanData = useSelector(getScanById(EMULATION_SCAN_ID));
-    const options = useMemo(() => generateMilkChartConfig(scanData), [scanData]);
+    const [width, setWidth] = React.useState(0);
 
-    useEffect(() => {
-        if (!milkID) {
-            return;
-        }
-
-        // TODO: dispatch data
-    }, [milkID]);
-
-    useEffect(() => {
+    React.useEffect(() => {
         setWidth(containerRef.current?.offsetWidth || 0);
     }, []);
 
-    if (!scanData) {
-        return <div>Not found</div>;
+    const { options, series } = React.useMemo(() => {
+        if (!sensorScannedData) {
+            return {
+                options: {},
+                series: [],
+            };
+        }
+
+        return {
+            options: generateMilkChartConfig(sensorScannedData),
+            series: [{ data: sensorScannedData.absorbance }],
+        };
+    }, [sensorScannedData]);
+
+    if (!sensorScannedData) {
+        return <div className={cn('placeholder')}>Not found sensor scanned data</div>;
     }
 
     return (
-        <div className='spectrum-analyse' ref={containerRef}>
-            <Chart
-                width={width}
-                height={379}
-                options={options}
-                series={[{ data: scanData?.absorbance }]}
-                type='line'
-            />
+        <div className={cn()} ref={containerRef}>
+            <Chart type='line' height={620} width={width} options={options} series={series} />
         </div>
     );
 };

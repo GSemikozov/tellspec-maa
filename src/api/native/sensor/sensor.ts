@@ -179,7 +179,7 @@ export const tellspecRemoveDevice = async (): Promise<void> => {
     await nativeStore.remove(NativeStorageKeys.DEVICE);
 };
 
-export const tellspecRunScan = async (userEmail: string): Promise<any> => {
+export const tellspecRunScan = async (userEmail: string) => {
     if (await isEmulateNativeSdk()) {
         // emulate scan
         return tellspecGetScan(EMULATION_SCAN_ID);
@@ -192,9 +192,7 @@ export const tellspecRunScan = async (userEmail: string): Promise<any> => {
     }
 
     const disconnect = await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
-
-    const startScanResult = await tellspecStartScan();
-    const scanData = tellspecCleanScanData(startScanResult);
+    const scanData = tellspecCleanScanData(await tellspecStartScan());
 
     await tellspecSaveScan(scanData, pairedDevice, userEmail);
     await disconnect();
@@ -202,7 +200,7 @@ export const tellspecRunScan = async (userEmail: string): Promise<any> => {
     return scanData;
 };
 
-export const tellspecGetScan = async (scanId: string): Promise<any> => {
+export const tellspecGetScan = async (scanId: string) => {
     const scanDataResponse = await apiInstance.sensor.getScanData(scanId);
 
     if (
@@ -223,16 +221,11 @@ export const tellspecGetScan = async (scanId: string): Promise<any> => {
         absorbance: scanData.absorbance[0],
     };
 
-    return result;
+    return result as unknown as ScanResultType;
 };
 
-export const tellspecSaveScan = async (
-    scanData: any,
-    device: BleDeviceInfo,
-    userEmail: string,
-): Promise<any> => {
+export const tellspecSaveScan = async (scanData: any, device: BleDeviceInfo, userEmail: string) => {
     const requestBody = tellspecPrepareScan(scanData, userEmail, device);
-
     const saveScanResponse = await apiInstance.sensor.saveScan(requestBody);
 
     return saveScanResponse;

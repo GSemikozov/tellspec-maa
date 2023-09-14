@@ -1,3 +1,10 @@
 .spectrum-analyse {
     width: 100%;
 }
+
+.spectrum-analyse__placeholder {
+    padding: 16px 0;
+
+    font-size: 1.6rem;
+    text-align: center;
+}
