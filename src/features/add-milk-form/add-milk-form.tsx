@@ -143,7 +143,6 @@ export const AddMilkForm: React.FC = () => {
                 <div className='add-milk-header'>
                     <h2>
                         <IonText>
-                            {' '}
                             <img src={AddMilkIcon} />
                             Add Milk
                         </IonText>
@@ -253,6 +252,7 @@ export const AddMilkForm: React.FC = () => {
                         </div>
 
                         <div className='ion-margin-top ion-margin-bottom'>
+                           
                             <CustomInput
                                 type='date'
                                 label='Milk Expiration Date'
