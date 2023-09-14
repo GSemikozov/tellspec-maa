@@ -9,6 +9,7 @@ import { AnalysePage } from '@pages/analyse';
 import { AddMilkPage } from '@pages/add-milk';
 import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
+import { SensorPage } from '@pages/sensor-page';
 import { userSelectors } from '@entities/user';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
@@ -89,6 +90,10 @@ export const App: React.FunctionComponent = () => {
 
                         <ProtectedRoute exact path={routesMapping.settings}>
                             <SettingsPage />
+                        </ProtectedRoute>
+
+                        <ProtectedRoute exact path={routesMapping.sensorPage}>
+                            <SensorPage />
                         </ProtectedRoute>
                     </IonRouterOutlet>
                 </IonReactRouter>

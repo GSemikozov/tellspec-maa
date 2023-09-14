@@ -54,7 +54,7 @@
     padding-left: 1rem;
 }
 .line {
-    width: 97.6%;
+    width: 97%;
     height: 1px;
     background-color: var(--ion-color-tertiary-shade);
     margin-left: 1.5rem;

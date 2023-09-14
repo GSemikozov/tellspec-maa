@@ -265,6 +265,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         </div>
 
                         <div className='ion-margin-top ion-margin-bottom'>
+                           
                             <CustomInput
                                 type='date'
                                 label='Milk Expiration Date'

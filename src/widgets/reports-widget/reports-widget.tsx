@@ -42,15 +42,17 @@ export const ReportsWidget: React.FC = () => {
         <>
             <IonRow className='ion-align-items-center'>
                 <IonCol>
-                    <h1>
-                        <IonText>
-                            <img src={ReportsIcon} className='reports-icon' />
-                            View Reports
-                        </IonText>
-                    </h1>
-                    <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                        Select All
-                    </IonCheckbox>
+                    <div className='reports-header'>
+                        <h2>
+                            <IonText>
+                                <img src={ReportsIcon} />
+                                View Reports
+                            </IonText>
+                        </h2>
+                    </div>
+                        <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
+                            Select All
+                        </IonCheckbox>
                 </IonCol>
 
                 <IonCol>
