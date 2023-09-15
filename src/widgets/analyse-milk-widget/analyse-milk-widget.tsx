@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonInput, IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
-// eslint-disable-next-line import/named
-import { InputInputEventDetail, IonInputCustomEvent } from '@ionic/core';
+import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
 
 import { BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
@@ -178,12 +176,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 </div>
 
                 <div className={cn('header-scanner')}>
-                    <IonInput
-                        value={milkId}
-                        onIonInput={(event: IonInputCustomEvent<InputInputEventDetail>) =>
-                            setMilkId(event.target.value as string)
-                        }
-                    />
                     <BarcodeScanner
                         title='Select, Scan or Enter Milk ID'
                         options={milkOptions}
