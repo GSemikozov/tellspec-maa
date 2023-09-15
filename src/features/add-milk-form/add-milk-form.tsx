@@ -18,10 +18,12 @@ import { groupsAsyncActions, groupsSelectors } from '@entities/groups';
 import { getCompartmentList } from '@entities/groups/model/groups.selectors';
 import { CustomInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
+import { AddMilkIcon } from '@ui/icons';
 import { AppDispatch } from '@app/store';
 import { IFreezer } from '@entities/groups/model/groups.types';
+import { classname } from '@shared/utils';
 
-import AddMilkIcon from '../../../assets/images/add-milk-selected.png';
+// import AddMilkIcon from '../../../assets/images/add-milk-selected.png';
 
 import { addMilkFormSelectors, addMilkFormAsyncActions } from './model';
 import { buildMilkData } from './add-milk-form.utils';
@@ -29,6 +31,7 @@ import { buildMilkData } from './add-milk-form.utils';
 import type { IDonor } from '@entities/donors/model/donors.types';
 
 import './add-milk-form.css';
+const cn = classname('add-milk-form');
 
 export interface AddMilkFormFieldValues {
     milkId: string;
@@ -157,16 +160,15 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     return (
         <form>
-            <IonGrid id='add-milk-wrapper'>
-                <div className='add-milk-header'>
-                    <h2>
-                        <IonText>
-                            <img src={AddMilkIcon} />
-                            Add Milk
-                        </IonText>
-                    </h2>
-
-                    <div className='ion-margin-top ion-margin-bottom' id='milk-id'>
+            <IonGrid className={cn()}>
+                <div className={cn('header')}>
+                    <div className={cn('header-title-icon-wrapper')}>
+                        <div className={cn('header-title-icon')}>
+                            <AddMilkIcon size={32} color='currentColor' />
+                        </div>
+                        <div className={cn('header-title-text')}>Add Milk</div>
+                    </div>
+                    <div className={cn('milk-id-input')}>
                         <CustomInput
                             type='text'
                             label='Milk ID'
@@ -182,9 +184,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
                 <IonRow>
                     <IonCol size='6'>
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <IonSelect
-                                className='add-milk-input'
+                                className={cn('input')}
                                 label='Donor ID'
                                 label-placement='floating'
                                 {...register('donorId', {
@@ -201,11 +203,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <span style={{ color: 'red' }}>{errors.donorId?.message}</span>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <IonSelect
                                 label='Storage Compartment'
                                 label-placement='floating'
-                                className='add-milk-input'
+                                className={cn('input')}
                                 {...register('storageCompartment', {
                                     required: 'This is a required field',
                                 })}
@@ -219,7 +221,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <span style={{ color: 'red' }}>{errors.milkVolume?.message}</span>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <CustomInput
                                 type='number'
                                 label='Number of Containers'
@@ -232,7 +234,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 {errors.numberOfContainers?.message}
                             </span>
                         </div>
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <CustomInput
                                 type='date'
                                 label='Milk Expression Date'
@@ -249,7 +251,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         </div>
                     </IonCol>
                     <IonCol size='6'>
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <CustomInput
                                 type='date'
                                 label='Infant Delivery Date'
@@ -264,7 +266,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             </span>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <CustomInput
                                 type='date'
                                 label='Milk Expiration Date'
@@ -278,7 +280,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             </span>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <CustomInput
                                 type='date'
                                 label='Received Date'
@@ -291,9 +293,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <span style={{ color: 'red' }}>{errors.receivedDate?.message}</span>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('input-wrapper')}>
                             <IonSelect
-                                className='add-milk-input'
+                                className={cn('input')}
                                 label='Storage Freezer'
                                 label-placement='floating'
                                 {...register('storageFreezer', {
@@ -314,33 +316,32 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     </IonCol>
                 </IonRow>
 
-                <IonRow className='button-wrapper-add-milk'>
-                    <CustomButton
-                        className='button'
-                        size='small'
-                        disabled={isFetching}
-                        onClick={handleAddMilkAndClearForm}
-                    >
-                        {isFetching ? 'loading...' : 'Save & Add Another Milk'}
-                    </CustomButton>
+                <IonRow>
+                    <div className={cn('button-wrapper')}>
+                        <CustomButton
+                            size='small'
+                            disabled={isFetching}
+                            onClick={handleAddMilkAndClearForm}
+                        >
+                            {isFetching ? 'loading...' : 'Save & Add Another Milk'}
+                        </CustomButton>
 
-                    <CustomButton
-                        className='button'
-                        size='small'
-                        disabled={isFetching}
-                        onClick={handleAddMilkAndClose}
-                    >
-                        {isFetching ? 'loading...' : 'Save this Milk and Close'}
-                    </CustomButton>
+                        <CustomButton
+                            size='small'
+                            disabled={isFetching}
+                            onClick={handleAddMilkAndClose}
+                        >
+                            {isFetching ? 'loading...' : 'Save this Milk and Close'}
+                        </CustomButton>
 
-                    <CustomButton
-                        className='button'
-                        size='small'
-                        disabled={isFetching}
-                        onClick={handleAddMilkAndAnalyse}
-                    >
-                        {isFetching ? 'loading...' : 'Save this Milk & Analyse'}
-                    </CustomButton>
+                        <CustomButton
+                            size='small'
+                            disabled={isFetching}
+                            onClick={handleAddMilkAndAnalyse}
+                        >
+                            {isFetching ? 'loading...' : 'Save this Milk & Analyse'}
+                        </CustomButton>
+                    </div>
                 </IonRow>
             </IonGrid>
         </form>

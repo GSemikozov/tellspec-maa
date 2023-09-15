@@ -11,7 +11,9 @@ import {
     ReportsIcon,
     SettingsIcon,
     LogoutIcon,
+    SensorIcon
 } from '@ui/icons';
+
 import { userAsyncActions } from '@entities/user';
 import { routesMapping } from '@app/routes';
 
@@ -50,7 +52,7 @@ const MENU_ITEMS = [
         id: 'sensor-page',
         title: 'Preemie Sensor',
         to: routesMapping.sensorPage,
-        icon: <SettingsIcon size={32} color='currentColor' />,
+        icon: <SensorIcon size={32} color='currentColor' />,
     },
     {
         id: 'settings',

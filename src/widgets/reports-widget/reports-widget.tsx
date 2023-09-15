@@ -11,8 +11,12 @@ import { ActionsPanel } from './actions-panel';
 
 import type { AppDispatch } from '@app';
 
-import ReportsIcon from '../../../assets/images/view-reports-selected.png';
+// import ReportsIcon from '../../../assets/images/view-reports-selected.png';
+import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
+import { classname } from '@shared/utils';
+
+const cn = classname('reports-page')
 
 export const ReportsWidget: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -40,22 +44,25 @@ export const ReportsWidget: React.FC = () => {
 
     return (
         <>
-            <IonRow className='ion-align-items-center'>
+            <IonRow className={cn()}>
                 <IonCol>
-                    <div className='reports-header'>
-                        <h2>
-                            <IonText>
-                                <img src={ReportsIcon} />
-                                View Reports
-                            </IonText>
-                        </h2>
+                    <div className={cn('header')}>
+                        <div className={cn('header-title')}>
+                            <div className={cn('header-icon')}>
+                                <ReportsIcon size={32} color='currentColor' />
+                            </div>
+
+                            <div className={cn('header-title-text')}>View Reports</div>
+                        </div>
                     </div>
-                    <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                        Select All
-                    </IonCheckbox>
+                    <div className={cn('checkbox')}>
+                        <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
+                            Select All
+                        </IonCheckbox>
+                    </div>
                 </IonCol>
 
-                <IonCol>
+                <IonCol>``
                     <DateRange from={from} to={to} onChange={handleDateRangeChange} />
                 </IonCol>
             </IonRow>

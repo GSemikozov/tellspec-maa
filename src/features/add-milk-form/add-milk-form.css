@@ -1,21 +1,33 @@
-#add-milk-wrapper {
+.add-milk-form {
     border: 1px solid var(--ion-color-tertiary-tint);
     border-radius: 5px;
     padding: 1rem;
 }
 
-.add-milk-header {
+.add-milk-form__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.add-milk-header img {
-    width: 3rem;
-    margin-right: 1rem;
+.add-milk-form__header-title-icon {
+    margin-right: 16px;
+    margin-left: 1rem;
+    color: var(--ion-color-primary);
+}
+.add-milk-form__header-title-icon-wrapper {
+    display: flex;
+    align-items: center;
 }
 
-.add-milk-input {
+.add-milk-form__header-title-text {
+    color: var(--color-text-main-text-dark);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.add-milk-form__input {
     width: calc(100% - 1rem);
     margin: 0.5rem;
 
@@ -25,12 +37,16 @@
     border-bottom: 1px solid var(--ion-color-primary);
 }
 
-#milk-id {
-    width: 20vw;
-    margin: 0.5rem;
+.add-milk-form__milk-id-input {
+    width: 21vw;
+    margin: 1rem 0;
 }
 
-.button-wrapper-add-milk {
+.add-milk-form__input-wrapper{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.add-milk-form__button-wrapper {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
@@ -38,7 +54,7 @@
     margin-top: 14rem;
 }
 
-.button-wrapper-add-milk .button {
+.add-milk-form__button-wrapper ion-button {
     width: 30%;
     margin: 0 1rem !important;
     font-size: 1.4rem;
