@@ -10,7 +10,7 @@ export const fetchDonors = createAsyncThunk(
         const { completeData, showArchived } = data;
 
         try {
-            return await apiInstance.donors.getAllDonors(completeData, showArchived);
+            return apiInstance.donors.getAllDonors(completeData, showArchived);
         } catch (error) {
             console.error(error);
             throw new Error("Can't fetch donors list. Try again later");

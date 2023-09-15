@@ -1,3 +1,6 @@
 .test-results__placeholder {
+    padding: 16px;
+
     font-size: 1.6rem;
+    text-align: center;
 }

@@ -2,17 +2,17 @@ import { decrypt, encrypt } from '@api/shared';
 import { BaseEndpoint } from '@api/network';
 import { getUserLocalData } from '@entities/user/user.utils';
 
-import type { IMilk, IMilkList } from './model/milk.types';
+import type { Milk, AddMilkResponse } from './types';
 
 /**
- * Handle converting the recieved server data to IMilk type
+ * Handle converting the recieved server data to Milk type
  * @param milkPayload
- * @return IMilk
+ * @return Milk
  */
-const decodeMilkInformation = async (source: any): Promise<IMilk> => {
+const decodeMilkInformation = async (source: any): Promise<Milk> => {
     const sensitiveData: string = source.sensitive_data;
 
-    const result: IMilk = {
+    const result: Milk = {
         donor: source.donor,
         data: source.data,
         archived: source.archived,
@@ -21,6 +21,7 @@ const decodeMilkInformation = async (source: any): Promise<IMilk> => {
         created_at: source.created_at,
         last_modified_at: source.last_modified_at,
         sensitive_data: source.sensitive_data,
+        reports: [],
     };
 
     if (!sensitiveData || !sensitiveData.trim()) {
@@ -28,6 +29,7 @@ const decodeMilkInformation = async (source: any): Promise<IMilk> => {
     }
 
     const decodedData = await decrypt(sensitiveData);
+
     if (decodedData && decodedData.trim()) {
         result.sensitive_data = JSON.parse(decodedData);
         return result;
@@ -37,17 +39,18 @@ const decodeMilkInformation = async (source: any): Promise<IMilk> => {
 };
 
 /**
- * Handle converting the IMilk type to what the server needs
+ * Handle converting the Milk type to what the server needs
  * @param source
- * @return IMilk
+ * @return Milk
  */
-const encodeMilkInformation = async (source: IMilk): Promise<any> => {
+const encodeMilkInformation = async (source: Milk): Promise<any> => {
     if (!source.sensitive_data) {
         throw new Error('Invalid sensitive data');
     }
 
     const temp: string = JSON.stringify(source.sensitive_data);
     const result = await encrypt(temp);
+
     return {
         donor: source.donor,
         data: source.data,
@@ -61,27 +64,33 @@ const encodeMilkInformation = async (source: IMilk): Promise<any> => {
 };
 
 export class MilkApi extends BaseEndpoint {
-    private milkUrl = 'main/milks/';
+    private getMilksUrl = '/main/milks-all';
 
-    addMilk = async (milkData: IMilk): Promise<IMilkList> => {
-        try {
-            const userData = await getUserLocalData();
-            const result = await encodeMilkInformation(milkData);
-            const { data } = await this.http.post(
-                this.milkUrl,
-                result,
-                { preemie_group_id: userData?.metadata.group_id },
-                {},
-            );
+    private milkUrl = '/main/milks/';
 
-            return data;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
+    getMilks = async () => {
+        const userData = await getUserLocalData();
+
+        const response = await this.http.get<Milk[]>(this.getMilksUrl, {
+            preemie_group_id: userData?.metadata.group_id,
+        });
+
+        return response.data;
     };
 
-    getMilk = async (milkId: string): Promise<IMilk> => {
+    addMilk = async (milkData: Milk) => {
+        const userData = await getUserLocalData();
+
+        const requestBody = await encodeMilkInformation(milkData);
+
+        const response = await this.http.post<AddMilkResponse>(this.milkUrl, requestBody, {
+            preemie_group_id: userData?.metadata.group_id,
+        });
+
+        return response.data;
+    };
+
+    getMilk = async (milkId: string): Promise<Milk> => {
         try {
             const userData = await getUserLocalData();
             const Param = {
@@ -89,7 +98,7 @@ export class MilkApi extends BaseEndpoint {
                 milk_id: `${milkId}`,
             };
 
-            const { data } = await this.http.get(`${this.milkUrl}`, Param, {});
+            const { data } = await this.http.get(`${this.milkUrl}`, Param);
 
             if (data) {
                 return decodeMilkInformation(data);

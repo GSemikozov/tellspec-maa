@@ -8,6 +8,7 @@ export const buildMilkData = (milk: AddMilkFormFieldValues) => {
         archived: false,
         created_at: new Date().toISOString(),
         last_modified_at: new Date().toISOString(),
+        reports: [],
         sensitive_data: {
             notes: '',
             receivedDate: milk.receivedDate,

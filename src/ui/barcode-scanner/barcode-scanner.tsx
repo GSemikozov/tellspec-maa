@@ -1,37 +1,40 @@
-
 import React from 'react';
 import { BarcodeScanner as Scanner } from '@ionic-native/barcode-scanner';
-import { IonButton, IonIcon, IonInput, IonItem } from '@ionic/react';
+import { IonButton, IonIcon, IonItem, IonSelect, IonSelectOption } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 
-import './barcode-scanner.css';
-
 import BarCodeSearchIcon from './icons/barcode-search.svg';
 
-import type { IonInputCustomEvent, InputInputEventDetail } from '@ionic/core';
+import type { IonSelectCustomEvent, SelectChangeEventDetail } from '@ionic/core';
+
+import './barcode-scanner.css';
 
 const cn = classname('barcode-scanner');
 
-export interface BarcodeScannerProps {
+export type BarcodeScannerOption = {
     title: string;
-    value?: string;
-    onChange?: (barcode: string) => void;
-}
+    value: string;
+};
 
-export const BarcodeScanner = React.forwardRef<HTMLIonInputElement, BarcodeScannerProps>(
-    ({ title, value, onChange }, forwardRef) => {
-        const handleChange = (event: IonInputCustomEvent<InputInputEventDetail>) => {
-            const { value } = event.target;
+export type BarcodeScannerProps = {
+    title: string;
+    options: BarcodeScannerOption[];
+    value: string;
+    onChange: (barcode: string) => void;
+};
 
-            if (!value) {
+export const BarcodeScanner = React.forwardRef<HTMLIonSelectElement, BarcodeScannerProps>(
+    ({ title, options, value, onChange }, forwardRef) => {
+        const handleChange = (event: IonSelectCustomEvent<SelectChangeEventDetail>) => {
+            const { value: milkId } = event.target;
+
+            if (!milkId) {
                 return;
             }
 
-            const barcode = String(value).trim();
-
             if (onChange) {
-                onChange(barcode);
+                onChange(String(milkId).trim());
             }
         };
 
@@ -49,14 +52,20 @@ export const BarcodeScanner = React.forwardRef<HTMLIonInputElement, BarcodeScann
 
         return (
             <IonItem lines='none' className={cn('')}>
-                <IonInput
+                <IonSelect
+                    placeholder='Milk Id'
+                    labelPlacement='floating'
                     ref={forwardRef}
-                    type='text'
                     label={title}
                     value={value}
-                    label-placement='floating'
-                    onIonInput={handleChange}
-                />
+                    onIonChange={handleChange}
+                >
+                    {options.map(option => (
+                        <IonSelectOption key={option.value} value={option.value}>
+                            {option.title}
+                        </IonSelectOption>
+                    ))}
+                </IonSelect>
 
                 <IonButton
                     fill='clear'

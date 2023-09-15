@@ -2,16 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchReport } from './reports.actions';
 
-import type { IReport } from './reports.types';
+import type { ReportsSliceState } from './reports.types';
 
-interface ReportsState {
-    status: 'idle' | 'loading' | 'success' | 'error';
-    entities: Record<string, IReport>;
-}
-
-const initialState: ReportsState = {
+const initialState: ReportsSliceState = {
     status: 'idle',
-    entities: {},
+    byIds: {},
 };
 
 export const reportsSlice = createSlice({
@@ -24,15 +19,15 @@ export const reportsSlice = createSlice({
         });
         builder.addCase(fetchReport.fulfilled, (state, action) => {
             state.status = 'success';
-            const reports = action.payload.reduce((prevValue, currValue) => {
-                return {
-                    ...prevValue,
-                    [currValue.uuid]: currValue,
-                };
+
+            const reports = action.payload.reduce((carry, report) => {
+                carry[report.uuid] = report;
+
+                return carry;
             }, {});
 
-            state.entities = {
-                ...state.entities,
+            state.byIds = {
+                ...state.byIds,
                 ...reports,
             };
         });

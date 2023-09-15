@@ -15,9 +15,8 @@ export const addMilkFormSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(addMilk.fulfilled, (state, action) => {
-            const { status } = action.payload || {};
-            state.status = status === '200' ? 'success' : 'error';
+        builder.addCase(addMilk.fulfilled, state => {
+            state.status = 'success';
         });
         builder.addCase(addMilk.pending, state => {
             state.status = 'loading';

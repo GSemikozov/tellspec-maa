@@ -7,22 +7,23 @@ import { classname } from '@shared/utils';
 import { Scale } from './scale';
 import { ActionsPanel } from './actions-panel';
 
-import './test-results.css';
-
-import type { IReport, IResult } from '@entities/reports/model/reports.types';
 import type { AppDispatch } from '@app/store';
+import type { Report } from '@entities/reports';
+
+import './test-results.css';
 
 const cn = classname('test-results');
 
-interface TestResultsProps {
-    report: IReport | null;
-}
+type TestResultsProps = {
+    reportAnalysedData: Report | null;
+    onAnalyseMilk: () => Promise<void>;
+};
 
-interface ScaleValue {
+type ScaleValue = {
     minRequiredValue: number;
     maxRequiredValue: number;
     scaleDivisionValue?: number;
-}
+};
 
 const SCALE_VALUES: Record<string, ScaleValue> = {
     'Protein (True Protein)': {
@@ -49,51 +50,72 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
     },
 };
 
-export const TestResults: React.FC<TestResultsProps> = props => {
-    const { report } = props;
+export const TestResults: React.FunctionComponent<TestResultsProps> = ({
+    reportAnalysedData,
+    onAnalyseMilk,
+}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {
-        if (report?.data.analyseData) {
+        if (!reportAnalysedData) {
+            return;
+        }
+
+        if (reportAnalysedData.data.analyseData) {
             dispatch(appActions.hideSidebar());
         }
 
         return () => {
             dispatch(appActions.showSidebar());
         };
-    }, [report]);
+    }, [reportAnalysedData]);
 
-    if (!report || !report.data.analyseData) {
+    const renderedContent = React.useMemo(() => {
+        if (!reportAnalysedData) {
+            return (
+                <div className={cn('placeholder')}>
+                    We haven't found a report. Please analyse the milk
+                </div>
+            );
+        }
+
+        if (!reportAnalysedData.data.analyseData) {
+            return (
+                <div className={cn('placeholder')}>
+                    We haven't analysed data for this report. Please start analyse for get first
+                    data
+                </div>
+            );
+        }
+
         return (
-            <div className={cn('placeholder')}>
-                We haven't found a report. Please analyse the milk
-            </div>
-        );
-    }
+            <>
+                {reportAnalysedData.data.analyseData.result.map(data => {
+                    const { name, units, value } = data;
+                    const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
+                        SCALE_VALUES[name] || {};
 
-    const latestAnalyse = report.data.analyseData[report.data.analyseData.length - 1];
+                    return (
+                        <Scale
+                            key={data.name}
+                            label={name}
+                            value={typeof value === 'string' ? parseFloat(value) : value}
+                            units={units}
+                            minRequiredValue={minRequiredValue}
+                            maxRequiredValue={maxRequiredValue}
+                            scaleDivisionValue={scaleDivisionValue}
+                        />
+                    );
+                })}
+            </>
+        );
+    }, [reportAnalysedData]);
 
     return (
         <div className='scales'>
-            {latestAnalyse.result.map((data: IResult) => {
-                const { name, units, value } = data;
-                const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
-                    SCALE_VALUES[name] || {};
+            {renderedContent}
 
-                return (
-                    <Scale
-                        key={data.name}
-                        label={name}
-                        value={typeof value === 'string' ? parseFloat(value) : value}
-                        units={units}
-                        minRequiredValue={minRequiredValue}
-                        maxRequiredValue={maxRequiredValue}
-                        scaleDivisionValue={scaleDivisionValue}
-                    />
-                );
-            })}
-
-            <ActionsPanel />
+            <ActionsPanel onlyAnalyse={true} onAnalyseMilk={onAnalyseMilk} />
         </div>
     );
 };

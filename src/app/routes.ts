@@ -6,4 +6,5 @@ export const routesMapping: Record<string, string> = {
     profile: '/profile',
     reports: '/reports',
     settings: '/settings',
+    sensorPage: '/sensor',
 };

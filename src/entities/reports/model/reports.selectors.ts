@@ -1,29 +1,25 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { isAfter, isBefore } from 'date-fns';
 
 import { RootState } from '@app/store';
-// import { createSelector } from "@reduxjs/toolkit";
 
-import type { IReport } from './reports.types';
+const selectReportSliceState = (state: RootState) => state.reports;
 
-export const selectReportByMilkId =
-    (milkId: string) =>
-    (state: RootState): IReport | null => {
-        const reports = state.reports.entities;
-        const uuids = Object.keys(reports);
+export const selectReportList = createSelector([selectReportSliceState], reportsState =>
+    Object.values(reportsState.byIds),
+);
 
-        if (!milkId || !uuids.length) {
-            return null;
-        }
+export const selectReportByMilkId = createSelector(
+    [selectReportList, (_, milkId: string) => milkId],
+    (reportList, milkId) => {
+        const milk = reportList.find(report => report.milk_id === milkId);
 
-        const uuid = uuids.find(uuid => reports[uuid].milk_id === milkId);
-
-        return uuid ? reports[uuid] : null;
-    };
-
-export const selectAllReports = (state: RootState) => Object.values(state.reports.entities);
+        return milk ?? null;
+    },
+);
 
 export const selectReportsByDate = (from?: string, to?: string) => (state: RootState) => {
-    const reports = Object.values(state.reports.entities);
+    const reports = Object.values(state.reports.byIds);
 
     if (!from && !to) {
         return reports;

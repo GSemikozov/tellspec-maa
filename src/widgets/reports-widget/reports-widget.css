@@ -1,3 +1,9 @@
-.reports-icon {
+.reports-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reports-header img {
     width: 3rem;
+    margin-right: 1rem;
 }

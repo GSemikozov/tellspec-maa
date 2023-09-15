@@ -5,7 +5,6 @@ import type { TextFieldTypes } from '@ionic/core';
 
 import './input.css';
 
-
 export interface InputProps {
     label?: string;
     placeholder?: string;

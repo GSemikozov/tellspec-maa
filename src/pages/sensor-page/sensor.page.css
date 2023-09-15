@@ -1,0 +1,39 @@
+.sensor-wrapper {
+    border: 2px solid var(--ion-color-tertiary-tint);
+    border-radius: 5px;
+    overflow-x: hidden;
+    height: 65rem;
+}
+
+.sensor-wrapper img {
+    width: 3rem;
+    margin-right: 1rem;
+}
+
+.col-wrapper {
+    border: 1px solid var(--ion-color-tertiary-tint);
+}
+.sensor-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 5rem;
+
+    font-size: 1.6rem;
+
+    background-color: var(--ion-color-tertiary-tint);
+    border-bottom: 1px solid var(--ion-color-tertiary);
+}
+
+.sensor-title p {
+    margin-left: 1rem;
+    font-weight: 500;
+}
+
+.column-data {
+    margin-right: 1rem;
+}
+.column-data ion-button {
+    margin: 1rem 0 !important;
+}

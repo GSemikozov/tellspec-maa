@@ -37,8 +37,8 @@ export interface IAnalyseData {
 
 export interface IReportData {
     TrackerNotification: ReportTrackerNotificaiton[];
-    analyseData?: IAnalyseData[];
     donor_id?: string;
+    analyseData?: IAnalyseData;
 }
 
 export interface IReportRequestParam {
@@ -55,7 +55,7 @@ export interface IReportRequestParam {
 /**
  * This the report data Type
  */
-export interface IReport {
+export type Report = {
     uuid: string;
     milk_id: string;
     category: ReportCategory;
@@ -65,9 +65,4 @@ export interface IReport {
     last_modified_at: string;
     created_at: string;
     infant_uuid?: string;
-}
-
-export type ReportsSliceState = {
-    status: 'idle' | 'loading' | 'success' | 'error';
-    byIds: Record<string, IReport>;
 };
