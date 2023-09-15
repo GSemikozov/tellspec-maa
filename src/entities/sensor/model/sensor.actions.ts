@@ -9,7 +9,7 @@ import {
     tellspecGetDeviceInfo,
     tellspecPrepareScanCalibration,
     tellspecReadScannerInfo,
-    tellspecRemoveDevice,
+    tellspecRemoveDevice, tellspecRunScan,
     tellspecSavePairDevice,
     tellspecSetActiveConfig,
     tellspecStartScan,
@@ -188,3 +188,23 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 export const removeDevice = createAsyncThunk('sensor/remove-device', async () => {
     await tellspecRemoveDevice();
 });
+
+export const fetchScan = createAsyncThunk(
+    "sensor/fetchScan",
+    async (enSensorEmulation: boolean): Promise<any> => {
+        try {
+            if (enSensorEmulation) {
+                // emulate the scan
+                const data = await tellspecRunScan('hmb_test@tellspec.com')
+                const scanData = data[0].json_data['scan-data'];
+                scanData.uuid = data[0].uuid;
+                scanData.absorbance = scanData.absorbance[0];
+                return scanData;
+            }
+
+            return null;
+        } catch (error) {
+            console.error(error);
+        }
+    },
+);

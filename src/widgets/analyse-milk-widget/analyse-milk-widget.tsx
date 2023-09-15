@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonLabel, IonRow, IonSegment, IonSegmentButton, IonText } from '@ionic/react';
+import { IonInput, IonLabel, IonRow, IonSegment, IonSegmentButton, IonText } from '@ionic/react';
+// eslint-disable-next-line import/named
+import { InputInputEventDetail, IonInputCustomEvent } from '@ionic/core';
 
 import { BarcodeScanner } from '@ui';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
-import { reportsSelectors, reportsAsyncActions } from '@entities/reports';
+import { reportsSelectors } from '@entities/reports';
+import { fetchScan } from '@entities/sensor';
 
 import AnalyseIcon from '../../../assets/images/analyse-milk-selected.png';
 
+// eslint-disable-next-line import/order
 import type { AppDispatch } from '@app/store';
 
 import './analyse-milk-widget.css';
@@ -31,11 +35,12 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         if (!milkId) {
             return;
         }
-
-        dispatch(reportsAsyncActions.fetchReport({ milk_id: milkId }));
+        console.log('AnalyseMilkWidget milkId', milkId);
+        dispatch(fetchScan(true));
     }, [milkId]);
 
     useEffect(() => {
+        console.log('AnalyseMilkWidget report', report);
         if (!report) return;
         setActiveTab(Tabs.results);
     }, [milkId, report]);
@@ -51,6 +56,12 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     </h2>
 
                     <div className='milk-id-scanner'>
+                        <IonInput
+                            value={milkId}
+                            onIonInput={(event: IonInputCustomEvent<InputInputEventDetail>) =>
+                                setMilkId(event.target.value as string)
+                            }
+                        />
                         <BarcodeScanner
                             title='Select, Scan or Enter Milk ID'
                             value={milkId}
@@ -83,7 +94,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 <ActiveTabComponent milkID={milkId} report={report} />
                             ) : (
                                 <div className='analyse-tabs__content-placeholder'>
-                                    Scan or enter the milk barcode first
+                                    Choose milk id first
                                 </div>
                             )}
                         </div>
