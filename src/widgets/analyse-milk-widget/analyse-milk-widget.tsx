@@ -20,9 +20,6 @@ import { ActionsPanel } from './actions-panel';
 
 import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
-// import AnalyseIcon from '../../../assets/images/analyse-milk-selected.png';
-
-// eslint-disable-next-line import/order
 import type { AppDispatch } from '@app/store';
 import type { Report } from '@entities/reports';
 
