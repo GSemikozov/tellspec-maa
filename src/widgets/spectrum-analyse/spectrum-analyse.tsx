@@ -27,7 +27,7 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
         // workaround, cuz on first render we have not valid width
         const timeoutId = setTimeout(() => {
             setWidth(containerRef.current?.offsetWidth || 0);
-        }, 0);
+        }, 300);
 
         return () => {
             clearTimeout(timeoutId);
