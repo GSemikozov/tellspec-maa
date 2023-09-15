@@ -50,9 +50,9 @@ export const ReportsWidget: React.FC = () => {
                             </IonText>
                         </h2>
                     </div>
-                        <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                            Select All
-                        </IonCheckbox>
+                    <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
+                        Select All
+                    </IonCheckbox>
                 </IonCol>
 
                 <IonCol>

@@ -15,7 +15,6 @@ type BluetoothItemProps = {
 export const BluetoothItem: React.FunctionComponent<BluetoothItemProps> = ({ device, onClick }) => {
     const handleClick = () => {
         onClick(device);
-
     };
 
     return (
