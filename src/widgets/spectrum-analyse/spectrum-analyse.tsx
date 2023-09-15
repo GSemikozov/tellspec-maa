@@ -9,7 +9,7 @@ import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 
 import './spectrum-analyse.css';
 
-const cn = classname('test-results');
+const cn = classname('spectrum-analyse');
 
 type SpectrumAnalyseProps = {
     sensorScannedData: ScanResultType | null;
@@ -23,8 +23,15 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
 
     const [width, setWidth] = React.useState(0);
 
-    React.useEffect(() => {
-        setWidth(containerRef.current?.offsetWidth || 0);
+    React.useLayoutEffect(() => {
+        // workaround, cuz on first render we have not valid width
+        const timeoutId = setTimeout(() => {
+            setWidth(containerRef.current?.offsetWidth || 0);
+        }, 0);
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
     }, []);
 
     const { options, series } = React.useMemo(() => {

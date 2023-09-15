@@ -37,39 +37,53 @@
     border-bottom: 1px solid var(--ion-color-primary);
 }
 
-.add-milk-form__milk-id-input {
-    width: 21vw;
-    margin: 1rem 0;
-}
-
-.add-milk-form__input-wrapper{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-.add-milk-form__button-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-
-    margin-top: 14rem;
-}
-
-.add-milk-form__button-wrapper ion-button {
-    width: 30%;
-    margin: 0 1rem !important;
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 1.5;
-    white-space: pre-wrap;
-}
-
-/* .expression-date-size{
-    font-size: 1.6rem !important;
-}
-.received-date-size{
-    font-size: 1.2rem !important;
-} */
-
 .infant-delivery-size {
     font-size: 1.6rem !important;
+}
+
+.add-milk-form__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-milk-form__header > * {
+    flex: 1;
+}
+
+.add-milk-form__form-column > *:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+.add-milk-form__form-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.add-milk-form__form-group_fluid {
+    width: 100%;
+}
+
+.add-milk-form__form-group-error {
+    min-height: 18px;
+
+    margin: 0.5rem 0 0 0.5rem;
+
+    color: var(--ion-color-danger);
+    font-size: 1.4rem;
+}
+
+.add-milk-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin-top: 24px;
+}
+
+.add-milk-form__actions .button {
+    flex: 1;
+    margin: 4px !important;
 }

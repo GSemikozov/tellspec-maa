@@ -1,14 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { IonButton } from '@ionic/react';
-// import { appActions } from "../../../app";
 
-import { useEvent } from '@shared/hooks';
+import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
 import type { AppDispatch } from '@app';
-// import { CustomButton } from '@ui/button/button';
 
 import './actions-panel.css';
 
@@ -26,7 +24,15 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 }) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleAnalyseMilkEvent = useEvent(onAnalyseMilk);
+    const [analyseLoading, setAnalyzeLoading] = React.useState(false);
+
+    const handleAnalyseMilkEvent = useEventAsync(async () => {
+        setAnalyzeLoading(true);
+
+        await onAnalyseMilk();
+
+        setAnalyzeLoading(false);
+    });
 
     const handlePrintTestResults = () => {
         dispatch(labelPrinterAsyncActions.pairPrinter());
@@ -34,14 +40,22 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     return React.useMemo(() => {
         if (onlyAnalyse) {
+            const analyseTitle = analyseLoading ? 'Analyse loading...' : 'Analyse This Milk';
+
             return (
                 <div className={cn()}>
-                    <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
-                        Analyse This Milk
+                    <IonButton
+                        expand='full'
+                        disabled={analyseLoading}
+                        onClick={handleAnalyseMilkEvent}
+                    >
+                        {analyseTitle}
                     </IonButton>
                 </div>
             );
         }
+
+        const reAnalyseTitle = analyseLoading ? 'Re-analyse loading...' : 'Re-analyse This Milk';
 
         return (
             <div className={cn()}>
@@ -51,14 +65,12 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
                     Print Milk Test Results
                 </IonButton>
 
-                <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
-                    Analyse Another Milk
-                </IonButton>
+                <IonButton expand='full'>Analyse Another Milk</IonButton>
 
-                <IonButton expand='full' onClick={handleAnalyseMilkEvent}>
-                    Reanalyse This Milk
+                <IonButton expand='full' disabled={analyseLoading} onClick={handleAnalyseMilkEvent}>
+                    {reAnalyseTitle}
                 </IonButton>
             </div>
         );
-    }, [onlyAnalyse, handleAnalyseMilkEvent]);
+    }, [onlyAnalyse, analyseLoading, handleAnalyseMilkEvent]);
 };
