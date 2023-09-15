@@ -8,7 +8,9 @@ export const getStorageData = async (): Promise<RootState | null> => {
 
     if (state) {
         const parsedState = JSON.parse(state);
-        console.info('Storage: get state', parsedState);
+
+        // console.info('Storage: get state', parsedState);
+
         return parsedState;
     }
 

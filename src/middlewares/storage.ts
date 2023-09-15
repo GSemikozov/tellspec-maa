@@ -25,6 +25,6 @@ const storeState = async (key: NativeStorageKeys, state: RootState) => {
     if (key !== null && key !== undefined) {
         await nativeStore.set(key, JSON.stringify(state));
 
-        console.info('Storage: set state', state);
+        // console.info('Storage: set state', state);
     }
 };

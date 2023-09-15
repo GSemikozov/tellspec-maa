@@ -6,20 +6,13 @@ import type { Report, IReportRequestParam } from './types';
 export class ReportsApi extends BaseEndpoint {
     private reportUrl = '/main/reports/';
 
-    addReport = async (report: Report): Promise<void> => {
+    addReport = async (report: Report) => {
         const userData = await getUserLocalData();
         const response = await this.http.post(this.reportUrl, report, {
             preemie_group_id: userData?.metadata.group_id,
         });
-        const { data, error } = response;
 
-        if (data) {
-            return data;
-        }
-
-        if (error) {
-            throw new Error(error.message);
-        }
+        return response;
     };
 
     updateReport = async (report: Report): Promise<void> => {
@@ -28,6 +21,7 @@ export class ReportsApi extends BaseEndpoint {
             uuid: report.uuid,
             preemie_group_id: userData?.metadata.group_id,
         });
+
         const { data, error } = response;
 
         if (data) {

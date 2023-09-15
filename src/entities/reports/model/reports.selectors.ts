@@ -5,6 +5,11 @@ import { RootState } from '@app/store';
 
 const selectReportSliceState = (state: RootState) => state.reports;
 
+export const selectIsReportLoading = createSelector(
+    [selectReportSliceState],
+    reportsState => reportsState.status === 'loading',
+);
+
 export const selectReportList = createSelector([selectReportSliceState], reportsState =>
     Object.values(reportsState.byIds),
 );

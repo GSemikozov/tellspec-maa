@@ -8,16 +8,19 @@ import {
     IonSelectOption,
     IonText,
     useIonAlert,
+    useIonRouter,
 } from '@ionic/react';
 import { useForm } from 'react-hook-form';
 
 import { usePreemieToast } from '@shared/ui';
+import { classname } from '@shared/utils';
 import { userSelectors } from '@entities/user';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { groupsAsyncActions, groupsSelectors } from '@entities/groups';
 import { getCompartmentList } from '@entities/groups/model/groups.selectors';
 import { CustomInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
+import { routesMapping } from '@app/routes';
 import { AppDispatch } from '@app/store';
 import { IFreezer } from '@entities/groups/model/groups.types';
 
@@ -30,7 +33,9 @@ import type { IDonor } from '@entities/donors/model/donors.types';
 
 import './add-milk-form.css';
 
-export interface AddMilkFormFieldValues {
+const cn = classname('add-milk-form');
+
+export type AddMilkFormFieldValues = {
     milkId: string;
     donorId: string;
     milkVolume: string;
@@ -41,7 +46,7 @@ export interface AddMilkFormFieldValues {
     receivedDate: string;
     storageFreezer: string;
     storageCompartment: string;
-}
+};
 
 const defaultValues = {
     milkId: '',
@@ -58,6 +63,8 @@ const defaultValues = {
 
 export const AddMilkForm: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
+
+    const router = useIonRouter();
 
     const groupId = useSelector(userSelectors.selectGroupId);
     const donorsList = useSelector(donorsSelectors.getAllDonors);
@@ -95,70 +102,78 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
 
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
+        try {
+            if (values.infantDeliveryDate > values.milkExpressionDate) {
+                throw new Error("Infant delivery date can't be after milk expression date");
+            }
+
+            await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
+
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => reset(),
+            });
+        } catch (error: any) {
             await presentToast({
                 type: 'error',
-                message: "Infant delivery date can't be after milk expression date",
+                message: error?.message,
             });
-
-            return;
         }
-
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            onDidDismiss: () => reset(),
-        });
     };
 
     const handleAddMilkAndClose = async () => {
         const values = getValues();
 
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
+        try {
+            if (values.infantDeliveryDate > values.milkExpressionDate) {
+                throw new Error("Infant delivery date can't be after milk expression date");
+            }
+
+            await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
+
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => router.push(routesMapping.home),
+            });
+        } catch (error: any) {
             await presentToast({
                 type: 'error',
-                message: "Infant delivery date can't be after milk expression date",
+                message: error?.message,
             });
-
-            return;
         }
-
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            // onDidDismiss: () => (window.location.href = '/'),
-        });
     };
 
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
 
-        if (values.infantDeliveryDate > values.milkExpressionDate) {
+        try {
+            if (values.infantDeliveryDate > values.milkExpressionDate) {
+                throw new Error("Infant delivery date can't be after milk expression date");
+            }
+
+            await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
+
+            await presentAlert({
+                header: 'The record has been saved',
+                buttons: ['OK'],
+                onDidDismiss: () => router.push(routesMapping.analyse + `?milkId=${values.milkId}`),
+            });
+        } catch (error: any) {
             await presentToast({
                 type: 'error',
-                message: "Infant delivery date can't be after milk expression date",
+                message: error?.message,
             });
-
-            return;
         }
-
-        dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values)));
-
-        await presentAlert({
-            header: 'The record has been saved',
-            buttons: ['OK'],
-            // onDidDismiss: () => (window.location.href = '/analyse'),
-        });
     };
+
+    const currentValues = getValues();
 
     return (
         <form>
             <IonGrid id='add-milk-wrapper'>
-                <div className='add-milk-header'>
+                <div className={cn('header')}>
                     <h2>
                         <IonText>
                             <img src={AddMilkIcon} />
@@ -166,7 +181,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         </IonText>
                     </h2>
 
-                    <div className='ion-margin-top ion-margin-bottom' id='milk-id'>
+                    <div className={cn('form-group', { fluid: true })}>
                         <CustomInput
                             type='text'
                             label='Milk ID'
@@ -176,13 +191,13 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             })}
                         />
 
-                        <span style={{ color: 'red' }}>{errors.milkVolume?.message}</span>
+                        <p className={cn('form-group-error')}>{errors.milkVolume?.message}</p>
                     </div>
                 </div>
 
                 <IonRow>
-                    <IonCol size='6'>
-                        <div className='ion-margin-top ion-margin-bottom'>
+                    <IonCol size='6' className={cn('form-column')}>
+                        <div className={cn('form-group')}>
                             <IonSelect
                                 className='add-milk-input'
                                 label='Donor ID'
@@ -198,88 +213,26 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     </IonSelectOption>
                                 ))}
                             </IonSelect>
-                            <span style={{ color: 'red' }}>{errors.donorId?.message}</span>
+
+                            <p className={cn('form-group-error')}>{errors.donorId?.message}</p>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
-                            <IonSelect
-                                label='Storage Compartment'
-                                label-placement='floating'
-                                className='add-milk-input'
-                                {...register('storageCompartment', {
-                                    required: 'This is a required field',
-                                })}
-                            >
-                                {compartmentList.map(compartment => (
-                                    <IonSelectOption key={compartment} value={compartment}>
-                                        {compartment}
-                                    </IonSelectOption>
-                                ))}
-                            </IonSelect>
-                            <span style={{ color: 'red' }}>{errors.milkVolume?.message}</span>
-                        </div>
-
-                        <div className='ion-margin-top ion-margin-bottom'>
-                            <CustomInput
-                                type='number'
-                                label='Number of Containers'
-                                label-placement='floating'
-                                {...register('numberOfContainers', {
-                                    required: 'This is a required field',
-                                })}
-                            />
-                            <span style={{ color: 'red' }}>
-                                {errors.numberOfContainers?.message}
-                            </span>
-                        </div>
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('form-group')}>
                             <CustomInput
                                 type='date'
                                 label='Milk Expression Date'
                                 label-placement='floating'
-                                // className='expression-date-size'
                                 {...register('milkExpressionDate', {
                                     required: 'This is a required field',
                                 })}
                             />
 
-                            <span style={{ color: 'red' }}>
+                            <p className={cn('form-group-error')}>
                                 {errors.milkExpressionDate?.message}
-                            </span>
-                        </div>
-                    </IonCol>
-                    <IonCol size='6'>
-                        <div className='ion-margin-top ion-margin-bottom'>
-                            <CustomInput
-                                type='date'
-                                label='Infant Delivery Date'
-                                label-placement='floating'
-                                className='infant-delivery-size'
-                                {...register('infantDeliveryDate', {
-                                    required: 'This is a required field',
-                                })}
-                            />
-                            <span style={{ color: 'red' }}>
-                                {errors.infantDeliveryDate?.message}
-                            </span>
+                            </p>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
-                           
-                            <CustomInput
-                                type='date'
-                                label='Milk Expiration Date'
-                                label-placement='floating'
-                                {...register('milkExpirationDate', {
-                                    required: 'This is a required field',
-                                })}
-                            />
-                            <span style={{ color: 'red' }}>
-                                {errors.milkExpirationDate?.message}
-                            </span>
-                        </div>
-
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('form-group')}>
                             <CustomInput
                                 type='date'
                                 label='Received Date'
@@ -289,10 +242,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     required: 'This is a required field',
                                 })}
                             />
-                            <span style={{ color: 'red' }}>{errors.receivedDate?.message}</span>
+
+                            <p className={cn('form-group-error')}>{errors.receivedDate?.message}</p>
                         </div>
 
-                        <div className='ion-margin-top ion-margin-bottom'>
+                        <div className={cn('form-group')}>
                             <IonSelect
                                 className='add-milk-input'
                                 label='Storage Freezer'
@@ -310,19 +264,89 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     </IonSelectOption>
                                 ))}
                             </IonSelect>
-                            <span style={{ color: 'red' }}>{errors.storageFreezer?.message}</span>
+
+                            <p className={cn('form-group-error')}>
+                                {errors.storageFreezer?.message}
+                            </p>
+                        </div>
+                    </IonCol>
+
+                    <IonCol size='6' className={cn('form-column')}>
+                        <div className={cn('form-group')}>
+                            <CustomInput
+                                type='number'
+                                label='Number of Containers'
+                                label-placement='floating'
+                                {...register('numberOfContainers', {
+                                    required: 'This is a required field',
+                                })}
+                            />
+
+                            <p className={cn('form-group-error')}>
+                                {errors.numberOfContainers?.message}
+                            </p>
+                        </div>
+
+                        <div className={cn('form-group')}>
+                            <CustomInput
+                                type='date'
+                                label='Milk Expiration Date'
+                                label-placement='floating'
+                                {...register('milkExpirationDate', {
+                                    required: 'This is a required field',
+                                })}
+                            />
+
+                            <p className={cn('form-group-error')}>
+                                {errors.milkExpirationDate?.message}
+                            </p>
+                        </div>
+
+                        <div className={cn('form-group')}>
+                            <CustomInput
+                                type='date'
+                                label='Infant Delivery Date'
+                                label-placement='floating'
+                                {...register('infantDeliveryDate', {
+                                    required: 'This is a required field',
+                                })}
+                            />
+
+                            <p className={cn('form-group-error')}>
+                                {errors.infantDeliveryDate?.message}
+                            </p>
+                        </div>
+
+                        <div className={cn('form-group')}>
+                            <IonSelect
+                                className='add-milk-input'
+                                label='Storage Compartment'
+                                label-placement='floating'
+                                disabled={!currentValues.storageFreezer}
+                                {...register('storageCompartment', {
+                                    required: 'This is a required field',
+                                })}
+                            >
+                                {compartmentList.map(compartment => (
+                                    <IonSelectOption key={compartment} value={compartment}>
+                                        {compartment}
+                                    </IonSelectOption>
+                                ))}
+                            </IonSelect>
+
+                            <p className={cn('form-group-error')}>{errors.milkVolume?.message}</p>
                         </div>
                     </IonCol>
                 </IonRow>
 
-                <IonRow className='button-wrapper-add-milk'>
+                <IonRow className={cn('actions')}>
                     <CustomButton
                         className='button'
                         size='small'
                         disabled={isFetching}
                         onClick={handleAddMilkAndClearForm}
                     >
-                        {isFetching ? 'loading...' : 'Save & Add Another Milk'}
+                        {isFetching ? 'Loading...' : 'Save & Add Another Milk'}
                     </CustomButton>
 
                     <CustomButton
@@ -331,7 +355,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         disabled={isFetching}
                         onClick={handleAddMilkAndClose}
                     >
-                        {isFetching ? 'loading...' : 'Save this Milk and Close'}
+                        {isFetching ? 'Loading...' : 'Save this Milk and Close'}
                     </CustomButton>
 
                     <CustomButton
@@ -340,7 +364,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         disabled={isFetching}
                         onClick={handleAddMilkAndAnalyse}
                     >
-                        {isFetching ? 'loading...' : 'Save this Milk & Analyse'}
+                        {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
                     </CustomButton>
                 </IonRow>
             </IonGrid>

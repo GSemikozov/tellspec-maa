@@ -87,7 +87,7 @@ export class MilkApi extends BaseEndpoint {
             preemie_group_id: userData?.metadata.group_id,
         });
 
-        return response.data;
+        return response;
     };
 
     getMilk = async (milkId: string): Promise<Milk> => {

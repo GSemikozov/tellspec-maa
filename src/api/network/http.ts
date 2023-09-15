@@ -151,13 +151,25 @@ export class Http {
 
     private parseApiError = (error: AxiosError<null>) => {
         const errorCode = error.response?.status ?? 500;
-        const errorMessage = error.response?.data ?? 'Internal error';
+        const errorData = error.response?.data;
+
+        let errorMessage = '';
+
+        if (typeof errorData === 'string') {
+            errorMessage = errorData;
+        } else if (typeof errorData === 'object') {
+            const errors: string[] = Object.values(errorData ?? {});
+
+            if (errors.length > 0 && errors[0]) {
+                errorMessage = errors[0];
+            }
+        }
 
         return {
             data: null,
             error: {
                 code: errorCode,
-                message: errorMessage,
+                message: errorMessage || 'Internal error',
             },
         };
     };

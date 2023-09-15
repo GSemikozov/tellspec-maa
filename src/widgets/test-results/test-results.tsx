@@ -5,7 +5,6 @@ import { appActions } from '@app';
 import { classname } from '@shared/utils';
 
 import { Scale } from './scale';
-import { ActionsPanel } from './actions-panel';
 
 import type { AppDispatch } from '@app/store';
 import type { Report } from '@entities/reports';
@@ -16,7 +15,6 @@ const cn = classname('test-results');
 
 type TestResultsProps = {
     reportAnalysedData: Report | null;
-    onAnalyseMilk: () => Promise<void>;
 };
 
 type ScaleValue = {
@@ -50,10 +48,7 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
     },
 };
 
-export const TestResults: React.FunctionComponent<TestResultsProps> = ({
-    reportAnalysedData,
-    onAnalyseMilk,
-}) => {
+export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportAnalysedData }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {
@@ -70,7 +65,7 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({
         };
     }, [reportAnalysedData]);
 
-    const renderedContent = React.useMemo(() => {
+    return React.useMemo(() => {
         if (!reportAnalysedData) {
             return (
                 <div className={cn('placeholder')}>
@@ -89,7 +84,7 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({
         }
 
         return (
-            <>
+            <div className='scales'>
                 {reportAnalysedData.data.analyseData.result.map(data => {
                     const { name, units, value } = data;
                     const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
@@ -107,15 +102,7 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({
                         />
                     );
                 })}
-            </>
+            </div>
         );
     }, [reportAnalysedData]);
-
-    return (
-        <div className='scales'>
-            {renderedContent}
-
-            <ActionsPanel onlyAnalyse={true} onAnalyseMilk={onAnalyseMilk} />
-        </div>
-    );
 };
