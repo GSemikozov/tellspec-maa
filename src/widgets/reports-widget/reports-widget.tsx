@@ -17,8 +17,8 @@ import './reports-widget.css';
 export const ReportsWidget: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const [from, setFrom] = React.useState<string>('');
-    const [to, setTo] = React.useState<string>('');
+    const [from, setFrom] = React.useState<string>();
+    const [to, setTo] = React.useState<string>();
     const [selectAll, setSelectAll] = React.useState<boolean>(false);
 
     const data = useSelector(selectReportsByDate(from, to));

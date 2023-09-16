@@ -7,17 +7,16 @@ import {
 } from '@tanstack/react-table';
 import { IonCheckbox } from '@ionic/react';
 
-import type { IReport, IResult } from '@entities/reports/model/reports.types.ts';
-import type { IAnalyseData } from '@entities/analyse/analyse.types.ts';
+import type { Report, ReportAnalyseData, ReportAnalyseDataResult } from '@entities/reports';
 
 import './report-table.css';
 
-const getParameterByName = (name: string, analyseData?: IAnalyseData[]) => {
+const getParameterByName = (name: string, analyseData?: ReportAnalyseData) => {
     if (!analyseData) {
         return null;
     }
 
-    return analyseData[0]?.result.find(r => r.name === name);
+    return (analyseData.result ?? []).find(parameter => parameter.name === name);
 };
 
 enum ColumnNamesMapping {
@@ -28,7 +27,7 @@ enum ColumnNamesMapping {
     solids = 'Total solids',
 }
 
-const columnHelper = createColumnHelper<IReport>();
+const columnHelper = createColumnHelper<Report>();
 
 const columns = [
     columnHelper.display({
@@ -54,7 +53,7 @@ const columns = [
         {
             header: 'Protein',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
                 return result?.value || '-';
             },
         },
@@ -62,7 +61,7 @@ const columns = [
     columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.fat, row.data.analyseData), {
         header: 'Fat',
         cell: info => {
-            const result = info.getValue<IResult>();
+            const result = info.getValue<ReportAnalyseDataResult>();
             return result?.value || '-';
         },
     }),
@@ -71,7 +70,7 @@ const columns = [
         {
             header: 'Carbs.',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
                 return result?.value || '-';
             },
         },
@@ -81,23 +80,22 @@ const columns = [
         {
             header: 'Energy',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
                 return result?.value || '-';
             },
         },
     ),
 ];
 
-interface ReportTableProps {
-    data: any[];
-}
+type ReportTableProps = {
+    data: Report[];
+};
 
-export const ReportTable: React.FC<ReportTableProps> = props => {
+export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ data }) => {
     const [rowSelection, setRowSelection] = React.useState({});
-    console.log(rowSelection);
 
     const table = useReactTable({
-        data: props.data,
+        data: data,
         state: { rowSelection },
         enableRowSelection: true,
         onRowSelectionChange: value => {
