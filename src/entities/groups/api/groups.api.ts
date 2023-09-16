@@ -3,7 +3,7 @@
 import { BaseEndpoint } from '@api/network';
 // import Users from './users'
 
-import type { IGetGroupsRequest, IGroup } from './model/groups.types';
+import type { IGetGroupsRequest, IGroup } from './types';
 
 export class GroupsApi extends BaseEndpoint {
     // addGroup = async (args: any) => {

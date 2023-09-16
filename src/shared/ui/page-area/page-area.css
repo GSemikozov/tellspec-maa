@@ -1,0 +1,35 @@
+.page-area {
+    background: var(--ion-background-color);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.page-area__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 86px;
+}
+
+.page-area__header-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    padding-left: 20px;
+}
+
+.page-area__header-title-icon {
+    margin-right: 16px;
+    color: var(--ion-color-primary);
+}
+
+.page-area__header-title-text {
+    color: var(--color-text-main-text-dark);
+    font-family: Campton;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 30px;
+}

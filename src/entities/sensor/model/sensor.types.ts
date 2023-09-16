@@ -1,5 +1,7 @@
 import { TellspecSensorDevice } from '@api/native';
 
+import { GetScanDataItem } from '../api';
+
 export enum CalibrationStatus {
     DISCONNECTED = 'disconnected',
     ERROR = 'error',
@@ -17,5 +19,13 @@ export type SensorState = {
     sensorModel: string;
     enSensorEmulation: boolean;
     calibrationRequired: boolean;
-    entities: any; // TODO. Add type for scans
+
+    sensorScanning: {
+        status: 'idle' | 'progress';
+    };
+
+    scan: {
+        status: 'idle' | 'loading' | 'success' | 'error';
+        byIds: Record<string, GetScanDataItem>;
+    };
 };

@@ -23,6 +23,14 @@ export const selectReportByMilkId = createSelector(
     },
 );
 
+export const selectReportScanIdByMilkId = createSelector([selectReportByMilkId], reportMilk => {
+    if (!reportMilk || !reportMilk.data.analyseData) {
+        return '';
+    }
+
+    return reportMilk.data.analyseData.scanId;
+});
+
 export const selectReportsByDate = (from?: string, to?: string) => (state: RootState) => {
     const reports = Object.values(state.reports.byIds);
 

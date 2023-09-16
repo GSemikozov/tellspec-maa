@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { CalibrationStatus } from './sensor.types';
-import { connectSensorDevice, calibrateSensorDevice, removeDevice } from './sensor.actions';
+import {
+    connectSensorDevice,
+    calibrateSensorDevice,
+    removeDevice,
+    fetchScan,
+    runSensorScan,
+} from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
 
@@ -13,7 +19,15 @@ const initialState: SensorState = {
     scannerActive: false,
     sensorModel: '',
     enSensorEmulation: true,
-    entities: {},
+
+    sensorScanning: {
+        status: 'idle',
+    },
+
+    scan: {
+        status: 'idle',
+        byIds: {},
+    },
 };
 
 export const sensorSlice = createSlice({
@@ -52,6 +66,39 @@ export const sensorSlice = createSlice({
             console.log('[calibrateDevice.rejected]', JSON.stringify(action));
         });
 
+        // sensor scanning
+        builder.addCase(runSensorScan.pending, state => {
+            state.sensorScanning.status = 'progress';
+        });
+        builder.addCase(runSensorScan.fulfilled, state => {
+            state.sensorScanning.status = 'idle';
+        });
+        builder.addCase(runSensorScan.rejected, state => {
+            state.sensorScanning.status = 'idle';
+        });
+
+        // fetch scan data
+        builder.addCase(fetchScan.pending, state => {
+            state.scan.status = 'loading';
+        });
+        builder.addCase(fetchScan.fulfilled, (state, action) => {
+            state.scan.status = 'success';
+
+            const scanData = action.payload;
+
+            if (!scanData) {
+                return;
+            }
+
+            state.scan.byIds[scanData.uuid] = scanData;
+        });
+        builder.addCase(fetchScan.rejected, (state, action) => {
+            state.scan.status = 'error';
+
+            console.log('[fetchScan.rejected]', JSON.stringify(action));
+        });
+
+        // remove device
         builder.addCase(removeDevice.fulfilled, state => {
             state.device = null;
             state.calibrationStatus = CalibrationStatus.DISCONNECTED;

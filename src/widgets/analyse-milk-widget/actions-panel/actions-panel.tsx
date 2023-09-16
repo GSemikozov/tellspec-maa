@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { IonButton } from '@ionic/react';
+import { IonButton, useIonAlert } from '@ionic/react';
 
-import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
@@ -13,64 +12,71 @@ import './actions-panel.css';
 const cn = classname('actions-panel');
 
 type ActionsPanelProps = {
+    analyseMilkLoading: boolean;
     onAnalyseMilk: () => Promise<void>;
 
-    onlyAnalyse?: boolean;
+    showOnlyAnalyse?: boolean;
 };
 
 export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
-    onlyAnalyse,
+    analyseMilkLoading,
     onAnalyseMilk,
+
+    showOnlyAnalyse,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const [analyseLoading, setAnalyzeLoading] = React.useState(false);
-
-    const handleAnalyseMilkEvent = useEventAsync(async () => {
-        setAnalyzeLoading(true);
-
-        await onAnalyseMilk();
-
-        setAnalyzeLoading(false);
-    });
+    const [presentAlert] = useIonAlert();
 
     const handlePrintTestResults = () => {
         dispatch(labelPrinterAsyncActions.pairPrinter());
     };
 
-    return React.useMemo(() => {
-        if (onlyAnalyse) {
-            const analyseTitle = analyseLoading ? 'Analyse loading...' : 'Analyse This Milk';
+    const handleConfirmReAnalyse = async () => {
+        await presentAlert({
+            subHeader:
+                'This milk has been previously analysed. Re-analysing may give slightly different results due to environmental conditions and milk age. Do you want to proceed?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                },
+                {
+                    text: 'Continue',
+                    handler: () => {
+                        onAnalyseMilk();
+                    },
+                },
+            ],
+        });
+    };
 
-            return (
-                <div className={cn()}>
-                    <IonButton
-                        expand='full'
-                        disabled={analyseLoading}
-                        onClick={handleAnalyseMilkEvent}
-                    >
-                        {analyseTitle}
-                    </IonButton>
-                </div>
-            );
-        }
-
-        const reAnalyseTitle = analyseLoading ? 'Re-analyse loading...' : 'Re-analyse This Milk';
+    if (showOnlyAnalyse) {
+        const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
         return (
             <div className={cn()}>
-                <IonButton expand='full'>Print Label</IonButton>
-
-                <IonButton expand='full' onClick={handlePrintTestResults}>
-                    Print Milk Test Results
-                </IonButton>
-
-                <IonButton expand='full'>Analyse Another Milk</IonButton>
-
-                <IonButton expand='full' disabled={analyseLoading} onClick={handleAnalyseMilkEvent}>
-                    {reAnalyseTitle}
+                <IonButton expand='full' disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
+                    {analyseTitle}
                 </IonButton>
             </div>
         );
-    }, [onlyAnalyse, analyseLoading, handleAnalyseMilkEvent]);
+    }
+
+    const reAnalyseTitle = analyseMilkLoading ? 'Re-analyse loading...' : 'Re-analyse This Milk';
+
+    return (
+        <div className={cn()}>
+            <IonButton expand='full' disabled={analyseMilkLoading}>
+                Print Label
+            </IonButton>
+
+            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintTestResults}>
+                Print Milk Test Results
+            </IonButton>
+
+            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handleConfirmReAnalyse}>
+                {reAnalyseTitle}
+            </IonButton>
+        </div>
+    );
 };

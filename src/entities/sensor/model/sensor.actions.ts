@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
     NativeStorageKeys,
+    isEmulateNativeSdk,
     nativeStore,
     tellspecCleanScanData,
     tellspecConnect,
@@ -16,6 +17,8 @@ import {
     tellspecStartScan,
 } from '@api/native';
 import { apiInstance } from '@api/network';
+
+import { EMULATION_SCAN_ID } from '../sensor.constants';
 
 import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 import type { RootState } from '@app/store';
@@ -186,26 +189,54 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     };
 });
 
-export const removeDevice = createAsyncThunk('sensor/remove-device', async () => {
+export const removeDevice = createAsyncThunk('sensor/removeDevice', async () => {
     await tellspecRemoveDevice();
 });
 
-export const fetchScan = createAsyncThunk(
-    'sensor/fetchScan',
-    async (enSensorEmulation: boolean): Promise<any> => {
+export const fetchScan = createAsyncThunk('sensor/fetchScanData', async (scanId: string) => {
+    try {
+        const response = await apiInstance.sensor.getScanData(scanId);
+
+        if (response.data === null || response.data.length === 0 || !response.data[0]) {
+            return null;
+        }
+
+        return response.data[0];
+    } catch (error) {
+        console.error(error);
+        throw new Error("Can't fetch scan. Try again later");
+    }
+});
+
+export const saveScan = createAsyncThunk(
+    'sensor/saveScanData',
+    async (requestBody: ScanResultType) => {
         try {
-            if (enSensorEmulation) {
-                // emulate the scan
-                const data = await tellspecRunScan('hmb_test@tellspec.com');
-                const scanData = data[0].json_data['scan-data'];
-                scanData.uuid = data[0].uuid;
-                scanData.absorbance = scanData.absorbance[0];
-                return scanData;
+            const response = await apiInstance.sensor.saveScan(requestBody);
+
+            if (response.data === null) {
+                return null;
             }
 
-            return null;
+            return response.data;
         } catch (error) {
             console.error(error);
+            throw new Error("Can't save scan. Try again later");
         }
     },
 );
+
+export const runSensorScan = createAsyncThunk('sensor/runScan', async (userEmail: string) => {
+    try {
+        if (await isEmulateNativeSdk()) {
+            await new Promise(resolve => setTimeout(resolve, 5_000));
+
+            return { uuid: EMULATION_SCAN_ID, absorbance: [] };
+        }
+
+        return tellspecRunScan(userEmail);
+    } catch (error) {
+        console.error(error);
+        throw new Error("Can't run sensor scanning. Try again later");
+    }
+});

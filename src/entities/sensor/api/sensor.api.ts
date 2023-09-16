@@ -55,7 +55,7 @@ export class SensorApi extends BaseEndpoint {
             scans: [uuid],
         });
 
-        return response.data;
+        return response;
     };
 
     getScanner = async (model: string, serial: string) => {
@@ -71,6 +71,6 @@ export class SensorApi extends BaseEndpoint {
             scans: [singleScan],
         });
 
-        return response.data;
+        return response;
     };
 }

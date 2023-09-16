@@ -18,7 +18,12 @@ export const usePreemieToast = () => {
 
     const presentPreemieToast = React.useCallback(
         async (presentOptions: presentToastOptions) => {
-            const { type, duration = 3000, ...otherPresentOptions } = presentOptions;
+            const {
+                type,
+                position = 'top',
+                duration = 3000,
+                ...otherPresentOptions
+            } = presentOptions;
 
             const preemieToastCssClass = cn('', {
                 success: type === 'success',
@@ -31,6 +36,7 @@ export const usePreemieToast = () => {
 
             await presentToast({
                 ...otherPresentOptions,
+                position,
                 duration,
                 cssClass,
             });

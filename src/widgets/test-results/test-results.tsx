@@ -1,20 +1,20 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { appActions } from '@app';
 import { classname } from '@shared/utils';
+import { appActions } from '@app';
 
 import { Scale } from './scale';
 
-import type { AppDispatch } from '@app/store';
 import type { Report } from '@entities/reports';
+import type { AppDispatch } from '@app/store';
 
 import './test-results.css';
 
 const cn = classname('test-results');
 
 type TestResultsProps = {
-    reportAnalysedData: Report | null;
+    reportMilk: Report | null;
 };
 
 type ScaleValue = {
@@ -48,61 +48,58 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
     },
 };
 
-export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportAnalysedData }) => {
+export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportMilk }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {
-        if (!reportAnalysedData) {
+        if (!reportMilk) {
             return;
         }
 
-        if (reportAnalysedData.data.analyseData) {
+        if (reportMilk.data.analyseData) {
             dispatch(appActions.hideSidebar());
         }
 
         return () => {
             dispatch(appActions.showSidebar());
         };
-    }, [reportAnalysedData]);
+    }, [reportMilk]);
 
-    return React.useMemo(() => {
-        if (!reportAnalysedData) {
-            return (
-                <div className={cn('placeholder')}>
-                    We haven't found a report. Please analyse the milk
-                </div>
-            );
-        }
-
-        if (!reportAnalysedData.data.analyseData) {
-            return (
-                <div className={cn('placeholder')}>
-                    We haven't analysed data for this report. Please start analyse for get first
-                    data
-                </div>
-            );
-        }
-
+    if (!reportMilk) {
         return (
-            <div className='scales'>
-                {reportAnalysedData.data.analyseData.result.map(data => {
-                    const { name, units, value } = data;
-                    const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
-                        SCALE_VALUES[name] || {};
-
-                    return (
-                        <Scale
-                            key={data.name}
-                            label={name}
-                            value={typeof value === 'string' ? parseFloat(value) : value}
-                            units={units}
-                            minRequiredValue={minRequiredValue}
-                            maxRequiredValue={maxRequiredValue}
-                            scaleDivisionValue={scaleDivisionValue}
-                        />
-                    );
-                })}
+            <div className={cn('placeholder')}>
+                We haven't found a report. Please analyse the milk
             </div>
         );
-    }, [reportAnalysedData]);
+    }
+
+    if (!reportMilk.data.analyseData) {
+        return (
+            <div className={cn('placeholder')}>
+                We haven't analysed data for this report. Please start analyse for get first data
+            </div>
+        );
+    }
+
+    return (
+        <div className='scales'>
+            {reportMilk.data.analyseData.result.map(data => {
+                const { name, units, value } = data;
+                const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
+                    SCALE_VALUES[name] || {};
+
+                return (
+                    <Scale
+                        key={data.name}
+                        label={name}
+                        value={typeof value === 'string' ? parseFloat(value) : value}
+                        units={units}
+                        minRequiredValue={minRequiredValue}
+                        maxRequiredValue={maxRequiredValue}
+                        scaleDivisionValue={scaleDivisionValue}
+                    />
+                );
+            })}
+        </div>
+    );
 };

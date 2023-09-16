@@ -4,24 +4,21 @@ import { IonLabel, IonSegment, IonSegmentButton, useIonRouter } from '@ionic/rea
 
 import { BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
-import { tellspecRunScan } from '@api/native';
 import { apiInstance } from '@api/network';
 import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
-import { usePreemieToast } from '@shared/ui';
+import { usePreemieToast, PageArea } from '@shared/ui';
 import { selectUserEmail } from '@entities/user/model/user.selectors';
-import { CalibrationType } from '@entities/sensor';
-import { reportsAsyncActions, reportsSelectors } from '@entities/reports';
+import { CalibrationType, fetchScan, runSensorScan } from '@entities/sensor';
+import { fetchReport, selectIsReportLoading, selectReportByMilkId } from '@entities/reports';
 import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
 
 import { ActionsPanel } from './actions-panel';
 
-import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import type { AppDispatch } from '@app/store';
-import type { Report } from '@entities/reports';
 
 import './analyse-milk-widget.css';
 
@@ -41,89 +38,104 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const [milkId, setMilkId] = React.useState<string>('');
     const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(AnalyseWidgetTabs.SPECTRUM);
+    const [analyseMilkLoading, setAnalyseMilkLoading] = React.useState(false);
 
     const [, setModelScannedData] = React.useState<any>(null);
-    const [sensorScannedData, setSensorScannedData] = React.useState<ScanResultType | null>(null);
-    const [reportAnalysedData, setReportAnalysedData] = React.useState<Report | null>(null);
 
     const userEmail = useSelector(selectUserEmail);
-    const milkList = useSelector(selectMilkList);
-    const milksLoading = useSelector(selectIsMilkLoading);
-    const reportLoading = useSelector(reportsSelectors.selectIsReportLoading);
 
-    const retrieveReport = useEventAsync(async (newMilkId: string) => {
+    const milksLoading = useSelector(selectIsMilkLoading);
+    const milkList = useSelector(selectMilkList);
+
+    const reportMilkLoading = useSelector(selectIsReportLoading);
+    const reportMilk = useSelector(state => selectReportByMilkId(state, milkId));
+
+    const retrieveReport = React.useCallback(async (newMilkId: string) => {
         try {
-            const reports = await dispatch(
-                reportsAsyncActions.fetchReport({ milk_id: newMilkId }),
-            ).unwrap();
+            const reports = await dispatch(fetchReport({ milk_id: newMilkId })).unwrap();
 
             if (!reports || reports.length === 0) {
                 throw new Error('Unabled to find milk information');
             }
 
-            setReportAnalysedData(reports[0]);
+            return reports[0];
         } catch (error: any) {
             await presentToast({
                 type: 'error',
                 message: error.message,
             });
         }
+    }, []);
+
+    const retrieveScan = React.useCallback(async (scanId: string) => {
+        try {
+            const scanData = await dispatch(fetchScan(scanId)).unwrap();
+
+            if (!scanData) {
+                throw new Error('Unabled to find scan information');
+            }
+
+            return scanData;
+        } catch (error: any) {
+            await presentToast({
+                type: 'error',
+                message: error.message,
+            });
+        }
+    }, []);
+
+    const handleChangeMilkId = useEventAsync(async (milkId: string) => {
+        setMilkId(milkId);
+
+        const report = await retrieveReport(milkId);
+
+        if (report && report.data.analyseData) {
+            await retrieveScan(report.data.analyseData.scanId);
+        }
     });
-
-    const handleChangeMilkId = React.useCallback(
-        async (milkId: string) => {
-            setMilkId(milkId);
-            setActiveTab(AnalyseWidgetTabs.TEST_RESULTS);
-
-            setSensorScannedData(null);
-            setReportAnalysedData(null);
-
-            retrieveReport(milkId);
-        },
-        [retrieveReport],
-    );
-
-    const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
-        setActiveTab(event.target.value as AnalyseWidgetTabs);
-    };
 
     const handleAnalyseMilk = useEventAsync(async () => {
         try {
-            const newSensorScanData = await tellspecRunScan(userEmail);
+            setAnalyseMilkLoading(true);
 
-            if (!newSensorScanData.uuid || !newSensorScanData.absorbance) {
-                throw new Error('an error occured on analyse milk');
+            await presentToast({
+                message: 'Start analyse...',
+            });
+
+            if (!reportMilk) {
+                throw new Error('Missing milk report');
             }
 
-            const newSensorScanUuid = newSensorScanData.uuid;
+            const newSensorScanData = await dispatch(runSensorScan(userEmail)).unwrap();
+
+            if (!newSensorScanData || !newSensorScanData.uuid || !newSensorScanData.absorbance) {
+                throw new Error('An error occured on analyse milk');
+            }
+
+            const scanId = newSensorScanData.uuid;
 
             const modelData = await apiInstance.sensor.runModel({
-                scans: [newSensorScanUuid],
+                scans: [scanId],
                 average: false,
                 'calib-to-use': CalibrationType.FACTORY,
             });
 
             setModelScannedData(modelData);
 
-            if (!reportAnalysedData) {
-                throw new Error('Missing milk information');
-            }
-
             const shallowReportAnalysedData: any = {
-                ...reportAnalysedData,
+                ...reportMilk,
                 data: {
-                    ...reportAnalysedData.data,
+                    ...reportMilk.data,
                     analyseData: {
-                        scanId: newSensorScanUuid,
+                        scanId: scanId,
                         result: modelData,
                     },
                 },
             };
 
             await apiInstance.reports.updateReport(shallowReportAnalysedData);
-            await retrieveReport(milkId);
 
-            setSensorScannedData(newSensorScanData);
+            await retrieveReport(milkId);
 
             if (activeTab === AnalyseWidgetTabs.SPECTRUM) {
                 await presentToast({
@@ -137,12 +149,14 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 type: 'error',
                 message: error.message,
             });
+        } finally {
+            setAnalyseMilkLoading(false);
         }
     });
 
-    React.useEffect(() => {
-        dispatch(fetchMilks());
-    }, []);
+    const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
+        setActiveTab(event.target.value as AnalyseWidgetTabs);
+    };
 
     React.useEffect(() => {
         if (milksLoading) {
@@ -159,6 +173,10 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         handleChangeMilkId(milkId);
     }, [routeInfo, milksLoading, handleChangeMilkId]);
 
+    React.useEffect(() => {
+        dispatch(fetchMilks());
+    }, []);
+
     const milkOptions = React.useMemo(
         () =>
             milkList.map(milk => ({
@@ -169,8 +187,8 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     );
 
     const activeTabComponent = React.useMemo(() => {
-        if (milksLoading || reportLoading) {
-            return <div className={cn('tab-placeholder')}>Loading...</div>;
+        if (reportMilkLoading) {
+            return <div className={cn('tab-placeholder')}>Try to loading milk information...</div>;
         }
 
         if (!milkId) {
@@ -180,77 +198,67 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         }
 
         if (activeTab === AnalyseWidgetTabs.SPECTRUM) {
-            return (
-                <SpectrumAnalyse
-                    sensorScannedData={sensorScannedData}
-                    onAnalyseMilk={handleAnalyseMilk}
-                />
-            );
+            return <SpectrumAnalyse milkId={milkId} analyseMilkLoading={analyseMilkLoading} />;
         }
 
-        return <TestResults reportAnalysedData={reportAnalysedData} />;
-    }, [
-        milksLoading,
-        reportLoading,
+        if (activeTab === AnalyseWidgetTabs.TEST_RESULTS) {
+            return <TestResults reportMilk={reportMilk} />;
+        }
 
-        milkId,
-        activeTab,
-        reportAnalysedData,
-        sensorScannedData,
-        handleAnalyseMilk,
-    ]);
+        return null;
+    }, [activeTab, milkId, reportMilkLoading, reportMilk, analyseMilkLoading]);
 
     const hasMilkId = milkId !== '';
-    const loading = milksLoading || reportLoading;
 
-    const showOnlyAnalyseButton =
-        (activeTab === AnalyseWidgetTabs.SPECTRUM && sensorScannedData === null) ||
-        (activeTab === AnalyseWidgetTabs.TEST_RESULTS &&
-            (!reportAnalysedData || !reportAnalysedData.data.analyseData));
+    const showOnlyAnalyseButton = !reportMilk?.data.analyseData;
 
     return (
-        <div className={cn()}>
-            <div className={cn('header')}>
-                <div className={cn('header-title')}>
-                    <div className={cn('header-title-icon')}>
-                        <AnalyseMilkIcon size={32} color='currentColor' />
-                    </div>
-
-                    <div className={cn('header-title-text')}>Analyse Milk</div>
-                </div>
-
-                <div className={cn('header-scanner')}>
-                    <BarcodeScanner
-                        title='Select, Scan or Enter Milk ID'
-                        options={milkOptions}
-                        value={milkId}
-                        onChange={handleChangeMilkId}
-                    />
-                </div>
-            </div>
-
-            <div className={cn('tabs')}>
-                <IonSegment value={activeTab} disabled={!hasMilkId} onIonChange={handleChangeTab}>
-                    <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
-                        <IonLabel>Spectrum</IonLabel>
-                    </IonSegmentButton>
-
-                    <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
-                        <IonLabel>Test Results</IonLabel>
-                    </IonSegmentButton>
-                </IonSegment>
-
-                <div className={cn('tab')}>{activeTabComponent}</div>
-
-                {hasMilkId && !loading ? (
-                    <div className={cn('actions-panel')}>
-                        <ActionsPanel
-                            onlyAnalyse={showOnlyAnalyseButton}
-                            onAnalyseMilk={handleAnalyseMilk}
+        <PageArea>
+            <PageArea.Header
+                title='Analyse Milk'
+                icon={<AnalyseMilkIcon />}
+                actions={
+                    <div className={cn('header-scanner')}>
+                        <BarcodeScanner
+                            title='Select, Scan or Enter Milk ID'
+                            options={milkOptions}
+                            value={milkId}
+                            disabled={milksLoading}
+                            onChange={handleChangeMilkId}
                         />
                     </div>
-                ) : null}
-            </div>
-        </div>
+                }
+            />
+
+            <PageArea.Main>
+                <div className={cn('tabs')}>
+                    <IonSegment
+                        value={activeTab}
+                        disabled={!hasMilkId}
+                        onIonChange={handleChangeTab}
+                    >
+                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
+                            <IonLabel>Spectrum</IonLabel>
+                        </IonSegmentButton>
+
+                        <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
+                            <IonLabel>Test Results</IonLabel>
+                        </IonSegmentButton>
+                    </IonSegment>
+
+                    <div className={cn('tab')}>{activeTabComponent}</div>
+
+                    {hasMilkId ? (
+                        <div className={cn('actions-panel')}>
+                            <ActionsPanel
+                                showOnlyAnalyse={showOnlyAnalyseButton}
+                                analyseMilkLoading={analyseMilkLoading}
+                                onAnalyseMilk={handleAnalyseMilk}
+                            />
+                        </div>
+                    ) : null}
+                </div>
+            </PageArea.Main>
+        </PageArea>
     );
 };

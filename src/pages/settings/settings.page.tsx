@@ -11,9 +11,9 @@ import {
 } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
-import { Layout } from '@widgets/layout';
 import { CustomButton } from '@ui/button';
-import { groupsSelectors } from '@entities/groups';
+import { selectGroupFreezers } from '@entities/groups';
+import { Layout } from '@widgets/layout';
 
 import TickIcon from '../../../assets/icons/chip-tick-icon.svg';
 import CloseIcon from '../../../assets/icons/close-icon.svg';
@@ -25,8 +25,8 @@ import './settings.css';
 import type { IFreezer } from '@entities/groups/model/groups.types';
 
 export const SettingsPage: React.FC = () => {
-    const freezersList = useSelector(groupsSelectors.getFreezers);
-    const ExpirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
+    const freezersList = useSelector(selectGroupFreezers);
+    const expirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
 
     return (
         <IonPage>
@@ -69,7 +69,7 @@ export const SettingsPage: React.FC = () => {
                         <div className='options'>
                             <p>
                                 <IonText>
-                                    Set at<IonText color='primary'>{ExpirationMonth[5]}</IonText>
+                                    Set at<IonText color='primary'>{expirationMonth[5]}</IonText>
                                 </IonText>
                             </p>
                             <IonSelect
@@ -77,7 +77,7 @@ export const SettingsPage: React.FC = () => {
                                 label='Milk Expiration Date'
                                 label-placement='floating'
                             >
-                                {ExpirationMonth.map(month => (
+                                {expirationMonth.map(month => (
                                     <IonSelectOption value={month}>{month}</IonSelectOption>
                                 ))}
                             </IonSelect>

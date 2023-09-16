@@ -26,8 +26,6 @@ import type {
 
 const { TellspecSensorSdk } = Plugins;
 
-const EMULATION_SCAN_ID = 'c29d7426-16aa-4427-98d3-23b3da6c0d9b';
-
 /**
  * This is how old a calibraiton can be before it needs re-calibrating in
  *
@@ -180,11 +178,6 @@ export const tellspecRemoveDevice = async (): Promise<void> => {
 };
 
 export const tellspecRunScan = async (userEmail: string) => {
-    if (await isEmulateNativeSdk()) {
-        // emulate scan
-        return tellspecGetScan(EMULATION_SCAN_ID);
-    }
-
     const pairedDevice = await tellspecGetPairDevice();
 
     if (!pairedDevice) {
@@ -198,30 +191,6 @@ export const tellspecRunScan = async (userEmail: string) => {
     await disconnect();
 
     return scanData;
-};
-
-export const tellspecGetScan = async (scanId: string) => {
-    const scanDataResponse = await apiInstance.sensor.getScanData(scanId);
-
-    if (
-        scanDataResponse === null ||
-        scanDataResponse.length === 0 ||
-        !scanDataResponse[0].json_data?.['scan-data']
-    ) {
-        throw new Error('Scan data is not available');
-    }
-
-    const [firstScanDataEntry] = scanDataResponse;
-
-    const scanData = firstScanDataEntry.json_data['scan-data'];
-
-    const result = {
-        ...scanData,
-        uuid: firstScanDataEntry.uuid,
-        absorbance: scanData.absorbance[0],
-    };
-
-    return result as unknown as ScanResultType;
 };
 
 export const tellspecSaveScan = async (scanData: any, device: BleDeviceInfo, userEmail: string) => {

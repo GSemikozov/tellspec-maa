@@ -1,7 +1,7 @@
 import { BaseEndpoint } from '@api/network';
 import { getUserLocalData } from '@entities/user/user.utils';
 
-import type { Report, IReportRequestParam } from './types';
+import type { Report, FetchReportRequest } from './types';
 
 export class ReportsApi extends BaseEndpoint {
     private reportUrl = '/main/reports/';
@@ -50,7 +50,7 @@ export class ReportsApi extends BaseEndpoint {
         }
     };
 
-    fetchReport = async (param: IReportRequestParam): Promise<Report[]> => {
+    fetchReport = async (param: FetchReportRequest): Promise<Report[]> => {
         const userData = await getUserLocalData();
         const tempParam = {
             ...param,

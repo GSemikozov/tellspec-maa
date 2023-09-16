@@ -1,5 +1,6 @@
 .spectrum-analyse {
     width: 100%;
+    max-width: 630px;
 }
 
 .spectrum-analyse__placeholder {

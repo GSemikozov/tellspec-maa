@@ -3,7 +3,7 @@ import { IonItem, IonList, IonText, useIonRouter } from '@ionic/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CustomInput } from '@ui/input';
+import { PreemieInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
 import { userAsyncActions, userSelectors } from '@entities/user';
 import { routesMapping } from '@app/routes';
@@ -57,7 +57,7 @@ export const LoginForm: React.FunctionComponent = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
             <IonList class='ion-padding'>
                 <IonItem lines='none'>
-                    <CustomInput
+                    <PreemieInput
                         {...inputRef}
                         label-placement='floating'
                         label='Email'
@@ -75,7 +75,7 @@ export const LoginForm: React.FunctionComponent = () => {
 
                 <IonItem lines='none'>
                     <div style={{ position: 'relative', width: '100%' }}>
-                        <CustomInput
+                        <PreemieInput
                             {...inputRef}
                             label-placement='floating'
                             label='Password'

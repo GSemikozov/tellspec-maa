@@ -22,10 +22,12 @@ export type BarcodeScannerProps = {
     options: BarcodeScannerOption[];
     value: string;
     onChange: (barcode: string) => void;
+
+    disabled?: boolean;
 };
 
 export const BarcodeScanner = React.forwardRef<HTMLIonSelectElement, BarcodeScannerProps>(
-    ({ title, options, value, onChange }, forwardRef) => {
+    ({ title, options, value, disabled, onChange }, forwardRef) => {
         const handleChange = (event: IonSelectCustomEvent<SelectChangeEventDetail>) => {
             const { value: milkId } = event.target;
 
@@ -51,7 +53,7 @@ export const BarcodeScanner = React.forwardRef<HTMLIonSelectElement, BarcodeScan
         };
 
         return (
-            <IonItem lines='none' className={cn('')}>
+            <IonItem lines='none' className={cn('')} disabled={disabled}>
                 <IonSelect
                     placeholder='Milk Id'
                     labelPlacement='floating'
