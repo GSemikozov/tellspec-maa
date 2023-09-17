@@ -66,10 +66,6 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     return (
         <div className={cn()}>
-            <IonButton expand='full' disabled={analyseMilkLoading}>
-                Print Label
-            </IonButton>
-
             <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintTestResults}>
                 Print Milk Test Results
             </IonButton>

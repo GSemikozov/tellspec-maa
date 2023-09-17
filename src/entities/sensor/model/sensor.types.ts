@@ -1,7 +1,5 @@
 import { TellspecSensorDevice } from '@api/native';
 
-import { GetScanDataItem } from '../api';
-
 export enum CalibrationStatus {
     DISCONNECTED = 'disconnected',
     ERROR = 'error',
@@ -22,10 +20,5 @@ export type SensorState = {
 
     sensorScanning: {
         status: 'idle' | 'progress';
-    };
-
-    scan: {
-        status: 'idle' | 'loading' | 'success' | 'error';
-        byIds: Record<string, GetScanDataItem>;
     };
 };

@@ -3,21 +3,26 @@ import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonDatetime } from '@ionic/react';
 import { format } from 'date-fns';
 
+import { classname } from '@shared/utils';
+
 import { setDefaultTime } from './utils';
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
 import './date-range.css';
 
+const cn = classname('date-range');
+
 type Name = 'from' | 'to';
 
-interface DataRangeProps {
+type DataRangeProps = {
     onChange: (name: Name, value: string) => void;
+
     from?: string;
     to?: string;
-}
+};
 
-export const DateRange: React.FC<DataRangeProps> = props => {
+export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
     const { from, to, onChange } = props;
 
     const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -39,23 +44,24 @@ export const DateRange: React.FC<DataRangeProps> = props => {
             : 'Select dates';
 
     return (
-        <div className='dateRange'>
-            <IonButton fill='outline' onClick={handlePopoverToggle}>
+        <div className={cn()}>
+            <IonButton fill='outline' className={cn('button')} onClick={handlePopoverToggle}>
                 {buttonLabel}
             </IonButton>
 
             {isOpened
                 ? createPortal(
-                      <div className='dateRange'>
+                      <div className={cn('modal')}>
                           <IonBackdrop tappable onIonBackdropTap={handlePopoverToggle} />
 
-                          <div className='dateRange__popover'>
+                          <div className={cn('popover')}>
                               <IonDatetime
                                   name='from'
                                   presentation='date'
                                   onIonChange={handleDateChange}
                                   value={from as string}
                               />
+
                               <IonDatetime
                                   name='to'
                                   presentation='date'

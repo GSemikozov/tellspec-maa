@@ -32,8 +32,9 @@ export type ReportAnalyseDataResult = {
 export type ReportAnalyseData = {
     scanId: string;
     result: ReportAnalyseDataResult[];
-    scanDate: string;
-    scanned_by: string;
+
+    scanDate?: string;
+    scanned_by?: string;
     milk_status?: string;
 };
 

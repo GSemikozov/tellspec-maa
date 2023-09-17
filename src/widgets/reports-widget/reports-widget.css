@@ -1,9 +1,14 @@
-.reports-header {
-    display: flex;
-    justify-content: space-between;
+.reports-widget__header {
+    padding-inline-end: 16px;
+}
+.reports-widget__main {
+    padding: 12px;
 }
 
-.reports-header img {
-    width: 3rem;
-    margin-right: 1rem;
+.reports-widget__placeholder {
+    width: 100%;
+    padding: 16px 0;
+
+    font-size: 1.6rem;
+    text-align: center;
 }

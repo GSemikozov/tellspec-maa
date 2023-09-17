@@ -20,31 +20,34 @@ type TestResultsProps = {
 type ScaleValue = {
     minRequiredValue: number;
     maxRequiredValue: number;
-    scaleDivisionValue?: number;
+    step: number;
 };
 
 const SCALE_VALUES: Record<string, ScaleValue> = {
+    Energy: {
+        minRequiredValue: 30,
+        maxRequiredValue: 80,
+        step: 10,
+    },
     'Protein (True Protein)': {
         minRequiredValue: 0.6,
         maxRequiredValue: 1.4,
-        scaleDivisionValue: 1,
+        step: 0.2,
     },
     Fat: {
         minRequiredValue: 2,
         maxRequiredValue: 5,
+        step: 1,
     },
     'Total Carbs': {
-        minRequiredValue: 5,
-        maxRequiredValue: 9,
-    },
-    Energy: {
-        minRequiredValue: 30,
-        maxRequiredValue: 80,
-        scaleDivisionValue: 10,
+        minRequiredValue: 11,
+        maxRequiredValue: 15,
+        step: 1,
     },
     'Total solids': {
         minRequiredValue: 5,
         maxRequiredValue: 12,
+        step: 1,
     },
 };
 
@@ -82,11 +85,10 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
     }
 
     return (
-        <div className='scales'>
+        <div className={cn('scales')}>
             {reportMilk.data.analyseData.result.map(data => {
                 const { name, units, value } = data;
-                const { minRequiredValue, maxRequiredValue, scaleDivisionValue } =
-                    SCALE_VALUES[name] || {};
+                const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
 
                 return (
                     <Scale
@@ -96,7 +98,7 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
                         units={units}
                         minRequiredValue={minRequiredValue}
                         maxRequiredValue={maxRequiredValue}
-                        scaleDivisionValue={scaleDivisionValue}
+                        step={step}
                     />
                 );
             })}

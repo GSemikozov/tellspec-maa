@@ -1,11 +1,11 @@
 import type { GetScanDataItem } from '../api';
 
-export type AdaptedScanData = Omit<GetScanDataItem['json_data']['scan-data'], 'absorbance'> & {
+export type SpectrumScanData = Omit<GetScanDataItem['json_data']['scan-data'], 'absorbance'> & {
     uuid: string;
     absorbance: number[];
 };
 
-export const adaptScanData = (scanData: GetScanDataItem): AdaptedScanData => {
+export const prepareSpectrumScanData = (scanData: GetScanDataItem): SpectrumScanData => {
     if (!scanData.json_data) {
         throw new Error('Scan data is not available');
     }

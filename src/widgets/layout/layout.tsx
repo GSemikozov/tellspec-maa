@@ -2,12 +2,12 @@ import React from 'react';
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
-import { appSelectors } from '@app';
 import { SensorManager } from '@entities/sensor';
 import { SidebarMenu } from '@widgets/sidebar-menu';
-import { Header } from '@widgets/header';
 import { Alert } from '@features/alert';
 import { Backdrop } from '@features/backdrop';
+import { Header } from '@widgets/header';
+import { selectIsSidebarOpen } from '@app/model';
 
 import './layout.css';
 
@@ -20,8 +20,8 @@ interface LayoutProps {
 export const Layout: React.FunctionComponent<LayoutProps> = props => {
     const { children, rightSideBar = <SensorManager /> } = props;
 
-    const isSidebarVisible = useSelector(appSelectors.isSidebarVisible);
-    const showSidebar = isSidebarVisible && rightSideBar;
+    const sidebarOpen = useSelector(selectIsSidebarOpen);
+    const showSidebar = sidebarOpen && rightSideBar;
 
     return (
         <>

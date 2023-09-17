@@ -1,0 +1,7 @@
+.autocomplete-typehead__searchbar .searchbar-input {
+    box-shadow: unset;
+}
+
+.autocomplete-typehead__footer .button {
+    --color: var(--ion-color-primary);
+}

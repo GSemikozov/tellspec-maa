@@ -4,11 +4,11 @@ import {
     NativeStorageKeys,
     isEmulateNativeSdk,
     nativeStore,
-    tellspecCleanScanData,
     tellspecConnect,
     tellspecGetConfigs,
     tellspecGetDeviceInfo,
     tellspecPrepareScanCalibration,
+    tellspecPrepareSensorScannedData,
     tellspecReadScannerInfo,
     tellspecRemoveDevice,
     tellspecRunScan,
@@ -19,27 +19,31 @@ import {
 import { apiInstance } from '@api/network';
 
 import { EMULATION_SCAN_ID } from '../sensor.constants';
+import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
 
-import type { ScanResultType } from 'tellspec-sensor-sdk/src';
 import type { RootState } from '@app/store';
-import type { TellspecSensorDevice } from '@api/native';
-import type { SetCalibrationRequest } from '../api';
+import type { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
 
 // TODO: move to service
 type saveCalibrationOptions = {
     user: RootState['user'];
     sensor: RootState['sensor'];
     preferConfig: string;
-    scan: ScanResultType;
+    sensorScannedData: TellspecSensorScannedData;
 };
 
-const saveCalibration = async ({ sensor, user, preferConfig, scan }: saveCalibrationOptions) => {
+const saveCalibration = async ({
+    sensor,
+    user,
+    preferConfig,
+    sensorScannedData,
+}: saveCalibrationOptions) => {
     if (!sensor.device) {
         return;
     }
 
     const scanCalibrationData = tellspecPrepareScanCalibration({
-        scan,
+        sensorScannedData,
         model: sensor.device.name,
         activeConfigName: preferConfig,
         userEmail: user.email,
@@ -128,7 +132,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     await tellspecReadScannerInfo();
 
     // start by getting the sensor scan
-    const scanData = tellspecCleanScanData(await tellspecStartScan());
+    const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
     const configs = await tellspecGetConfigs();
 
     let result: any | null = null;
@@ -142,7 +146,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                 user,
                 sensor,
                 preferConfig,
-                scan: scanData,
+                sensorScannedData,
             });
 
             return;
@@ -163,7 +167,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                         user,
                         sensor,
                         preferConfig,
-                        scan: scanData,
+                        sensorScannedData,
                     });
 
                     return;
@@ -193,24 +197,9 @@ export const removeDevice = createAsyncThunk('sensor/removeDevice', async () => 
     await tellspecRemoveDevice();
 });
 
-export const fetchScan = createAsyncThunk('sensor/fetchScanData', async (scanId: string) => {
-    try {
-        const response = await apiInstance.sensor.getScanData(scanId);
-
-        if (response.data === null || response.data.length === 0 || !response.data[0]) {
-            return null;
-        }
-
-        return response.data[0];
-    } catch (error) {
-        console.error(error);
-        throw new Error("Can't fetch scan. Try again later");
-    }
-});
-
 export const saveScan = createAsyncThunk(
     'sensor/saveScanData',
-    async (requestBody: ScanResultType) => {
+    async (requestBody: TellspecSensorScannedData) => {
         try {
             const response = await apiInstance.sensor.saveScan(requestBody);
 
@@ -229,9 +218,15 @@ export const saveScan = createAsyncThunk(
 export const runSensorScan = createAsyncThunk('sensor/runScan', async (userEmail: string) => {
     try {
         if (await isEmulateNativeSdk()) {
-            await new Promise(resolve => setTimeout(resolve, 5_000));
+            const response = await apiInstance.sensor.getScanData(EMULATION_SCAN_ID);
 
-            return { uuid: EMULATION_SCAN_ID, absorbance: [] };
+            if (response.data === null || response.data.length === 0) {
+                return null;
+            }
+
+            const [spectrumScanDataItem] = response.data;
+
+            return prepareSpectrumScanData(spectrumScanDataItem);
         }
 
         return tellspecRunScan(userEmail);

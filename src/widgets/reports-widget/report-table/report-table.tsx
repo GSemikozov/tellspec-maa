@@ -7,25 +7,15 @@ import {
 } from '@tanstack/react-table';
 import { IonCheckbox } from '@ionic/react';
 
-import type { Report, ReportAnalyseData, ReportAnalyseDataResult } from '@entities/reports';
+import { classname } from '@shared/utils';
+
+import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
+
+import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 
 import './report-table.css';
 
-const getParameterByName = (name: string, analyseData?: ReportAnalyseData) => {
-    if (!analyseData) {
-        return null;
-    }
-
-    return (analyseData.result ?? []).find(parameter => parameter.name === name);
-};
-
-enum ColumnNamesMapping {
-    protein = 'Protein (True Protein)',
-    fat = 'Fat',
-    carbs = 'Total Carbs',
-    energy = 'Energy',
-    solids = 'Total solids',
-}
+const cn = classname('report-table');
 
 const columnHelper = createColumnHelper<Report>();
 
@@ -42,45 +32,61 @@ const columns = [
             />
         ),
     }),
+
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
     }),
-    columnHelper.accessor('archived', {
-        header: () => 'Analysed',
+
+    columnHelper.accessor(row => row.data.analyseData, {
+        header: 'Analysed',
+        cell: info => {
+            if (!info.getValue()) {
+                return 'false';
+            }
+
+            return 'true';
+        },
     }),
+
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.protein, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.PROTEIN, row.data.analyseData),
         {
             header: 'Protein',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
     ),
-    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.fat, row.data.analyseData), {
+
+    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData), {
         header: 'Fat',
         cell: info => {
             const result = info.getValue<ReportAnalyseDataResult>();
+
             return result?.value || '-';
         },
     }),
+
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.carbs, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
         {
             header: 'Carbs.',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
     ),
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.energy, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
             header: 'Energy',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
@@ -88,26 +94,24 @@ const columns = [
 ];
 
 type ReportTableProps = {
-    data: Report[];
+    reports: Report[];
 };
 
-export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ data }) => {
+export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
-        data: data,
-        state: { rowSelection },
         enableRowSelection: true,
-        onRowSelectionChange: value => {
-            console.log(value);
-            setRowSelection(value);
-        },
-        getCoreRowModel: getCoreRowModel(),
+        data: reports,
         columns,
+        state: { rowSelection },
+        getCoreRowModel: getCoreRowModel(),
+
+        onRowSelectionChange: value => setRowSelection(value),
     });
 
     return (
-        <div className='reportTable'>
+        <div className={cn()}>
             <table>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -125,6 +129,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ data })
                         </tr>
                     ))}
                 </thead>
+
                 <tbody>
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id}>

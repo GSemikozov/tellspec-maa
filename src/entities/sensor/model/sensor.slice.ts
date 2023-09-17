@@ -5,7 +5,6 @@ import {
     connectSensorDevice,
     calibrateSensorDevice,
     removeDevice,
-    fetchScan,
     runSensorScan,
 } from './sensor.actions';
 
@@ -22,11 +21,6 @@ const initialState: SensorState = {
 
     sensorScanning: {
         status: 'idle',
-    },
-
-    scan: {
-        status: 'idle',
-        byIds: {},
     },
 };
 
@@ -75,27 +69,6 @@ export const sensorSlice = createSlice({
         });
         builder.addCase(runSensorScan.rejected, state => {
             state.sensorScanning.status = 'idle';
-        });
-
-        // fetch scan data
-        builder.addCase(fetchScan.pending, state => {
-            state.scan.status = 'loading';
-        });
-        builder.addCase(fetchScan.fulfilled, (state, action) => {
-            state.scan.status = 'success';
-
-            const scanData = action.payload;
-
-            if (!scanData) {
-                return;
-            }
-
-            state.scan.byIds[scanData.uuid] = scanData;
-        });
-        builder.addCase(fetchScan.rejected, (state, action) => {
-            state.scan.status = 'error';
-
-            console.log('[fetchScan.rejected]', JSON.stringify(action));
         });
 
         // remove device

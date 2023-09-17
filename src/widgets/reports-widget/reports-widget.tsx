@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonCheckbox, IonCol, IonRow, IonText } from '@ionic/react';
 
 import { DateRange } from '@ui/date-range';
-import { fetchReport, selectReportsByDate } from '@entities/reports';
-
-import ReportsIcon from '../../../assets/images/view-reports-selected.png';
+import { ReportsIcon } from '@ui/icons';
+import { PageArea } from '@shared/ui';
+import { classname } from '@shared/utils';
+import { fetchReport, selectIsReportLoading, selectReportsByDate } from '@entities/reports';
 
 import { ReportTable } from './report-table';
 import { ActionsPanel } from './actions-panel';
@@ -14,20 +14,22 @@ import type { AppDispatch } from '@app';
 
 import './reports-widget.css';
 
-export const ReportsWidget: React.FC = () => {
+const cn = classname('reports-widget');
+
+export const ReportsWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const [from, setFrom] = React.useState<string>();
-    const [to, setTo] = React.useState<string>();
-    const [selectAll, setSelectAll] = React.useState<boolean>(false);
+    const [from, setFrom] = React.useState<string>('');
+    const [to, setTo] = React.useState<string>('');
 
-    const data = useSelector(selectReportsByDate(from, to));
+    const reportsLoading = useSelector(selectIsReportLoading);
+    const reports = useSelector(state => selectReportsByDate(state, from, to));
 
     React.useEffect(() => {
         dispatch(
             fetchReport({
-                last_modified_gte: from,
-                last_modified_lte: to,
+                last_modified_gte: from !== '' ? from : undefined,
+                last_modified_lte: to !== '' ? to : undefined,
             }),
         );
     }, [from, to]);
@@ -40,33 +42,30 @@ export const ReportsWidget: React.FC = () => {
         }
     };
 
+    const renderMain = React.useMemo(() => {
+        if (reportsLoading) {
+            return <div className={cn('placeholder')}>Loading...</div>;
+        }
+
+        return <ReportTable reports={reports} />;
+    }, [reportsLoading, reports]);
+
     return (
-        <>
-            <IonRow className='ion-align-items-center'>
-                <IonCol>
-                    <div className='reports-header'>
-                        <h2>
-                            <IonText>
-                                <img src={ReportsIcon} />
-                                View Reports
-                            </IonText>
-                        </h2>
-                    </div>
-                    <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                        Select All
-                    </IonCheckbox>
-                </IonCol>
+        <PageArea>
+            <PageArea.Header
+                title='View Reports'
+                icon={<ReportsIcon />}
+                actions={
+                    reportsLoading ? null : (
+                        <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                    )
+                }
+                className={cn('header')}
+            />
 
-                <IonCol>
-                    <DateRange from={from} to={to} onChange={handleDateRangeChange} />
-                </IonCol>
-            </IonRow>
+            <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 
-            <IonRow>
-                <ReportTable data={data} />
-            </IonRow>
-
-            <ActionsPanel />
-        </>
+            <div className={cn('actions')}>{reportsLoading ? null : <ActionsPanel />}</div>
+        </PageArea>
     );
 };

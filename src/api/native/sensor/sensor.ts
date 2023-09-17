@@ -8,7 +8,10 @@ import {
     isEmulateNativeSdk,
     NativeStorageKeys,
     nativeStore,
+    TellspecRawSensorScannedData,
     TellspecSensorBaseResponse,
+    TellspecSensorDevice,
+    TellspecSensorScannedData,
 } from '@api/native';
 import { apiInstance } from '@api/network';
 import { CalibrationType } from '@entities/sensor';
@@ -18,11 +21,7 @@ import { createTellspecErrorResponse } from './utils';
 
 import type { ListenerCallback } from '@capacitor/core';
 import type { RunModelRequest } from '@entities/sensor';
-import type {
-    SensorEvent,
-    ScanResultType,
-    BleDeviceInfo,
-} from 'tellspec-sensor-sdk/src/definitions';
+import type { SensorEvent } from 'tellspec-sensor-sdk/src/definitions';
 
 const { TellspecSensorSdk } = Plugins;
 
@@ -97,7 +96,7 @@ export const tellspecRetrieveDeviceConnect = async (deviceUuid: string) => {
     };
 };
 
-export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any> => {
+export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promise<any> => {
     if (await isEmulateNativeSdk()) {
         const emulateResponse = null;
 
@@ -162,13 +161,13 @@ export const tellspecGetDeviceInfo = async (device: BleDeviceInfo): Promise<any>
     return getCalibration(configs.activeConfig);
 };
 
-export const tellspecGetPairDevice = async (): Promise<BleDeviceInfo | null> => {
+export const tellspecGetPairDevice = async (): Promise<TellspecSensorDevice | null> => {
     const storeDevice = await nativeStore.get(NativeStorageKeys.DEVICE);
 
     return storeDevice?.device ?? null;
 };
 
-export const tellspecSavePairDevice = async (device: BleDeviceInfo): Promise<void> => {
+export const tellspecSavePairDevice = async (device: TellspecSensorDevice): Promise<void> => {
     await nativeStore.set(NativeStorageKeys.DEVICE, { device, scan: null });
 };
 
@@ -185,16 +184,20 @@ export const tellspecRunScan = async (userEmail: string) => {
     }
 
     const disconnect = await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
-    const scanData = tellspecCleanScanData(await tellspecStartScan());
+    const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
 
-    await tellspecSaveScan(scanData, pairedDevice, userEmail);
+    await tellspecSaveScan(sensorScannedData, pairedDevice, userEmail);
     await disconnect();
 
-    return scanData;
+    return sensorScannedData;
 };
 
-export const tellspecSaveScan = async (scanData: any, device: BleDeviceInfo, userEmail: string) => {
-    const requestBody = tellspecPrepareScan(scanData, userEmail, device);
+export const tellspecSaveScan = async (
+    sensorScannenData: TellspecSensorScannedData,
+    device: TellspecSensorDevice,
+    userEmail: string,
+) => {
+    const requestBody = tellspecPrepareScan(sensorScannenData, device, userEmail);
     const saveScanResponse = await apiInstance.sensor.saveScan(requestBody);
 
     return saveScanResponse;
@@ -209,10 +212,16 @@ export const tellspecSaveScan = async (scanData: any, device: BleDeviceInfo, use
  * @param userEmail
  * @param calibrationData
  */
-export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): any => {
-    const date = moment(scan.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
+export const tellspecPrepareScan = (
+    sensorScannenData: TellspecSensorScannedData,
+    device: TellspecSensorDevice,
+    userEmail: string,
+): any => {
+    const date = moment(sensorScannenData.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+    );
 
-    let newUuid = scan.uuid;
+    let newUuid = sensorScannenData.uuid;
 
     if (newUuid === '') {
         newUuid = uuid();
@@ -226,27 +235,27 @@ export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): 
         json_data: {
             'scan-data': {
                 'scanner-type-name': device.name,
-                'scanner-hardware-version': scan.HWRev,
-                'scanner-serial-number': scan.SerialNumber,
-                'scanner-firmware-version': scan.TivaRev,
-                'scanner-spectrum-version': scan.SpectrumRev,
+                'scanner-hardware-version': sensorScannenData.HWRev,
+                'scanner-serial-number': sensorScannenData.SerialNumber,
+                'scanner-firmware-version': sensorScannenData.TivaRev,
+                'scanner-spectrum-version': sensorScannenData.SpectrumRev,
                 'scan-performed-utc': date,
                 'scan-id': newUuid,
                 'scan-source': 'white',
-                wavelengths: scan.wavelengths,
-                factory_white_ref: [scan.ReferenceIntensity],
+                wavelengths: sensorScannenData.wavelengths,
+                factory_white_ref: [sensorScannenData.ReferenceIntensity],
                 white_ref: calWhiteRef['scan-data'].white_ref,
-                absorbance: [scan.absorbance],
-                factory_absorbance: [scan.absorbance],
+                absorbance: [sensorScannenData.absorbance],
+                factory_absorbance: [sensorScannenData.absorbance],
                 'active-config-name': calWhiteRef['scan-data']['active-config-name'],
-                counts: [scan.Intensity],
+                counts: [sensorScannenData.Intensity],
                 debug_trigger: 'N/A',
             },
             'scan-info': {
                 dlp_header: {
-                    pga: scan?.ADCPGA,
-                    humidity: scan?.SysHumidity,
-                    temperature: scan?.SysTemperature,
+                    pga: sensorScannenData?.ADCPGA,
+                    humidity: sensorScannenData?.SysHumidity,
+                    temperature: sensorScannenData?.SysTemperature,
                     white_pga: calWhiteRef['scan-info'].dlp_header.pga,
                     white_humidity: calWhiteRef['scan-info'].dlp_header.humidity,
                     white_temperature: calWhiteRef['scan-info'].dlp_header.temperature,
@@ -265,7 +274,7 @@ export const tellspecPrepareScan = (scan: any, userEmail: string, device: any): 
 };
 
 export type TellspecPrepareScanCalibrationOptions = {
-    scan: ScanResultType;
+    sensorScannedData: TellspecSensorScannedData;
     model: string;
     activeConfigName: string;
     userEmail: string;
@@ -274,14 +283,16 @@ export type TellspecPrepareScanCalibrationOptions = {
 };
 
 export const tellspecPrepareScanCalibration = ({
-    scan,
+    sensorScannedData,
     model,
     activeConfigName,
     userEmail,
 
     uuid: originUuid,
 }: TellspecPrepareScanCalibrationOptions): any => {
-    const date = moment(scan.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
+    const date = moment(sensorScannedData.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format(
+        'YYYY-MM-DDTHH:mm:ss',
+    );
 
     let newUuid = originUuid;
 
@@ -292,28 +303,28 @@ export const tellspecPrepareScanCalibration = ({
     return {
         'scan-data': {
             'scanner-type-name': model,
-            'scanner-hardware-version': scan.HWRev,
-            'scanner-serial-number': scan.SerialNumber,
-            'scanner-firmware-version': scan.TivaRev,
-            'scanner-spectrum-version': scan.SpectrumRev,
+            'scanner-hardware-version': sensorScannedData.HWRev,
+            'scanner-serial-number': sensorScannedData.SerialNumber,
+            'scanner-firmware-version': sensorScannedData.TivaRev,
+            'scanner-spectrum-version': sensorScannedData.SpectrumRev,
             'scan-performed-utc': date,
             'scan-id': newUuid,
             'scan-source': 'white',
-            wavelengths: scan.wavelengths,
-            factory_white_ref: [scan.ReferenceIntensity],
-            white_ref: [scan.Intensity],
-            absorbance: [scan.absorbance],
-            factory_absorbance: [scan.absorbance],
+            wavelengths: sensorScannedData.wavelengths,
+            factory_white_ref: [sensorScannedData.ReferenceIntensity],
+            white_ref: [sensorScannedData.Intensity],
+            absorbance: [sensorScannedData.absorbance],
+            factory_absorbance: [sensorScannedData.absorbance],
             'active-config-name': activeConfigName,
-            counts: [scan.Intensity],
+            counts: [sensorScannedData.Intensity],
             debug_trigger: 'N/A',
         },
 
         'scan-info': {
             dlp_header: {
-                pga: scan?.ADCPGA,
-                humidity: scan?.SysHumidity,
-                temperature: scan?.SysTemperature,
+                pga: sensorScannedData?.ADCPGA,
+                humidity: sensorScannedData?.SysHumidity,
+                temperature: sensorScannedData?.SysTemperature,
             },
             device_info: {
                 os: getPlatforms(),
@@ -348,16 +359,18 @@ export const tellspecGetModelResult = async (
 };
 
 /**
- * Cleans update the data we received from the sensor
+ * prepare data that we received by sensor for further usage
  */
-export const tellspecCleanScanData = (scanData: ScanResultType): ScanResultType => {
+export const tellspecPrepareSensorScannedData = (
+    rawSensorScanData: TellspecRawSensorScannedData,
+): TellspecSensorScannedData => {
     const result = {
-        ...scanData,
+        ...rawSensorScanData,
         uuid: uuid(),
-        wavelengths: JSON.parse(scanData.wavelengths),
-        ReferenceIntensity: JSON.parse(scanData.ReferenceIntensity),
-        Intensity: JSON.parse(scanData.Intensity),
-        absorbance: JSON.parse(scanData.absorbance),
+        wavelengths: JSON.parse(rawSensorScanData.wavelengths),
+        absorbance: JSON.parse(rawSensorScanData.absorbance),
+        ReferenceIntensity: JSON.parse(rawSensorScanData.ReferenceIntensity),
+        Intensity: JSON.parse(rawSensorScanData.Intensity),
     };
 
     return result;
