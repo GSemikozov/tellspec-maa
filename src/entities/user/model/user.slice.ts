@@ -2,13 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchAppSettings } from '@app/model/app.actions';
 
-import { login, logout } from './user.actions';
+import { login, logout, resetPassword } from './user.actions';
 import { accountTypesEnum } from './user.types';
 
 import type { IUserData } from './user.types';
 
 const initialState: IUserData = {
     status: 'idle',
+    error: undefined,
     token: '',
     pk: '',
     account_type: accountTypesEnum.milk_bank,
@@ -49,6 +50,7 @@ export const userSlice = createSlice({
 
         builder.addCase(login.pending, state => {
             state.status = 'loading';
+            state.error = undefined;
         });
         builder.addCase(login.fulfilled, (_, action) => {
             return {
@@ -56,10 +58,21 @@ export const userSlice = createSlice({
                 status: 'success',
             };
         });
-        builder.addCase(login.rejected, state => {
+        builder.addCase(login.rejected, (state, action) => {
             state.status = 'error';
+            state.error = action.error.message;
         });
-
+        builder.addCase(resetPassword.pending, state => {
+            state.status = 'loading';
+            state.error = undefined;
+        });
+        builder.addCase(resetPassword.fulfilled, state => {
+            state.status = 'success';
+        });
+        builder.addCase(resetPassword.rejected, (state, action) => {
+            state.status = 'error';
+            state.error = action.error.message;
+        });
         builder.addCase(logout.pending, () => {});
         builder.addCase(logout.fulfilled, () => {
             return initialState;

@@ -8,16 +8,19 @@ export class UserApi extends BaseEndpoint {
      * @param loginData Object which contains credentials
      */
     login = async (loginData: ILoginData) => {
-        const result = await this.http.post<IReturnLogin>('users/rest-auth/login/', loginData);
+        const { data, error } = await this.http.post<IReturnLogin>(
+            'users/rest-auth/login/',
+            loginData,
+        );
 
-        if (result.data) {
+        if (data) {
             return {
-                ...result.data.user,
-                token: result.data.key,
+                ...data.user,
+                token: data.key,
             };
+        } else {
+            throw new Error(error?.message[0]);
         }
-
-        return null;
     };
 
     /**
@@ -33,5 +36,14 @@ export class UserApi extends BaseEndpoint {
      */
     checkToken = async () => {
         return this.http.get('users/check-token/');
+    };
+
+    /**
+     * ResetPassword
+     * @summary Reset Password
+     */
+    resetPassword = async (email: string) => {
+        const { data } = await this.http.post('/users/rest-auth/password/reset/', { email });
+        return data?.detail;
     };
 }
