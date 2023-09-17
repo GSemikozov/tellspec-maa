@@ -4,6 +4,7 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
 import { LoginPage } from '@pages/login';
+import { ForgetPasswordPage } from '@pages/forget-password';
 import { HomePage } from '@pages/home';
 import { AnalysePage } from '@pages/analyse';
 import { AddMilkPage } from '@pages/add-milk';
@@ -70,6 +71,10 @@ export const App: React.FunctionComponent = () => {
                     <IonRouterOutlet animated={false}>
                         <PublicOnlyRoute exact path={routesMapping.login}>
                             <LoginPage />
+                        </PublicOnlyRoute>
+
+                        <PublicOnlyRoute exact path={routesMapping.forgetPassword}>
+                            <ForgetPasswordPage />
                         </PublicOnlyRoute>
 
                         <ProtectedRoute exact path={routesMapping.home}>

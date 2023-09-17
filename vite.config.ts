@@ -2,13 +2,18 @@ import path from 'path';
 
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react-swc';
+import svgr from "vite-plugin-svgr";
 import { defineConfig } from 'vite';
 
 const rootDir = path.resolve(__dirname);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react({ tsDecorators: true }), legacy()],
+    plugins: [
+        react({ tsDecorators: true }),
+        legacy(),
+        svgr(),
+    ],
     resolve: {
         alias: {
             '@app': path.resolve(rootDir, 'src/app'),

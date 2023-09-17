@@ -38,6 +38,7 @@ export interface IUpdateUser {
 
 export interface IUserData extends IUpdateUser {
     status: 'idle' | 'loading' | 'success' | 'error';
+    error?: string;
     token: string;
     pk: string;
 }
