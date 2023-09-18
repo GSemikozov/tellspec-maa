@@ -44,7 +44,7 @@ const MENU_ITEMS = [
     },
     {
         id: 'reports',
-        title: 'Reports',
+        title: 'Milk Analyses',
         to: routesMapping.reports,
         icon: <ReportsIcon size={32} color='currentColor' />,
     },
