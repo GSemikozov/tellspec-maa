@@ -14,6 +14,8 @@ import {
     SensorIcon
 } from '@ui/icons';
 
+import Logo from '../../../assets/images/Preemie-Logo_Milk-Analysis-Software.png'
+
 import { userAsyncActions } from '@entities/user';
 import { routesMapping } from '@app/routes';
 
@@ -76,7 +78,7 @@ export const SidebarMenu: React.FunctionComponent = () => {
     return (
         <div className={cn()}>
             <IonItem className='ion-no-margin' id='menu-logo' lines='none'>
-                <img src='./img/preemie-logo-pink.png' alt='Preemie Logo' />
+                <img src={Logo} alt='Preemie Logo' />
             </IonItem>
 
             <IonGrid className='tabs ion-no-padding'>

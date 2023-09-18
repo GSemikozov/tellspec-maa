@@ -14,19 +14,19 @@ ion-content::part(scroll) {
 
 #img-login-screen {
     max-width: 90rem;
-    height: 71.5rem;
+    height: 76.5rem;
     object-fit: cover;
     object-position: top right;
 }
 
 .logo-login-screen {
     margin-top: 30%;
-    margin-bottom: 5rem;
+margin-bottom: 5rem;
     margin-left: 10%;
 }
 
 .rights {
     text-align: center;
-    margin-top: 40%;
+    margin-top: 45%;
     margin-bottom: 0 !important;
 }

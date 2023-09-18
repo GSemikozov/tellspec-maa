@@ -130,8 +130,8 @@ export const SensorPage: React.FC = () => {
                             </IonRow>
                             <IonRow>
                                 <IonCol
-                                    size='12'
-                                    className='ion-margin-top ion-margin-end ion-margin-start'
+                                    size='11.6'
+                                    className='title-wrapper'
                                 >
                                     <div className='sensor-title'>
                                         <p>

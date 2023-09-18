@@ -9,6 +9,9 @@
     width: 3rem;
     margin-right: 1rem;
 }
+.title-wrapper{
+    margin: 16px 16px
+}
 
 .col-wrapper {
     border: 1px solid var(--ion-color-tertiary-tint);
