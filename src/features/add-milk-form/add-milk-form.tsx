@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonCol, IonRow, IonSelectOption, useIonAlert, useIonRouter } from '@ionic/react';
 import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { PreemieSelect, PreemieInput, CustomButton } from '@ui';
 import { usePreemieToast, PageArea } from '@shared/ui';

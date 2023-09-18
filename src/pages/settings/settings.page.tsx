@@ -45,19 +45,19 @@ export const SettingsPage: React.FC = () => {
                             </p>
                             <span className='calibrate-sensor'>
                                 <button>
-                                    Calibrate Sensor <img src={TargetIcon} />
+                                    Calibrate sensor <img src={TargetIcon} />
                                 </button>
                             </span>
                         </div>
                         <div className='options'>
                             <p>
-                                <IonText>Paired to</IonText>
+                                <IonText>Paired with</IonText>
                             </p>
                         </div>
                         <div className='line' />
                         <div className='options'>
                             <p>
-                                <IonText>Pair another Sensor</IonText>
+                                <IonText>Pair another sensor</IonText>
                             </p>
                             <button className='add-button'>ADD</button>
                         </div>
@@ -69,12 +69,12 @@ export const SettingsPage: React.FC = () => {
                         <div className='options'>
                             <p>
                                 <IonText>
-                                    Set at<IonText color='primary'>{expirationMonth[5]}</IonText>
+                                    Default expiration<IonText color='primary'>{expirationMonth[5]}</IonText>
                                 </IonText>
                             </p>
                             <IonSelect
                                 disabled
-                                label='Milk Expiration Date'
+                                label='Milk expiration date'
                                 label-placement='floating'
                             >
                                 {expirationMonth.map(month => (
@@ -115,7 +115,7 @@ export const SettingsPage: React.FC = () => {
                         <div className='line' />
                         <div className='options'>
                             <p>
-                                <IonText>Add another Storage</IonText>
+                                <IonText>Add another storage</IonText>
                             </p>
                             <button className='add-button'>ADD</button>
                             {/* <CustomInput
