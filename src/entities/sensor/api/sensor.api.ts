@@ -1,6 +1,6 @@
 import { BaseEndpoint } from '@api/network';
 
-import type { ScanResultType } from 'tellspec-sensor-sdk/src/definitions';
+import type { TellspecSensorScannedData } from '@api/native';
 import type {
     RunModelRequest,
     RunModelResponse,
@@ -55,7 +55,7 @@ export class SensorApi extends BaseEndpoint {
             scans: [uuid],
         });
 
-        return response.data;
+        return response;
     };
 
     getScanner = async (model: string, serial: string) => {
@@ -66,11 +66,11 @@ export class SensorApi extends BaseEndpoint {
         return response.data;
     };
 
-    saveScan = async (singleScan: ScanResultType) => {
+    saveScan = async (singleScan: TellspecSensorScannedData) => {
         const response = await this.http.post<SaveScanResponse>(this.saveScanUrl, {
             scans: [singleScan],
         });
 
-        return response.data;
+        return response;
     };
 }

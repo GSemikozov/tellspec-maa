@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { CalibrationStatus } from './sensor.types';
-import { connectSensorDevice, calibrateSensorDevice, removeDevice } from './sensor.actions';
+import {
+    connectSensorDevice,
+    calibrateSensorDevice,
+    removeDevice,
+    runSensorScan,
+} from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
 
@@ -13,7 +18,10 @@ const initialState: SensorState = {
     scannerActive: false,
     sensorModel: '',
     enSensorEmulation: true,
-    entities: {},
+
+    sensorScanning: {
+        status: 'idle',
+    },
 };
 
 export const sensorSlice = createSlice({
@@ -52,6 +60,18 @@ export const sensorSlice = createSlice({
             console.log('[calibrateDevice.rejected]', JSON.stringify(action));
         });
 
+        // sensor scanning
+        builder.addCase(runSensorScan.pending, state => {
+            state.sensorScanning.status = 'progress';
+        });
+        builder.addCase(runSensorScan.fulfilled, state => {
+            state.sensorScanning.status = 'idle';
+        });
+        builder.addCase(runSensorScan.rejected, state => {
+            state.sensorScanning.status = 'idle';
+        });
+
+        // remove device
         builder.addCase(removeDevice.fulfilled, state => {
             state.device = null;
             state.calibrationStatus = CalibrationStatus.DISCONNECTED;

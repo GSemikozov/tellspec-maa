@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#e503b0</color>
+    <color name="colorPrimaryDark">#e503b0</color>
+    <color name="colorAccent">#e503b0</color>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,10 +16,15 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
-    </style>
 
+        <item name="android:datePickerDialogTheme">@style/Dialog.Theme</item>
+    </style>
 
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:background">@drawable/splash</item>
     </style>
+
+	<style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
+	    <item name="colorAccent">@color/colorAccent</item>
+ 	</style>
 </resources>

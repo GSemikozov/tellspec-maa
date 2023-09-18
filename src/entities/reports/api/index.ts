@@ -1,3 +1,3 @@
 export * from './types';
 export * from './reports.api';
-export * from './reports.utils';
+export * from './reports.api-utils';

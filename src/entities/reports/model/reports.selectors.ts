@@ -23,18 +23,32 @@ export const selectReportByMilkId = createSelector(
     },
 );
 
-export const selectReportsByDate = (from?: string, to?: string) => (state: RootState) => {
-    const reports = Object.values(state.reports.byIds);
-
-    if (!from && !to) {
-        return reports;
+export const selectReportScanIdByMilkId = createSelector([selectReportByMilkId], reportMilk => {
+    if (!reportMilk || !reportMilk.data.analyseData) {
+        return '';
     }
 
-    const startDate = from ? new Date(from) : new Date(0);
-    const endDate = to ? new Date(to) : new Date();
+    return reportMilk.data.analyseData.scanId;
+});
 
-    return reports.filter(report => {
-        const reportCreatedDate = new Date(report.created_at);
-        return isAfter(reportCreatedDate, startDate) && isBefore(reportCreatedDate, endDate);
-    });
-};
+export const selectReportsByDate = createSelector(
+    [selectReportList, (_, from: string, to: string) => [from, to]],
+    (reportList, dateInterval) => {
+        const [from, to] = dateInterval;
+
+        if (!from && !to) {
+            return reportList;
+        }
+
+        const startDate = from ? new Date(from) : new Date();
+        const endDate = to ? new Date(to) : new Date();
+
+        const result = reportList.filter(report => {
+            const reportCreatedDate = new Date(report.created_at);
+
+            return isAfter(reportCreatedDate, startDate) && isBefore(reportCreatedDate, endDate);
+        });
+
+        return result;
+    },
+);

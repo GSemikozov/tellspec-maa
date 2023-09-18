@@ -1,47 +1,17 @@
-/**
- * This is the supported cateogries
- */
 export enum ReportCategory {
     milk = 'milk',
 }
 
-/**
- * This is the supported cateogries
- */
-export enum ReportTrackerNotificaiton {
-    analyseReady, ///< This indicates that milk analyse is ready for the doctor to use
-}
-
-/**
- * This is the order but value
- */
 export enum ReportOrderBy {
     desc = 'desc',
     asc = 'asc',
 }
 
-export interface IResult {
-    name: string;
-    units: string;
-    value: number | string;
-    sub_results?: IResult[];
+export enum ReportTrackerNotificaiton {
+    analyseReady, // This indicates that milk analyse is ready for the doctor to use
 }
 
-export interface IAnalyseData {
-    scanId: string;
-    result: IResult[];
-    scanDate: string;
-    scanned_by: string;
-    milk_status?: string;
-}
-
-export interface IReportData {
-    TrackerNotification: ReportTrackerNotificaiton[];
-    donor_id?: string;
-    analyseData?: IAnalyseData;
-}
-
-export interface IReportRequestParam {
+export type FetchReportRequest = {
     uuid?: string;
     milk_id?: string;
     infant_uuid?: string;
@@ -50,7 +20,29 @@ export interface IReportRequestParam {
     last_modified_lte?: string;
     order_by?: ReportOrderBy;
     show_archived?: boolean;
-}
+};
+
+export type ReportAnalyseDataResult = {
+    name: string;
+    units: string;
+    value: number | string;
+    sub_results?: ReportAnalyseDataResult[];
+};
+
+export type ReportAnalyseData = {
+    scanId: string;
+    result: ReportAnalyseDataResult[];
+
+    scanDate?: string;
+    scanned_by?: string;
+    milk_status?: string;
+};
+
+export type ReportData = {
+    TrackerNotification: ReportTrackerNotificaiton[];
+    analyseData?: ReportAnalyseData;
+    donor_id?: string;
+};
 
 /**
  * This the report data Type
@@ -59,10 +51,11 @@ export type Report = {
     uuid: string;
     milk_id: string;
     category: ReportCategory;
-    data: IReportData;
+    data: ReportData;
     archived: boolean;
     archived_at: string;
     last_modified_at: string;
     created_at: string;
+
     infant_uuid?: string;
 };

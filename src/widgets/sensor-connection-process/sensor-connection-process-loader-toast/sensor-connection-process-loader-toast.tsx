@@ -72,7 +72,6 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
         <PreemieToast
             isOpen
             id='sensor-connection-process-loader-toast'
-            position='top'
             message={toastMessage}
             buttons={toastButtons}
         />

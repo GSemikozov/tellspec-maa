@@ -5,37 +5,33 @@ import { classname } from '@shared/utils';
 
 import { generateMilkChartConfig } from './config';
 
-import type { ScanResultType } from 'tellspec-sensor-sdk/src';
-
 import './spectrum-analyse.css';
 
 const cn = classname('spectrum-analyse');
 
 type SpectrumAnalyseProps = {
-    sensorScannedData: ScanResultType | null;
-    onAnalyseMilk: () => Promise<void>;
+    spectrumScan: any;
+    spectrumScanLoading: boolean;
 };
 
 export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
-    sensorScannedData,
+    spectrumScan,
+    spectrumScanLoading,
 }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     const [width, setWidth] = React.useState(0);
 
     React.useLayoutEffect(() => {
-        // workaround, cuz on first render we have not valid width
-        const timeoutId = setTimeout(() => {
-            setWidth(containerRef.current?.offsetWidth || 0);
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                setWidth(containerRef.current?.offsetWidth || 0);
+            });
         }, 300);
-
-        return () => {
-            clearTimeout(timeoutId);
-        };
     }, []);
 
     const { options, series } = React.useMemo(() => {
-        if (!sensorScannedData) {
+        if (!spectrumScan) {
             return {
                 options: {},
                 series: [],
@@ -43,18 +39,30 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
         }
 
         return {
-            options: generateMilkChartConfig(sensorScannedData),
-            series: [{ data: sensorScannedData.absorbance }],
+            options: generateMilkChartConfig(spectrumScan),
+            series: [{ data: spectrumScan.absorbance }],
         };
-    }, [sensorScannedData]);
+    }, [spectrumScan]);
 
-    if (!sensorScannedData) {
-        return <div className={cn('placeholder')}>Not found sensor scanned data</div>;
-    }
+    const renderMain = React.useMemo(() => {
+        if (spectrumScanLoading) {
+            return <div className={cn('placeholder')}>Loading scanned data...</div>;
+        }
+
+        if (!spectrumScan) {
+            return (
+                <div className={cn('placeholder')}>
+                    We haven't found a scanned data for this milk
+                </div>
+            );
+        }
+
+        return <Chart type='line' height={460} width={width} options={options} series={series} />;
+    }, [spectrumScan, spectrumScanLoading, width, options, series]);
 
     return (
         <div className={cn()} ref={containerRef}>
-            <Chart type='line' height={620} width={width} options={options} series={series} />
+            {renderMain}
         </div>
     );
 };

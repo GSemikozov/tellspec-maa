@@ -16,4 +16,5 @@
 
 /* Theme variables */
 @import '../theme/variables.css';
+@import '../theme/components/input.css';
 @import '../theme/components/toast.css';

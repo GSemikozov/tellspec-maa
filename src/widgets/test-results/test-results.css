@@ -4,3 +4,12 @@
     font-size: 1.6rem;
     text-align: center;
 }
+
+.test-results__scales {
+    width: 100%;
+    padding-top: 32px;
+}
+
+.test-results__scales > *:not(last-child) {
+    margin-bottom: 24px;
+}

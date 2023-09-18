@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonCheckbox, IonCol, IonRow, IonText } from '@ionic/react';
 
 import { DateRange } from '@ui/date-range';
-
-import { reportsAsyncActions, reportsSelectors } from '../../entities/reports';
+import { ReportsIcon } from '@ui/icons';
+import { PageArea } from '@shared/ui';
+import { classname } from '@shared/utils';
+import { fetchReport, selectIsReportLoading, selectReportsByDate } from '@entities/reports';
 
 import { ReportTable } from './report-table';
 import { ActionsPanel } from './actions-panel';
 
 import type { AppDispatch } from '@app';
 
-// import ReportsIcon from '../../../assets/images/view-reports-selected.png';
-import { ReportsIcon } from '@ui/icons';
+// import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
-import { classname } from '@shared/utils';
 
-const cn = classname('reports-page')
+const cn = classname('reports-widget');
 
-export const ReportsWidget: React.FC = () => {
+export const ReportsWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const [from, setFrom] = useState<string>();
-    const [to, setTo] = useState<string>();
-    const [selectAll, setSelectAll] = useState<boolean>(false);
-    const data = useSelector(reportsSelectors.selectReportsByDate(from, to));
 
-    useEffect(() => {
+    const [from, setFrom] = React.useState<string>('');
+    const [to, setTo] = React.useState<string>('');
+
+    const reportsLoading = useSelector(selectIsReportLoading);
+    const reports = useSelector(state => selectReportsByDate(state, from, to));
+
+    React.useEffect(() => {
         dispatch(
-            reportsAsyncActions.fetchReport({
-                last_modified_gte: from,
-                last_modified_lte: to,
+            fetchReport({
+                last_modified_gte: from !== '' ? from : undefined,
+                last_modified_lte: to !== '' ? to : undefined,
             }),
         );
     }, [from, to]);
@@ -42,36 +43,30 @@ export const ReportsWidget: React.FC = () => {
         }
     };
 
+    const renderMain = React.useMemo(() => {
+        if (reportsLoading) {
+            return <div className={cn('placeholder')}>Loading...</div>;
+        }
+
+        return <ReportTable reports={reports} />;
+    }, [reportsLoading, reports]);
+
     return (
-        <>
-            <IonRow className={cn()}>
-                <IonCol>
-                    <div className={cn('header')}>
-                        <div className={cn('header-title')}>
-                            <div className={cn('header-icon')}>
-                                <ReportsIcon size={32} color='currentColor' />
-                            </div>
+        <PageArea>
+            <PageArea.Header
+                title='View Reports'
+                icon={<ReportsIcon />}
+                actions={
+                    reportsLoading ? null : (
+                        <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                    )
+                }
+                className={cn('header')}
+            />
 
-                            <div className={cn('header-title-text')}>View Reports</div>
-                        </div>
-                    </div>
-                    <div className={cn('checkbox')}>
-                        <IonCheckbox value={selectAll} onIonChange={() => setSelectAll(!selectAll)}>
-                            Select All
-                        </IonCheckbox>
-                    </div>
-                </IonCol>
+            <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 
-                <IonCol>``
-                    <DateRange from={from} to={to} onChange={handleDateRangeChange} />
-                </IonCol>
-            </IonRow>
-
-            <IonRow>
-                <ReportTable data={data} />
-            </IonRow>
-
-            <ActionsPanel />
-        </>
+            <div className={cn('actions')}>{reportsLoading ? null : <ActionsPanel />}</div>
+        </PageArea>
     );
 };

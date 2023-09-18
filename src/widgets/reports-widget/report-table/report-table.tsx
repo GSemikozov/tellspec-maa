@@ -7,28 +7,17 @@ import {
 } from '@tanstack/react-table';
 import { IonCheckbox } from '@ionic/react';
 
-import type { IReport, IResult } from '@entities/reports/model/reports.types.ts';
-import type { IAnalyseData } from '@entities/analyse/analyse.types.ts';
+import { classname } from '@shared/utils';
+
+import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
+
+import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 
 import './report-table.css';
 
-const getParameterByName = (name: string, analyseData?: IAnalyseData[]) => {
-    if (!analyseData) {
-        return null;
-    }
+const cn = classname('report-table');
 
-    return analyseData[0]?.result.find(r => r.name === name);
-};
-
-enum ColumnNamesMapping {
-    protein = 'Protein (True Protein)',
-    fat = 'Fat',
-    carbs = 'Total Carbs',
-    energy = 'Energy',
-    solids = 'Total solids',
-}
-
-const columnHelper = createColumnHelper<IReport>();
+const columnHelper = createColumnHelper<Report>();
 
 const columns = [
     columnHelper.display({
@@ -43,73 +32,86 @@ const columns = [
             />
         ),
     }),
+
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
     }),
-    columnHelper.accessor('archived', {
-        header: () => 'Analysed',
+
+    columnHelper.accessor(row => row.data.analyseData, {
+        header: 'Analysed',
+        cell: info => {
+            if (!info.getValue()) {
+                return 'false';
+            }
+
+            return 'true';
+        },
     }),
+
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.protein, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.PROTEIN, row.data.analyseData),
         {
             header: 'Protein',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
     ),
-    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.fat, row.data.analyseData), {
+
+    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData), {
         header: 'Fat',
         cell: info => {
-            const result = info.getValue<IResult>();
+            const result = info.getValue<ReportAnalyseDataResult>();
+
             return result?.value || '-';
         },
     }),
+
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.carbs, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
         {
             header: 'Carbs.',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
     ),
     columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.energy, row.data.analyseData),
+        row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
             header: 'Energy',
             cell: info => {
-                const result = info.getValue<IResult>();
+                const result = info.getValue<ReportAnalyseDataResult>();
+
                 return result?.value || '-';
             },
         },
     ),
 ];
 
-interface ReportTableProps {
-    data: any[];
-}
+type ReportTableProps = {
+    reports: Report[];
+};
 
-export const ReportTable: React.FC<ReportTableProps> = props => {
+export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
-    console.log(rowSelection);
 
     const table = useReactTable({
-        data: props.data,
-        state: { rowSelection },
         enableRowSelection: true,
-        onRowSelectionChange: value => {
-            console.log(value);
-            setRowSelection(value);
-        },
-        getCoreRowModel: getCoreRowModel(),
+        data: reports,
         columns,
+        state: { rowSelection },
+        getCoreRowModel: getCoreRowModel(),
+
+        onRowSelectionChange: value => setRowSelection(value),
     });
 
     return (
-        <div className='reportTable'>
+        <div className={cn()}>
             <table>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -127,6 +129,7 @@ export const ReportTable: React.FC<ReportTableProps> = props => {
                         </tr>
                     ))}
                 </thead>
+
                 <tbody>
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id}>

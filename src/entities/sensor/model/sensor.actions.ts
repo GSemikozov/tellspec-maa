@@ -2,12 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
     NativeStorageKeys,
+    isEmulateNativeSdk,
     nativeStore,
-    tellspecCleanScanData,
     tellspecConnect,
     tellspecGetConfigs,
     tellspecGetDeviceInfo,
     tellspecPrepareScanCalibration,
+    tellspecPrepareSensorScannedData,
     tellspecReadScannerInfo,
     tellspecRemoveDevice,
     tellspecRunScan,
@@ -17,26 +18,32 @@ import {
 } from '@api/native';
 import { apiInstance } from '@api/network';
 
-import type { ScanResultType } from 'tellspec-sensor-sdk/src';
+import { EMULATION_SCAN_ID } from '../sensor.constants';
+import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
+
 import type { RootState } from '@app/store';
-import type { TellspecSensorDevice } from '@api/native';
-import type { SetCalibrationRequest } from '../api';
+import type { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
 
 // TODO: move to service
 type saveCalibrationOptions = {
     user: RootState['user'];
     sensor: RootState['sensor'];
     preferConfig: string;
-    scan: ScanResultType;
+    sensorScannedData: TellspecSensorScannedData;
 };
 
-const saveCalibration = async ({ sensor, user, preferConfig, scan }: saveCalibrationOptions) => {
+const saveCalibration = async ({
+    sensor,
+    user,
+    preferConfig,
+    sensorScannedData,
+}: saveCalibrationOptions) => {
     if (!sensor.device) {
         return;
     }
 
     const scanCalibrationData = tellspecPrepareScanCalibration({
-        scan,
+        sensorScannedData,
         model: sensor.device.name,
         activeConfigName: preferConfig,
         userEmail: user.email,
@@ -125,7 +132,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     await tellspecReadScannerInfo();
 
     // start by getting the sensor scan
-    const scanData = tellspecCleanScanData(await tellspecStartScan());
+    const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
     const configs = await tellspecGetConfigs();
 
     let result: any | null = null;
@@ -139,7 +146,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                 user,
                 sensor,
                 preferConfig,
-                scan: scanData,
+                sensorScannedData,
             });
 
             return;
@@ -160,7 +167,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                         user,
                         sensor,
                         preferConfig,
-                        scan: scanData,
+                        sensorScannedData,
                     });
 
                     return;
@@ -186,26 +193,45 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     };
 });
 
-export const removeDevice = createAsyncThunk('sensor/remove-device', async () => {
+export const removeDevice = createAsyncThunk('sensor/removeDevice', async () => {
     await tellspecRemoveDevice();
 });
 
-export const fetchScan = createAsyncThunk(
-    'sensor/fetchScan',
-    async (enSensorEmulation: boolean): Promise<any> => {
+export const saveScan = createAsyncThunk(
+    'sensor/saveScanData',
+    async (requestBody: TellspecSensorScannedData) => {
         try {
-            if (enSensorEmulation) {
-                // emulate the scan
-                const data = await tellspecRunScan('hmb_test@tellspec.com');
-                const scanData = data[0].json_data['scan-data'];
-                scanData.uuid = data[0].uuid;
-                scanData.absorbance = scanData.absorbance[0];
-                return scanData;
+            const response = await apiInstance.sensor.saveScan(requestBody);
+
+            if (response.data === null) {
+                return null;
             }
 
-            return null;
+            return response.data;
         } catch (error) {
             console.error(error);
+            throw new Error("Can't save scan. Try again later");
         }
     },
 );
+
+export const runSensorScan = createAsyncThunk('sensor/runScan', async (userEmail: string) => {
+    try {
+        if (await isEmulateNativeSdk()) {
+            const response = await apiInstance.sensor.getScanData(EMULATION_SCAN_ID);
+
+            if (response.data === null || response.data.length === 0) {
+                return null;
+            }
+
+            const [spectrumScanDataItem] = response.data;
+
+            return prepareSpectrumScanData(spectrumScanDataItem);
+        }
+
+        return tellspecRunScan(userEmail);
+    } catch (error) {
+        console.error(error);
+        throw new Error("Can't run sensor scanning. Try again later");
+    }
+});

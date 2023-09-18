@@ -5,6 +5,10 @@ import { RootState } from '@app';
 import { CalibrationStatus } from './sensor.types';
 
 export const selectSensorState = (state: RootState) => state.sensor;
+export const selectSensorScanningState = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.sensorScanning,
+);
 
 export const selectSensorCalibrationStatus = createSelector(
     [selectSensorState],
@@ -32,6 +36,12 @@ export const selectSensorCalibrationReady = createSelector(
     calibrationStatus => [CalibrationStatus.READY].includes(calibrationStatus),
 );
 
-export const getScanById = (id: string) => (state: RootState) => {
-    return state.sensor.entities[id];
-};
+export const selectSensorDevice = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.device,
+);
+
+export const selectIsSensorScanning = createSelector(
+    [selectSensorScanningState],
+    sensorScanningState => sensorScanningState.status === 'progress',
+);

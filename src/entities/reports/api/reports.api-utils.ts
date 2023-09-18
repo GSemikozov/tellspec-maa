@@ -22,3 +22,7 @@ export const buildAddReportRequestBody = (milkId: string) => {
 
     return requestBody;
 };
+
+export const extractReportAnalyseData = (report: Report | null) => {
+    return report?.data?.analyseData ?? null;
+};

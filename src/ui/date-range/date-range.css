@@ -1,4 +1,8 @@
-.dateRange__popover {
+.date-range__button {
+    margin: 0 !important;
+}
+
+.date-range__popover {
     position: absolute;
     left: 50%;
     top: 50%;

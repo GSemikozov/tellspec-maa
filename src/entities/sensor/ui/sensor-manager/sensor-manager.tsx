@@ -79,6 +79,10 @@ export const SensorManager: React.FunctionComponent = () => {
 
         if (calibrationRequired) {
             const handleStartCalibration = async () => {
+                await presentToast({
+                    message: 'Start calibration...',
+                });
+
                 try {
                     await dispatch(calibrateSensorDevice()).unwrap();
                 } catch (error) {

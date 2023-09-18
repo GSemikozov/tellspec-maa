@@ -1,116 +1,165 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React from 'react';
 
-import {
-    getDistanceBetweenTwoNodes,
-    getMiddlePointOfNode,
-    getNodeIndexInArray,
-    getScaleValues,
-} from './utils';
+import { classname } from '@shared/utils';
+
+import { getBoundariesForValue, getDistanceBetweenNodes, getScaleValues } from './utils';
 
 import './scale.css';
 
-interface ScaleProps {
+const cn = classname('scale');
+
+type ScaleProps = {
     label: string;
     value: number;
     units: string;
-    minRequiredValue?: number;
-    maxRequiredValue?: number;
-    scaleDivisionValue?: number;
-}
 
-export const Scale: React.FC<ScaleProps> = props => {
-    const {
-        label,
-        value,
-        units,
-        minRequiredValue = 0,
-        maxRequiredValue = 3,
-        scaleDivisionValue = 1,
-    } = props;
+    minRequiredValue: number;
+    step: number;
+    maxRequiredValue: number;
+};
 
-    const scaleValuesRef = useRef<HTMLDivElement>(null);
-    const scaleMarkerRef = useRef<HTMLDivElement>(null);
-    const scaleTooltipRef = useRef<HTMLDivElement>(null);
-    const scaleValues = getScaleValues(
-        minRequiredValue,
-        maxRequiredValue,
-        value,
-        scaleDivisionValue,
+export const Scale: React.FunctionComponent<ScaleProps> = ({
+    label,
+    value,
+    units,
+    minRequiredValue,
+    maxRequiredValue,
+    step,
+}) => {
+    const scaleValuesRef = React.useRef<HTMLDivElement>(null);
+    const scaleMarkerRef = React.useRef<HTMLDivElement>(null);
+    const scaleTooltipRef = React.useRef<HTMLDivElement>(null);
+
+    const scaleValues = React.useMemo(
+        () =>
+            getScaleValues({
+                value,
+                step,
+                min: minRequiredValue,
+                max: maxRequiredValue,
+            }),
+        [value, step, minRequiredValue, maxRequiredValue],
     );
 
-    useLayoutEffect(() => {
-        requestAnimationFrame(() => {
-            const tooltipNode = scaleTooltipRef.current;
-            const scaleValuesNode = scaleValuesRef.current;
-            const scaleMarkerNode = scaleMarkerRef.current;
-            const valuesNodesArray = scaleValuesNode?.children || [];
+    React.useLayoutEffect(() => {
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                const scaleValuesElement = scaleValuesRef.current;
+                const scaleMarkerElement = scaleMarkerRef.current;
+                const scaleTooltipElement = scaleTooltipRef.current;
 
-            if (scaleMarkerNode) {
-                // arrange okay values scale
-                const maxRequiredValueIndexes = getNodeIndexInArray(
-                    scaleValues,
-                    maxRequiredValue,
-                    scaleDivisionValue,
-                );
-                const [leftMaxRequiredNearestNode, rightMaxRequiredNearestNode] =
-                    maxRequiredValueIndexes;
+                if (!scaleValuesElement || !scaleMarkerElement || !scaleTooltipElement) {
+                    return;
+                }
 
-                scaleMarkerNode.style.width =
-                    getDistanceBetweenTwoNodes(
-                        scaleMarkerNode as Element,
-                        valuesNodesArray[leftMaxRequiredNearestNode],
-                    ) +
-                    getDistanceBetweenTwoNodes(
-                        valuesNodesArray[leftMaxRequiredNearestNode],
-                        valuesNodesArray[rightMaxRequiredNearestNode],
-                    ) *
-                        ((maxRequiredValue - scaleValues[leftMaxRequiredNearestNode]) /
-                            scaleDivisionValue) +
-                    getMiddlePointOfNode(valuesNodesArray[rightMaxRequiredNearestNode]) +
-                    'px';
-            }
+                const scaleValuesChildElements = scaleValuesElement.children;
+                const scaleValuesElementRect = scaleValuesElement.getBoundingClientRect();
 
-            if (tooltipNode) {
-                // arrange tooltip
-                const tooltipValueIndexes = getNodeIndexInArray(
-                    scaleValues,
-                    value,
-                    scaleDivisionValue,
-                );
-                const [leftTooltipNearestNode, rightTooltipNearestNode] = tooltipValueIndexes;
+                // arrange normal values marker
+                {
+                    const minRequiredValueIdx = scaleValues.findIndex(
+                        scaleValue => scaleValue.value === minRequiredValue,
+                    );
 
-                tooltipNode.style.left =
-                    getDistanceBetweenTwoNodes(
-                        scaleMarkerNode as Element,
-                        valuesNodesArray[leftTooltipNearestNode],
-                    ) +
-                    getDistanceBetweenTwoNodes(
-                        valuesNodesArray[leftTooltipNearestNode],
-                        valuesNodesArray[rightTooltipNearestNode],
-                    ) *
-                        ((value - scaleValues[leftTooltipNearestNode]) / scaleDivisionValue) -
-                    getMiddlePointOfNode(tooltipNode) +
-                    'px';
-            }
-        });
+                    const maxRequiredValueIdx = scaleValues.findIndex(
+                        scaleValue => scaleValue.value === maxRequiredValue,
+                    );
+
+                    if (
+                        scaleValuesChildElements.length === 0 ||
+                        minRequiredValueIdx === -1 ||
+                        maxRequiredValueIdx === -1
+                    ) {
+                        return;
+                    }
+
+                    const [minRequiredValueNode, maxRequiredValueNode] = [
+                        scaleValuesChildElements[minRequiredValueIdx],
+                        scaleValuesChildElements[maxRequiredValueIdx],
+                    ];
+
+                    const minRequiredValueNodeRect = minRequiredValueNode.getBoundingClientRect();
+                    const maxRequiredValueNodeRect = maxRequiredValueNode.getBoundingClientRect();
+
+                    const adaptBoundaryRectToTranslate =
+                        minRequiredValueNodeRect.right - scaleValuesElementRect.left;
+
+                    const middlePointOfMinRequiredValueNode = minRequiredValueNodeRect.width / 2;
+
+                    const translateX =
+                        adaptBoundaryRectToTranslate - middlePointOfMinRequiredValueNode;
+
+                    const distanceBetweenNodes = getDistanceBetweenNodes(
+                        maxRequiredValueNodeRect,
+                        minRequiredValueNodeRect,
+                    );
+
+                    const scaleX = distanceBetweenNodes / scaleMarkerElement.offsetWidth;
+
+                    scaleMarkerElement.style.cssText += `transform: translateX(${translateX}px) scaleX(${scaleX})`;
+                }
+
+                // arange tooltip
+                {
+                    const [minBoundaryForValueIdx, maxBoundaryForValueIdx] = getBoundariesForValue({
+                        scaleValues,
+                        value,
+                    });
+
+                    const [minRequiredValueNode, maxRequiredValueNode] = [
+                        scaleValuesChildElements[minBoundaryForValueIdx],
+                        scaleValuesChildElements[maxBoundaryForValueIdx],
+                    ];
+
+                    const minRequiredValueNodeRect = minRequiredValueNode.getBoundingClientRect();
+                    const maxRequiredValueNodeRect = maxRequiredValueNode.getBoundingClientRect();
+
+                    const distanceBetweenNodes = getDistanceBetweenNodes(
+                        maxRequiredValueNodeRect,
+                        minRequiredValueNodeRect,
+                    );
+
+                    const minBoundaryValue = scaleValues[minBoundaryForValueIdx];
+
+                    const adaptBoundaryRectToTranslate =
+                        minRequiredValueNodeRect.left - scaleValuesElementRect.left;
+
+                    const tooltipOffset =
+                        (value - minBoundaryValue.value) / (step / distanceBetweenNodes);
+
+                    const middlePointOfMinRequiredValueNode = minRequiredValueNodeRect.width / 2;
+                    const middlePointOfTooltipNode = scaleTooltipElement.offsetWidth / 2;
+
+                    const translateX =
+                        adaptBoundaryRectToTranslate +
+                        tooltipOffset -
+                        middlePointOfTooltipNode +
+                        middlePointOfMinRequiredValueNode;
+
+                    scaleTooltipElement.style.cssText += `transform: translateY(-100%) translateX(${translateX}px)`;
+                }
+            });
+        }, 300);
     }, []);
 
     return (
-        <div className='scale'>
-            <div className='scale__label'>
+        <div className={cn()}>
+            <div className={cn('label')}>
                 {label} ({units})
             </div>
-            <div className='scale__line'>
-                <div className='scale__marker' ref={scaleMarkerRef}>
-                    <div className='scale__tooltip' ref={scaleTooltipRef}>
-                        {value}
-                    </div>
+
+            <div className={cn('line')}>
+                <div className={cn('marker')} ref={scaleMarkerRef} />
+
+                <div className={cn('tooltip')} ref={scaleTooltipRef}>
+                    {value}
                 </div>
             </div>
-            <div className='scale__values' ref={scaleValuesRef}>
-                {scaleValues.map(value => (
-                    <div key={value} className='scale__value'>
-                        {value % 1 === 0 ? value : value.toFixed(1)}
+
+            <div className={cn('values')} ref={scaleValuesRef}>
+                {scaleValues.map(scaleValue => (
+                    <div key={scaleValue.value} className={cn('value')}>
+                        {scaleValue.valueString}
                     </div>
                 ))}
             </div>

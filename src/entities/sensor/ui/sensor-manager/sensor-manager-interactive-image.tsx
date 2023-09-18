@@ -4,7 +4,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 import { classname } from '@shared/utils';
 import { BleStatus, selectBleStatus } from '@app/model';
-import { selectSensorCalibrationLoading } from '@entities/sensor/model';
+import { selectSensorCalibrationLoading, selectIsSensorScanning } from '@entities/sensor/model';
 import {
     SensorConnectionProcessStatus,
     useSensorConnectionProcess,
@@ -17,6 +17,7 @@ const cn = classname('sensor-manager-interactive-image');
 export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
     const bleStatus = useSelector(selectBleStatus);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
+    const sensorScanningProgress = useSelector(selectIsSensorScanning);
 
     const { status: sensorConnectionProcessStatus } = useSensorConnectionProcess();
 
@@ -48,7 +49,13 @@ export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
                     })}
                 />
 
-                <div className={cn('status-bar-item', { scan: false })} />
+                <div
+                    className={cn('status-bar-item', {
+                        scan: sensorScanningProgress,
+                        pulse: true,
+                    })}
+                />
+
                 <div className={cn('status-bar-item', { battery: false })} />
             </div>
 

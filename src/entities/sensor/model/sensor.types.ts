@@ -17,5 +17,8 @@ export type SensorState = {
     sensorModel: string;
     enSensorEmulation: boolean;
     calibrationRequired: boolean;
-    entities: any; // TODO. Add type for scans
+
+    sensorScanning: {
+        status: 'idle' | 'progress';
+    };
 };

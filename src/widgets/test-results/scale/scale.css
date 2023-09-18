@@ -1,46 +1,58 @@
-.scales {
-    width: 100%;
-    padding: 32px 0;
-}
-
 .scale {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+
+    padding: 0 24px;
 }
 
 .scale__label {
-    margin-bottom: 7px;
+    margin-bottom: 8px;
+
+    font-size: 1.4rem;
+    font-weight: 500;
 }
 
 .scale__line {
     position: relative;
-    margin-bottom: 7px;
+    height: 20px;
+
     border-bottom: 1px solid black;
 }
 
 .scale__marker {
     position: absolute;
-    left: 0;
+    top: 0;
     bottom: 0;
-    height: 10px;
-    width: 0; /* for animation */
-    transform: translateY(50%);
+
+    width: 100%;
+    height: 100%;
+
     background-color: #ffe6fb;
-    border-radius: 10px;
-    transition: width 1s;
+
+    transform: translateX(0) scaleX(0);
+    transform-origin: left;
+
+    transition: transform 1s;
 }
 
 .scale__tooltip {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateY(calc(-100% - 12px));
-    padding: 5px 20px;
+    padding: 4px 20px;
+
+    color: #fff;
+    font-size: 1.4rem;
+
     background-color: #e503b0;
-    border-radius: 10px;
+    border-radius: 8px;
+
+    transform: translateY(-100%) translateX(0);
+    transform-origin: left;
+
+    transition: transform 1s;
+
     z-index: 1;
-    transition: left 1s;
 }
 
 .scale__tooltip:after {
@@ -57,12 +69,30 @@
 
 .scale__values {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 20px 0 80px;
-    font-size: 12px;
+
+    font-size: 1.4rem;
+
+    line-height: 1;
 }
 
-.scale__values,
-.scale__marker {
-    margin: 0 20px 0 80px;
+.scale__value {
+    position: relative;
+
+    padding-top: 8px;
+}
+
+.scale__value:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 1px;
+    height: 6px;
+
+    margin: auto;
+
+    background-color: black;
 }

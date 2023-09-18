@@ -1,7 +1,7 @@
 import { BaseEndpoint } from '@api/network';
 import { getUserLocalData } from '@entities/user/user.utils';
 
-import type { Report, IReportRequestParam } from './types';
+import type { Report, FetchReportRequest } from './types';
 
 export class ReportsApi extends BaseEndpoint {
     private reportUrl = '/main/reports/';
@@ -50,20 +50,15 @@ export class ReportsApi extends BaseEndpoint {
         }
     };
 
-    fetchReport = async (param: IReportRequestParam): Promise<Report[]> => {
+    fetchReport = async (param: FetchReportRequest) => {
         const userData = await getUserLocalData();
         const tempParam = {
             ...param,
             preemie_group_id: userData?.metadata.group_id,
         };
 
-        const response = await this.http.get(this.reportUrl, tempParam);
-        const { data } = response;
+        const response = await this.http.get<Report[]>(this.reportUrl, tempParam);
 
-        if (data) {
-            return data;
-        } else {
-            throw new Error('internal error');
-        }
+        return response;
     };
 }

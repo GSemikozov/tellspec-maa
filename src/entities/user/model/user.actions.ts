@@ -24,13 +24,13 @@ export const login = createAsyncThunk(
     async (data: ILoginData): Promise<IUserData> => {
         try {
             if (!isOnline()) {
-                throw 'Network is disconnected';
+                throw new Error('Network is disconnected');
             }
 
             const response = await apiInstance.users.login(data);
 
             if (!response) {
-                throw 'Something went wrong. Try again later';
+                throw new Error('Something went wrong. Try again later');
             }
 
             await saveGroupKey(response.metadata.group_key, data.password);
@@ -39,6 +39,17 @@ export const login = createAsyncThunk(
         } catch (error) {
             console.error(error);
             throw error;
+        }
+    },
+);
+
+export const resetPassword = createAsyncThunk(
+    'user/reset-password',
+    async (email: string): Promise<void> => {
+        const response = await apiInstance.users.resetPassword(email);
+
+        if (!response) {
+            throw new Error('Something went wrong. Try again later');
         }
     },
 );

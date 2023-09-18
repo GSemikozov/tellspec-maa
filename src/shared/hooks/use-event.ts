@@ -3,8 +3,8 @@ import React from 'react';
 type Handler = (...args: any[]) => any;
 type AsyncHandler = (...args: any[]) => Promise<any>;
 
-export const useEvent = <T extends Handler>(fn: T) => {
-    const fnRef = React.useRef<T | null>(null);
+export const useEvent = <T extends Handler>(fn?: T) => {
+    const fnRef = React.useRef<T>();
 
     React.useLayoutEffect(() => {
         fnRef.current = fn;
@@ -20,8 +20,8 @@ export const useEvent = <T extends Handler>(fn: T) => {
     );
 };
 
-export const useEventAsync = <T extends AsyncHandler>(fn: T) => {
-    const fnRef = React.useRef<T | null>(null);
+export const useEventAsync = <T extends AsyncHandler>(fn?: T) => {
+    const fnRef = React.useRef<T>();
 
     React.useLayoutEffect(() => {
         fnRef.current = fn;

@@ -15,6 +15,7 @@ export type PreemieToastProps = JSX.IonToast & {
 
 export const PreemieToast: React.FunctionComponent<PreemieToastProps> = ({
     type,
+    position = 'top',
     className,
     ...otherProps
 }) => {
@@ -28,5 +29,5 @@ export const PreemieToast: React.FunctionComponent<PreemieToastProps> = ({
         toastClassName += ' ' + className;
     }
 
-    return <IonToast className={toastClassName} {...otherProps} />;
+    return <IonToast position={position} className={toastClassName} {...otherProps} />;
 };
