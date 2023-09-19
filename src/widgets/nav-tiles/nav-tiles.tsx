@@ -92,7 +92,7 @@ export const NavTiles: React.FunctionComponent = () => {
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
-                        <h3>View Reports</h3>
+                        <h3>Milk Analyses</h3>
                     </IonText>
                 </div>
             </Link>

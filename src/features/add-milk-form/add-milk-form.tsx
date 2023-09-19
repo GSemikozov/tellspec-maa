@@ -21,9 +21,8 @@ import type { IDonor } from '@entities/donors/model/donors.types';
 import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
-import './add-milk-form.css';
-
 const cn = classname('add-milk-form');
+import './add-milk-form.css';
 
 const defaultValues = {
     milkId: '',

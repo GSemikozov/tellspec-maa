@@ -4,6 +4,7 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
+    getSortedRowModel,
 } from '@tanstack/react-table';
 import { IonCheckbox } from '@ionic/react';
 
@@ -93,19 +94,30 @@ const columns = [
     ),
 ];
 
-type ReportTableProps = {
+export type ReportTableProps = {
     reports: Report[];
 };
 
+
+export type ColumnSort = {
+    id: string;
+    desc: boolean;
+}
+
+export type SortingState = ColumnSort[]
+
 export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
+    const [sorting, setSorting] = React.useState<SortingState>([]);
 
     const table = useReactTable({
         enableRowSelection: true,
         data: reports,
         columns,
-        state: { rowSelection },
+        state: { rowSelection, sorting: sorting },
+        onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
 
         onRowSelectionChange: value => setRowSelection(value),
     });
@@ -117,13 +129,17 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => (
-                                <th key={header.id}>
+                                <th
+                                    key={header.id}
+                                    onClick={header.column.getToggleSortingHandler()}
+                                >
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
                                               header.column.columnDef.header,
                                               header.getContext(),
                                           )}
+                                    {{ asc: '⬆️', desc: '⬇️' }[header.column.getIsSorted() as string ?? null]}
                                 </th>
                             ))}
                         </tr>

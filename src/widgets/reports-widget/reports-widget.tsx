@@ -12,6 +12,7 @@ import { ActionsPanel } from './actions-panel';
 
 import type { AppDispatch } from '@app';
 
+// import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
 
 const cn = classname('reports-widget');
@@ -53,7 +54,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
     return (
         <PageArea>
             <PageArea.Header
-                title='View Reports'
+                title='Milk Analyses'
                 icon={<ReportsIcon />}
                 actions={
                     reportsLoading ? null : (

@@ -58,11 +58,12 @@ export const LoginForm: React.FunctionComponent = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} >
             <IonList class='ion-padding'>
                 <IonItem lines='none' style={{ display: 'flex', flexDirection: 'column' }}>
                     <PreemieInput
                         {...inputRef}
+                        inputmode='email'
                         label-placement='floating'
                         label='Email'
                         placeholder='Email'
