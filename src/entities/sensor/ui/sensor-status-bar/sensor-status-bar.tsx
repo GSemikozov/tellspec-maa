@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
 import { usePreemieToast } from '@shared/ui';
-import { BatteryFullIcon, BatteryOfflineIcon, BluetoohIcon, TargetOfflineIcon } from '@ui/icons';
+import {
+    BatteryEmptyIcon,
+    BatteryFullIcon,
+    BatteryOfflineIcon,
+    BluetoohIcon,
+    TargetOfflineIcon,
+} from '@ui/icons';
 import { BleStatus, selectBleStatus } from '@app/model';
 import {
     selectSensorCalibrationLoading,
     selectSensorCalibrationRequired,
     selectSensorCalibrationReady,
     calibrateSensorDevice,
+    selectSensorDeviceBatteryLevel,
+    selectSensorDevice,
 } from '@entities/sensor/model';
-import {
-    SensorConnectionProcessStatus,
-    useSensorConnectionProcess,
-} from '@widgets/sensor-connection-process';
 
 import './sensor-status-bar.css';
 
@@ -29,23 +33,28 @@ export const SensorStatusBar: React.FunctionComponent = () => {
 
     const bleStatus = useSelector(selectBleStatus);
 
+    const currentDevice = useSelector(selectSensorDevice);
+
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
     const calibrationReady = useSelector(selectSensorCalibrationReady);
 
-    const { status: sensorConnectionProcessStatus } = useSensorConnectionProcess();
+    const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
 
     const bleStatusOn = bleStatus === BleStatus.ON;
-    const devicePaired =
-        sensorConnectionProcessStatus === SensorConnectionProcessStatus.PAIRING_SUCCESS;
+    const devicePaired = currentDevice !== null;
 
     const batteryIcon = React.useMemo(() => {
-        if (devicePaired) {
-            return <BatteryFullIcon />;
+        if (!devicePaired) {
+            return <BatteryOfflineIcon />;
         }
 
-        return <BatteryOfflineIcon />;
-    }, [devicePaired]);
+        if (batteryLevel < 35) {
+            return <BatteryEmptyIcon />;
+        }
+
+        return <BatteryFullIcon />;
+    }, [devicePaired, batteryLevel]);
 
     const statusTitle = React.useMemo(() => {
         if (!devicePaired) {

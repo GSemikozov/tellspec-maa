@@ -4,11 +4,12 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 import { classname } from '@shared/utils';
 import { BleStatus, selectBleStatus } from '@app/model';
-import { selectSensorCalibrationLoading, selectIsSensorScanning } from '@entities/sensor/model';
 import {
-    SensorConnectionProcessStatus,
-    useSensorConnectionProcess,
-} from '@widgets/sensor-connection-process';
+    selectSensorCalibrationLoading,
+    selectIsSensorScanning,
+    selectSensorDevice,
+    selectSensorDeviceBatteryLevel,
+} from '@entities/sensor/model';
 
 import './sensor-manager-interactive-image.css';
 
@@ -16,10 +17,12 @@ const cn = classname('sensor-manager-interactive-image');
 
 export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
     const bleStatus = useSelector(selectBleStatus);
-    const calibrationLoading = useSelector(selectSensorCalibrationLoading);
-    const sensorScanningProgress = useSelector(selectIsSensorScanning);
 
-    const { status: sensorConnectionProcessStatus } = useSensorConnectionProcess();
+    const currentDevice = useSelector(selectSensorDevice);
+    const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+    const calibrationLoading = useSelector(selectSensorCalibrationLoading);
+
+    const sensorScanningProgress = useSelector(selectIsSensorScanning);
 
     const [playingCountdown, setPlayingCountdown] = React.useState(false);
 
@@ -28,8 +31,7 @@ export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
     }, [calibrationLoading]);
 
     const bleStatusOn = bleStatus === BleStatus.ON;
-    const devicePaired =
-        sensorConnectionProcessStatus === SensorConnectionProcessStatus.PAIRING_SUCCESS;
+    const devicePaired = currentDevice !== null;
 
     return (
         <div className={cn()}>
@@ -56,7 +58,7 @@ export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
                     })}
                 />
 
-                <div className={cn('status-bar-item', { battery: false })} />
+                <div className={cn('status-bar-item', { battery: batteryLevel < 35 })} />
             </div>
 
             {playingCountdown ? (

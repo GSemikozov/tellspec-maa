@@ -7,6 +7,7 @@ import {
     tellspecConnect,
     tellspecGetConfigs,
     tellspecGetDeviceInfo,
+    tellspecGetSensorStatus,
     tellspecPrepareScanCalibration,
     tellspecPrepareSensorScannedData,
     tellspecReadScannerInfo,
@@ -38,28 +39,28 @@ const saveCalibration = async ({
     preferConfig,
     sensorScannedData,
 }: saveCalibrationOptions) => {
-    if (!sensor.device) {
+    if (!sensor.currentDevice) {
         return;
     }
 
     const scanCalibrationData = tellspecPrepareScanCalibration({
         sensorScannedData,
-        model: sensor.device.name,
+        model: sensor.currentDevice.name,
         activeConfigName: preferConfig,
         userEmail: user.email,
     });
 
     const requestCalibration: SetCalibrationRequest = {
-        model: sensor.device.name,
-        serial_number: sensor.device.serial,
+        model: sensor.currentDevice.name,
+        serial_number: sensor.currentDevice.serial,
         white_reference: scanCalibrationData,
     };
 
     await apiInstance.sensor.setCalibration(requestCalibration);
 
     const toNativeStore = {
-        model: sensor.device.name,
-        serial_number: sensor.device.serial,
+        model: sensor.currentDevice.name,
+        serial_number: sensor.currentDevice.serial,
         config: preferConfig,
         scan: scanCalibrationData,
     };
@@ -114,21 +115,21 @@ export const connectSensorDevice = createAsyncThunk(
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
-    if (!sensor.device) {
+    if (!sensor.currentDevice) {
         return;
     }
 
     // get the ScannerData
     const scannerData = await apiInstance.sensor.getScanner(
-        sensor.device.name,
-        sensor.device.serial,
+        sensor.currentDevice.name,
+        sensor.currentDevice.serial,
     );
 
     if (!scannerData) {
         return;
     }
 
-    await tellspecConnect({ address: sensor.device.uuid });
+    await tellspecConnect({ address: sensor.currentDevice.uuid });
     await tellspecReadScannerInfo();
 
     // start by getting the sensor scan
@@ -180,7 +181,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         throw new Error("Sensor doesn't a valid config.");
     }
 
-    const updatedDevice = { ...sensor.device };
+    const updatedDevice = { ...sensor.currentDevice };
 
     updatedDevice.activeCal = result;
     updatedDevice.activeConfig = result.config;
@@ -193,9 +194,22 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     };
 });
 
-export const removeDevice = createAsyncThunk('sensor/removeDevice', async () => {
-    await tellspecRemoveDevice();
-});
+export const removeDevice = createAsyncThunk(
+    'sensor/removeDevice',
+    async (deviceUuid: string, thunkAPI) => {
+        const { sensor } = thunkAPI.getState() as RootState;
+
+        let removedCurrent = false;
+
+        if (sensor.currentDevice?.uuid === deviceUuid) {
+            await tellspecRemoveDevice();
+
+            removedCurrent = true;
+        }
+
+        return { removedUuid: deviceUuid, removedCurrent };
+    },
+);
 
 export const saveScan = createAsyncThunk(
     'sensor/saveScanData',
@@ -233,5 +247,16 @@ export const runSensorScan = createAsyncThunk('sensor/runScan', async (userEmail
     } catch (error) {
         console.error(error);
         throw new Error("Can't run sensor scanning. Try again later");
+    }
+});
+
+export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async () => {
+    try {
+        const sensorStatus = await tellspecGetSensorStatus();
+
+        return sensorStatus;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Someting goes wrong on getting sensor status. Try again later');
     }
 });

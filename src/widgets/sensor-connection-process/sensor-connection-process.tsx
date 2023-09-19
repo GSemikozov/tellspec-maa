@@ -11,7 +11,7 @@ import {
     tellspecGetPairDevice,
     tellspecDisconnect,
 } from '@api/native';
-import { connectSensorDevice } from '@entities/sensor';
+import { useCalibrateSensor, connectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 import { usePreemieToast } from '@shared/ui';
 
@@ -35,6 +35,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [presentToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
+
+    const [calibrateSensor] = useCalibrateSensor();
 
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
         SensorConnectionProcessStatus.IDLE,
@@ -130,14 +132,20 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            await dispatch(connectSensorDevice(device)).unwrap();
+            const { requiredCalibration } = await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
 
             await presentToast({
                 type: 'success',
                 message: createToastMessage(SensorConnectionProcessStatus.PAIRING_SUCCESS),
+                onDidDismiss: async () => {
+                    if (requiredCalibration) {
+                        await new Promise(resolve => setTimeout(resolve, 1_000));
+
+                        calibrateSensor();
+                    }
+                },
             });
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);

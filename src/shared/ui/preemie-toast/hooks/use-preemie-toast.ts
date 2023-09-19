@@ -11,9 +11,13 @@ const cn = classname('preemie-toast');
 type presentToastOptions = ToastOptions &
     HookOverlayOptions & {
         type?: 'success' | 'error';
+        delay?: number;
     };
 
-export const usePreemieToast = () => {
+export const usePreemieToast = (): [
+    (presentOptions: presentToastOptions) => Promise<void>,
+    () => Promise<void>,
+] => {
     const [presentToast, dismissToast] = useIonToast();
 
     const presentPreemieToast = React.useCallback(
@@ -22,6 +26,7 @@ export const usePreemieToast = () => {
                 type,
                 position = 'top',
                 duration = 3000,
+                delay,
                 ...otherPresentOptions
             } = presentOptions;
 
@@ -33,6 +38,10 @@ export const usePreemieToast = () => {
             const cssClass = [preemieToastCssClass, otherPresentOptions.cssClass ?? '']
                 .join(' ')
                 .trim();
+
+            if (delay) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
 
             await presentToast({
                 ...otherPresentOptions,

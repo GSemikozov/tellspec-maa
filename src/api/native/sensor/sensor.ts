@@ -43,6 +43,10 @@ export const tellspecAddListener = (eventName: SensorEvent, listenerFunc: Listen
     return TellspecSensorSdk.addListener(eventName, listenerFunc);
 };
 
+export const tellspecGetSensorStatus = async () => {
+    return TellspecSensorSdk.getSensorStatus();
+};
+
 export const tellspecEnableDiscovery = async () => {
     return TellspecSensorSdk.enableDiscovery();
 };

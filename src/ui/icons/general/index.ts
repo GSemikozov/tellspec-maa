@@ -8,3 +8,4 @@ export * from './home-icon';
 export * from './reports-icon';
 export * from './settings-icon';
 export * from './logout-icon';
+export * from './close-icon';

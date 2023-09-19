@@ -1,92 +1,61 @@
-.settings-wrapper {
-    border: 2px solid var(--ion-color-tertiary-tint);
-    border-radius: 5px;
-    margin: 1rem 3rem;
+.settings__header {
+    padding-right: 16px;
 }
 
-.settings-wrapper .settings-icon {
-    width: 3rem;
+.settings__calibrate-sensor {
+    --background: var(--ion-color-tertiary-shade);
 }
 
-.settings-title {
+.settings__section-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    height: 5rem;
+    min-height: 56px;
 
+    padding: 0 16px;
+}
+
+.settings__section-option:not(:last-child) {
+    border-bottom: 1px solid var(--ion-color-tertiary-shade);
+}
+
+.settings__section-option p {
     font-size: 1.6rem;
+}
 
+.settings__section-option p span {
+    color: var(--ion-color-primary);
+}
+
+.settings__section-option_disabled {
+    user-select: none;
+    opacity: 0.5;
+}
+
+.settings__section-option_header {
     background-color: var(--ion-color-tertiary-tint);
     border-bottom: 1px solid var(--ion-color-tertiary);
 }
 
-.settings-title ion-text {
-    padding-left: 1rem;
+.settings__section-option-action {
+    margin-left: auto;
 }
 
-.calibrate-sensor button {
-    color: var(--ion-color-primary);
-    font-size: 17px;
-    text-decoration: underline;
-}
-.calibrate-sensor img {
-    padding: 0 1rem;
-    text-decoration: none;
-}
-.options {
-    display: flex;
-    justify-content: space-between;
+.settings__section-option-action ion-select {
+    width: 180px;
 
     font-size: 1.6rem;
 }
 
-.options ion-select {
-    width: 18rem;
-    margin-right: 1rem;
+.settings__chip-text {
+    padding-top: 1px;
+    user-select: none;
 }
 
-.options p {
-    height: 1.2rem;
-}
+.settings__chip-icon {
+    display: flex;
+    margin-left: 4px;
 
-.options ion-text {
-    padding-left: 1rem;
-}
-.line {
-    width: 97%;
-    height: 1px;
-    background-color: var(--ion-color-tertiary-shade);
-    margin-left: 1.5rem;
-}
-button.add-button {
-    background-color: var(--ion-color-primary-contrast);
-    font-size: 20px;
-    margin-right: 3rem;
-}
-.settings-button-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-}
-.settings-button {
-    margin-left: 4rem;
-    margin-right: 4rem;
-    margin-bottom: 1rem;
-    margin-top: 2rem;
-    font-weight: 600;
-}
-.available-storage-chip {
-    display: flex;
-    align-items: center;
-    margin-right: 0.5rem;
-}
-.available-storage-chip ion-icon {
-    margin-right: 0.5rem;
-}
-.close-button ion-icon {
-    margin-left: 0.5rem;
-    font-size: 1.3rem;
-    margin-right: 0;
+    color: var(--ion-color-primary);
 }

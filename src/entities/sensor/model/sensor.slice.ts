@@ -6,6 +6,7 @@ import {
     calibrateSensorDevice,
     removeDevice,
     runSensorScan,
+    getSensorStatus,
 } from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
@@ -13,7 +14,8 @@ import type { SensorState } from './sensor.types';
 const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     calibrationRequired: false,
-    device: null,
+    currentDevice: null,
+    pairedDevices: [],
 
     scannerActive: false,
     sensorModel: '',
@@ -30,15 +32,43 @@ export const sensorSlice = createSlice({
     reducers: {},
 
     extraReducers: builder => {
+        // update sensor status
+        builder.addCase(getSensorStatus.fulfilled, (state, action) => {
+            const currentDevice = state.currentDevice;
+
+            if (!currentDevice) {
+                return;
+            }
+
+            state.currentDevice = {
+                ...currentDevice,
+                batteryLevel: action.payload.battery,
+            };
+        });
+
         // connect sensor device
         builder.addCase(connectSensorDevice.fulfilled, (state, action) => {
             const { device, requiredCalibration } = action.payload;
 
-            state.device = device;
+            const updatedDevice = {
+                ...(state.currentDevice ?? {}),
+                ...device,
+            };
 
+            state.currentDevice = updatedDevice;
             state.calibrationStatus = requiredCalibration
                 ? CalibrationStatus.REQUIRED
                 : CalibrationStatus.READY;
+
+            const foundPairedDevice = state.pairedDevices.find(
+                pairedDevice => pairedDevice.uuid === updatedDevice.uuid,
+            );
+
+            if (foundPairedDevice) {
+                return;
+            }
+
+            state.pairedDevices = [updatedDevice];
         });
 
         // calibrate sensor device
@@ -52,7 +82,28 @@ export const sensorSlice = createSlice({
                 return;
             }
 
-            state.device = action.payload.updatedDevice;
+            const { updatedDevice: device } = action.payload;
+
+            const updatedDevice = {
+                ...(state.currentDevice ?? {}),
+                ...device,
+            };
+
+            state.currentDevice = updatedDevice;
+
+            const foundPairedDeviceIdx = state.pairedDevices.findIndex(
+                pairedDevice => pairedDevice.uuid === updatedDevice.uuid,
+            );
+
+            if (foundPairedDeviceIdx > -1) {
+                state.pairedDevices = [
+                    ...state.pairedDevices.slice(0, foundPairedDeviceIdx),
+                    updatedDevice,
+                    ...state.pairedDevices.slice(foundPairedDeviceIdx + 1),
+                ];
+            } else {
+                state.pairedDevices = [updatedDevice];
+            }
         });
         builder.addCase(calibrateSensorDevice.rejected, (state, action) => {
             state.calibrationStatus = CalibrationStatus.ERROR;
@@ -72,9 +123,31 @@ export const sensorSlice = createSlice({
         });
 
         // remove device
-        builder.addCase(removeDevice.fulfilled, state => {
-            state.device = null;
-            state.calibrationStatus = CalibrationStatus.DISCONNECTED;
+        builder.addCase(removeDevice.fulfilled, (state, action) => {
+            const { removedUuid, removedCurrent } = action.payload;
+
+            const currentDevice = state.currentDevice;
+
+            if (removedCurrent && currentDevice) {
+                if (currentDevice) {
+                    const foundPairedDeviceIdx = state.pairedDevices.findIndex(
+                        pairedDevice => pairedDevice.uuid === currentDevice.uuid,
+                    );
+
+                    if (foundPairedDeviceIdx > -1) {
+                        state.pairedDevices = state.pairedDevices.filter(
+                            pairedDevice => pairedDevice.uuid !== currentDevice.uuid,
+                        );
+                    }
+                }
+
+                state.currentDevice = null;
+                state.calibrationStatus = CalibrationStatus.DISCONNECTED;
+            } else {
+                state.pairedDevices = state.pairedDevices.filter(
+                    pairedDevice => pairedDevice.uuid !== removedUuid,
+                );
+            }
         });
     },
 });

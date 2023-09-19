@@ -8,11 +8,15 @@ export enum CalibrationStatus {
     READY = 'ready',
 }
 
-export type SensorDevice = TellspecSensorDevice;
+export type SensorDevice = TellspecSensorDevice & {
+    batteryLevel?: number;
+};
 
 export type SensorState = {
     calibrationStatus: CalibrationStatus;
-    device: SensorDevice | null;
+    currentDevice: SensorDevice | null;
+    pairedDevices: SensorDevice[];
+
     scannerActive: boolean;
     sensorModel: string;
     enSensorEmulation: boolean;

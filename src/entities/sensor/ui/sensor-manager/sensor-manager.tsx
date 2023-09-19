@@ -1,21 +1,21 @@
 import React from 'react';
 import { IonButton } from '@ionic/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
 import { classname } from '@shared/utils';
 import {
-    calibrateSensorDevice,
-    removeDevice,
     selectSensorCalibrationDisconnected,
     selectSensorCalibrationLoading,
     selectSensorCalibrationRequired,
+    selectSensorDevice,
+    useCalibrateSensor,
+    useRemoveSensor,
 } from '@entities/sensor';
 import {
     SensorConnectionProcessStatus,
     useSensorConnectionProcess,
 } from '@widgets/sensor-connection-process';
-import { usePreemieToast } from '@shared/ui';
 import { tellspecAddListener } from '@api/native';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
@@ -24,22 +24,27 @@ import { SensorManagerInteractiveImage } from './sensor-manager-interactive-imag
 import './sensor-manager.css';
 
 import type { PluginListenerHandle } from '@capacitor/core';
-import type { AppDispatch } from '@app';
 
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const [presentToast] = usePreemieToast();
-
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
         onResetStatus,
     } = useSensorConnectionProcess();
 
+    const [calibrateSensor] = useCalibrateSensor();
+    const [removeSensor] = useRemoveSensor({
+        onComplete: () => {
+            onResetStatus();
+        },
+    });
+
     const [scannerStatusListener, setScannerStatusListener] =
         React.useState<PluginListenerHandle | null>(null);
+
+    const currentDevice = useSelector(selectSensorDevice);
 
     const calibrationDisconnected = useSelector(selectSensorCalibrationDisconnected);
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
@@ -77,49 +82,17 @@ export const SensorManager: React.FunctionComponent = () => {
             };
         }
 
-        if (calibrationRequired) {
-            const handleStartCalibration = async () => {
-                await presentToast({
-                    message: 'Start calibration...',
-                });
-
-                try {
-                    await dispatch(calibrateSensorDevice()).unwrap();
-                } catch (error) {
-                    console.error('[handleStartCalibration]:', error);
-
-                    await presentToast({
-                        type: 'error',
-                        message: 'An error occurred during calibration',
-                    });
-                }
-            };
-
-            const handleRemoveDevice = async () => {
-                try {
-                    await dispatch(removeDevice()).unwrap();
-
-                    onResetStatus();
-                } catch (error) {
-                    console.error('[handleRemoveDevice]:', error);
-
-                    await presentToast({
-                        type: 'error',
-                        message: 'An error occurred during unpairing',
-                    });
-                }
-            };
-
+        if (calibrationRequired && currentDevice) {
             return {
                 title: 'Calibration required',
                 content: (
                     <>
                         <div className={cn('actions')}>
-                            <IonButton onClick={handleStartCalibration}>
-                                Start Calibration
-                            </IonButton>
+                            <IonButton onClick={calibrateSensor}>Start Calibration</IonButton>
 
-                            <IonButton onClick={handleRemoveDevice}>Unpair Device</IonButton>
+                            <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
+                                Unpair Device
+                            </IonButton>
                         </div>
                     </>
                 ),
@@ -143,6 +116,9 @@ export const SensorManager: React.FunctionComponent = () => {
 
         return null;
     }, [
+        currentDevice,
+        calibrateSensor,
+        removeSensor,
         sensorConnectionProcessStatus,
         calibrationDisconnected,
         calibrationRequired,

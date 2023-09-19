@@ -1,137 +1,151 @@
 import React from 'react';
-import {
-    IonChip,
-    IonContent,
-    IonIcon,
-    IonItem,
-    IonPage,
-    IonSelect,
-    IonSelectOption,
-    IonText,
-} from '@ionic/react';
-import { useSelector } from 'react-redux';
+import { IonChip, IonContent, IonPage, IonSelect, IonSelectOption, IonText } from '@ionic/react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { CustomButton } from '@ui/button';
-import { selectGroupFreezers } from '@entities/groups';
+import { CloseIcon, SettingsIcon, TargetOfflineIcon } from '@ui/icons';
+import { PageArea } from '@shared/ui';
+import { classname } from '@shared/utils';
+import { userSelectors } from '@entities/user';
+import { selectGroupFreezers, fetchGroup } from '@entities/groups';
+import { selectSensorPairedDevices, useCalibrateSensor, useRemoveSensor } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
-
-import TickIcon from '../../../assets/icons/chip-tick-icon.svg';
-import CloseIcon from '../../../assets/icons/close-icon.svg';
-import SettingsIcon from '../../../assets/images/settings-icon-selected.png';
-import TargetIcon from '../../../assets/icons/target-pink.svg';
+import { AppDispatch } from '@app';
 
 import './settings.css';
 
-import type { IFreezer } from '@entities/groups/model/groups.types';
+const cn = classname('settings');
 
-export const SettingsPage: React.FC = () => {
+const expirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
+
+export const SettingsPage: React.FunctionComponent = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
+    const [removeSensor] = useRemoveSensor();
+
+    const groupId = useSelector(userSelectors.selectGroupId);
+
+    const pairedDevices = useSelector(selectSensorPairedDevices);
     const freezersList = useSelector(selectGroupFreezers);
-    const expirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
+
+    React.useEffect(() => {
+        dispatch(fetchGroup({ preemie_group_id: groupId }));
+    }, [groupId]);
 
     return (
         <IonPage>
             <IonContent>
                 <Layout rightSideBar={null}>
-                    <div className='settings-wrapper'>
-                        <IonItem lines='none'>
-                            <img src={SettingsIcon} className='settings-icon' />
-                            <h4>
-                                <IonText className='ion-padding'>Settings</IonText>
-                            </h4>
-                        </IonItem>
-                        <div className='settings-title'>
-                            <p>
-                                <IonText>Preemie Sensor</IonText>
-                            </p>
-                            <span className='calibrate-sensor'>
-                                <button>
-                                    Calibrate Sensor <img src={TargetIcon} />
-                                </button>
-                            </span>
-                        </div>
-                        <div className='options'>
-                            <p>
-                                <IonText>Paired to</IonText>
-                            </p>
-                        </div>
-                        <div className='line' />
-                        <div className='options'>
-                            <p>
-                                <IonText>Pair another Sensor</IonText>
-                            </p>
-                            <button className='add-button'>ADD</button>
-                        </div>
-                        <div className='settings-title'>
-                            <p>
-                                <IonText>Expressed Milk</IonText>
-                            </p>
-                        </div>
-                        <div className='options'>
-                            <p>
-                                <IonText>
-                                    Set at<IonText color='primary'>{expirationMonth[5]}</IonText>
-                                </IonText>
-                            </p>
-                            <IonSelect
-                                disabled
-                                label='Milk Expiration Date'
-                                label-placement='floating'
-                            >
-                                {expirationMonth.map(month => (
-                                    <IonSelectOption value={month}>{month}</IonSelectOption>
-                                ))}
-                            </IonSelect>
-                        </div>
-                        <div className='settings-title'>
-                            <p>
-                                <IonText>Storage Management</IonText>
-                            </p>
-                        </div>
-                        <div className='options'>
-                            <p>
-                                <IonText>Available storages</IonText>
-                            </p>
-                            <div className='available-storage-chip'>
-                                {freezersList.map((freezer: IFreezer) => (
-                                    <IonChip key={freezer.freezer_id}>
-                                        <IonIcon icon={TickIcon} />
-                                        {freezer.name}
-                                        <button
-                                            style={{ background: 'none' }}
-                                            className='close-button'
+                    <PageArea>
+                        <PageArea.Header
+                            className={cn('header')}
+                            title='Settings'
+                            icon={<SettingsIcon />}
+                        />
+
+                        <PageArea.Main>
+                            <div className={cn('container')}>
+                                <div className={cn('section')}>
+                                    <div className={cn('section-option', { header: true })}>
+                                        <p>Preemie Sensor</p>
+
+                                        <IonChip
+                                            className={cn('calibrate-sensor')}
+                                            disabled={calibrateSensorLoading}
+                                            onClick={calibrateSensor}
                                         >
-                                            <IonIcon icon={CloseIcon} />
-                                        </button>
-                                    </IonChip>
-                                ))}
+                                            <IonText className={cn('chip-text')}>
+                                                Calibrate sensor
+                                            </IonText>
+
+                                            <div className={cn('chip-icon')}>
+                                                <TargetOfflineIcon size={20} color='currentColor' />
+                                            </div>
+                                        </IonChip>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Paired to</p>
+
+                                        <div className={cn('section-option-action')}>
+                                            {pairedDevices.map(pairedDevice => (
+                                                <IonChip key={pairedDevice.uuid}>
+                                                    <IonText
+                                                        className={cn('chip-text')}
+                                                        onClick={() =>
+                                                            removeSensor(pairedDevice.uuid)
+                                                        }
+                                                    >
+                                                        {pairedDevice.name}
+                                                    </IonText>
+
+                                                    <div className={cn('chip-icon')}>
+                                                        <CloseIcon size={16} />
+                                                    </div>
+                                                </IonChip>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option', { disabled: true })}>
+                                        <p>Pair another Sensor</p>
+                                    </div>
+                                </div>
+
+                                <div className={cn('section')}>
+                                    <div className={cn('section-option', { header: true })}>
+                                        <p>Expressed Milk</p>
+                                    </div>
+
+                                    <div className={cn('section-option', { disabled: true })}>
+                                        <p>
+                                            Set at <span>{expirationMonth[5]}</span>
+                                        </p>
+
+                                        <div className={cn('section-option-action')}>
+                                            <IonSelect
+                                                disabled
+                                                label='Milk Expiration Date'
+                                                label-placement='floating'
+                                            >
+                                                {expirationMonth.map(month => (
+                                                    <IonSelectOption key={month} value={month}>
+                                                        {month}
+                                                    </IonSelectOption>
+                                                ))}
+                                            </IonSelect>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={cn('section')}>
+                                    <div className={cn('section-option', { header: true })}>
+                                        <p>Storage Management</p>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Available storages</p>
+
+                                        <div className={cn('section-option-action')}>
+                                            {freezersList.map(freezer => (
+                                                <IonChip key={freezer.freezer_id}>
+                                                    {freezer.name}
+                                                </IonChip>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option', { disabled: true })}>
+                                        <p>Disabled storages</p>
+                                    </div>
+
+                                    <div className={cn('section-option', { disabled: true })}>
+                                        <p>Add another Storage</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className='line' />
-                        <div className='options'>
-                            <p>
-                                <IonText>Disabled storages</IonText>
-                            </p>
-                        </div>
-                        <div className='line' />
-                        <div className='options'>
-                            <p>
-                                <IonText>Add another Storage</IonText>
-                            </p>
-                            <button className='add-button'>ADD</button>
-                            {/* <CustomInput
-                            type="text"
-                            label-placement="floating"
-                            label="Add Storage"
-                            /> */}
-                        </div>
-                        <div className='line' />
-                        <div className='settings-button-wrapper'>
-                            <CustomButton fill='outline' className='settings-button'>
-                                CANCEL
-                            </CustomButton>
-                            <CustomButton className='settings-button'>SAVE CHANGES</CustomButton>
-                        </div>
-                    </div>
+                        </PageArea.Main>
+                    </PageArea>
                 </Layout>
             </IonContent>
         </IonPage>

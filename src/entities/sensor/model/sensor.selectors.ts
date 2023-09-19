@@ -38,7 +38,17 @@ export const selectSensorCalibrationReady = createSelector(
 
 export const selectSensorDevice = createSelector(
     [selectSensorState],
-    sensorState => sensorState.device,
+    sensorState => sensorState.currentDevice,
+);
+
+export const selectSensorDeviceBatteryLevel = createSelector(
+    [selectSensorDevice],
+    sensorDevice => sensorDevice?.batteryLevel ?? 100,
+);
+
+export const selectSensorPairedDevices = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.pairedDevices,
 );
 
 export const selectIsSensorScanning = createSelector(
