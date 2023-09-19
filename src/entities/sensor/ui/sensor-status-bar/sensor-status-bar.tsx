@@ -10,6 +10,7 @@ import {
     selectSensorCalibrationRequired,
     selectSensorCalibrationReady,
     calibrateSensorDevice,
+    selectSensorCalibrationDisconnected,
 } from '@entities/sensor/model';
 import {
     SensorConnectionProcessStatus,
@@ -19,6 +20,8 @@ import {
 import './sensor-status-bar.css';
 
 import type { AppDispatch } from '@app';
+import { PluginListenerHandle } from '@capacitor/core';
+import { IonButton } from '@ionic/react';
 
 const cn = classname('sensor');
 

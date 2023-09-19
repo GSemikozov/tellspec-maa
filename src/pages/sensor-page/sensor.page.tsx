@@ -23,9 +23,10 @@ import { CustomButton } from '@ui/button';
 
 import TickIcon from '../../../assets/icons/chip-tick-icon.svg';
 import CloseIcon from '../../../assets/icons/close-icon.svg';
-import SettingsIcon from '../../../assets/images/settings-icon-selected.png';
+
 
 import './sensor.page.css';
+import { SensorIcon } from '@ui/icons';
 
 export const SensorPage: React.FC = () => {
     return (
@@ -34,7 +35,7 @@ export const SensorPage: React.FC = () => {
                 <Layout rightSideBar={null}>
                     <div className='sensor-wrapper'>
                         <IonItem lines='none'>
-                            <img src={SettingsIcon} />
+                            <SensorIcon size={32} color='#E503B0' />
                             <h2>
                                 <IonText>Preemie Sensor</IonText>
                             </h2>
@@ -129,10 +130,7 @@ export const SensorPage: React.FC = () => {
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol
-                                    size='11.6'
-                                    className='title-wrapper'
-                                >
+                                <IonCol size='11.6' className='title-wrapper'>
                                     <div className='sensor-title'>
                                         <p>
                                             <IonText>Calibration</IonText>

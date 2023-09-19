@@ -14,6 +14,7 @@ import {
     SensorIcon
 } from '@ui/icons';
 
+
 import Logo from '../../../assets/images/Preemie-Logo_Milk-Analysis-Software.png'
 
 import { userAsyncActions } from '@entities/user';
@@ -54,7 +55,8 @@ const MENU_ITEMS = [
         id: 'sensor-page',
         title: 'Preemie Sensor',
         to: routesMapping.sensorPage,
-        icon: <SensorIcon size={32} color='currentColor' />,
+        icon: <SensorIcon size={30} color='currentColor' />,
+       
     },
     {
         id: 'settings',
