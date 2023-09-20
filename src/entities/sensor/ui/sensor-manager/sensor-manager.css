@@ -10,13 +10,14 @@
 }
 
 .sensor-manager__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 12px 0;
+    /* display: flex;
+    flex-wrap: wrap; */
+    /* gap: 8px; */
+    margin: 14px 0;
 }
 
 .sensor-manager__actions .button {
-    margin: 0;
+    margin: 5px 0;
     font-size: 14px;
+    width: 100%;
 }

@@ -5,6 +5,9 @@
 .settings__calibrate-sensor {
     --background: var(--ion-color-tertiary-shade);
 }
+.settings .page-area {
+    margin: 4rem;
+}
 
 .settings__section-option {
     display: flex;
@@ -43,7 +46,7 @@
 }
 
 .settings__section-option-action ion-select {
-    width: 180px;
+    width: 190px;
 
     font-size: 1.6rem;
 }
