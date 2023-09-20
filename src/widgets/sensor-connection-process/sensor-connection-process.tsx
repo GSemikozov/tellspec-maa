@@ -192,6 +192,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 tellspecAddListener(
                     SensorEvent.DEVICE_LIST,
                     (data: TellspecListenerEvents.UpdateDeviceList) => {
+                        console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
+
                         if (data.devices.length === 0) {
                             return;
                         }
