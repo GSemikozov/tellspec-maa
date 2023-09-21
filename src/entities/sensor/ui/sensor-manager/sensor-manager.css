@@ -10,14 +10,19 @@
 }
 
 .sensor-manager__actions {
-    /* display: flex;
-    flex-wrap: wrap; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     /* gap: 8px; */
-    margin: 14px 0;
+}
+.sensor-manager__actions ion-text {
+    display: flex;
+    justify-content: center;
 }
 
 .sensor-manager__actions .button {
-    margin: 5px 0;
+    /* margin: 5px 0;
     font-size: 14px;
-    width: 100%;
+    width: 60%; */
+    margin-top: 1rem !important;
 }

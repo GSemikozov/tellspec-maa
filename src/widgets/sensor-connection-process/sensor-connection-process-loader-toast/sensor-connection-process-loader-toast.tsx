@@ -40,7 +40,7 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
         if (status === SensorConnectionProcessStatus.DISCOVERING) {
             if (discoveredDevicesLength > 0) {
                 buttons.push({
-                    text: 'Open devices',
+                    text: 'Open sensors',
                     role: 'open',
                     handler: handleOpenDiscoveryDevicesModalEvent,
                 });
