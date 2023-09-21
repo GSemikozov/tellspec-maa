@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonButton } from '@ionic/react';
+import { IonButton, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
@@ -69,13 +69,21 @@ export const SensorManager: React.FunctionComponent = () => {
                     <>
                         <p>
                             If this is the first time you are using the Preemie Sensor, please click
-                            to see photos that explains how the sensor is turned on.
+                            to see videos that explains how to run analyses and how to clean the couvette.
                         </p>
 
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
                                 Select Sensor
                             </IonButton>
+                           
+                            <div className={cn('actions-buttons')}>
+                            <h2>
+                                <IonText>Videos</IonText>
+                            </h2>
+                                <IonButton>Analyses</IonButton>
+                                <IonButton>Cleaning </IonButton>
+                            </div>
                         </div>
                     </>
                 ),
@@ -91,7 +99,7 @@ export const SensorManager: React.FunctionComponent = () => {
                             <IonButton onClick={calibrateSensor}>Start Calibration</IonButton>
 
                             <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
-                                Unpair Device
+                                Unpair Sensor
                             </IonButton>
                         </div>
                     </>

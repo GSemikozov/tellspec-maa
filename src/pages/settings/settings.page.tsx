@@ -88,7 +88,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option', { disabled: true })}>
-                                        <p>Pair another Sensor</p>
+                                        <p>Pair another sensor</p>
                                     </div>
                                 </div>
 
@@ -99,13 +99,13 @@ export const SettingsPage: React.FunctionComponent = () => {
 
                                     <div className={cn('section-option', { disabled: true })}>
                                         <p>
-                                            Set at <span>{expirationMonth[5]}</span>
+                                            Default expiration <span>{expirationMonth[5]}</span>
                                         </p>
 
                                         <div className={cn('section-option-action')}>
                                             <IonSelect
                                                 disabled
-                                                label='Milk Expiration Date'
+                                                label='Milk expiration date'
                                                 label-placement='floating'
                                             >
                                                 {expirationMonth.map(month => (
@@ -140,7 +140,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option', { disabled: true })}>
-                                        <p>Add another Storage</p>
+                                        <p>Add another storage</p>
                                     </div>
                                 </div>
                             </div>

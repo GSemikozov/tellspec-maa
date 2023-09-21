@@ -12,11 +12,17 @@
 .sensor-manager__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 12px 0;
+    justify-content: space-around;
+    /* gap: 8px; */
+}
+.sensor-manager__actions ion-text {
+    display: flex;
+    justify-content: center;
 }
 
 .sensor-manager__actions .button {
-    margin: 0;
+    /* margin: 5px 0;
     font-size: 14px;
+    width: 60%; */
+    margin-top: 1rem !important;
 }

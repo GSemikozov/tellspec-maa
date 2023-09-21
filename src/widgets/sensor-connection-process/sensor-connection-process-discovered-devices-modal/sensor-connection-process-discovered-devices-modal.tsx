@@ -36,7 +36,7 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
         >
             <div className={cn('container')}>
                 <div className={cn('header')}>
-                    <h3>Discovered devices</h3>
+                    <h3>Discovered sensors</h3>
                 </div>
 
                 {hasDiscoveredDevices ? (
