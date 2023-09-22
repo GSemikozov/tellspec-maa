@@ -46,13 +46,13 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
 
     const renderMain = React.useMemo(() => {
         if (spectrumScanLoading) {
-            return <div className={cn('placeholder')}>Loading scanned data...</div>;
+            return <div className={cn('placeholder')}>Loading analysed data...</div>;
         }
 
         if (!spectrumScan) {
             return (
                 <div className={cn('placeholder')}>
-                    We haven't found a scanned data for this milk
+                    We haven't found a analysed data for this milk
                 </div>
             );
         }
