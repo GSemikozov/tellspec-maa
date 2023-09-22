@@ -3,108 +3,106 @@ import {
     IonButton,
     IonChip,
     IonCol,
-    // IonChip,
     IonContent,
     IonGrid,
     IonIcon,
-    // IonIcon,
     IonItem,
     IonPage,
     IonRow,
-    // IonSelect,
-    // IonSelectOption,
     IonText,
 } from '@ionic/react';
 // import { useSelector } from 'react-redux';
+import { classname } from '@shared/utils';
 
 import { Layout } from '@widgets/layout';
 import { CustomButton } from '@ui/button';
 // import { groupsSelectors } from '@entities/groups';
 
 import TickIcon from '../../../assets/icons/chip-tick-icon.svg';
-import CloseIcon from '../../../assets/icons/close-icon.svg';
 
+const cn = classname('sensor-page');
 
 import './sensor.page.css';
-import { SensorIcon } from '@ui/icons';
+import { SensorIcon, TargetOfflineIcon } from '@ui/icons';
 
 export const SensorPage: React.FC = () => {
     return (
         <IonPage>
             <IonContent>
                 <Layout rightSideBar={null}>
-                    <div className='sensor-wrapper'>
-                        <IonItem lines='none'>
-                            <SensorIcon size={32} color='#E503B0' />
-                            <h2>
-                                <IonText>Preemie Sensor</IonText>
-                            </h2>
-                        </IonItem>
+                    <div className={cn()}>
+                        <div className={cn('title-wrapper')}>
+                            <IonItem lines='none'>
+                                <SensorIcon size={32} color='#E503B0' />
+                                <h2>
+                                    <IonText>Preemie Sensor</IonText>
+                                </h2>
+                            </IonItem>
+                            <div className={cn('button-wrapper')}>
+                                <CustomButton>Disconnect sensor</CustomButton>
+                                <CustomButton>SAVE CHANGES</CustomButton>
+                                <CustomButton fill='outline'>CANCEL</CustomButton>
+                            </div>
+                        </div>
                         <IonGrid>
                             <IonRow>
-                                <IonCol className='ion-margin-top ion-margin-end ion-margin-start col-wrapper'>
-                                    <div className='sensor-title top-col-wrapper'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('title')}>
                                         <p>
                                             <IonText>Sensor</IonText>
                                         </p>
-                                        <div className='available-storage-chip'>
+                                        <div className={cn('available-storage-chip')}>
                                             <IonChip>
                                                 <IonIcon icon={TickIcon} />
                                                 <IonText>Serial number</IonText>
-                                                <button
-                                                    style={{ background: 'none' }}
-                                                    className='close-button'
-                                                >
-                                                    <IonIcon icon={CloseIcon} />
-                                                </button>
                                             </IonChip>
                                         </div>
                                     </div>
-                                    <div className='options'>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Humidity</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>57% RH</IonText>
                                             </h5>
                                         </span>
                                     </div>
-                                    <div className='line' />
+                                    <div className={cn('line')} />
 
-                                    <div className='options'>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Temperature</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>28.0°C</IonText>
                                             </h5>
                                         </span>
                                     </div>
                                 </IonCol>
-                                <IonCol className='ion-margin-top ion-margin-end ion-margin-start col-wrapper'>
-                                    <div className='sensor-title'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('title')}>
                                         <p>
                                             <IonText>Scans</IonText>
                                         </p>
                                     </div>
-                                    <div className='options'>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Number of scans done so far</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>28</IonText>
                                             </h5>
                                         </span>
                                     </div>
-                                    <div className='line' />
-                                    <div className='options'>
+                                    <div className={cn('line')} />
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Number of warm up scans required</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>4</IonText>
                                             </h5>
@@ -113,48 +111,56 @@ export const SensorPage: React.FC = () => {
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol className='ion-margin-top ion-margin-end ion-margin-start col-wrapper'>
-                                    <div className='sensor-title'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('title')}>
                                         <p>
                                             <IonText>Configuration</IonText>
                                         </p>
                                     </div>
-                                    <div className='options'>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Active configuration</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <IonButton>CHANGE</IonButton>
                                         </span>
                                     </div>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol size='11.6' className='title-wrapper'>
-                                    <div className='sensor-title'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('title')}>
                                         <p>
                                             <IonText>Calibration</IonText>
                                         </p>
+                                        <IonChip
+                                            className={cn('calibrate-sensor')}
+                                            // disabled={calibrateSensorLoading}
+                                            // onClick={calibrateSensor}
+                                        >
+                                            <IonText>Calibrate sensor</IonText>
+
+                                            <div className={cn('chip-icon')}>
+                                                <TargetOfflineIcon size={20} color='currentColor' />
+                                            </div>
+                                        </IonChip>
                                     </div>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                                <IonCol
-                                    size='5.5'
-                                    className='ion-margin-top ion-margin-end ion-margin-start col-wrapper '
-                                >
-                                    <div className='options'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Last Calibration Date</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>DD/MM/YYYY</IonText>
                                             </h5>
                                         </span>
                                     </div>
-                                    <div className='line' />
-                                    <div className='options'>
+                                    <div className={cn('line')} />
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Spectrum of last calibration</IonText>
                                         </p>
@@ -174,22 +180,19 @@ export const SensorPage: React.FC = () => {
                                         <br />
                                     </div>
                                 </IonCol>
-                                <IonCol
-                                    size='5.5'
-                                    className='ion-margin-top ion-margin-end ion-margin-start col-wrapper'
-                                >
-                                    <div className='options'>
+                                <IonCol className={cn('col-wrapper')}>
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>Last wavelength calibration</IonText>
                                         </p>
-                                        <span className='column-data'>
+                                        <span className={cn('column-data')}>
                                             <h5>
                                                 <IonText>DD/MM/YYYY</IonText>
                                             </h5>
                                         </span>
                                     </div>
-                                    <div className='line' />
-                                    <div className='options'>
+                                    <div className={cn('line')} />
+                                    <div className={cn('options')}>
                                         <p>
                                             <IonText>
                                                 Spectrum of last wavelength calibration
@@ -213,15 +216,6 @@ export const SensorPage: React.FC = () => {
                                     </div>
                                 </IonCol>
                             </IonRow>
-
-                            <div className='settings-button-wrapper'>
-                                <CustomButton fill='outline' className='settings-button'>
-                                    CANCEL
-                                </CustomButton>
-                                <CustomButton className='settings-button'>
-                                    SAVE CHANGES
-                                </CustomButton>
-                            </div>
                         </IonGrid>
                     </div>
                 </Layout>

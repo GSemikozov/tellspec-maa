@@ -33,7 +33,6 @@ export const SensorManager: React.FunctionComponent = () => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const handleOpenModal = () => {
         setIsOpen(true);
-        console.log("helo")
     };
 
     const {
@@ -93,19 +92,19 @@ export const SensorManager: React.FunctionComponent = () => {
                                 <IonButton onClick={handleOpenModal}>Analyses</IonButton>
                                 <IonButton>Cleaning </IonButton>
                             </div>
+                        
+                            <IonModal isOpen={isOpen}>
+                                <ReactPlayer
+                                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
+                                    controls={false}
+                                />
+                                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+                            </IonModal>
+                        
                         </div>
                     </>
                 ),
             };
-        }
-        {
-            <IonModal isOpen={isOpen}>
-                <ReactPlayer
-                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
-                    controls={false}
-                />
-                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
-            </IonModal>;
         }
 
         if (calibrationRequired && currentDevice) {
