@@ -9,7 +9,6 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
     tellspecGetPairDevice,
-    tellspecDisconnect,
 } from '@api/native';
 import { useCalibrateSensor, connectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
@@ -92,8 +91,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 const errorMessage = error.message ?? 'Error on start discovery';
 
                 setStatus(SensorConnectionProcessStatus.ERROR);
-
-                await tellspecDisconnect();
 
                 await presentToast({
                     type: 'error',
