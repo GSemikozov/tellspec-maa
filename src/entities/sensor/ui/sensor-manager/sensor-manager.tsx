@@ -1,7 +1,9 @@
-import React from 'react';
-import { IonButton, IonText } from '@ionic/react';
+import React, { useState } from 'react';
+import { IonButton, IonModal, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
+
+import ReactPlayer from 'react-player';
 
 import { classname } from '@shared/utils';
 import {
@@ -28,6 +30,12 @@ import type { PluginListenerHandle } from '@capacitor/core';
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
+    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const handleOpenModal = () => {
+        setIsOpen(true);
+        console.log("helo")
+    };
+
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
@@ -69,25 +77,35 @@ export const SensorManager: React.FunctionComponent = () => {
                     <>
                         <p>
                             If this is the first time you are using the Preemie Sensor, please click
-                            to see videos that explains how to run analyses and how to clean the couvette.
+                            to see videos that explains how to run analyses and how to clean the
+                            couvette.
                         </p>
 
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
                                 Select Sensor
                             </IonButton>
-                           
+
                             <div className={cn('actions-buttons')}>
-                            <h2>
-                                <IonText>Videos</IonText>
-                            </h2>
-                                <IonButton>Analyses</IonButton>
+                                <h2>
+                                    <IonText>Videos</IonText>
+                                </h2>
+                                <IonButton onClick={handleOpenModal}>Analyses</IonButton>
                                 <IonButton>Cleaning </IonButton>
                             </div>
                         </div>
                     </>
                 ),
             };
+        }
+        {
+            <IonModal isOpen={isOpen}>
+                <ReactPlayer
+                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
+                    controls={false}
+                />
+                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            </IonModal>;
         }
 
         if (calibrationRequired && currentDevice) {

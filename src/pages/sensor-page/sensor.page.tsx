@@ -66,7 +66,7 @@ export const SensorPage: React.FC = () => {
                                         </p>
                                         <span className='column-data'>
                                             <h5>
-                                                <IonText>57.95% RH</IonText>
+                                                <IonText>57% RH</IonText>
                                             </h5>
                                         </span>
                                     </div>
