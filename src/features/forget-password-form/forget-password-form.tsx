@@ -1,14 +1,14 @@
 import React from 'react';
-import {IonItem, IonList, IonText} from '@ionic/react';
+import { IonItem, IonList, IonText } from '@ionic/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import {NavLink} from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 import { usePreemieToast } from '@shared/ui';
 import { PreemieInput } from '@ui/input';
 import { CustomButton } from '@ui/button';
 import { userAsyncActions, userSelectors } from '@entities/user';
-import {routesMapping} from "@app/routes.ts";
+import { routesMapping } from '@app/routes.ts';
 
 import type { AppDispatch } from '@app/store';
 

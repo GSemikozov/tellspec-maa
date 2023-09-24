@@ -4,17 +4,16 @@
     overflow-x: hidden;
     height: 65rem;
     padding-top: 1rem;
-   
 }
-.sensor-wrapper ion-item{
+.sensor-wrapper ion-item {
     padding-left: 1rem;
 }
-.sensor-wrapper h2{
+.sensor-wrapper h2 {
     margin-left: 2rem;
 }
 
-.title-wrapper{
-    margin: 16px 16px
+.title-wrapper {
+    margin: 16px 16px;
 }
 
 .col-wrapper {

@@ -98,13 +98,12 @@ export type ReportTableProps = {
     reports: Report[];
 };
 
-
 export type ColumnSort = {
     id: string;
     desc: boolean;
-}
+};
 
-export type SortingState = ColumnSort[]
+export type SortingState = ColumnSort[];
 
 export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
@@ -139,7 +138,11 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                                               header.column.columnDef.header,
                                               header.getContext(),
                                           )}
-                                    {{ asc: '⬆️', desc: '⬇️' }[header.column.getIsSorted() as string ?? null]}
+                                    {
+                                        { asc: '⬆️', desc: '⬇️' }[
+                                            (header.column.getIsSorted() as string) ?? null
+                                        ]
+                                    }
                                 </th>
                             ))}
                         </tr>

@@ -24,7 +24,6 @@ import { CustomButton } from '@ui/button';
 import TickIcon from '../../../assets/icons/chip-tick-icon.svg';
 import CloseIcon from '../../../assets/icons/close-icon.svg';
 
-
 import './sensor.page.css';
 import { SensorIcon } from '@ui/icons';
 
