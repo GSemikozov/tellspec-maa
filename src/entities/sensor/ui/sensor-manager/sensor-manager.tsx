@@ -3,8 +3,6 @@ import { IonButton, IonModal, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
-import ReactPlayer from 'react-player';
-
 import { classname } from '@shared/utils';
 import {
     selectSensorCalibrationDisconnected,
@@ -24,6 +22,7 @@ import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
 
 import CleaningVideo from '../../../../../assets/video/Cleaning Video.mp4';
+import AnalysesVideo from '../../../../../assets/video/Preemie_SEPT15.mp4';
 
 import './sensor-manager.css';
 
@@ -32,11 +31,6 @@ import type { PluginListenerHandle } from '@capacitor/core';
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
-    const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const handleOpenModal = () => {
-        setIsOpen(true);
-    };
-
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
@@ -72,6 +66,17 @@ export const SensorManager: React.FunctionComponent = () => {
                 onStartDiscovery({ enableBleCheck: true });
             };
 
+            const [isOpen, setIsOpen] = React.useState<boolean>(false);
+            const [videoToDisplay, setVideoToDisplay] = React.useState<string | null>(null);
+            const handleOpenModal = videoType => {
+                setVideoToDisplay(videoType);
+                setIsOpen(isOpen => !isOpen);
+            };
+            const handleCloseModal = () => {
+                setVideoToDisplay(null);
+                setIsOpen(false);
+            };
+
             return {
                 title: 'Connect a Preemie sensor',
                 content: (
@@ -91,16 +96,30 @@ export const SensorManager: React.FunctionComponent = () => {
                                 <h2>
                                     <IonText>Videos</IonText>
                                 </h2>
-                                <IonButton>Analyses</IonButton>
-                                <IonButton onClick={handleOpenModal}>Cleaning </IonButton>
+                                <IonButton onClick={() => handleOpenModal('analyses')}>
+                                    Analyses
+                                </IonButton>
+
+                                <IonButton onClick={() => handleOpenModal('cleaning')}>
+                                    Cleaning
+                                </IonButton>
                             </div>
-
-                            <IonModal isOpen={isOpen}>
-                                <video autoPlay>
-                                    <source src={CleaningVideo} type='video/mp4' />
-                                </video>
-
-                                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+                            <IonModal isOpen={isOpen} className={cn('video-modal')}>
+                                {videoToDisplay === 'analyses' && (
+                                    <div className={cn('video')}>
+                                        <video autoPlay controls>
+                                            <source src={AnalysesVideo} type='video/mp4' />
+                                        </video>
+                                    </div>
+                                )}
+                                {videoToDisplay === 'cleaning' && (
+                                    <div className={cn('video')}>
+                                        <video autoPlay controls>
+                                            <source src={CleaningVideo} type='video/mp4' />
+                                        </video>
+                                    </div>
+                                )}
+                                <IonButton onClick={handleCloseModal} className={cn('close-button')}>Close</IonButton>
                             </IonModal>
                         </div>
                     </>
