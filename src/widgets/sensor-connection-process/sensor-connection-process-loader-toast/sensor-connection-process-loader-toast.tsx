@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PreemieToast } from '@shared/ui';
+import { PreemieToast } from '@ui';
 import { useEvent } from '@shared/hooks';
 
 import {

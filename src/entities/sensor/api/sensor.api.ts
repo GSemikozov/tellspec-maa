@@ -10,6 +10,7 @@ import type {
     GetScanDataResponse,
     GetSensorScannerResponse,
     SaveScanResponse,
+    GetScanDataRequest,
 } from './types';
 
 export class SensorApi extends BaseEndpoint {
@@ -50,10 +51,14 @@ export class SensorApi extends BaseEndpoint {
         return response.data;
     };
 
-    getScanData = async (uuid: string) => {
-        const response = await this.http.post<GetScanDataResponse>(this.getScanUrl, {
-            scans: [uuid],
-        });
+    getScanData = async (uuid?: string) => {
+        const requestBody: GetScanDataRequest = {};
+
+        if (uuid) {
+            requestBody.scans = [uuid];
+        }
+
+        const response = await this.http.post<GetScanDataResponse>(this.getScanUrl, requestBody);
 
         return response;
     };

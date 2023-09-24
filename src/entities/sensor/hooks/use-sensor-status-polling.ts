@@ -35,7 +35,6 @@ export const useSensorStatusPolling = ({
         }
 
         const startPolling = async () => {
-            console.log('start polling');
             await dispatch(getSensorStatus());
 
             timeoutRef.current = setTimeout(startPolling, interval);

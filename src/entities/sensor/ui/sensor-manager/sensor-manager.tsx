@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IonButton, IonModal, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
@@ -20,9 +20,6 @@ import { tellspecAddListener } from '@api/native';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
-
-import CleaningVideo from '../../../../../assets/video/Cleaning Video.mp4';
-import AnalysesVideo from '../../../../../assets/video/Preemie_SEPT15.mp4';
 
 import './sensor-manager.css';
 
@@ -47,6 +44,8 @@ export const SensorManager: React.FunctionComponent = () => {
     const [scannerStatusListener, setScannerStatusListener] =
         React.useState<PluginListenerHandle | null>(null);
 
+    const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
+
     const currentDevice = useSelector(selectSensorDevice);
 
     const calibrationDisconnected = useSelector(selectSensorCalibrationDisconnected);
@@ -66,15 +65,12 @@ export const SensorManager: React.FunctionComponent = () => {
                 onStartDiscovery({ enableBleCheck: true });
             };
 
-            const [isOpen, setIsOpen] = React.useState<boolean>(false);
-            const [videoToDisplay, setVideoToDisplay] = React.useState<string | null>(null);
-            const handleOpenModal = videoType => {
-                setVideoToDisplay(videoType);
-                setIsOpen(isOpen => !isOpen);
+            const handleChooseSensorInformationVideo = (video: string) => () => {
+                setSensorInformationVideo(video);
             };
-            const handleCloseModal = () => {
-                setVideoToDisplay(null);
-                setIsOpen(false);
+
+            const handleResetSensorInformationVideo = () => {
+                setSensorInformationVideo(null);
             };
 
             return {
@@ -96,32 +92,46 @@ export const SensorManager: React.FunctionComponent = () => {
                                 <h2>
                                     <IonText>Videos</IonText>
                                 </h2>
-                                <IonButton onClick={() => handleOpenModal('analyses')}>
+
+                                <IonButton onClick={handleChooseSensorInformationVideo('analyses')}>
                                     Analyses
                                 </IonButton>
 
-                                <IonButton onClick={() => handleOpenModal('cleaning')}>
+                                <IonButton onClick={handleChooseSensorInformationVideo('cleaning')}>
                                     Cleaning
                                 </IonButton>
                             </div>
-                            <IonModal isOpen={isOpen} className={cn('video-modal')}>
-                                {videoToDisplay === 'analyses' && (
+
+                            <IonModal
+                                isOpen={Boolean(sensorInformationVideo)}
+                                className={cn('video-modal')}
+                                onDidDismiss={handleResetSensorInformationVideo}
+                            >
+                                {sensorInformationVideo === 'analyses' ? (
                                     <div className={cn('video')}>
                                         <video autoPlay controls>
-                                            <source src={AnalysesVideo} type='video/mp4' />
+                                            <source
+                                                type='video/mp4'
+                                                src='./videos/preemie-sept-15.mp4'
+                                            />
                                         </video>
                                     </div>
-                                )}
-                                {videoToDisplay === 'cleaning' && (
+                                ) : null}
+
+                                {sensorInformationVideo === 'cleaning' ? (
                                     <div className={cn('video')}>
                                         <video autoPlay controls>
-                                            <source src={CleaningVideo} type='video/mp4' />
+                                            <source
+                                                type='video/mp4'
+                                                src='./videos/cleaning-video.mp4'
+                                            />
                                         </video>
                                     </div>
-                                )}
+                                ) : null}
+
                                 <IonButton
-                                    onClick={handleCloseModal}
                                     className={cn('close-button')}
+                                    onClick={handleResetSensorInformationVideo}
                                 >
                                     Close
                                 </IonButton>
@@ -169,6 +179,7 @@ export const SensorManager: React.FunctionComponent = () => {
         currentDevice,
         calibrateSensor,
         removeSensor,
+        sensorInformationVideo,
         sensorConnectionProcessStatus,
         calibrationDisconnected,
         calibrationRequired,

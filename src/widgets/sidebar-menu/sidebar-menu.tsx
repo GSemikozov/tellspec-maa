@@ -11,12 +11,8 @@ import {
     ReportsIcon,
     SettingsIcon,
     LogoutIcon,
-    SensorIcon
+    SensorIcon,
 } from '@ui/icons';
-
-
-import Logo from '../../../assets/images/Preemie-Logo_Milk-Analysis-Software.png'
-
 import { userAsyncActions } from '@entities/user';
 import { routesMapping } from '@app/routes';
 
@@ -56,7 +52,6 @@ const MENU_ITEMS = [
         title: 'Preemie Sensor',
         to: routesMapping.sensorPage,
         icon: <SensorIcon size={30} color='currentColor' />,
-       
     },
     {
         id: 'settings',
@@ -80,7 +75,7 @@ export const SidebarMenu: React.FunctionComponent = () => {
     return (
         <div className={cn()}>
             <IonItem className='ion-no-margin' id='menu-logo' lines='none'>
-                <img src={Logo} alt='Preemie Logo' />
+                <img src='./icons/general/logo.svg' alt='Preemie Logo' />
             </IonItem>
 
             <IonGrid className='tabs ion-no-padding'>

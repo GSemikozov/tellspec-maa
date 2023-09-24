@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { usePreemieToast } from '@ui';
 import { classname } from '@shared/utils';
-import { usePreemieToast } from '@shared/ui';
 import {
     BatteryEmptyIcon,
     BatteryFullIcon,
@@ -10,7 +10,6 @@ import {
     BluetoohIcon,
     TargetOfflineIcon,
 } from '@ui/icons';
-import { BleStatus, selectBleStatus } from '@app/model';
 import {
     selectSensorCalibrationLoading,
     selectSensorCalibrationRequired,
@@ -19,6 +18,7 @@ import {
     selectSensorDeviceBatteryLevel,
     selectSensorDevice,
 } from '@entities/sensor/model';
+import { BleStatus, selectBleStatus } from '@app/model';
 
 import './sensor-status-bar.css';
 

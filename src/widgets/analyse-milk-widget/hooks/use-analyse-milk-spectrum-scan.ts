@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { usePreemieToast } from '@ui';
 import { apiInstance } from '@api/network';
-import { usePreemieToast } from '@shared/ui';
 import { prepareSpectrumScanData } from '@entities/sensor';
 
 import type { SpectrumScanData } from '@entities/sensor';

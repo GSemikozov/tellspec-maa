@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src/definitions';
 
+import { usePreemieToast } from '@ui';
 import {
     isEmulateNativeSdk,
     tellspecNotifyListeners,
@@ -12,7 +13,6 @@ import {
 } from '@api/native';
 import { useCalibrateSensor, connectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
-import { usePreemieToast } from '@shared/ui';
 
 import { SensorConnectionProcessLoaderToast } from './sensor-connection-process-loader-toast';
 import { SensorConnectionProcessDiscoveredDevicesModal } from './sensor-connection-process-discovered-devices-modal';

@@ -9,4 +9,5 @@ export * from './reports-icon';
 export * from './settings-icon';
 export * from './logout-icon';
 export * from './close-icon';
-export * from './sensor-icon'
+export * from './sensor-icon';
+export * from './tick-icon';

@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { usePreemieToast } from '@ui';
 import { apiInstance } from '@api/network';
 import { useEventAsync } from '@shared/hooks';
-import { usePreemieToast } from '@shared/ui';
 
 import type { FetchReportRequest, Report } from '@entities/reports';
 

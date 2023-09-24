@@ -1,110 +1,82 @@
-.sensor-page {
-    border: 2px solid var(--ion-color-tertiary-tint);
-    border-radius: 5px;
-    overflow-x: hidden;
-    height: 65rem;
-    padding-top: 1rem;
-}
-.sensor-page ion-item {
-    padding-left: 1rem;
-}
-.sensor-page h2 {
-    margin-left: 2rem;
+.sensor-page__header .page-area__header-actions ion-button {
+    margin: 0 0 0 8px !important;
 }
 
-.sensor-page__title-wrapper {
+.sensor-page__section-grid {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.sensor-page__title-wrapper ion-button {
-    margin-top: 0;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 16px;
+    padding: 16px;
 }
 
-.sensor-page__col-wrapper {
-    border: 1px solid var(--ion-color-tertiary-tint);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+.sensor-page__section {
+    flex: 1;
 }
-.sensor-page__title {
+
+.sensor-page__section-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    height: 5rem;
+    min-height: 56px;
 
+    padding: 0 16px;
+}
+
+.sensor-page__section-option:not(:last-child) {
+    border-bottom: 1px solid var(--ion-color-tertiary-shade);
+}
+
+.sensor-page__section-option p {
     font-size: 1.6rem;
+}
 
-    padding-left: 1rem;
+.sensor-page__section-option p span {
+    color: var(--ion-color-primary);
+}
 
+.sensor-page__section-option_disabled {
+    user-select: none;
+    opacity: 0.5;
+}
+
+.sensor-page__section-option_header {
     background-color: var(--ion-color-tertiary-tint);
     border-bottom: 1px solid var(--ion-color-tertiary);
 }
 
-.sensor-page__column-data {
+.sensor-page__section-option-action {
+    margin-left: auto;
+}
+
+.sensor-page__section-option-action_information {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.sensor-page__section-option-action ion-select {
+    width: 190px;
     margin-right: 1rem;
-}
-.sensor-page__column-data ion-button {
-    margin: 1rem 0 !important;
-}
-
-.sensor-page__calibrate-sensor{
-    margin-right: 1rem;
-}
-
-.sensor-page__calibrate-sensor button {
-    color: var(--ion-color-primary);
-    font-size: 17px;
-    text-decoration: underline;
-    margin-right: rem;
-}
-
-.sensor-page__options {
-    display: flex;
-    justify-content: space-between;
-
     font-size: 1.6rem;
+}
+
+.sensor-page__chip-text {
+    padding-top: 1px;
+    user-select: none;
+    margin-right: 1rem;
 }
 
 .sensor-page__chip-icon {
     display: flex;
-    margin-left: 4px;
 
     color: var(--ion-color-primary);
 }
 
-.sensor-page__options p {
-    height: 1.2rem;
+.sensor-page__chip-icon_start {
+    margin-right: 4px;
 }
 
-.sensor-page__options ion-text {
-    padding-left: 1rem;
-}
-.sensor-page__line {
-    width: 97%;
-    height: 1px;
-    background-color: var(--ion-color-tertiary-shade);
-    margin-left: 1.5rem;
-}
-
-.sensor-page__button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-}
-.sensor-page__button-wrapper ion-button {
-    font-weight: 600;
-    margin-right: 2rem !important;
-    
-}
-.sensor-page__available-storage-chip {
-    display: flex;
-    align-items: center;
-    margin-right: 0.5rem;
-}
-.available-storage-chip ion-icon {
-    margin-right: 0.5rem;
+.sensor-page__chip-icon_end {
+    margin-left: 4px;
 }

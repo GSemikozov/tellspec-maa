@@ -79,6 +79,10 @@ export type GetCalibrationResponse = {
     };
 };
 
+export type GetScanDataRequest = {
+    scans?: string[];
+};
+
 export type GetScanDataItem = {
     uuid: string;
     created_at: string;

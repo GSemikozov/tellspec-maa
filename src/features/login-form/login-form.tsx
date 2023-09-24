@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PreemieInput } from '@ui/input';
-import { CustomButton } from '@ui/button';
+import { PreemieButton } from '@ui/button';
 import { userAsyncActions, userSelectors } from '@entities/user';
 import { routesMapping } from '@app/routes';
 
@@ -58,7 +58,7 @@ export const LoginForm: React.FunctionComponent = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
             <IonList class='ion-padding'>
                 <IonItem lines='none' style={{ display: 'flex', flexDirection: 'column' }}>
                     <PreemieInput
@@ -110,9 +110,9 @@ export const LoginForm: React.FunctionComponent = () => {
 
                 {requestError ? <div className='error'>{requestError}</div> : null}
 
-                <CustomButton type='submit' expand='block' size='default' disabled={isFetching}>
+                <PreemieButton type='submit' expand='block' size='default' disabled={isFetching}>
                     {isFetching ? 'loading...' : 'Log in'}
-                </CustomButton>
+                </PreemieButton>
             </IonList>
 
             <h5 className='forgot-password'>
