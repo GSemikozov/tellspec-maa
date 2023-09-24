@@ -119,7 +119,12 @@ export const SensorManager: React.FunctionComponent = () => {
                                         </video>
                                     </div>
                                 )}
-                                <IonButton onClick={handleCloseModal} className={cn('close-button')}>Close</IonButton>
+                                <IonButton
+                                    onClick={handleCloseModal}
+                                    className={cn('close-button')}
+                                >
+                                    Close
+                                </IonButton>
                             </IonModal>
                         </div>
                     </>
