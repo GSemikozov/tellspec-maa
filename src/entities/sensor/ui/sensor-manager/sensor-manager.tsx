@@ -28,17 +28,6 @@ import type { PluginListenerHandle } from '@capacitor/core';
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
-    const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
-
-    const handleChooseSensorInformationVideo = (video: string) => () => {
-        setSensorInformationVideo(video);
-    };
-
-    const handleResetSensorInformationVideo = () => {
-        setSensorInformationVideo(null);
-    };
-
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
@@ -54,6 +43,8 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const [scannerStatusListener, setScannerStatusListener] =
         React.useState<PluginListenerHandle | null>(null);
+
+    const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
 
     const currentDevice = useSelector(selectSensorDevice);
 
@@ -72,6 +63,14 @@ export const SensorManager: React.FunctionComponent = () => {
 
             const handleClickStartDiscovery = () => {
                 onStartDiscovery({ enableBleCheck: true });
+            };
+
+            const handleChooseSensorInformationVideo = (video: string) => () => {
+                setSensorInformationVideo(video);
+            };
+
+            const handleResetSensorInformationVideo = () => {
+                setSensorInformationVideo(null);
             };
 
             return {
@@ -218,13 +217,6 @@ export const SensorManager: React.FunctionComponent = () => {
 
     return (
         <div className={cn()}>
-            <IonModal isOpen={isOpen}>
-                <ReactPlayer
-                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
-                    controls={false}
-                />
-                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
-            </IonModal>
             {instructions ? (
                 <SensorManagerInstructions
                     highlight={calibrationLoading}
