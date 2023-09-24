@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { IonButton, IonModal, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
@@ -31,10 +31,9 @@ const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const handleOpenModal = () => {
-        setIsOpen(true);
-        console.log("helo")
-    };
+    const handleOpenModal = useCallback(() => {
+        setIsOpen(prev => !prev);
+    }, [setIsOpen]);
 
     const {
         status: sensorConnectionProcessStatus,
@@ -97,15 +96,6 @@ export const SensorManager: React.FunctionComponent = () => {
                     </>
                 ),
             };
-        }
-        {
-            <IonModal isOpen={isOpen}>
-                <ReactPlayer
-                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
-                    controls={false}
-                />
-                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
-            </IonModal>;
         }
 
         if (calibrationRequired && currentDevice) {
@@ -182,6 +172,13 @@ export const SensorManager: React.FunctionComponent = () => {
 
     return (
         <div className={cn()}>
+            <IonModal isOpen={isOpen}>
+                <ReactPlayer
+                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
+                    controls={false}
+                />
+                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            </IonModal>
             {instructions ? (
                 <SensorManagerInstructions
                     highlight={calibrationLoading}

@@ -5,7 +5,7 @@ import { IonText } from '@ionic/react';
 import { routesMapping } from '@app/routes';
 import { classname } from '@shared/utils';
 
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 
 // import { VideoPlayer } from '@widgets/video';
 
