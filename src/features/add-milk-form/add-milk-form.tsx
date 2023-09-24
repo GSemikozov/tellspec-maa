@@ -4,8 +4,8 @@ import { IonCol, IonRow, IonSelectOption, useIonAlert, useIonRouter } from '@ion
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { PreemieSelect, PreemieInput, CustomButton } from '@ui';
-import { usePreemieToast, PageArea } from '@shared/ui';
+import { PreemieSelect, PreemieInput, PreemieButton, usePreemieToast } from '@ui';
+import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { userSelectors } from '@entities/user';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
@@ -308,32 +308,32 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     </IonRow>
 
                     <IonRow className={cn('actions')}>
-                        <CustomButton
+                        <PreemieButton
                             className='button'
                             size='small'
                             disabled={isFetching || disabledSubmit}
                             onClick={handleAddMilkAndClearForm}
                         >
                             {isFetching ? 'Loading...' : 'Save & Add Another Milk'}
-                        </CustomButton>
+                        </PreemieButton>
 
-                        <CustomButton
+                        <PreemieButton
                             className='button'
                             size='small'
                             disabled={isFetching || disabledSubmit}
                             onClick={handleAddMilkAndClose}
                         >
                             {isFetching ? 'Loading...' : 'Save this Milk and Close'}
-                        </CustomButton>
+                        </PreemieButton>
 
-                        <CustomButton
+                        <PreemieButton
                             className='button'
                             size='small'
                             disabled={isFetching || disabledSubmit}
                             onClick={handleAddMilkAndAnalyse}
                         >
                             {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
-                        </CustomButton>
+                        </PreemieButton>
                     </IonRow>
                 </PageArea.Main>
             </PageArea>

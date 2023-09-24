@@ -1,6 +1,7 @@
 import { IonButton } from '@ionic/react';
+
 import './button.css';
 
-export const CustomButton = (props: any) => {
+export const PreemieButton = (props: any) => {
     return <IonButton {...props} className='custom-button' />;
 };

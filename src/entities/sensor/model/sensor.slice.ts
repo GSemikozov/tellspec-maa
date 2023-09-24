@@ -7,6 +7,8 @@ import {
     removeDevice,
     runSensorScan,
     getSensorStatus,
+    getSensorCalibration,
+    getSensorScanner,
 } from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
@@ -15,11 +17,9 @@ const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     calibrationRequired: false,
     currentDevice: null,
+    lastCalibration: null,
+    sensorScannerData: null,
     pairedDevices: [],
-
-    scannerActive: false,
-    sensorModel: '',
-    enSensorEmulation: true,
 
     sensorScanning: {
         status: 'idle',
@@ -43,7 +43,28 @@ export const sensorSlice = createSlice({
             state.currentDevice = {
                 ...currentDevice,
                 batteryLevel: action.payload.battery,
+                humidity: action.payload.humidity,
+                temperature: action.payload.temperature,
+                lampTime: action.payload.lampTime,
             };
+        });
+
+        // get sensor calibration
+        builder.addCase(getSensorCalibration.fulfilled, (state, action) => {
+            if (!action.payload) {
+                return;
+            }
+
+            state.lastCalibration = action.payload;
+        });
+
+        // get sensor scanner
+        builder.addCase(getSensorScanner.fulfilled, (state, action) => {
+            if (!action.payload) {
+                return;
+            }
+
+            state.sensorScannerData = action.payload;
         });
 
         // connect sensor device

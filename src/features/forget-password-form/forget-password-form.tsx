@@ -4,9 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { usePreemieToast } from '@shared/ui';
-import { PreemieInput } from '@ui/input';
-import { CustomButton } from '@ui/button';
+import { usePreemieToast, PreemieInput, PreemieButton } from '@ui';
 import { userAsyncActions, userSelectors } from '@entities/user';
 import { routesMapping } from '@app/routes.ts';
 
@@ -63,9 +61,9 @@ export const ForgetPasswordForm: React.FunctionComponent = () => {
 
                 {requestError ? <div className='error'>{requestError}</div> : null}
 
-                <CustomButton type='submit' expand='block' size='default' disabled={isFetching}>
+                <PreemieButton type='submit' expand='block' size='default' disabled={isFetching}>
                     {isFetching ? 'loading...' : 'Reset password'}
-                </CustomButton>
+                </PreemieButton>
 
                 <h5 className='forgot-password'>
                     <IonText>

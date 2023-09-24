@@ -36,6 +36,16 @@ export const selectSensorCalibrationReady = createSelector(
     calibrationStatus => [CalibrationStatus.READY].includes(calibrationStatus),
 );
 
+export const selectSensorCalibration = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.lastCalibration,
+);
+
+export const selectSensorScannerData = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.sensorScannerData,
+);
+
 export const selectSensorDevice = createSelector(
     [selectSensorState],
     sensorState => sensorState.currentDevice,

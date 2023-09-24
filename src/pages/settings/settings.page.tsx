@@ -65,7 +65,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option')}>
-                                        <p>Paired to</p>
+                                        <p>Paired with</p>
 
                                         <div className={cn('section-option-action')}>
                                             {pairedDevices.map(pairedDevice => (

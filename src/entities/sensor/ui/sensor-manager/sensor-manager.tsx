@@ -1,9 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { IonButton, IonModal, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
-
-import ReactPlayer from 'react-player';
 
 import { classname } from '@shared/utils';
 import {
@@ -31,9 +29,15 @@ const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
-    const handleOpenModal = useCallback(() => {
-        setIsOpen(prev => !prev);
-    }, [setIsOpen]);
+    const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
+
+    const handleChooseSensorInformationVideo = (video: string) => () => {
+        setSensorInformationVideo(video);
+    };
+
+    const handleResetSensorInformationVideo = () => {
+        setSensorInformationVideo(null);
+    };
 
     const {
         status: sensorConnectionProcessStatus,
@@ -89,9 +93,50 @@ export const SensorManager: React.FunctionComponent = () => {
                                 <h2>
                                     <IonText>Videos</IonText>
                                 </h2>
-                                <IonButton onClick={handleOpenModal}>Analyses</IonButton>
-                                <IonButton>Cleaning </IonButton>
+
+                                <IonButton onClick={handleChooseSensorInformationVideo('analyses')}>
+                                    Analyses
+                                </IonButton>
+
+                                <IonButton onClick={handleChooseSensorInformationVideo('cleaning')}>
+                                    Cleaning
+                                </IonButton>
                             </div>
+
+                            <IonModal
+                                isOpen={Boolean(sensorInformationVideo)}
+                                className={cn('video-modal')}
+                                onDidDismiss={handleResetSensorInformationVideo}
+                            >
+                                {sensorInformationVideo === 'analyses' ? (
+                                    <div className={cn('video')}>
+                                        <video autoPlay controls>
+                                            <source
+                                                type='video/mp4'
+                                                src='./videos/preemie-sept-15.mp4'
+                                            />
+                                        </video>
+                                    </div>
+                                ) : null}
+
+                                {sensorInformationVideo === 'cleaning' ? (
+                                    <div className={cn('video')}>
+                                        <video autoPlay controls>
+                                            <source
+                                                type='video/mp4'
+                                                src='./videos/cleaning-video.mp4'
+                                            />
+                                        </video>
+                                    </div>
+                                ) : null}
+
+                                <IonButton
+                                    className={cn('close-button')}
+                                    onClick={handleResetSensorInformationVideo}
+                                >
+                                    Close
+                                </IonButton>
+                            </IonModal>
                         </div>
                     </>
                 ),
@@ -135,6 +180,7 @@ export const SensorManager: React.FunctionComponent = () => {
         currentDevice,
         calibrateSensor,
         removeSensor,
+        sensorInformationVideo,
         sensorConnectionProcessStatus,
         calibrationDisconnected,
         calibrationRequired,

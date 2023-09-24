@@ -2,12 +2,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonLabel, IonSegment, IonSegmentButton, useIonRouter } from '@ionic/react';
 
-import { BarcodeScanner } from '@ui';
+import { usePreemieToast, BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
 import { apiInstance } from '@api/network';
 import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
-import { usePreemieToast, PageArea } from '@shared/ui';
+import { PageArea } from '@shared/ui';
 import { selectUserEmail } from '@entities/user/model/user.selectors';
 import { CalibrationType, runSensorScan, selectSensorDevice } from '@entities/sensor';
 import { extractReportAnalyseData } from '@entities/reports';

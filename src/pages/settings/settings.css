@@ -47,13 +47,14 @@
 
 .settings__section-option-action ion-select {
     width: 190px;
-
+    margin-right: 1rem;
     font-size: 1.6rem;
 }
 
 .settings__chip-text {
     padding-top: 1px;
     user-select: none;
+    margin-right: 1rem;
 }
 
 .settings__chip-icon {

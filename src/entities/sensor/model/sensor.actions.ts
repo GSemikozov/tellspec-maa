@@ -112,6 +112,25 @@ export const connectSensorDevice = createAsyncThunk(
     },
 );
 
+export const getSensorCalibration = createAsyncThunk(
+    'sensor/getCalibration',
+    async (_, thunkAPI) => {
+        const { sensor } = thunkAPI.getState() as RootState;
+
+        if (!sensor.currentDevice || !sensor.currentDevice.activeConfig) {
+            return;
+        }
+
+        const calibrationData = await apiInstance.sensor.getCalibration(
+            sensor.currentDevice.name,
+            sensor.currentDevice.serial,
+            sensor.currentDevice.activeConfig,
+        );
+
+        return calibrationData;
+    },
+);
+
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
@@ -259,4 +278,19 @@ export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async 
         console.error(error);
         throw new Error('Someting goes wrong on getting sensor status. Try again later');
     }
+});
+
+export const getSensorScanner = createAsyncThunk('sensor/getSensorScanner', async (_, thunkAPI) => {
+    const { sensor } = thunkAPI.getState() as RootState;
+
+    if (!sensor.currentDevice) {
+        return;
+    }
+
+    const sensorScanner = await apiInstance.sensor.getScanner(
+        sensor.currentDevice.name,
+        sensor.currentDevice.serial,
+    );
+
+    return sensorScanner;
 });

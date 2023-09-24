@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { usePreemieToast } from '@shared/ui';
+import { usePreemieToast } from '@ui';
 import { AppDispatch } from '@app';
 
 import { calibrateSensorDevice } from '../model';

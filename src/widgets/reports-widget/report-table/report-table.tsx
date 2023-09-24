@@ -139,7 +139,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                                               header.getContext(),
                                           )}
                                     {
-                                        { asc: '⬆️', desc: '⬇️' }[
+                                        { asc: '▲', desc: '▼' }[
                                             (header.column.getIsSorted() as string) ?? null
                                         ]
                                     }

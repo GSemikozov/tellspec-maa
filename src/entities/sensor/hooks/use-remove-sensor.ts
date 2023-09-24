@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { usePreemieToast } from '@shared/ui';
-import { AppDispatch } from '@app';
+import { usePreemieToast } from '@ui';
 import { useEvent } from '@shared/hooks';
+import { AppDispatch } from '@app';
 
 import { removeDevice } from '../model';
 

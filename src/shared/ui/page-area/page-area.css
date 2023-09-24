@@ -11,14 +11,13 @@
     justify-content: space-between;
 
     min-height: 86px;
+    padding: 0 20px;
 }
 
 .page-area__header-title {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-
-    padding-left: 20px;
 }
 
 .page-area__header-title-icon {

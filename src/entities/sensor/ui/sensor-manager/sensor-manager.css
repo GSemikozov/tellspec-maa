@@ -26,3 +26,24 @@
     width: 60%; */
     margin-top: 1rem !important;
 }
+
+.sensor-manager__video-modal {
+    --width: 80%;
+    --height: 90%;
+}
+.sensor-manager__video {
+    width: 100%;
+}
+
+.sensor-manager__video video {
+    margin: 1.5rem;
+    width: 97%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sensor-manager__close-button {
+    margin: 2rem;
+}
+
+ 
