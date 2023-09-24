@@ -53,7 +53,7 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
 
                         <div className={cn('main-actions')}>
                             <IonButton fill='outline' color='tertiary' onClick={onCancelDiscovery}>
-                                Cancel discovery
+                                Cancel
                             </IonButton>
                         </div>
                     </div>

@@ -5,7 +5,7 @@ export const STATUS_TOAST_MESSAGE: Partial<Record<SensorConnectionProcessStatus,
     error: 'Something went wrong',
 
     checkingBle: 'Check BLE permissions and connection status...',
-    discovering: 'Discover for sensors... Found: ${count} sensors',
+    discovering: 'Searching sensors... Found: ${count} sensor',
     pairingDiscovedDevice: 'Pairing sensor...',
     pairingSuccess: 'Paring was a success',
 };

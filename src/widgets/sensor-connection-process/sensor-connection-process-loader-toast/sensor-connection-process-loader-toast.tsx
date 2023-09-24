@@ -47,7 +47,7 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
             }
 
             buttons.push({
-                text: 'Cancel discovery',
+                text: 'Cancel',
                 role: 'cancel',
                 handler: handleCancelDiscoveryEvent,
             });

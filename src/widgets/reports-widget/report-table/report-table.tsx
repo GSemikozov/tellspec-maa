@@ -130,8 +130,8 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => (
                                 <th
-                                    key={header.id}
-                                    onClick={header.column.getToggleSortingHandler()}
+                                key={header.id}
+                                onClick={header.column.getToggleSortingHandler()}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -139,7 +139,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                                               header.column.columnDef.header,
                                               header.getContext(),
                                           )}
-                                    {{ asc: '⬆️', desc: '⬇️' }[header.column.getIsSorted() as string ?? null]}
+                                    {{ asc: '▲', desc: '▼' }[header.column.getIsSorted() as string ?? null]}
                                 </th>
                             ))}
                         </tr>

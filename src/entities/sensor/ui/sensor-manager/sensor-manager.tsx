@@ -23,6 +23,8 @@ import { tellspecAddListener } from '@api/native';
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
 
+import CleaningVideo from '../../../../../assets/video/Cleaning Video.mp4';
+
 import './sensor-manager.css';
 
 import type { PluginListenerHandle } from '@capacitor/core';
@@ -89,18 +91,17 @@ export const SensorManager: React.FunctionComponent = () => {
                                 <h2>
                                     <IonText>Videos</IonText>
                                 </h2>
-                                <IonButton onClick={handleOpenModal}>Analyses</IonButton>
-                                <IonButton>Cleaning </IonButton>
+                                <IonButton>Analyses</IonButton>
+                                <IonButton onClick={handleOpenModal}>Cleaning </IonButton>
                             </div>
-                        
+
                             <IonModal isOpen={isOpen}>
-                                <ReactPlayer
-                                    url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>'
-                                    controls={false}
-                                />
+                                <video autoPlay>
+                                    <source src={CleaningVideo} type='video/mp4' />
+                                </video>
+
                                 <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
                             </IonModal>
-                        
                         </div>
                     </>
                 ),
