@@ -2,7 +2,7 @@ import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TickIcon, TargetOfflineIcon, SensorIcon, CloseIcon } from '@ui/icons';
+import { TickIcon, TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
@@ -118,7 +118,10 @@ export const SensorPage: React.FunctionComponent = () => {
                                             })}
                                         >
                                             {/** @ts-ignore */}
-                                            {currentDevice.pga || 16}% RH
+                                            {
+                                                currentDevice?.activeCal.scan['scan-info']
+                                                    .dlp_header.pga
+                                            }
                                         </div>
                                     </div>
 
@@ -130,7 +133,11 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.humidity || 51}% RH
+                                            {
+                                                currentDevice?.activeCal.scan['scan-info']
+                                                    .dlp_header.humidity
+                                            }
+                                            % RH
                                         </div>
                                     </div>
 
@@ -142,29 +149,24 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.temperature || 24} °C
+                                            {currentDevice?.activeCal.scan['scan-info'].dlp_header
+                                                .temperature || 24}{' '}
+                                            °C
                                         </div>
                                     </div>
 
                                     <div className={cn('section-option')}>
                                         <p>Paired with</p>
 
-                                        <div className={cn('section-option-action')}>
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
                                             {pairedDevices.map(pairedDevice => (
-                                                <IonChip key={pairedDevice.uuid}>
-                                                    <IonText
-                                                        className={cn('chip-text')}
-                                                        onClick={() =>
-                                                            removeSensor(pairedDevice.uuid)
-                                                        }
-                                                    >
-                                                        {pairedDevice.name}
-                                                    </IonText>
-
-                                                    <div className={cn('chip-icon')}>
-                                                        <CloseIcon size={16} />
-                                                    </div>
-                                                </IonChip>
+                                                <div key={pairedDevice.uuid}>
+                                                    {pairedDevice.name}
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
@@ -196,7 +198,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                             })}
                                         >
                                             {/** @ts-ignore */}
-                                            {currentDevice.number_scans || 0}
+                                            {sensorScannerData?.number_scans}
                                         </div>
                                     </div>
                                 </div>

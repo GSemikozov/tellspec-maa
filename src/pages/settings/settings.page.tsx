@@ -1,13 +1,12 @@
 import React from 'react';
-import { IonChip, IonContent, IonPage, IonSelect, IonSelectOption, IonText } from '@ionic/react';
+import { IonChip, IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CloseIcon, SettingsIcon, TargetOfflineIcon } from '@ui/icons';
+import { SettingsIcon } from '@ui/icons';
 import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { userSelectors } from '@entities/user';
 import { selectGroupFreezers, fetchGroup } from '@entities/groups';
-import { selectSensorPairedDevices, useCalibrateSensor, useRemoveSensor } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
 import { AppDispatch } from '@app';
 
@@ -20,12 +19,8 @@ const expirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 month
 export const SettingsPage: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
-    const [removeSensor] = useRemoveSensor();
-
     const groupId = useSelector(userSelectors.selectGroupId);
 
-    const pairedDevices = useSelector(selectSensorPairedDevices);
     const freezersList = useSelector(selectGroupFreezers);
 
     React.useEffect(() => {
@@ -47,48 +42,13 @@ export const SettingsPage: React.FunctionComponent = () => {
                             <div className={cn('container')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>
-                                        <p>Preemie Sensor</p>
-
-                                        <IonChip
-                                            className={cn('calibrate-sensor')}
-                                            disabled={calibrateSensorLoading}
-                                            onClick={calibrateSensor}
-                                        >
-                                            <IonText className={cn('chip-text')}>
-                                                Calibrate sensor
-                                            </IonText>
-
-                                            <div className={cn('chip-icon')}>
-                                                <TargetOfflineIcon size={20} color='currentColor' />
-                                            </div>
-                                        </IonChip>
+                                        <p>About</p>
                                     </div>
 
                                     <div className={cn('section-option')}>
-                                        <p>Paired with</p>
+                                        <p>Hardware data</p>
 
-                                        <div className={cn('section-option-action')}>
-                                            {pairedDevices.map(pairedDevice => (
-                                                <IonChip key={pairedDevice.uuid}>
-                                                    <IonText
-                                                        className={cn('chip-text')}
-                                                        onClick={() =>
-                                                            removeSensor(pairedDevice.uuid)
-                                                        }
-                                                    >
-                                                        {pairedDevice.name}
-                                                    </IonText>
-
-                                                    <div className={cn('chip-icon')}>
-                                                        <CloseIcon size={16} />
-                                                    </div>
-                                                </IonChip>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className={cn('section-option', { disabled: true })}>
-                                        <p>Pair another sensor</p>
+                                        <div className={cn('section-option-action')}></div>
                                     </div>
                                 </div>
 

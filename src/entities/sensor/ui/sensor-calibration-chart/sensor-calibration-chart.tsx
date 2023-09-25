@@ -25,5 +25,9 @@ export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationCh
     console.log('calibrationScanData options', options);
     console.log('calibrationScanData series', series);
 
+    if (!options && !series) {
+        return null;
+    }
+
     return <Chart type='line' height={350} options={options} series={series} />;
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import type { BaseIconProps } from '../../src/ui/icons/types';
+
+import type { BaseIconProps } from '../icons/types';
 import './logoAnimation.css';
 
 export const LogoAnimation: React.FunctionComponent<BaseIconProps> = () => {
