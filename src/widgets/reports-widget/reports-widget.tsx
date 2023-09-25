@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LogoAnimation } from '@ui/logo/animated-logo';
 import { DateRange } from '@ui/date-range';
 import { ReportsIcon } from '@ui/icons';
 import { PageArea } from '@shared/ui';
@@ -46,7 +47,12 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
     const renderMain = React.useMemo(() => {
         if (reportsLoading) {
-            return <div className={cn('placeholder')}>Loading...</div>;
+            return (
+                <div className={cn('placeholder')}>
+                    <LogoAnimation />
+                    Loading...
+                </div>
+            );
         }
 
         return <ReportTable reports={reports} />;

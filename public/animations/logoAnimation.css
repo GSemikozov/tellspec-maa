@@ -1,0 +1,27 @@
+#baby {
+    animation: rocking 6s linear infinite;
+    animation-fill-mode: forwards;
+}
+
+@keyframes rocking {
+    0% {
+        transform: rotate(3deg);
+    }
+    20% {
+        transform: rotate(10deg);
+    }
+    40% {
+        transform: rotate(3deg);
+        transform: translate(-0.5rem, 0.5rem);
+    }
+    60% {
+        transform: rotate(-3deg);
+        transform: translate(-1.5rem, 1rem);
+    }
+    80% {
+        transform: rotate(10deg);
+    }
+    100%{
+        transform: rotate(3deg);
+    }
+}

@@ -5,6 +5,7 @@ import { IonText } from '@ionic/react';
 import { routesMapping } from '@app/routes';
 import { classname } from '@shared/utils';
 
+
 import './nav-tiles.css';
 
 const cn = classname('nav-tiles');
@@ -96,7 +97,7 @@ export const NavTiles: React.FunctionComponent = () => {
                     </IonText>
                 </div>
             </Link>
-            {/* {<ReactPlayer url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>' controls />} */}
+   
         </div>
     );
 };
