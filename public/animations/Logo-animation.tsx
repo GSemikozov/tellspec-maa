@@ -5,8 +5,8 @@ import './logoAnimation.css';
 export const LogoAnimation: React.FunctionComponent<BaseIconProps> = () => {
     return (
         <svg
-            width='260'
-            height='200'
+            width='60'
+            height='50'
             viewBox='0 0 160 192'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'

@@ -14,7 +14,8 @@ import type { AppDispatch } from '@app';
 
 // import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
-import { IonCheckbox } from '@ionic/react';
+// import { IonCheckbox } from '@ionic/react';
+import {LogoAnimation} from '../../../public/animations/Logo-animation'
 
 const cn = classname('reports-widget');
 
@@ -46,7 +47,13 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
     const renderMain = React.useMemo(() => {
         if (reportsLoading) {
-            return <div className={cn('placeholder')}>Loading...</div>;
+            return (
+                <div className={cn('placeholder')}>
+                    <LogoAnimation />
+                    Loading...
+                </div>
+            );
+            
         }
 
         return <ReportTable reports={reports} />;
