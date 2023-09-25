@@ -5,7 +5,6 @@ import { IonText } from '@ionic/react';
 import { routesMapping } from '@app/routes';
 import { classname } from '@shared/utils';
 
-import {LogoAnimation} from '../../../public/animations/Logo-animation.tsx'
 
 import './nav-tiles.css';
 
@@ -98,7 +97,7 @@ export const NavTiles: React.FunctionComponent = () => {
                     </IonText>
                 </div>
             </Link>
-          <LogoAnimation />
+   
         </div>
     );
 };
