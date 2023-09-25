@@ -14,7 +14,7 @@ import type { AppDispatch } from '@app';
 
 // import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
-import { IonCheckbox } from '@ionic/react';
+// import { IonCheckbox } from '@ionic/react';
 
 const cn = classname('reports-widget');
 
@@ -64,7 +64,6 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 }
                 className={cn('header')}
             />
-               
 
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 

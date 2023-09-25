@@ -44,6 +44,7 @@ export const tellspecAddListener = (eventName: SensorEvent, listenerFunc: Listen
 };
 
 export const tellspecGetSensorStatus = async () => {
+    console.log('run tellspecGetSensorStatus');
     return TellspecSensorSdk.getSensorStatus();
 };
 
@@ -146,7 +147,7 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
 
     // get the scanner data
     const scannerData = await apiInstance.sensor.getScanner(device.name, device.serial);
-    console.log(scannerData);
+    console.log('scannerData', scannerData);
 
     const storageDeviceCalibration = await nativeStore.get(NativeStorageKeys.DEVICE_CALIBRATION);
 

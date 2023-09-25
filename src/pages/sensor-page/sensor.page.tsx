@@ -2,7 +2,7 @@ import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TickIcon, TargetOfflineIcon, SensorIcon } from '@ui/icons';
+import { TickIcon, TargetOfflineIcon, SensorIcon, CloseIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
@@ -15,6 +15,7 @@ import {
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
+    selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
 
@@ -33,6 +34,8 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
     const sensorCalibration = useSelector(selectSensorCalibration);
+
+    const pairedDevices = useSelector(selectSensorPairedDevices);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -65,6 +68,10 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
+    console.log('currentDevice', currentDevice);
+    console.log('sensorScannerData', sensorScannerData);
+    console.log('sensorCalibration', sensorCalibration);
+
     return (
         <IonPage>
             <IonContent>
@@ -96,9 +103,22 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 </div>
 
                                                 <IonText className={cn('chip-text')}>
-                                                    {currentDevice.uuid}
+                                                    {currentDevice.serial}
                                                 </IonText>
                                             </IonChip>
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Pga</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {/** @ts-ignore */}
+                                            {currentDevice.pga || 16}% RH
                                         </div>
                                     </div>
 
@@ -110,7 +130,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.humidity}% RH
+                                            {currentDevice.humidity || 51}% RH
                                         </div>
                                     </div>
 
@@ -122,7 +142,30 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.temperature} °C
+                                            {currentDevice.temperature || 24} °C
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Paired with</p>
+
+                                        <div className={cn('section-option-action')}>
+                                            {pairedDevices.map(pairedDevice => (
+                                                <IonChip key={pairedDevice.uuid}>
+                                                    <IonText
+                                                        className={cn('chip-text')}
+                                                        onClick={() =>
+                                                            removeSensor(pairedDevice.uuid)
+                                                        }
+                                                    >
+                                                        {pairedDevice.name}
+                                                    </IonText>
+
+                                                    <div className={cn('chip-icon')}>
+                                                        <CloseIcon size={16} />
+                                                    </div>
+                                                </IonChip>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +183,20 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            4
+                                            not available
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Number of scans</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {/** @ts-ignore */}
+                                            {currentDevice.number_scans || 0}
                                         </div>
                                     </div>
                                 </div>
@@ -207,10 +263,12 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                     {sensorCalibration ? (
                                         <div className={cn('section-option')}>
-                                            <p>Spectrum of last calibration</p>
-                                            <SensorCalibrationChart
-                                                calibration={sensorCalibration}
-                                            />
+                                            <div>
+                                                <p>Spectrum of last calibration</p>
+                                                <SensorCalibrationChart
+                                                    calibration={sensorCalibration}
+                                                />
+                                            </div>
                                         </div>
                                     ) : null}
                                 </div>

@@ -21,5 +21,9 @@ export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationCh
         };
     }, [calibration]);
 
-    return <Chart type='line' height={300} options={options} series={series} />;
+    console.log('calibrationScanData calibration', calibration);
+    console.log('calibrationScanData options', options);
+    console.log('calibrationScanData series', series);
+
+    return <Chart type='line' height={350} options={options} series={series} />;
 };
