@@ -22,7 +22,6 @@ export default defineConfig({
             '@api': path.resolve(rootDir, 'src/api'),
             '@ui': path.resolve(rootDir, 'src/ui'),
             '@shared': path.resolve(rootDir, 'src/shared'),
-            '@public': path.resolve(rootDir, 'public'),
 
             $fonts: path.resolve(rootDir, 'public/fonts'),
         },

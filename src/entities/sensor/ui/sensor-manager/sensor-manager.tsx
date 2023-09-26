@@ -178,16 +178,14 @@ export const SensorManager: React.FunctionComponent = () => {
                 </SensorManagerInstructions>
             ) : null}
 
-            <div className={cn('actions-buttons')}>
-                <IonTitle className='ion-no-padding ion-no-margin ion-margin-bottom'>
-                    Videos
-                </IonTitle>
+            <div className={cn('actions-buttons ion-margin-bottom')}>
+                <IonTitle className='ion-no-padding ion-no-margin'>Videos</IonTitle>
 
                 <IonButton
                     className='ion-no-margin'
                     onClick={handleChooseSensorInformationVideo('analyses')}
                 >
-                    Analyses
+                    Analysis
                 </IonButton>
 
                 <IonButton

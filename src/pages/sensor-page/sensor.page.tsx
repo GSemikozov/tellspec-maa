@@ -2,7 +2,7 @@ import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TickIcon, TargetOfflineIcon, SensorIcon } from '@ui/icons';
+import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
@@ -98,10 +98,6 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                         <div className={cn('section-option-action')}>
                                             <IonChip>
-                                                <div className={cn('chip-icon', { start: true })}>
-                                                    <TickIcon size={18} color='currentColor' />
-                                                </div>
-
                                                 <IonText className={cn('chip-text')}>
                                                     {currentDevice.serial}
                                                 </IonText>
@@ -133,10 +129,10 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {
+                                            {Number(
                                                 currentDevice?.activeCal.scan['scan-info']
-                                                    .dlp_header.humidity
-                                            }
+                                                    .dlp_header.humidity,
+                                            ).toFixed()}
                                             % RH
                                         </div>
                                     </div>
@@ -204,7 +200,8 @@ export const SensorPage: React.FunctionComponent = () => {
                                 </div>
                             </div>
 
-                            <div className={cn('section-grid')}>
+                            {/** TODO: available only for admins */}
+                            {/* <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>
                                         <p>Configuration</p>
@@ -222,7 +219,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>

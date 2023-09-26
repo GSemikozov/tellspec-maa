@@ -59,7 +59,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
         resolver: yupResolver(validationSchema),
-        mode: 'onBlur',
+        mode: 'onBlur', // onChange - when the values change... check for errors
         reValidateMode: 'onBlur',
     });
 

@@ -272,12 +272,9 @@ export const runSensorScan = createAsyncThunk('sensor/runScan', async (userEmail
 export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async () => {
     console.log('getSensorStatus sensorStatus start');
     try {
-        console.log('getSensorStatus  sensorStatus in try');
         const sensorStatus = await tellspecGetSensorStatus();
-        console.log('getSensorStatus sensorStatus', sensorStatus);
         return sensorStatus;
     } catch (error) {
-        console.log('getSensorStatus catch');
         console.error(error);
         throw new Error('Someting goes wrong on getting sensor status. Try again later');
     }

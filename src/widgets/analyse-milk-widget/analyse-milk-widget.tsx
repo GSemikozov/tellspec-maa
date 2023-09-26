@@ -39,7 +39,9 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const [presentToast] = usePreemieToast();
 
     const [milkId, setMilkId] = React.useState<string>('');
-    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(AnalyseWidgetTabs.SPECTRUM);
+    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
+        AnalyseWidgetTabs.TEST_RESULTS,
+    );
 
     const [analyseMilkLoading, setAnalyseMilkLoading] = React.useState(false);
     const [, setModelScannedData] = React.useState<any>(null);
