@@ -227,23 +227,23 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                         disabled={!hasMilkId}
                         onIonChange={handleChangeTab}
                     >
-                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
-                            <IonLabel>Spectrum</IonLabel>
-                        </IonSegmentButton>
-
                         <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
                             <IonLabel>Test Results</IonLabel>
+                        </IonSegmentButton>
+                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
+                            <IonLabel>Spectrum</IonLabel>
                         </IonSegmentButton>
                     </IonSegment>
 
                     <div className={cn('tab')}>{activeTabComponent}</div>
 
-                    {showActions ? (
+                    {showActions && reportMilk ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleAnalyseMilk}
+                                report={reportMilk}
                             />
                         </div>
                     ) : null}

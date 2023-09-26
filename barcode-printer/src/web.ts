@@ -1,10 +1,16 @@
-import { registerPlugin, WebPlugin } from '@capacitor/core';
-import { BarcodePrinterPlugin } from './definitions';
+import { registerWebPlugin, WebPlugin } from '@capacitor/core';
 
-registerPlugin<BarcodePrinterPlugin>('BarcodePrinter');
+import type { BarcodePrinterPlugin } from './definitions';
 
 export class BarcodePrinterWeb extends WebPlugin implements BarcodePrinterPlugin {
-  async createInstance(options: {}): Promise<any> {
+  constructor() {
+    super({
+      name: 'BarcodePrinter',
+      platforms: ['web'],
+    });
+  }
+
+  async createInstance(options: NonNullable<unknown>): Promise<any>{
     return options
   }
 
@@ -46,5 +52,7 @@ export class BarcodePrinterWeb extends WebPlugin implements BarcodePrinterPlugin
 }
 
 const BarcodePrinter = new BarcodePrinterWeb();
+
+registerWebPlugin(BarcodePrinter);
 
 export { BarcodePrinter };
