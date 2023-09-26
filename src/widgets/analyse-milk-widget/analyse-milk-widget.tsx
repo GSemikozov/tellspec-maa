@@ -227,12 +227,11 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                         disabled={!hasMilkId}
                         onIonChange={handleChangeTab}
                     >
-                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
-                            <IonLabel>Spectrum</IonLabel>
-                        </IonSegmentButton>
-
                         <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
                             <IonLabel>Test Results</IonLabel>
+                        </IonSegmentButton>
+                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
+                            <IonLabel>Spectrum</IonLabel>
                         </IonSegmentButton>
                     </IonSegment>
 

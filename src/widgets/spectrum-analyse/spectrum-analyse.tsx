@@ -52,7 +52,7 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
         if (!spectrumScan) {
             return (
                 <div className={cn('placeholder')}>
-                    We haven't found a analysed data for this milk
+                    This milk has not been analysed.
                 </div>
             );
         }

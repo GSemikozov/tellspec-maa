@@ -78,14 +78,14 @@ export const SensorManager: React.FunctionComponent = () => {
                 content: (
                     <>
                         <p>
-                            If this is the first time you are using the Preemie Sensor, please click
-                            to see videos that explains how to run analyses and how to clean the
-                            couvette.
+                            Tap a button below for a video showing how to switch the Preemie Sensor
+                            on and analyse a milk sample, and another showing how to clean the
+                            cuvette which held the sample.
                         </p>
 
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
-                                Connect Sensor
+                                Select Sensor
                             </IonButton>
                         </div>
                     </>
@@ -178,8 +178,10 @@ export const SensorManager: React.FunctionComponent = () => {
                 </SensorManagerInstructions>
             ) : null}
 
-            <div className={cn('actions-buttons ion-margin-bottom')}>
-                <IonTitle className='ion-no-padding ion-no-margin'>Videos</IonTitle>
+            <div className={cn('actions-buttons')}>
+                <IonTitle className='ion-no-padding ion-no-margin ion-margin-bottom '>
+                    Videos
+                </IonTitle>
 
                 <IonButton
                     className='ion-no-margin'
