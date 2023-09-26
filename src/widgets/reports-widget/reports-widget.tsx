@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LogoAnimation } from '@ui/logo/animated-logo';
@@ -28,21 +28,24 @@ export const ReportsWidget: React.FunctionComponent = () => {
     const reportsLoading = useSelector(selectIsReportLoading);
     const reports = useSelector(state => selectReportsByDate(state, from, to));
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(
             fetchReport({
-                last_modified_gte: from !== '' ? from : undefined,
-                last_modified_lte: to !== '' ? to : undefined,
+                last_modified_gte: undefined,
+                last_modified_lte: undefined,
             }),
         );
-    }, [from, to]);
+    }, []);
 
-    const handleDateRangeChange = (name: string, value: string) => {
-        if (name === 'from') {
-            setFrom(value);
-        } else {
-            setTo(value);
-        }
+    const handleDateRangeChange = range => {
+        setFrom(range.from);
+        setTo(range.to);
+        dispatch(
+            fetchReport({
+                last_modified_gte: range.from,
+                last_modified_lte: range.to,
+            }),
+        );
     };
 
     const renderMain = React.useMemo(() => {
@@ -65,7 +68,11 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 icon={<ReportsIcon />}
                 actions={
                     reportsLoading ? null : (
-                        <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                        <DateRange
+                            defaultFrom={from}
+                            defaultTo={to}
+                            onChange={handleDateRangeChange}
+                        />
                     )
                 }
                 className={cn('header')}

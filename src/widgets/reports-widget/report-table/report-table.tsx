@@ -23,6 +23,15 @@ const columnHelper = createColumnHelper<Report>();
 const columns = [
     columnHelper.display({
         id: 'select',
+        header: info => (
+            <IonCheckbox
+                {...{
+                    checked: info.table.getIsAllRowsSelected(),
+                    disabled: info.table.getRowModel().rows.length === 0,
+                    onIonChange: info.table.getToggleAllRowsSelectedHandler(),
+                }}
+            />
+        ),
         cell: info => (
             <IonCheckbox
                 {...{
@@ -46,6 +55,14 @@ const columns = [
             }
 
             return 'true';
+        },
+    }),
+
+    columnHelper.accessor(row => row.created_at, {
+        header: 'Date',
+        cell: info => {
+            const date = info.getValue();
+            return date.split(' ').map(value => <div>{value}</div>);
         },
     }),
 
