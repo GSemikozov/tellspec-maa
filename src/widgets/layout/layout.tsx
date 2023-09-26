@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCol, IonGrid, IonRow } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { SensorManager } from '@entities/sensor';
@@ -8,6 +8,7 @@ import { Alert } from '@features/alert';
 import { Backdrop } from '@features/backdrop';
 import { Header } from '@widgets/header';
 import { selectIsSidebarOpen } from '@app/model';
+
 
 import './layout.css';
 
@@ -34,23 +35,25 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                     <IonCol size='9.5'>
                         <Header />
 
+                            <IonContent scrollX>
                         <div className='layout-body'>
-                            <IonRow>
-                                {/* TODO: something strange is here in the size property */}
-                                <IonCol
-                                    size={showSidebar ? '7' : '12'}
-                                    className='ion-padding main'
-                                >
-                                    {children}
-                                </IonCol>
-
-                                {showSidebar ? (
-                                    <IonCol size='5' className='ion-padding'>
-                                        {rightSideBar}
+                                <IonRow>
+                                    {/* TODO: something strange is here in the size property */}
+                                    <IonCol
+                                        size={showSidebar ? '7' : '12'}
+                                        className='ion-padding main'
+                                    >
+                                        {children}
                                     </IonCol>
-                                ) : null}
-                            </IonRow>
+
+                                    {showSidebar ? (
+                                        <IonCol size='5' className='ion-padding'>
+                                            {rightSideBar}
+                                        </IonCol>
+                                    ) : null}
+                                </IonRow>
                         </div>
+                            </IonContent>
                     </IonCol>
                 </IonRow>
             </IonGrid>
