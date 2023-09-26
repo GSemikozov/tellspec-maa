@@ -69,11 +69,7 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
     }, [reportMilk]);
 
     if (!reportMilk) {
-        return (
-            <div className={cn('placeholder')}>
-                We haven't found a report. Please analyse the milk
-            </div>
-        );
+        return <div className={cn('placeholder')}>This milk has not been analysed</div>;
     }
 
     if (!reportMilk.data.analyseData) {
@@ -84,9 +80,12 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
         );
     }
 
+    // TODO: we have to process somehow multiple scan results on the Test Results page
+    const analyseData = reportMilk.data.analyseData.result || reportMilk.data.analyseData[0];
+
     return (
         <div className={cn('scales')}>
-            {reportMilk.data.analyseData.result.map(data => {
+            {analyseData.map(data => {
                 const { name, units, value } = data;
                 const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
 

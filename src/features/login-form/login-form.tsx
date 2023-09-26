@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { IonItem, IonList, IonText, useIonRouter } from '@ionic/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { Keyboard } from '@capacitor/keyboard';
 
 import { PreemieInput } from '@ui/input';
 import { PreemieButton } from '@ui/button';
@@ -25,8 +26,11 @@ const defaultValues = {
     email: '',
     password: '',
 };
+type KeyboardActions = {
+    hide?: () => Promise<void> | null;
+};
 
-export const LoginForm: React.FunctionComponent = () => {
+export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
     const [visible, setVisibility] = useState(false);
     const authError = useSelector(userSelectors.getError);
 
@@ -38,7 +42,7 @@ export const LoginForm: React.FunctionComponent = () => {
 
     const isFetching = useSelector(userSelectors.isUserFetching);
 
-    const requestError = useSelector(userSelectors.getError);
+    // const requestError = useSelector(userSelectors.getError);
 
     const { register, formState, handleSubmit } = useForm<FieldValues>({
         defaultValues,
@@ -56,6 +60,12 @@ export const LoginForm: React.FunctionComponent = () => {
         e.preventDefault();
         setVisibility(prev => !prev);
     };
+
+    useEffect(() => {
+        if (authError) {
+            Keyboard.hide();
+        }
+    }, [authError]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,6 +100,7 @@ export const LoginForm: React.FunctionComponent = () => {
                                 required: 'This is a required field',
                             })}
                         />
+
                         <div
                             style={{
                                 position: 'absolute',
@@ -108,7 +119,7 @@ export const LoginForm: React.FunctionComponent = () => {
 
                 {authError ? <div className='error'>{authError}</div> : null}
 
-                {requestError ? <div className='error'>{requestError}</div> : null}
+                {/* {requestError ? <div className='error'>{requestError}</div> : null} */}
 
                 <PreemieButton type='submit' expand='block' size='default' disabled={isFetching}>
                     {isFetching ? 'loading...' : 'Log in'}

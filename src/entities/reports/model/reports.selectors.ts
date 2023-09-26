@@ -32,7 +32,7 @@ export const selectReportScanIdByMilkId = createSelector([selectReportByMilkId],
 });
 
 export const selectReportsByDate = createSelector(
-    [selectReportList, (_, from: string, to: string) => [from, to]],
+    [selectReportList, (_, from = '', to = '') => [from, to]],
     (reportList, dateInterval) => {
         const [from, to] = dateInterval;
 
@@ -43,12 +43,10 @@ export const selectReportsByDate = createSelector(
         const startDate = from ? new Date(from) : new Date();
         const endDate = to ? new Date(to) : new Date();
 
-        const result = reportList.filter(report => {
+        return reportList.filter(report => {
             const reportCreatedDate = new Date(report.created_at);
 
             return isAfter(reportCreatedDate, startDate) && isBefore(reportCreatedDate, endDate);
         });
-
-        return result;
     },
 );

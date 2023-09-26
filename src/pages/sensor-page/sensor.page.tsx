@@ -2,7 +2,7 @@ import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { TickIcon, TargetOfflineIcon, SensorIcon } from '@ui/icons';
+import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
@@ -15,6 +15,7 @@ import {
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
+    selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
 
@@ -33,6 +34,8 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
     const sensorCalibration = useSelector(selectSensorCalibration);
+
+    const pairedDevices = useSelector(selectSensorPairedDevices);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -65,6 +68,10 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
+    console.log('currentDevice', currentDevice);
+    console.log('sensorScannerData', sensorScannerData);
+    console.log('sensorCalibration', sensorCalibration);
+
     return (
         <IonPage>
             <IonContent>
@@ -91,14 +98,26 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                         <div className={cn('section-option-action')}>
                                             <IonChip>
-                                                <div className={cn('chip-icon', { start: true })}>
-                                                    <TickIcon size={18} color='currentColor' />
-                                                </div>
-
                                                 <IonText className={cn('chip-text')}>
-                                                    {currentDevice.uuid}
+                                                    {currentDevice.serial}
                                                 </IonText>
                                             </IonChip>
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Pga</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {/** @ts-ignore */}
+                                            {
+                                                currentDevice?.activeCal.scan['scan-info']
+                                                    .dlp_header.pga
+                                            }
                                         </div>
                                     </div>
 
@@ -110,7 +129,11 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.humidity}% RH
+                                            {Number(
+                                                currentDevice?.activeCal.scan['scan-info']
+                                                    .dlp_header.humidity,
+                                            ).toFixed()}
+                                            % RH
                                         </div>
                                     </div>
 
@@ -122,7 +145,25 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {currentDevice.temperature} °C
+                                            {currentDevice?.activeCal.scan['scan-info'].dlp_header
+                                                .temperature || 24}{' '}
+                                            °C
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Paired with</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {pairedDevices.map(pairedDevice => (
+                                                <div key={pairedDevice.uuid}>
+                                                    {pairedDevice.name}
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -140,13 +181,27 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            4
+                                            not available
+                                        </div>
+                                    </div>
+
+                                    <div className={cn('section-option')}>
+                                        <p>Number of scans</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {/** @ts-ignore */}
+                                            {sensorScannerData?.number_scans}
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={cn('section-grid')}>
+                            {/** TODO: available only for admins */}
+                            {/* <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>
                                         <p>Configuration</p>
@@ -164,7 +219,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>

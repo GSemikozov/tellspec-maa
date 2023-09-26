@@ -39,7 +39,9 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const [presentToast] = usePreemieToast();
 
     const [milkId, setMilkId] = React.useState<string>('');
-    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(AnalyseWidgetTabs.SPECTRUM);
+    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
+        AnalyseWidgetTabs.TEST_RESULTS,
+    );
 
     const [analyseMilkLoading, setAnalyseMilkLoading] = React.useState(false);
     const [, setModelScannedData] = React.useState<any>(null);
@@ -158,7 +160,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const activeTabComponent = React.useMemo(() => {
         if (!milkId) {
             return (
-                <div className={cn('tab-placeholder')}>Analyse or enter the milk barcode first</div>
+                <div className={cn('tab-placeholder')}>Scan or enter the milk barcode first</div>
             );
         }
 
@@ -208,7 +210,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 actions={
                     <div className={cn('header-scanner')}>
                         <BarcodeScanner
-                            title='Select, Analyse or Enter Milk ID'
+                            title='Select, Scan or Enter Milk ID'
                             options={milkOptions}
                             value={milkId}
                             disabled={milksLoading}
@@ -225,23 +227,23 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                         disabled={!hasMilkId}
                         onIonChange={handleChangeTab}
                     >
-                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
-                            <IonLabel>Spectrum</IonLabel>
-                        </IonSegmentButton>
-
                         <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
                             <IonLabel>Test Results</IonLabel>
+                        </IonSegmentButton>
+                        <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
+                            <IonLabel>Spectrum</IonLabel>
                         </IonSegmentButton>
                     </IonSegment>
 
                     <div className={cn('tab')}>{activeTabComponent}</div>
 
-                    {showActions ? (
+                    {showActions && reportMilk ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleAnalyseMilk}
+                                report={reportMilk}
                             />
                         </div>
                     ) : null}

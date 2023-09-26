@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCol, IonGrid, IonRow } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { SensorManager } from '@entities/sensor';
@@ -34,23 +34,25 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                     <IonCol size='9.5'>
                         <Header />
 
-                        <div className='layout-body'>
-                            <IonRow>
-                                {/* TODO: something strange is here in the size property */}
-                                <IonCol
-                                    size={showSidebar ? '7' : '12'}
-                                    className='ion-padding main'
-                                >
-                                    {children}
-                                </IonCol>
-
-                                {showSidebar ? (
-                                    <IonCol size='5' className='ion-padding'>
-                                        {rightSideBar}
+                        <IonContent>
+                            <div className='layout-body'>
+                                <IonRow>
+                                    {/* TODO: something strange is here in the size property */}
+                                    <IonCol
+                                        size={showSidebar ? '7' : '12'}
+                                        className='ion-padding main'
+                                    >
+                                        {children}
                                     </IonCol>
-                                ) : null}
-                            </IonRow>
-                        </div>
+
+                                    {showSidebar ? (
+                                        <IonCol size='5' className='ion-padding'>
+                                            {rightSideBar}
+                                        </IonCol>
+                                    ) : null}
+                                </IonRow>
+                            </div>
+                        </IonContent>
                     </IonCol>
                 </IonRow>
             </IonGrid>

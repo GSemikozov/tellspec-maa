@@ -13,7 +13,7 @@ type presentToastOptions = ToastOptions &
         type?: 'success' | 'error';
         delay?: number;
     };
- 
+
 export const usePreemieToast = (): [
     (presentOptions: presentToastOptions) => Promise<void>,
     () => Promise<void>,

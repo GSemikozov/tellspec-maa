@@ -238,6 +238,5 @@ export const Logo = (props: any) => (
                 fill='#E503B0'
             />
         </g>
-       
     </svg>
 );

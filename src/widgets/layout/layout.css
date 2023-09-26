@@ -1,11 +1,17 @@
-ion-content::part(scroll) {
+/*ion-content::part(scroll) {
     top: 0;
     padding-inline-start: 0;
     padding: 0;
     padding-bottom: 0;
+
 }
 
 .main {
     border-radius: 10px;
     background-color: white;
 }
+ion-content {
+    height: 680px;
+}
+
+*/

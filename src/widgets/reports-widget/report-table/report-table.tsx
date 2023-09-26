@@ -23,6 +23,15 @@ const columnHelper = createColumnHelper<Report>();
 const columns = [
     columnHelper.display({
         id: 'select',
+        header: info => (
+            <IonCheckbox
+                {...{
+                    checked: info.table.getIsAllRowsSelected(),
+                    disabled: info.table.getRowModel().rows.length === 0,
+                    onIonChange: info.table.getToggleAllRowsSelectedHandler(),
+                }}
+            />
+        ),
         cell: info => (
             <IonCheckbox
                 {...{
@@ -46,6 +55,14 @@ const columns = [
             }
 
             return 'true';
+        },
+    }),
+
+    columnHelper.accessor(row => row.created_at, {
+        header: 'Date',
+        cell: info => {
+            const date = info.getValue();
+            return date.split(' ').map(value => <div>{value}</div>);
         },
     }),
 
@@ -98,13 +115,12 @@ export type ReportTableProps = {
     reports: Report[];
 };
 
-
 export type ColumnSort = {
     id: string;
     desc: boolean;
-}
+};
 
-export type SortingState = ColumnSort[]
+export type SortingState = ColumnSort[];
 
 export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
@@ -130,8 +146,8 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => (
                                 <th
-                                key={header.id}
-                                onClick={header.column.getToggleSortingHandler()}
+                                    key={header.id}
+                                    onClick={header.column.getToggleSortingHandler()}
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -139,7 +155,11 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
                                               header.column.columnDef.header,
                                               header.getContext(),
                                           )}
-                                    {{ asc: '▲', desc: '▼' }[header.column.getIsSorted() as string ?? null]}
+                                    {
+                                        { asc: '▲', desc: '▼' }[
+                                            (header.column.getIsSorted() as string) ?? null
+                                        ]
+                                    }
                                 </th>
                             ))}
                         </tr>

@@ -28,11 +28,9 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To add a human milk sample into database
+                            To add a human milk sample tap here
                             <br />
-                            you select this icon and you can either
-                            <br />
-                            scan the bracode or enter the milk ID
+                            and scan the bracode or enter the milk ID
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -57,9 +55,9 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To analyse a selected human milk sample
+                            To analyse an existing human milk sample
                             <br />
-                            you select this icon and use the Preemie Sensor
+                            tap here, select the sample ID and use the Preemie Sensor
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -84,11 +82,9 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            Select this icon to print a label to be attached to a
+                            To view and print analyses for one or more milk samples
                             <br />
-                            human milk container or to view and print
-                            <br />
-                            the analysis obtained for one or more human milk samples
+                            and to print milk labels, tap here
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -96,7 +92,6 @@ export const NavTiles: React.FunctionComponent = () => {
                     </IonText>
                 </div>
             </Link>
-            {/* {<ReactPlayer url='<https://https://www.youtube.com/watch?v=jxLzJFYA8A4>' controls />} */}
         </div>
     );
 };

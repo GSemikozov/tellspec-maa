@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LogoAnimation } from '@ui/logo/animated-logo';
 import { DateRange } from '@ui/date-range';
 import { ReportsIcon } from '@ui/icons';
 import { PageArea } from '@shared/ui';
@@ -14,7 +15,7 @@ import type { AppDispatch } from '@app';
 
 // import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
-import { IonCheckbox } from '@ionic/react';
+// import { IonCheckbox } from '@ionic/react';
 
 const cn = classname('reports-widget');
 
@@ -27,26 +28,34 @@ export const ReportsWidget: React.FunctionComponent = () => {
     const reportsLoading = useSelector(selectIsReportLoading);
     const reports = useSelector(state => selectReportsByDate(state, from, to));
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(
             fetchReport({
-                last_modified_gte: from !== '' ? from : undefined,
-                last_modified_lte: to !== '' ? to : undefined,
+                last_modified_gte: undefined,
+                last_modified_lte: undefined,
             }),
         );
-    }, [from, to]);
+    }, []);
 
-    const handleDateRangeChange = (name: string, value: string) => {
-        if (name === 'from') {
-            setFrom(value);
-        } else {
-            setTo(value);
-        }
+    const handleDateRangeChange = range => {
+        setFrom(range.from);
+        setTo(range.to);
+        dispatch(
+            fetchReport({
+                last_modified_gte: range.from,
+                last_modified_lte: range.to,
+            }),
+        );
     };
 
     const renderMain = React.useMemo(() => {
         if (reportsLoading) {
-            return <div className={cn('placeholder')}>Loading...</div>;
+            return (
+                <div className={cn('placeholder')}>
+                    <LogoAnimation />
+                    Loading...
+                </div>
+            );
         }
 
         return <ReportTable reports={reports} />;
@@ -59,12 +68,15 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 icon={<ReportsIcon />}
                 actions={
                     reportsLoading ? null : (
-                        <DateRange from={from} to={to} onChange={handleDateRangeChange} />
+                        <DateRange
+                            defaultFrom={from}
+                            defaultTo={to}
+                            onChange={handleDateRangeChange}
+                        />
                     )
                 }
                 className={cn('header')}
             />
-               
 
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 

@@ -13,9 +13,10 @@
 
 .report-table thead th {
     position: sticky;
+    z-index: 99;
     top: 0;
     padding: 12px;
-
+    z-index: 3;
     font-size: 1.6rem;
     text-align: start;
 

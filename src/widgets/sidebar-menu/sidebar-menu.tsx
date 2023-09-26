@@ -51,7 +51,7 @@ const MENU_ITEMS = [
         id: 'sensor-page',
         title: 'Preemie Sensor',
         to: routesMapping.sensorPage,
-        icon: <SensorIcon size={30} color='currentColor' />,
+        icon: <SensorIcon size={32} color='currentColor' />,
     },
     {
         id: 'settings',
