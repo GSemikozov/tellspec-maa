@@ -80,7 +80,7 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
                           <IonBackdrop tappable onIonBackdropTap={handlePopoverToggle} />
 
                           <div className={cn('popover')}>
-                              <IonRow>
+                              <IonRow style={{ flexWrap: 'nowrap' }}>
                                   <IonDatetime
                                       name='from'
                                       presentation='date'
