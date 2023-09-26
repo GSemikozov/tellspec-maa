@@ -35,7 +35,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                     <IonCol size='9.5'>
                         <Header />
 
-                            <IonContent scrollX>
+                            <IonContent>
                         <div className='layout-body'>
                                 <IonRow>
                                     {/* TODO: something strange is here in the size property */}
