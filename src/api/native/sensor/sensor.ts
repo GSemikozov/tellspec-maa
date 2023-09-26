@@ -20,7 +20,7 @@ import { isGivenDateOlderThan } from '@shared/time';
 import { createTellspecErrorResponse } from './utils';
 
 import type { ListenerCallback } from '@capacitor/core';
-import type { RunModelRequest } from '@entities/sensor';
+import type { GetCalibrationResponse, RunModelRequest } from '@entities/sensor';
 import type { SensorEvent } from 'tellspec-sensor-sdk/src/definitions';
 
 const { TellspecSensorSdk } = Plugins;
@@ -180,7 +180,10 @@ export const tellspecRemoveDevice = async (): Promise<void> => {
     await nativeStore.remove(NativeStorageKeys.DEVICE);
 };
 
-export const tellspecRunScan = async (userEmail: string) => {
+export const tellspecRunScan = async (
+    userEmail: string,
+    lastCalibration: GetCalibrationResponse,
+) => {
     const pairedDevice = await tellspecGetPairDevice();
 
     if (!pairedDevice) {
@@ -190,48 +193,62 @@ export const tellspecRunScan = async (userEmail: string) => {
     const disconnect = await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
     const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
 
-    await tellspecSaveScan(sensorScannedData, pairedDevice, userEmail);
+    const lastCalibrationRefs = {
+        counts: lastCalibration.scan['scan-data'].counts,
+        'active-config-name': lastCalibration.scan['scan-data']['active-config-name'],
+        dlp_header_pga: lastCalibration.scan['scan-info'].dlp_header.pga,
+        dlp_header_humidity: lastCalibration.scan['scan-info'].dlp_header.humidity,
+        dlp_header_temperature: lastCalibration.scan['scan-info'].dlp_header.temperature,
+    };
+
+    await tellspecSaveScan({
+        sensorScannedData,
+        device: pairedDevice,
+        userEmail,
+        lastCalibrationRefs,
+    });
+
     await disconnect();
 
     return sensorScannedData;
 };
 
-export const tellspecSaveScan = async (
-    sensorScannenData: TellspecSensorScannedData,
-    device: TellspecSensorDevice,
-    userEmail: string,
-) => {
-    const requestBody = tellspecPrepareScan(sensorScannenData, device, userEmail);
+type tellspecSaveScanOptions = tellspecPrepareScanOptions;
+export const tellspecSaveScan = async (options: tellspecSaveScanOptions) => {
+    const requestBody = tellspecPrepareScan(options);
     const saveScanResponse = await apiInstance.sensor.saveScan(requestBody);
 
     return saveScanResponse;
 };
 
+type tellspecPrepareScanOptions = {
+    sensorScannedData: TellspecSensorScannedData;
+    device: TellspecSensorDevice;
+    userEmail: string;
+    lastCalibrationRefs: {
+        counts: number[][];
+        'active-config-name': string;
+        dlp_header_pga: number;
+        dlp_header_humidity: number;
+        dlp_header_temperature: number;
+    };
+};
+
 /**
  * Helps create the data structure that we need to send to the server
- *
- * @param scan
- * @param deviceInfo
- * @param uuid
- * @param userEmail
- * @param calibrationData
  */
-export const tellspecPrepareScan = (
-    sensorScannenData: TellspecSensorScannedData,
-    device: TellspecSensorDevice,
-    userEmail: string,
-): any => {
-    const date = moment(sensorScannenData.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format(
+export const tellspecPrepareScan = (options: tellspecPrepareScanOptions): any => {
+    const { sensorScannedData, device, userEmail, lastCalibrationRefs } = options;
+
+    const date = moment(sensorScannedData.KeyTimestamp, 'MM/DD/YYYY - HH:mm:ss').format(
         'YYYY-MM-DDTHH:mm:ss',
     );
 
-    let newUuid = sensorScannenData.uuid;
+    let newUuid = sensorScannedData.uuid;
 
     if (newUuid === '') {
         newUuid = uuid();
     }
-
-    const calWhiteRef = device.activeCal.scan;
 
     const data = {
         show: true,
@@ -239,30 +256,30 @@ export const tellspecPrepareScan = (
         json_data: {
             'scan-data': {
                 'scanner-type-name': device.name,
-                'scanner-hardware-version': sensorScannenData.HWRev,
-                'scanner-serial-number': sensorScannenData.SerialNumber,
-                'scanner-firmware-version': sensorScannenData.TivaRev,
-                'scanner-spectrum-version': sensorScannenData.SpectrumRev,
+                'scanner-hardware-version': sensorScannedData.HWRev,
+                'scanner-serial-number': sensorScannedData.SerialNumber,
+                'scanner-firmware-version': sensorScannedData.TivaRev,
+                'scanner-spectrum-version': sensorScannedData.SpectrumRev,
                 'scan-performed-utc': date,
                 'scan-id': newUuid,
                 'scan-source': 'white',
-                wavelengths: sensorScannenData.wavelengths,
-                factory_white_ref: [sensorScannenData.ReferenceIntensity],
-                white_ref: calWhiteRef['scan-data'].white_ref,
-                absorbance: [sensorScannenData.absorbance],
-                factory_absorbance: [sensorScannenData.absorbance],
-                'active-config-name': calWhiteRef['scan-data']['active-config-name'],
-                counts: [sensorScannenData.Intensity],
+                wavelengths: sensorScannedData.wavelengths,
+                factory_white_ref: [sensorScannedData.ReferenceIntensity],
+                white_ref: lastCalibrationRefs.counts,
+                absorbance: [sensorScannedData.absorbance],
+                factory_absorbance: [sensorScannedData.absorbance],
+                'active-config-name': lastCalibrationRefs['active-config-name'],
+                counts: [sensorScannedData.Intensity],
                 debug_trigger: 'N/A',
             },
             'scan-info': {
                 dlp_header: {
-                    pga: sensorScannenData?.ADCPGA,
-                    humidity: sensorScannenData?.SysHumidity,
-                    temperature: sensorScannenData?.SysTemperature,
-                    white_pga: calWhiteRef['scan-info'].dlp_header.pga,
-                    white_humidity: calWhiteRef['scan-info'].dlp_header.humidity,
-                    white_temperature: calWhiteRef['scan-info'].dlp_header.temperature,
+                    pga: sensorScannedData?.ADCPGA,
+                    humidity: sensorScannedData?.SysHumidity,
+                    temperature: sensorScannedData?.SysTemperature,
+                    white_pga: lastCalibrationRefs.dlp_header_pga,
+                    white_humidity: lastCalibrationRefs.dlp_header_humidity,
+                    white_temperature: lastCalibrationRefs.dlp_header_temperature,
                 },
                 device_info: {
                     os: getPlatforms(),

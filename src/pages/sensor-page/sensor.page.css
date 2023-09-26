@@ -24,6 +24,11 @@
     padding: 0 16px;
 }
 
+.sensor-page__section-option_fluid > * {
+    width: 100%;
+    gap: 32px;
+}
+
 .sensor-page__section-option:not(:last-child) {
     border-bottom: 1px solid var(--ion-color-tertiary-shade);
 }

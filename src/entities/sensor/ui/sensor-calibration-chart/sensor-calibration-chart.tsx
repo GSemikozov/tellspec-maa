@@ -15,9 +15,14 @@ export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationCh
     const { options, series } = React.useMemo(() => {
         const calibrationScanData = calibration.scan['scan-data'];
 
+        const seriesData =
+            calibrationScanData.absorbance.length === 1
+                ? calibrationScanData.absorbance[0]
+                : calibrationScanData.absorbance;
+
         return {
             options: generateDefaultChartConfig(calibrationScanData),
-            series: [{ data: calibrationScanData.absorbance }],
+            series: [{ data: seriesData }],
         };
     }, [calibration]);
 

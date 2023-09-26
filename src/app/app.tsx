@@ -12,7 +12,6 @@ import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { SensorPage } from '@pages/sensor-page';
 import { userSelectors } from '@entities/user';
-import { useSensorStatusPolling } from '@entities/sensor';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 import { selectIsAppFetching } from '@app/model';
@@ -34,8 +33,6 @@ export const App: React.FunctionComponent = () => {
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
 
     const dispatch = useDispatch<AppDispatch>();
-
-    useSensorStatusPolling({ skip: !readyStore || !isAuthenticated });
 
     React.useEffect(() => {
         if (!readyStore) {

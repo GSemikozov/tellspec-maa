@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src/definitions';
 
 import { usePreemieToast } from '@ui';
@@ -11,7 +11,12 @@ import {
     tellspecEnableDiscovery,
     tellspecGetPairDevice,
 } from '@api/native';
-import { useCalibrateSensor, connectSensorDevice } from '@entities/sensor';
+import {
+    useCalibrateSensor,
+    connectSensorDevice,
+    useSensorStatusPolling,
+    selectSensorDevice,
+} from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 
 import { SensorConnectionProcessLoaderToast } from './sensor-connection-process-loader-toast';
@@ -36,6 +41,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const mountedRef = React.useRef(false);
 
     const [calibrateSensor] = useCalibrateSensor();
+    const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
+        useSensorStatusPolling();
+
+    const currentDevice = useSelector(selectSensorDevice);
 
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
         SensorConnectionProcessStatus.IDLE,
@@ -211,6 +220,16 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             }
         };
     }, []);
+
+    React.useEffect(() => {
+        if (!currentDevice) {
+            stopSensorStatusPolling();
+        }
+
+        if (currentDevice && !isPolling) {
+            startSensorStatusPolling();
+        }
+    }, [isPolling, currentDevice]);
 
     const context = React.useMemo(
         () => ({

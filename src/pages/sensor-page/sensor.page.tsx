@@ -206,8 +206,9 @@ export const SensorPage: React.FunctionComponent = () => {
                                     ) : null}
 
                                     {sensorCalibration ? (
-                                        <div className={cn('section-option')}>
+                                        <div className={cn('section-option', { fluid: true })}>
                                             <p>Spectrum of last calibration</p>
+
                                             <SensorCalibrationChart
                                                 calibration={sensorCalibration}
                                             />

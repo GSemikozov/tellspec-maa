@@ -5,45 +5,51 @@ import { AppDispatch } from '@app';
 
 import { getSensorStatus } from '../model';
 
-type UseSensorStatusPollingOptions = {
+type StartPollingOptions = {
     interval?: number;
-    skip?: boolean;
 };
 
+type UseSensorStatusPollingResult = [
+    (options?: StartPollingOptions) => Promise<void>,
+    () => void,
+    { isPolling: boolean },
+];
+
 export const useSensorStatusPolling = ({
-    // default interval = 5min
-    interval = 5 * 60 * 1000,
-    skip,
-}: UseSensorStatusPollingOptions) => {
+    interval: intervalProp = 60 * 1000,
+}: StartPollingOptions = {}): UseSensorStatusPollingResult => {
     const dispatch = useDispatch<AppDispatch>();
+    const [isPolling, setIsPolling] = React.useState(false);
 
-    const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = React.useRef<number | null>(null);
 
-    React.useEffect(() => {
-        const resetTimeout = () => {
-            if (!timeoutRef.current) {
-                return;
-            }
+    const start = React.useCallback(
+        async ({ interval = intervalProp }: StartPollingOptions = {}) => {
+            setIsPolling(true);
 
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        };
+            await dispatch(getSensorStatus());
 
-        if (skip) {
-            resetTimeout();
+            timeoutRef.current = window.setTimeout(start, interval);
+        },
+        [intervalProp],
+    );
+
+    const stop = React.useCallback(() => {
+        if (!timeoutRef.current) {
             return;
         }
 
-        const startPolling = async () => {
-            await dispatch(getSensorStatus());
+        setIsPolling(false);
 
-            timeoutRef.current = setTimeout(startPolling, interval);
-        };
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+    }, [intervalProp]);
 
-        startPolling();
-
+    React.useEffect(() => {
         return () => {
-            resetTimeout();
+            stop();
         };
-    }, [interval, skip]);
+    }, [stop]);
+
+    return [start, stop, { isPolling }];
 };
