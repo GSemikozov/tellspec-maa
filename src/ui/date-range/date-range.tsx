@@ -13,7 +13,7 @@ import './date-range.css';
 
 const cn = classname('date-range');
 
-type Name = 'from' | 'to';
+// type Name = 'from' | 'to';
 
 type SubmitHandlerRange = {
     from?: string;

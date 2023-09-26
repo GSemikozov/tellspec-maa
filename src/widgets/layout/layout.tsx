@@ -9,7 +9,6 @@ import { Backdrop } from '@features/backdrop';
 import { Header } from '@widgets/header';
 import { selectIsSidebarOpen } from '@app/model';
 
-
 import './layout.css';
 
 interface LayoutProps {
@@ -35,8 +34,8 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                     <IonCol size='9.5'>
                         <Header />
 
-                            <IonContent>
-                        <div className='layout-body'>
+                        <IonContent>
+                            <div className='layout-body'>
                                 <IonRow>
                                     {/* TODO: something strange is here in the size property */}
                                     <IonCol
@@ -52,8 +51,8 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                                         </IonCol>
                                     ) : null}
                                 </IonRow>
-                        </div>
-                            </IonContent>
+                            </div>
+                        </IonContent>
                     </IonCol>
                 </IonRow>
             </IonGrid>

@@ -57,7 +57,7 @@ export const NavTiles: React.FunctionComponent = () => {
                         <h4>
                             To analyse an existing human milk sample
                             <br />
-                           tap here, select the sample ID and use the Preemie Sensor
+                            tap here, select the sample ID and use the Preemie Sensor
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -82,7 +82,7 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                           To view and print analyses for one or more milk samples
+                            To view and print analyses for one or more milk samples
                             <br />
                             and to print milk labels, tap here
                         </h4>

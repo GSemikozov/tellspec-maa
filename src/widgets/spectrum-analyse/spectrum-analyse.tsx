@@ -50,11 +50,7 @@ export const SpectrumAnalyse: React.FunctionComponent<SpectrumAnalyseProps> = ({
         }
 
         if (!spectrumScan) {
-            return (
-                <div className={cn('placeholder')}>
-                    This milk has not been analysed.
-                </div>
-            );
+            return <div className={cn('placeholder')}>This milk has not been analysed.</div>;
         }
 
         return <Chart type='line' height={460} width={width} options={options} series={series} />;
