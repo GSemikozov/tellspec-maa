@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import { IonItem, IonList, IonText, useIonRouter } from '@ionic/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Keyboard } from '@capacitor/keyboard';
 
 import { PreemieInput } from '@ui/input';
@@ -28,7 +27,7 @@ const defaultValues = {
     password: '',
 };
 type KeyboardActions = {
-    hide: () => Promise<void> | null;
+    hide?: () => Promise<void> | null;
 };
 
 export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
@@ -43,7 +42,7 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
 
     const isFetching = useSelector(userSelectors.isUserFetching);
 
-    const requestError = useSelector(userSelectors.getError);
+    // const requestError = useSelector(userSelectors.getError);
 
     const { register, formState, handleSubmit } = useForm<FieldValues>({
         defaultValues,
@@ -119,7 +118,7 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
                 </IonItem>
 
                 {authError ? <div className='error'>{authError}</div> : null}
-                
+
                 {/* {requestError ? <div className='error'>{requestError}</div> : null} */}
 
                 <PreemieButton type='submit' expand='block' size='default' disabled={isFetching}>
