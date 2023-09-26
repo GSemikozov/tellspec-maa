@@ -25,7 +25,7 @@ export const usePreemieToast = (): [
             const {
                 type,
                 position = 'top',
-                duration = 3000,
+                duration = 93000,
                 delay,
                 ...otherPresentOptions
             } = presentOptions;

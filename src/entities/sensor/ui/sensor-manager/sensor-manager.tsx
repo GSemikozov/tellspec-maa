@@ -85,7 +85,7 @@ export const SensorManager: React.FunctionComponent = () => {
 
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
-                                Select Sensor
+                                Connect Sensor
                             </IonButton>
                         </div>
                     </>
