@@ -9,13 +9,13 @@ import {
 import { IonCheckbox } from '@ionic/react';
 
 import { classname } from '@shared/utils';
+import { formatUTCDate } from '@ui/date-range/utils';
 
 import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 
 import './report-table.css';
-import { formatUTCDate } from '@ui/date-range/utils';
 
 const cn = classname('report-table');
 
@@ -63,7 +63,7 @@ const columns = [
         header: 'Date Analysed',
         cell: info => {
             const date = info.getValue();
-            return date.split(' ').map(value => <div>{formatUTCDate(new Date(value)) || '-'}</div>);
+            return <div>{formatUTCDate(new Date(date)) || '-'}</div>;
         },
     }),
 

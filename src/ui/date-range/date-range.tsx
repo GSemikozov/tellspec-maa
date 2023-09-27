@@ -54,11 +54,27 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
         });
     };
 
+    const handleCancel = () => {
+        setIsOpened(false);
+        onChange({
+            from: defaultFrom,
+            to: defaultTo,
+        });
+    };
+
     const dateFrom = new Date(from);
     const dateTo = new Date(to);
 
     const buttonLabel =
         from && to ? `${formatUTCDate(dateFrom)} - ${formatUTCDate(dateTo)}` : 'Select dates';
+
+    // TODO: implement this kind of validation
+    // const isFromEnabled = (dateString: string) => {
+    //     const date = new Date(dateString);
+    //     const utcFrom = date.getUTCDate();
+    //     const utcTo = dateTo.getUTCDate();
+    //     return utcFrom < utcTo;
+    // };
 
     return (
         <div className={cn()}>
@@ -83,6 +99,7 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
                                       presentation='date'
                                       onIonChange={handleDateChange}
                                       value={from}
+                                      //   isDateEnabled={isFromEnabled}
                                   />
 
                                   <IonDatetime
@@ -95,8 +112,8 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
                               <IonRow className='ion-justify-content-end'>
                                   <IonButton onClick={handleSubmit}>OK</IonButton>
-                                  <IonButton fill='outline' onClick={handlePopoverToggle}>
-                                      Close
+                                  <IonButton fill='outline' onClick={handleCancel}>
+                                      Cancel
                                   </IonButton>
                               </IonRow>
                           </div>

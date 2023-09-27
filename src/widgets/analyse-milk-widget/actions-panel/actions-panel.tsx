@@ -38,7 +38,8 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
             return;
         }
 
-        dispatch(labelPrinterAsyncActions.pairPrinter());
+        // TODO: not implemented, needs to be clarified
+        // dispatch(labelPrinterAsyncActions.pairPrinter());
         dispatch(
             labelPrinterAsyncActions.printLabel({
                 milkId: report.milk_id,
