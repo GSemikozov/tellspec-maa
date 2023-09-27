@@ -33,6 +33,7 @@ text-align: center;
 .sensor-manager__video-modal {
     --width: 80%;
     --height: 90%;
+   
 }
 .sensor-manager__video {
     width: 100%;
@@ -47,6 +48,9 @@ text-align: center;
 
 .sensor-manager__close-button {
     margin: 2rem;
+    width: 50rem;
+    margin-left: 25%;
+    
 }
 
 .sensor-manager__videos-container {
@@ -58,10 +62,11 @@ text-align: center;
     padding: 1.5rem;
 }
 
+
 .sensor-manager__videos-container p {
     font-size: 14px;
 }
 
 .sensor-manager__actions-buttons ion-title {
-    text-align: center;
+    text-align: center
 }

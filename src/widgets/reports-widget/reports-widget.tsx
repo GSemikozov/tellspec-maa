@@ -72,11 +72,14 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 icon={<ReportsIcon />}
                 actions={
                     reportsLoading ? null : (
-                        <DateRange
-                            defaultFrom={from}
-                            defaultTo={to}
-                            onChange={handleDateRangeChange}
-                        />
+                        <div className={cn('calendar')}>
+                            <h5>Search for report dates:</h5>
+                            <DateRange
+                                defaultFrom={from}
+                                defaultTo={to}
+                                onChange={handleDateRangeChange}
+                            />
+                        </div>
                     )
                 }
                 className={cn('header')}

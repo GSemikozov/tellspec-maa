@@ -17,3 +17,9 @@
     align-items: center;
     gap: 2rem;
 }
+
+.reports-widget__calendar{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
