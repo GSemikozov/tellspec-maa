@@ -4,10 +4,10 @@ import { IonButton, IonModal, useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
+import { PDFReport } from '@entities/reports/components';
 
 import type { AppDispatch } from '@app';
 import type { Report } from '@entities/reports';
-import { PDFReport } from '@entities/reports/components';
 
 import './actions-panel.css';
 
