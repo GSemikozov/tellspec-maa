@@ -1,4 +1,4 @@
-/*ion-content::part(scroll) {
+ion-content::part(scroll) {
     top: 0;
     padding-inline-start: 0;
     padding: 0;
@@ -14,4 +14,4 @@ ion-content {
     height: 680px;
 }
 
-*/
+
