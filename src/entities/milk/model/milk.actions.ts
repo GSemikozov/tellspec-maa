@@ -3,7 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '@app';
 import { apiInstance } from '@api/network';
 import { tellspecRunScan } from '@api/native';
-import { GetCalibrationResponse } from '@entities/sensor';
 
 export const fetchMilks = createAsyncThunk('milks/fetch-list', async () => {
     try {
@@ -23,5 +22,5 @@ export const fetchMilks = createAsyncThunk('milks/fetch-list', async () => {
 export const analyseMilk = createAsyncThunk('milks/analyse-milk', async (_, thunkAPI) => {
     const { user } = thunkAPI.getState() as RootState;
 
-    return tellspecRunScan(user.email, {} as GetCalibrationResponse);
+    return tellspecRunScan(user.email);
 });
