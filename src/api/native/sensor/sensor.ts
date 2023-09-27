@@ -188,7 +188,8 @@ export const tellspecRunScan = async (userEmail: string) => {
         throw new Error('not found paired device');
     }
 
-    const disconnect = await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
+    await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
+
     const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
 
     await tellspecSaveScan({
@@ -196,8 +197,6 @@ export const tellspecRunScan = async (userEmail: string) => {
         device: pairedDevice,
         userEmail,
     });
-
-    await disconnect();
 
     return sensorScannedData;
 };
