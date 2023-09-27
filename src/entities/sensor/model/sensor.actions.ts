@@ -281,13 +281,7 @@ export const runSensorScan = createAsyncThunk(
                 return prepareSpectrumScanData(spectrumScanDataItem);
             }
 
-            const currentSensorCalibration = sensor.lastCalibration;
-
-            if (!currentSensorCalibration) {
-                throw new Error("havn't last calibration");
-            }
-
-            return tellspecRunScan(userEmail, currentSensorCalibration);
+            return tellspecRunScan(userEmail);
         } catch (error: any) {
             console.error(error);
 
