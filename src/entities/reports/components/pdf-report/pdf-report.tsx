@@ -34,6 +34,8 @@ export const PDFReport: React.FC<PDFReportProps> = ({ report, onClose }) => {
         setExporting(false);
     };
 
+    console.log('PDFReport report data', report);
+
     return (
         <div className={'pdf-milk-root'}>
             <IonRow className='ion-justify-content-end'>

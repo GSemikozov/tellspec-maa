@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IonCol, IonRow, IonSelectOption, useIonAlert, useIonRouter } from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+// import { format } from 'date-fns';
 
 import { PreemieSelect, PreemieInput, PreemieButton, usePreemieToast } from '@ui';
 import { PageArea } from '@shared/ui';
@@ -21,23 +22,17 @@ import type { IDonor } from '@entities/donors/model/donors.types';
 import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
-import format from 'date-fns/format';
-
 const cn = classname('add-milk-form');
 import './add-milk-form.css';
 
-let values;
-function expirationDate(inputDate: any): any {
-    console.log(values);
+// function expirationDate(inputDate: any): any {
+//     const resultDate = new Date(inputDate);
 
-    const resultDate = new Date(inputDate);
+//     const dateWith6Months = resultDate.setMonth(resultDate.getMonth() + 6);
+//     const result = format(dateWith6Months, 'yyy-MM-dd');
 
-    const dateWith6Months = resultDate.setMonth(resultDate.getMonth() + 6);
-    const result = format(dateWith6Months, 'yyy-MM-dd');
-
-    return result;
-}
-console.log(Date.parse(values.milkExpressionDate));
+//     return result;
+// }
 
 const defaultValues = {
     milkId: '',
@@ -46,7 +41,7 @@ const defaultValues = {
     numberOfContainers: 1,
     infantDeliveryDate: '',
     milkExpressionDate: '',
-    milkExpirationDate: expirationDate(Date.parse(values.milkExpressionDate)),
+    milkExpirationDate: '',
     receivedDate: '',
     storageFreezer: '',
     storageCompartment: '',
@@ -95,7 +90,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     }, []);
 
     const handleAddMilkAndClearForm = async () => {
-        values = getValues();
+        const values = getValues();
         console.log(values);
 
         try {
