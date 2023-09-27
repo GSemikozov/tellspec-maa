@@ -1,0 +1,16 @@
+.pdf-milk-header {
+    display: flex;
+    align-items: center;
+    padding: 2.5em;
+}
+
+.pdf-milk-headerImg {
+    width: 15em;
+}
+
+.pdf-milk-headerContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
+    font-size: 1.3em;
+}

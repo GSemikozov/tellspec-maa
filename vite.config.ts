@@ -10,6 +10,9 @@ const rootDir = path.resolve(__dirname);
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react({ tsDecorators: true }), legacy(), svgr()],
+    optimizeDeps: {
+        exclude: ['node_modules/tellspec-sensor-sdk'],
+    },
     resolve: {
         alias: {
             '@app': path.resolve(rootDir, 'src/app'),

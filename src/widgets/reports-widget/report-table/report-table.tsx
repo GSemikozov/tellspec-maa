@@ -15,6 +15,7 @@ import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 
 import './report-table.css';
+import { formatUTCDate } from '@ui/date-range/utils';
 
 const cn = classname('report-table');
 
@@ -47,22 +48,22 @@ const columns = [
         header: 'Milk ID',
     }),
 
-    columnHelper.accessor(row => row.data.analyseData, {
-        header: 'Analysed',
-        cell: info => {
-            if (!info.getValue()) {
-                return 'false';
-            }
+    // columnHelper.accessor(row => row.data.analyseData, {
+    //     header: 'Analysed',
+    //     cell: info => {
+    //         if (!info.getValue()) {
+    //             return 'false';
+    //         }
 
-            return 'true';
-        },
-    }),
+    //         return 'true';
+    //     },
+    // }),
 
     columnHelper.accessor(row => row.created_at, {
-        header: 'Date',
+        header: 'Date Analysed',
         cell: info => {
             const date = info.getValue();
-            return date.split(' ').map(value => <div>{value}</div>);
+            return date.split(' ').map(value => <div>{formatUTCDate(new Date(value)) || '-'}</div>);
         },
     }),
 

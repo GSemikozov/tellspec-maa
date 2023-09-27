@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonDatetime, IonRow } from '@ionic/react';
-import { format } from 'date-fns';
 
+import { formatUTCDate, setEndDay, setStartDay } from '@ui/date-range/utils';
 import { classname } from '@shared/utils';
-
-import { setDefaultTime } from './utils';
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
 import './date-range.css';
 
 const cn = classname('date-range');
-
-// type Name = 'from' | 'to';
 
 type SubmitHandlerRange = {
     from?: string;
@@ -44,9 +40,9 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
         const date = new Date(detail.value as string);
 
         if (name === 'from') {
-            setFrom(setDefaultTime(date));
+            setFrom(setStartDay(date));
         } else {
-            setTo(setDefaultTime(date));
+            setTo(setEndDay(date));
         }
     };
 
@@ -58,10 +54,11 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
         });
     };
 
+    const dateFrom = new Date(from);
+    const dateTo = new Date(to);
+
     const buttonLabel =
-        from && to
-            ? `${format(new Date(from), 'MM/dd/yy')} - ${format(new Date(to), 'MM/dd/yy')}`
-            : 'Select dates';
+        from && to ? `${formatUTCDate(dateFrom)} - ${formatUTCDate(dateTo)}` : 'Select dates';
 
     return (
         <div className={cn()}>
@@ -98,6 +95,9 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
                               <IonRow className='ion-justify-content-end'>
                                   <IonButton onClick={handleSubmit}>OK</IonButton>
+                                  <IonButton fill='outline' onClick={handlePopoverToggle}>
+                                      Close
+                                  </IonButton>
                               </IonRow>
                           </div>
                       </div>,
