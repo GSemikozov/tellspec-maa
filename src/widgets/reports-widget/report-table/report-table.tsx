@@ -59,7 +59,7 @@ const columns = [
     //     },
     // }),
 
-    columnHelper.accessor(row => row.created_at, {
+    columnHelper.accessor(row => row.last_modified_at, {
         header: 'Date Analysed',
         cell: info => {
             const date = info.getValue();
@@ -138,6 +138,8 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
         onRowSelectionChange: value => setRowSelection(value),
     });
+
+    console.log('reports', reports);
 
     return (
         <div className={cn()}>

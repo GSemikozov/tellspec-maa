@@ -106,22 +106,6 @@ export const SensorPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option')}>
-                                        <p>Pga</p>
-
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {/** @ts-ignore */}
-                                            {
-                                                currentDevice?.activeCal.scan['scan-info']
-                                                    .dlp_header.pga
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div className={cn('section-option')}>
                                         <p>Humidity</p>
 
                                         <div
@@ -173,7 +157,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         <p>Scans</p>
                                     </div>
 
-                                    <div className={cn('section-option')}>
+                                    {/* <div className={cn('section-option')}>
                                         <p>Number of warm up scans required</p>
 
                                         <div
@@ -183,7 +167,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         >
                                             not available
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className={cn('section-option')}>
                                         <p>Number of scans</p>

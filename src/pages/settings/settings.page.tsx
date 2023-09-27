@@ -46,7 +46,8 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option')}>
-                                        <p>Hardware data</p>
+                                        {/* <p>Hardware data</p> */}
+                                        <p>-</p>
 
                                         <div className={cn('section-option-action')}></div>
                                     </div>
@@ -65,7 +66,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                         <div className={cn('section-option-action')}>
                                             <IonSelect
                                                 disabled
-                                                label='Milk expiration date'
+                                                placeholder='Milk expiration date'
                                                 label-placement='floating'
                                             >
                                                 {expirationMonth.map(month => (
