@@ -59,11 +59,20 @@ const columns = [
     //     },
     // }),
 
-    columnHelper.accessor(row => row.last_modified_at, {
+    columnHelper.accessor(row => row, {
         header: 'Date Analysed',
         cell: info => {
-            const date = info.getValue();
-            return <div>{formatUTCDate(new Date(date)) || '-'}</div>;
+            const data = info.getValue();
+            const date = data.last_modified_at;
+            let value;
+            const isDataExists = data?.data?.analyseData;
+            if (isDataExists) {
+                value = formatUTCDate(new Date(date));
+            } else {
+                value = '-';
+            }
+
+            return <div>{value}</div>;
         },
     }),
 
