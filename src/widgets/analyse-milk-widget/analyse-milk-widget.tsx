@@ -9,7 +9,7 @@ import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
 import { selectUserEmail } from '@entities/user/model/user.selectors';
-import { CalibrationType, runSensorScan, selectSensorDevice } from '@entities/sensor';
+import { CalibrationType, runSensorScan /*, selectSensorDevice */ } from '@entities/sensor';
 import { extractReportAnalyseData } from '@entities/reports';
 import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
@@ -62,7 +62,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
             },
         });
 
-    const connectedSensor = useSelector(selectSensorDevice);
+    // const connectedSensor = useSelector(selectSensorDevice);
     const userEmail = useSelector(selectUserEmail);
 
     const milksLoading = useSelector(selectIsMilkLoading);
@@ -199,7 +199,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const hasMilkId = milkId !== '';
 
-    const showActions = hasMilkId && connectedSensor !== null;
+    const showActions = hasMilkId; // && connectedSensor !== null;
     const showOnlyAnalyseButton = extractReportAnalyseData(reportMilk) === null;
 
     return (

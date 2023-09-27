@@ -1,0 +1,12 @@
+.pdf-milk-footer {
+    margin-top: auto;
+    margin-bottom: 1em;
+    text-align: center;
+    padding: 0 3em;
+}
+
+.pdf-milk-footerPage {
+    font-size: 1.1em;
+    font-weight: 800;
+    margin-bottom: 1em;
+}

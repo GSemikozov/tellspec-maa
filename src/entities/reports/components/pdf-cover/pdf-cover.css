@@ -1,0 +1,39 @@
+.pdf-milk-cover {
+    width: 210mm;
+    height: 296.5mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-size: cover !important;
+    overflow: hidden;
+}
+
+.pdf-milk-imgContainer {
+    width: 38%;
+    margin-top: 4.5em;
+    text-align: center;
+}
+
+.pdf-milk-coverHeaderContainer {
+    text-align: center;
+    margin: auto;
+}
+
+.pdf-milk-headerResults {
+    font-size: 3.5em;
+    font-weight: 700;
+}
+
+.pdf-milk-headerDoctor {
+    font-size: 1.7em;
+    margin-top: 0.5em;
+}
+
+.pdf-milk-url {
+    margin-top: auto;
+    margin-bottom: 2em;
+    font-size: 2em;
+    font-weight: 600;
+    color: #e503b0;
+}

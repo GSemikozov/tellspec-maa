@@ -1,10 +1,9 @@
-import { set } from 'date-fns';
+import { format, startOfDay } from 'date-fns';
 
-export const setDefaultTime = (date = new Date()) => {
-    return set(date, {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-    }).toISOString();
-};
+export const formatUTCDate = (date: Date) =>
+    `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
+
+export const setStartDay = (date: Date) =>
+    format(startOfDay(date), 'yyyy-MM-dd') + 'T00:00:00.000Z';
+
+export const setEndDay = (date: Date) => format(startOfDay(date), 'yyyy-MM-dd') + 'T23:59:59.000Z';

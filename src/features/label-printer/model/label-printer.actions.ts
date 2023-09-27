@@ -21,13 +21,17 @@ export const pairPrinter = createAsyncThunk(
 
         try {
             const response = await LabelPrinter.getAllPrinters({ printerName: '', printers: '' });
-            // TODO: remove after testing
-            dispatch(
-                appActions.showAlert({
-                    alertHeader,
-                    alertMessage: JSON.stringify(response),
-                }),
-            );
+
+            if (response.printers.length === 0) {
+                dispatch(
+                    appActions.showAlert({
+                        alertHeader,
+                        alertMessage: "Couldn't find printer",
+                    }),
+                );
+
+                return;
+            }
 
             await LabelPrinter.openPrinter({ printerName: response.printers });
 

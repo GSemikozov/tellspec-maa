@@ -15,3 +15,8 @@
 .actions-panel > *:not(:last-child) {
     margin: 0 2px;
 }
+
+.actions-panel__modal::part(content) {
+    width: 90%;
+    height: 90%;
+}

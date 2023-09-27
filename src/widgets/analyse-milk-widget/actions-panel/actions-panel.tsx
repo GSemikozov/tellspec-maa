@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { IonButton, useIonAlert } from '@ionic/react';
+import { IonButton, IonModal, useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
 
 import type { AppDispatch } from '@app';
 import type { Report } from '@entities/reports';
+import { PDFReport } from '@entities/reports/components';
 
 import './actions-panel.css';
 
@@ -28,8 +29,9 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     const dispatch = useDispatch<AppDispatch>();
 
     const [presentAlert] = useIonAlert();
+    const [showPDFModal, setShowPDFModal] = useState(false);
 
-    const handlePrintTestResults = () => {
+    const handlePrintLabels = () => {
         const reportAnalyseDataResult = report.data.analyseData?.result;
 
         if (!reportAnalyseDataResult) {
@@ -66,6 +68,12 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
         });
     };
 
+    const handlePrintTestResults = () => {
+        setShowPDFModal(true);
+    };
+
+    const handlePDFModalClose = () => setShowPDFModal(false);
+
     if (showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
@@ -82,6 +90,10 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     return (
         <div className={cn()}>
+            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintLabels}>
+                Print Milk Bag Labels
+            </IonButton>
+
             <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintTestResults}>
                 Print Milk Test Results
             </IonButton>
@@ -89,6 +101,16 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
             <IonButton expand='full' disabled={analyseMilkLoading} onClick={handleConfirmReAnalyse}>
                 {reAnalyseTitle}
             </IonButton>
+
+            {showPDFModal && report.data.analyseData && (
+                <IonModal
+                    className={cn('modal')}
+                    isOpen={showPDFModal}
+                    onIonModalDidDismiss={handlePDFModalClose}
+                >
+                    <PDFReport report={report} onClose={handlePDFModalClose} />
+                </IonModal>
+            )}
         </div>
     );
 };
