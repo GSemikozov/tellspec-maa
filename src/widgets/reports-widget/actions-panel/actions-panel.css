@@ -4,14 +4,21 @@
 
     width: 100%;
     padding: 8px 16px;
+
+    display: flex;
+    justify-content: center;
 }
 
 .actions-panel > * {
-    flex: 1;
+    /* flex: 1; */
     width: calc(50% - 8px);
     margin: 4px !important;
 }
 
 .actions-panel > *:not(:last-child) {
     margin: 0 2px;
+}
+
+.actions-panel ion-button {
+    width: 50rem;
 }

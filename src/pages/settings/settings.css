@@ -28,7 +28,8 @@
 }
 
 .settings__section-option p span {
-    color: var(--ion-color-primary);
+    color: black;
+    font-weight: 600;
 }
 
 .settings__section-option_disabled {

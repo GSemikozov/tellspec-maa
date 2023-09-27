@@ -21,8 +21,23 @@ import type { IDonor } from '@entities/donors/model/donors.types';
 import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
+import format from 'date-fns/format';
+
 const cn = classname('add-milk-form');
 import './add-milk-form.css';
+
+let values;
+function expirationDate(inputDate: any): any {
+    console.log(values);
+
+    const resultDate = new Date(inputDate);
+
+    const dateWith6Months = resultDate.setMonth(resultDate.getMonth() + 6);
+    const result = format(dateWith6Months, 'yyy-MM-dd');
+
+    return result;
+}
+console.log(Date.parse(values.milkExpressionDate));
 
 const defaultValues = {
     milkId: '',
@@ -31,7 +46,7 @@ const defaultValues = {
     numberOfContainers: 1,
     infantDeliveryDate: '',
     milkExpressionDate: '',
-    milkExpirationDate: '',
+    milkExpirationDate: expirationDate(Date.parse(values.milkExpressionDate)),
     receivedDate: '',
     storageFreezer: '',
     storageCompartment: '',
@@ -80,7 +95,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
     }, []);
 
     const handleAddMilkAndClearForm = async () => {
-        const values = getValues();
+        values = getValues();
+        console.log(values);
 
         try {
             await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
@@ -277,6 +293,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     label='Milk Expiration Date'
                                     label-placement='floating'
+                                    disabled
                                     {...register('milkExpirationDate')}
                                 />
 

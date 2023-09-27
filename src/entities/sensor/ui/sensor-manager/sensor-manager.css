@@ -4,6 +4,9 @@
     flex-direction: column;
     align-items: center;
 }
+.sensor-manager-instructions__title{
+text-align: center;
+}
 
 .sensor-manager__instructions p {
     margin: 0;
@@ -44,4 +47,21 @@
 
 .sensor-manager__close-button {
     margin: 2rem;
+}
+
+.sensor-manager__videos-container {
+    background-color: var(--ion-color-tertiary-tint);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.sensor-manager__videos-container p {
+    font-size: 14px;
+}
+
+.sensor-manager__actions-buttons ion-title {
+    text-align: center;
 }

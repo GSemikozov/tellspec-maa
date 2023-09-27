@@ -12,7 +12,7 @@ export const ActionsPanel: React.FunctionComponent = () => {
     return (
         <IonRow>
             <IonCol className={cn()}>
-                <IonButton>Print Milk Test Results</IonButton>
+                {/* <IonButton>Print Milk Test Results</IonButton> */}
                 <IonButton routerLink={routesMapping.addMilk}>Analyse Another Milk</IonButton>
             </IonCol>
         </IonRow>

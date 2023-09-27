@@ -77,12 +77,7 @@ export const SensorManager: React.FunctionComponent = () => {
                 title: 'Connect a Preemie sensor',
                 content: (
                     <>
-                        <p>
-                            Tap a button below for a video showing how to switch the Preemie Sensor
-                            on and analyse a milk sample, and another showing how to clean the
-                            cuvette which held the sample.
-                        </p>
-
+                        
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
                                 Select Sensor
@@ -178,55 +173,61 @@ export const SensorManager: React.FunctionComponent = () => {
                 </SensorManagerInstructions>
             ) : null}
 
-            <div className={cn('actions-buttons')}>
-                <IonTitle className='ion-no-padding ion-no-margin ion-margin-bottom '>
-                    Videos
-                </IonTitle>
-
-                <IonButton
-                    className='ion-no-margin'
-                    onClick={handleChooseSensorInformationVideo('analyses')}
-                >
-                    Analysis
-                </IonButton>
-
-                <IonButton
-                    className='ion-no-margin'
-                    onClick={handleChooseSensorInformationVideo('cleaning')}
-                >
-                    Cleaning
-                </IonButton>
-
-                <IonModal
-                    isOpen={Boolean(sensorInformationVideo)}
-                    className={cn('video-modal')}
-                    onDidDismiss={handleResetSensorInformationVideo}
-                >
-                    {sensorInformationVideo === 'analyses' ? (
-                        <div className={cn('video')}>
-                            <video autoPlay controls>
-                                <source type='video/mp4' src='./videos/preemie-sept-15.mp4' />
-                            </video>
-                        </div>
-                    ) : null}
-
-                    {sensorInformationVideo === 'cleaning' ? (
-                        <div className={cn('video')}>
-                            <video autoPlay controls>
-                                <source type='video/mp4' src='./videos/cleaning-video.mp4' />
-                            </video>
-                        </div>
-                    ) : null}
+            <div className={cn('videos-container')}>
+                    <IonTitle className='ion-no-padding ion-no-margin  '>
+                        Videos
+                    </IonTitle>
+                <p>
+                    Tap a button below for a video showing how to switch the Preemie Sensor on and
+                    analyse a milk sample, and another showing how to clean the cuvette which held
+                    the sample.
+                </p>
+                <div className={cn('actions-buttons')}>
 
                     <IonButton
-                        className={cn('close-button')}
-                        onClick={handleResetSensorInformationVideo}
+                        className='ion-no-margin'
+                        onClick={handleChooseSensorInformationVideo('analyses')}
                     >
-                        Close
+                        Analysis
                     </IonButton>
-                </IonModal>
-            </div>
 
+                    <IonButton
+                        className='ion-no-margin'
+                        onClick={handleChooseSensorInformationVideo('cleaning')}
+                    >
+                        Cleaning
+                    </IonButton>
+
+                    <IonModal
+                        isOpen={Boolean(sensorInformationVideo)}
+                        className={cn('video-modal')}
+                        onDidDismiss={handleResetSensorInformationVideo}
+                    >
+                        {sensorInformationVideo === 'analyses' ? (
+                            <div className={cn('video')}>
+                                <video autoPlay controls>
+                                    <source type='video/mp4' src='./videos/preemie-sept-15.mp4' />
+                                </video>
+                            </div>
+                        ) : null}
+
+                        {sensorInformationVideo === 'cleaning' ? (
+                            <div className={cn('video')}>
+                                <video autoPlay controls>
+                                    <source type='video/mp4' src='./videos/cleaning-video.mp4' />
+                                </video>
+                            </div>
+                        ) : null}
+
+                        <IonButton
+                            className={cn('close-button')}
+                            onClick={handleResetSensorInformationVideo}
+                        >
+                            Close
+                        </IonButton>
+                    </IonModal>
+                </div>
+            </div>
             <IonTitle className='ion-text-center ion-margin-top'>{currentDevice?.serial}</IonTitle>
             <SensorManagerInteractiveImage />
         </div>
