@@ -11,7 +11,7 @@ ion-content::part(scroll) {
     background-color: white;
 }
 ion-content {
-    height: 680px;
+    height: 91%;
 }
 
 

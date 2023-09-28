@@ -64,3 +64,14 @@
 
     color: var(--ion-color-primary);
 }
+
+.settings__apk-number{
+       display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 56px;
+
+    padding: 0 16px;
+    font-size: 14px;
+}

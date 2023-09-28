@@ -103,6 +103,11 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     <div className={cn('section-option', { disabled: true })}>
                                         <p>Add another storage</p>
                                     </div>
+                                    <div className={cn('section')}>
+                                        <div className={cn('apk-number')}>
+                                            HMB APK version number:  28-09-23.v1
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </PageArea.Main>
