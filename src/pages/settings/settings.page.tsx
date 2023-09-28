@@ -66,7 +66,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                         <div className={cn('section-option-action')}>
                                             <IonSelect
                                                 disabled
-                                                placeholder='Milk expiration date'
+                                                label='Milk expiration date'
                                                 label-placement='floating'
                                             >
                                                 {expirationMonth.map(month => (
@@ -105,7 +105,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
                                     <div className={cn('section')}>
                                         <div className={cn('apk-number')}>
-                                            HMB APK version number:  28-09-23.v1
+                                            HMB APK version number: 28-09-23.v1
                                         </div>
                                     </div>
                                 </div>
