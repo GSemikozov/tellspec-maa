@@ -22,6 +22,9 @@
     display: flex;
     justify-content: center;
 }
+.sensor-manager__actions ion-button{
+    margin: 2rem;
+}
 
 .sensor-manager__actions-buttons {
     display: flex;
