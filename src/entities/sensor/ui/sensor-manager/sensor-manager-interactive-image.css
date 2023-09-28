@@ -20,7 +20,7 @@
 
     position: relative;
 
-    max-width: 320px;
+    max-width: 300px;
     width: 100%;
 }
 
@@ -33,7 +33,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    left: 96px;
+    left: 91px;
 
     width: 86px;
     height: 12px;
