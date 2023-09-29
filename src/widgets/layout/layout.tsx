@@ -49,7 +49,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                                         <IonCol size='5' className='ion-padding'>
                                             {rightSideBar}
                                         </IonCol>
-                                     ) : null}
+                                    ) : null}
                                 </IonRow>
                             </div>
                         </IonContent>

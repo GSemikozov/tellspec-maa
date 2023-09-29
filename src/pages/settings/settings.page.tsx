@@ -47,68 +47,68 @@ export const SettingsPage: React.FunctionComponent = () => {
 
                                     {/* <div className={cn('section-option')}>
                                         {/* <p>Hardware data</p> */}
-                                        {/* <p>-</p>  */}
+                                    {/* <p>-</p>  */}
 
-                                        <div className={cn('section-option-action')}></div>
-                                    </div>
+                                    <div className={cn('section-option-action')}></div>
+                                </div>
+                            </div>
+
+                            <div className={cn('section')}>
+                                <div className={cn('section-option', { header: true })}>
+                                    <p>Expressed Milk</p>
                                 </div>
 
-                                <div className={cn('section')}>
-                                    <div className={cn('section-option', { header: true })}>
-                                        <p>Expressed Milk</p>
-                                    </div>
+                                <div className={cn('section-option', { disabled: true })}>
+                                    <p>
+                                        Default expiration <span>{expirationMonth[5]}</span>
+                                    </p>
 
-                                    <div className={cn('section-option', { disabled: true })}>
-                                        <p>
-                                            Default expiration <span>{expirationMonth[5]}</span>
-                                        </p>
-
-                                        <div className={cn('section-option-action')}>
-                                            <IonSelect
-                                                disabled
-                                                label='Milk expiration date'
-                                                label-placement='floating'
-                                            >
-                                                {expirationMonth.map(month => (
-                                                    <IonSelectOption key={month} value={month}>
-                                                        {month}
-                                                    </IonSelectOption>
-                                                ))}
-                                            </IonSelect>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className={cn('section')}>
-                                    <div className={cn('section-option', { header: true })}>
-                                        <p>Storage Management</p>
-                                    </div>
-
-                                    <div className={cn('section-option')}>
-                                        <p>Available storages</p>
-
-                                        <div className={cn('section-option-action')}>
-                                            {freezersList.map(freezer => (
-                                                <IonChip key={freezer.freezer_id}>
-                                                    {freezer.name}
-                                                </IonChip>
+                                    <div className={cn('section-option-action')}>
+                                        <IonSelect
+                                            disabled
+                                            label='Milk expiration date'
+                                            label-placement='floating'
+                                        >
+                                            {expirationMonth.map(month => (
+                                                <IonSelectOption key={month} value={month}>
+                                                    {month}
+                                                </IonSelectOption>
                                             ))}
-                                        </div>
-                                    </div>
-
-                                    <div className={cn('section-option', { disabled: true })}>
-                                        <p>Disabled storages</p>
-                                    </div>
-
-                                    <div className={cn('section-option', { disabled: true })}>
-                                        <p>Add another storage</p>
-                                    </div>
-                                    <div className={cn('section')}>
-                                        <div className={cn('apk-number')}>
-                                           Milk Analyse Software APK version number: 28-09-23.v1
-                                        </div>
+                                        </IonSelect>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className={cn('section')}>
+                                <div className={cn('section-option', { header: true })}>
+                                    <p>Storage Management</p>
+                                </div>
+
+                                <div className={cn('section-option')}>
+                                    <p>Available storages</p>
+
+                                    <div className={cn('section-option-action')}>
+                                        {freezersList.map(freezer => (
+                                            <IonChip key={freezer.freezer_id}>
+                                                {freezer.name}
+                                            </IonChip>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className={cn('section-option', { disabled: true })}>
+                                    <p>Disabled storages</p>
+                                </div>
+
+                                <div className={cn('section-option', { disabled: true })}>
+                                    <p>Add another storage</p>
+                                </div>
+                                <div className={cn('section')}>
+                                    <div className={cn('apk-number')}>
+                                        Milk Analyse Software APK version number: 28-09-23.v1
+                                    </div>
+                                </div>
+                            </div>
                             {/* </div> */}
                         </PageArea.Main>
                     </PageArea>

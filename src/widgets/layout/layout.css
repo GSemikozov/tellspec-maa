@@ -3,7 +3,6 @@ ion-content::part(scroll) {
     padding-inline-start: 0;
     padding: 0;
     padding-bottom: 0;
-
 }
 
 .main {
@@ -13,5 +12,3 @@ ion-content::part(scroll) {
 ion-content {
     height: 91%;
 }
-
-

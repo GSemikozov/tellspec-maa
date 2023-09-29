@@ -4,7 +4,6 @@ import {
     IonAccordionGroup,
     IonButton,
     IonItem,
-    IonLabel,
     IonModal,
     IonTitle,
 } from '@ionic/react';

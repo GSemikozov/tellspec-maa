@@ -65,8 +65,8 @@
     color: var(--ion-color-primary);
 }
 
-.settings__apk-number{
-       display: flex;
+.settings__apk-number {
+    display: flex;
     align-items: center;
     justify-content: center;
 

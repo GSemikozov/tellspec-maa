@@ -6,7 +6,7 @@ import {
     useReactTable,
     getSortedRowModel,
 } from '@tanstack/react-table';
-import { IonCheckbox, IonInput } from '@ionic/react';
+import { IonCheckbox } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { formatUTCDate } from '@ui/date-range/utils';
@@ -135,9 +135,6 @@ export type SortingState = ColumnSort[];
 export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [search, setSearch] = React.useState('');
-
-    
 
     const table = useReactTable({
         enableRowSelection: true,

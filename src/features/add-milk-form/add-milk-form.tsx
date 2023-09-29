@@ -161,7 +161,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-
     const hasTouchedField = Object.values(touchedFields).length > 0;
     const hasErrors = Object.values(errors).length > 0;
 
@@ -177,9 +176,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton  id='present-alert'>
-                                    Clear the form
-                                </IonButton>
+                                <IonButton id='present-alert'>Clear the form</IonButton>
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
