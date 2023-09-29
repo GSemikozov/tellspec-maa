@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    IonAlert,
     IonButton,
     IonCol,
     IonRow,
@@ -160,14 +161,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-    const handleResetForm = () => {
-        presentAlert({
-            header: 'Form cleared!',
-            onDidDismiss: () => {
-                reset();
-            },
-        });
-    };
 
     const hasTouchedField = Object.values(touchedFields).length > 0;
     const hasErrors = Object.values(errors).length > 0;
@@ -184,7 +177,27 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton onClick={handleResetForm}>Clear the form</IonButton>
+                                <IonButton  id='present-alert'>
+                                    Clear the form
+                                </IonButton>
+                                <IonAlert
+                                    header='This form will be cleared. Do you want to proceed?'
+                                    trigger='present-alert'
+                                    buttons={[
+                                        {
+                                            text: 'Yes',
+                                            role: 'confirm',
+                                            handler: () => {
+                                                reset();
+                                            },
+                                        },
+                                        {
+                                            text: 'No',
+                                            role: 'cancel',
+                                        },
+                                    ]}
+                                ></IonAlert>
+                                ;
                             </div>
                         </>
                     }
@@ -192,18 +205,18 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
                 <PageArea.Main className={cn('main')}>
                     <IonRow className={cn('form-container')}>
-                            <div className={cn('form-group', { fluid: true })}>
-                                <PreemieInput
-                                    type='text'
-                                    label='Milk ID'
-                                    label-placement='floating'
-                                    {...register('milkId')}
-                                />
+                        <div className={cn('form-group', { fluid: true })}>
+                            <PreemieInput
+                                type='text'
+                                label='Milk ID'
+                                label-placement='floating'
+                                {...register('milkId')}
+                            />
 
-                                <p className={cn('form-group-error')}>
-                                    {touchedFields.milkId && errors.milkId?.message}
-                                </p>
-                            </div>
+                            <p className={cn('form-group-error')}>
+                                {touchedFields.milkId && errors.milkId?.message}
+                            </p>
+                        </div>
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect
