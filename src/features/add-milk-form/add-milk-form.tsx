@@ -1,6 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonCol, IonRow, IonSelectOption, useIonAlert, useIonRouter } from '@ionic/react';
+import {
+    IonButton,
+    IonCol,
+    IonRow,
+    IonSelectOption,
+    useIonAlert,
+    useIonRouter,
+} from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // import { format } from 'date-fns';
@@ -153,6 +160,15 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
+    const handleResetForm = () => {
+        presentAlert({
+            header: 'Form cleared!',
+            onDidDismiss: () => {
+                reset();
+            },
+        });
+    };
+
     const hasTouchedField = Object.values(touchedFields).length > 0;
     const hasErrors = Object.values(errors).length > 0;
 
@@ -166,23 +182,28 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     title='Add Milk'
                     icon={<AddMilkIcon />}
                     actions={
-                        <div className={cn('form-group', { fluid: true })}>
-                            <PreemieInput
-                                type='text'
-                                label='Milk ID'
-                                label-placement='floating'
-                                {...register('milkId')}
-                            />
-
-                            <p className={cn('form-group-error')}>
-                                {touchedFields.milkId && errors.milkId?.message}
-                            </p>
-                        </div>
+                        <>
+                            <div className={cn('actions-clear')}>
+                                <IonButton onClick={handleResetForm}>Clear the form</IonButton>
+                            </div>
+                        </>
                     }
                 />
 
                 <PageArea.Main className={cn('main')}>
                     <IonRow className={cn('form-container')}>
+                            <div className={cn('form-group', { fluid: true })}>
+                                <PreemieInput
+                                    type='text'
+                                    label='Milk ID'
+                                    label-placement='floating'
+                                    {...register('milkId')}
+                                />
+
+                                <p className={cn('form-group-error')}>
+                                    {touchedFields.milkId && errors.milkId?.message}
+                                </p>
+                            </div>
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect

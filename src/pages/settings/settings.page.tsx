@@ -41,13 +41,13 @@ export const SettingsPage: React.FunctionComponent = () => {
                         <PageArea.Main>
                             <div className={cn('container')}>
                                 <div className={cn('section')}>
-                                    <div className={cn('section-option', { header: true })}>
+                                    {/* <div className={cn('section-option', { header: true })}>
                                         <p>About</p>
-                                    </div>
+                                    </div> */}
 
-                                    <div className={cn('section-option')}>
+                                    {/* <div className={cn('section-option')}>
                                         {/* <p>Hardware data</p> */}
-                                        <p>-</p>
+                                        {/* <p>-</p>  */}
 
                                         <div className={cn('section-option-action')}></div>
                                     </div>
@@ -105,11 +105,11 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </div>
                                     <div className={cn('section')}>
                                         <div className={cn('apk-number')}>
-                                            HMB APK version number: 28-09-23.v1
+                                           Milk Analyse Software APK version number: 28-09-23.v1
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {/* </div> */}
                         </PageArea.Main>
                     </PageArea>
                 </Layout>

@@ -1,5 +1,7 @@
 .add-milk-form__header {
     padding-right: 16px;
+    display: flex;
+    align-items: baseline;
 }
 
 .add-milk-form__header > * {
@@ -48,4 +50,12 @@
 .add-milk-form__actions .button {
     flex: 1;
     margin: 4px !important;
+}
+
+.add-milk-form__actions-clear {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem 0 !important;
+
+    width: 100%;
 }

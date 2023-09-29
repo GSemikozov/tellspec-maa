@@ -73,7 +73,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 actions={
                     reportsLoading ? null : (
                         <div className={cn('calendar')}>
-                            <h5>Search for report dates:</h5>
+                            <h5>Search for analysis dates:</h5>
                             <DateRange
                                 defaultFrom={from}
                                 defaultTo={to}
