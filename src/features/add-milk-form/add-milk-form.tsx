@@ -1,8 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonCol, IonRow, IonSelectOption, useIonAlert, useIonRouter } from '@ionic/react';
+import {
+    IonAlert,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonSelectOption,
+    useIonAlert,
+    useIonRouter,
+} from '@ionic/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+// import { format } from 'date-fns';
 
 import { PreemieSelect, PreemieInput, PreemieButton, usePreemieToast } from '@ui';
 import { PageArea } from '@shared/ui';
@@ -25,6 +34,15 @@ import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 import './add-milk-form.css';
 
 const cn = classname('add-milk-form');
+
+// function expirationDate(inputDate: any): any {
+//     const resultDate = new Date(inputDate);
+
+//     const dateWith6Months = resultDate.setMonth(resultDate.getMonth() + 6);
+//     const result = format(dateWith6Months, 'yyy-MM-dd');
+
+//     return result;
+// }
 
 const defaultValues = {
     milkId: '',
@@ -84,6 +102,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
+        console.log(values);
 
         try {
             await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
@@ -158,6 +177,34 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     title='Add Milk'
                     icon={<AddMilkIcon />}
                     actions={
+                        <>
+                            <div className={cn('actions-clear')}>
+                                <IonButton id='present-alert'>Clear the form</IonButton>
+                                <IonAlert
+                                    header='This form will be cleared. Do you want to proceed?'
+                                    trigger='present-alert'
+                                    buttons={[
+                                        {
+                                            text: 'Yes',
+                                            role: 'confirm',
+                                            handler: () => {
+                                                reset();
+                                            },
+                                        },
+                                        {
+                                            text: 'No',
+                                            role: 'cancel',
+                                        },
+                                    ]}
+                                ></IonAlert>
+                                ;
+                            </div>
+                        </>
+                    }
+                />
+
+                <PageArea.Main className={cn('main')}>
+                    <IonRow className={cn('form-container')}>
                         <div className={cn('form-group', { fluid: true })}>
                             <PreemieInput
                                 type='text'
@@ -170,11 +217,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 {touchedFields.milkId && errors.milkId?.message}
                             </p>
                         </div>
-                    }
-                />
-
-                <PageArea.Main className={cn('main')}>
-                    <IonRow className={cn('form-container')}>
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect
@@ -280,6 +322,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     label='Milk Expiration Date'
                                     label-placement='floating'
+                                    disabled
                                     {...register('milkExpirationDate')}
                                 />
 

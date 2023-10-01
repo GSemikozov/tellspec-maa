@@ -31,18 +31,21 @@ export const PDFReport: React.FC<PDFReportProps> = ({ report, onClose }) => {
                 useCORS: true,
             },
         });
-
         setExporting(false);
     };
+
+    console.log('PDFReport report data', report);
 
     return (
         <div className={'pdf-milk-root'}>
             <IonRow className='ion-justify-content-end'>
                 <IonButton disabled={exporting} onClick={handleExport}>
                     {exporting ? <IonIcon slot='start' icon={hourglass}></IonIcon> : null}
-                    {exporting ? 'Printing' : 'Print All PDF'}
+                    {exporting ? 'Saving' : 'Save PDF'}
                 </IonButton>
-                <IonButton onClick={onClose}>Close</IonButton>
+                <IonButton fill='outline' onClick={onClose}>
+                    Cancel
+                </IonButton>
             </IonRow>
             <div className={'pdf-milk-previewPage'}>
                 <PDFTemplate report={report} />

@@ -28,7 +28,8 @@
 }
 
 .settings__section-option p span {
-    color: var(--ion-color-primary);
+    color: black;
+    font-weight: 600;
 }
 
 .settings__section-option_disabled {
@@ -62,4 +63,15 @@
     margin-left: 4px;
 
     color: var(--ion-color-primary);
+}
+
+.settings__apk-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 56px;
+
+    padding: 0 16px;
+    font-size: 14px;
 }

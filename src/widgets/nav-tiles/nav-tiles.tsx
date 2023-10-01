@@ -28,9 +28,8 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To add a human milk sample tap here
-                            <br />
-                            and scan the bracode or enter the milk ID
+                            To add a human milk sample tap here and scan the barcode or enter the
+                            milk ID
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -55,9 +54,8 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To analyse an existing human milk sample
-                            <br />
-                            tap here, select the sample ID and use the Preemie Sensor
+                            To analyse an existing human milk sample tap here, select the sample ID
+                            and use the Preemie Sensor
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
@@ -82,13 +80,12 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To view and print analyses for one or more milk samples
-                            <br />
-                            and to print milk labels, tap here
+                            To view and print analyses for one or more milk samples and to print
+                            milk labels, tap here
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
-                        <h3>Milk Analyses</h3>
+                        <h3>Milk Reports</h3>
                     </IonText>
                 </div>
             </Link>

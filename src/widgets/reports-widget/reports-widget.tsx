@@ -68,15 +68,18 @@ export const ReportsWidget: React.FunctionComponent = () => {
     return (
         <PageArea>
             <PageArea.Header
-                title='Milk Analyses'
+                title='Milk Reports'
                 icon={<ReportsIcon />}
                 actions={
                     reportsLoading ? null : (
-                        <DateRange
-                            defaultFrom={from}
-                            defaultTo={to}
-                            onChange={handleDateRangeChange}
-                        />
+                        <div className={cn('calendar')}>
+                            <h5>Search for analysis dates:</h5>
+                            <DateRange
+                                defaultFrom={from}
+                                defaultTo={to}
+                                onChange={handleDateRangeChange}
+                            />
+                        </div>
                     )
                 }
                 className={cn('header')}

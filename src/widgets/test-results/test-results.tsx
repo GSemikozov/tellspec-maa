@@ -69,15 +69,11 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
     }, [reportMilk]);
 
     if (!reportMilk) {
-        return <div className={cn('placeholder')}>This milk has not been analysed</div>;
+        return <div className={cn('placeholder')}>This milk has not been analysed.</div>;
     }
 
     if (!reportMilk.data.analyseData) {
-        return (
-            <div className={cn('placeholder')}>
-                We haven't analysed data for this report. Please start analyse for get first data
-            </div>
-        );
+        return <div className={cn('placeholder')}>This milk has not been analysed.</div>;
     }
 
     // TODO: we have to process somehow multiple scan results on the Test Results page

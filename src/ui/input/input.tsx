@@ -9,9 +9,10 @@ export type PreemieInputProps = Parameters<typeof IonInput>[0];
 
 export const PreemieInput = React.forwardRef<HTMLIonInputElement, PreemieInputProps>(
     ({ className = '', ...otherProps }, forwardRef) => {
+        const { label, placeholder, type, fill } = otherProps;
+
         const inputClassName = ['preemie-input', className].join(' ');
 
-        const { label, placeholder, type, fill, name } = otherProps;
         const handlers = mapHandlers(otherProps);
 
         return (
@@ -24,7 +25,6 @@ export const PreemieInput = React.forwardRef<HTMLIonInputElement, PreemieInputPr
                 placeholder={placeholder}
                 fill={fill}
                 type={type}
-                id={`custom-input-${name}`}
             />
         );
     },

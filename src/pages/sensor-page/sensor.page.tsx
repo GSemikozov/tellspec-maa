@@ -69,6 +69,8 @@ export const SensorPage: React.FunctionComponent = () => {
     console.log('currentDevice', currentDevice);
     console.log('sensorScannerData', sensorScannerData);
 
+    const handleClickCalibrate = () => calibrateSensor(currentDevice);
+
     const activeCalibration = currentDevice.activeCal;
 
     return (
@@ -103,20 +105,6 @@ export const SensorPage: React.FunctionComponent = () => {
                                             </IonChip>
                                         </div>
                                     </div>
-
-                                    {activeCalibration ? (
-                                        <div className={cn('section-option')}>
-                                            <p>Pga</p>
-
-                                            <div
-                                                className={cn('section-option-action', {
-                                                    information: true,
-                                                })}
-                                            >
-                                                {activeCalibration.scan['scan-info'].dlp_header.pga}
-                                            </div>
-                                        </div>
-                                    ) : null}
 
                                     {currentDevice.humidity ? (
                                         <div className={cn('section-option')}>
@@ -168,7 +156,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         <p>Scans</p>
                                     </div>
 
-                                    <div className={cn('section-option')}>
+                                    {/* <div className={cn('section-option')}>
                                         <p>Number of warm up scans required</p>
 
                                         <div
@@ -178,7 +166,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         >
                                             4
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {sensorScannerData ? (
                                         <div className={cn('section-option')}>
@@ -226,7 +214,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                             <IonChip
                                                 className={cn('calibrate-sensor')}
                                                 disabled={calibrateSensorLoading}
-                                                onClick={calibrateSensor}
+                                                onClick={handleClickCalibrate}
                                             >
                                                 <IonText className={cn('chip-text')}>
                                                     Calibrate sensor

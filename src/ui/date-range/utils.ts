@@ -1,7 +1,7 @@
 import { format, startOfDay } from 'date-fns';
 
 export const formatUTCDate = (date: Date) =>
-    `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
+    `${date.getUTCDate()}/${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`;
 
 export const setStartDay = (date: Date) =>
     format(startOfDay(date), 'yyyy-MM-dd') + 'T00:00:00.000Z';

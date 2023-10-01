@@ -2,7 +2,7 @@
     padding-inline-end: 16px;
 }
 .reports-widget__main {
-    padding: 12px;
+    padding: 0px 12px;
 }
 
 .reports-widget__placeholder {
@@ -16,4 +16,13 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+}
+
+.reports-widget__calendar {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+.page-area__header {
+    min-height: 60px;
 }

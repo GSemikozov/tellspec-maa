@@ -3,6 +3,7 @@ import React from 'react';
 import { classname } from '@shared/utils';
 
 import './sensor-manager-instructions.css';
+import { IonAccordion, IonAccordionGroup, IonItem } from '@ionic/react';
 
 const cn = classname('sensor-manager-instructions');
 
@@ -28,8 +29,16 @@ export const SensorManagerInstructions: React.FunctionComponent<SensorManagerIns
 
     return (
         <div className={rootClassName}>
-            <div className={cn('title')}>{title}</div>
-            <div className={cn('content')}>{children}</div>
+            <IonAccordionGroup>
+                <IonAccordion value='first'>
+                    <IonItem slot='header' color='light' className={cn('title')}>
+                        <div>{title}</div>
+                    </IonItem>
+                    <div className={cn('content')} slot='content'>
+                        {children}
+                    </div>
+                </IonAccordion>
+            </IonAccordionGroup>
         </div>
     );
 };
