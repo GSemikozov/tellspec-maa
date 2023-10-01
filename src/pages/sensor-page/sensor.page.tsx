@@ -9,7 +9,6 @@ import { PageArea } from '@shared/ui';
 import {
     getSensorScanner,
     getSensorCalibration,
-    selectSensorCalibration,
     selectSensorDevice,
     useCalibrateSensor,
     selectSensorScannerData,
@@ -33,7 +32,6 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
-    const sensorCalibration = useSelector(selectSensorCalibration);
 
     const pairedDevices = useSelector(selectSensorPairedDevices);
 
@@ -70,7 +68,8 @@ export const SensorPage: React.FunctionComponent = () => {
 
     console.log('currentDevice', currentDevice);
     console.log('sensorScannerData', sensorScannerData);
-    console.log('sensorCalibration', sensorCalibration);
+
+    const activeCalibration = currentDevice.activeCal;
 
     return (
         <IonPage>
@@ -105,51 +104,47 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
 
-                                    <div className={cn('section-option')}>
-                                        <p>Pga</p>
+                                    {activeCalibration ? (
+                                        <div className={cn('section-option')}>
+                                            <p>Pga</p>
 
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {/** @ts-ignore */}
-                                            {
-                                                currentDevice?.activeCal.scan['scan-info']
-                                                    .dlp_header.pga
-                                            }
+                                            <div
+                                                className={cn('section-option-action', {
+                                                    information: true,
+                                                })}
+                                            >
+                                                {activeCalibration.scan['scan-info'].dlp_header.pga}
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
 
-                                    <div className={cn('section-option')}>
-                                        <p>Humidity</p>
+                                    {currentDevice.humidity ? (
+                                        <div className={cn('section-option')}>
+                                            <p>Humidity</p>
 
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {Number(
-                                                currentDevice?.activeCal.scan['scan-info']
-                                                    .dlp_header.humidity,
-                                            ).toFixed()}
-                                            % RH
+                                            <div
+                                                className={cn('section-option-action', {
+                                                    information: true,
+                                                })}
+                                            >
+                                                {Number(currentDevice.humidity).toFixed()}% RH
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
 
-                                    <div className={cn('section-option')}>
-                                        <p>Temperature</p>
+                                    {currentDevice.temperature ? (
+                                        <div className={cn('section-option')}>
+                                            <p>Temperature</p>
 
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {currentDevice?.activeCal.scan['scan-info'].dlp_header
-                                                .temperature || 24}{' '}
-                                            °C
+                                            <div
+                                                className={cn('section-option-action', {
+                                                    information: true,
+                                                })}
+                                            >
+                                                {currentDevice.temperature}°C
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
 
                                     <div className={cn('section-option')}>
                                         <p>Paired with</p>
@@ -181,22 +176,23 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            not available
+                                            4
                                         </div>
                                     </div>
 
-                                    <div className={cn('section-option')}>
-                                        <p>Number of scans</p>
+                                    {sensorScannerData ? (
+                                        <div className={cn('section-option')}>
+                                            <p>Number of scans</p>
 
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {/** @ts-ignore */}
-                                            {sensorScannerData?.number_scans}
+                                            <div
+                                                className={cn('section-option-action', {
+                                                    information: true,
+                                                })}
+                                            >
+                                                {sensorScannerData.number_scans}
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
                                 </div>
                             </div>
 
@@ -260,12 +256,12 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     ) : null}
 
-                                    {sensorCalibration ? (
+                                    {activeCalibration ? (
                                         <div className={cn('section-option', { fluid: true })}>
                                             <p>Spectrum of last calibration</p>
 
                                             <SensorCalibrationChart
-                                                calibration={sensorCalibration}
+                                                calibration={activeCalibration}
                                             />
                                         </div>
                                     ) : null}

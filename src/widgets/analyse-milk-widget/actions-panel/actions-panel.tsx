@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IonButton, IonModal, useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
+import { PDFReport } from '@entities/reports/components';
+import { selectSensorDevice } from '@entities/sensor';
 
 import type { AppDispatch } from '@app';
 import type { Report } from '@entities/reports';
-import { PDFReport } from '@entities/reports/components';
 
 import './actions-panel.css';
 
 const cn = classname('actions-panel');
 
 type ActionsPanelProps = {
+    report: Report;
     analyseMilkLoading: boolean;
     onAnalyseMilk: () => Promise<void>;
+
     showOnlyAnalyse?: boolean;
-    report: Report;
 };
 
 export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
@@ -30,6 +32,8 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     const [presentAlert] = useIonAlert();
     const [showPDFModal, setShowPDFModal] = useState(false);
+
+    const currentSensor = useSelector(selectSensorDevice);
 
     const handlePrintLabels = () => {
         const reportAnalyseDataResult = report.data.analyseData?.result;
@@ -75,7 +79,7 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     const handlePDFModalClose = () => setShowPDFModal(false);
 
-    if (showOnlyAnalyse) {
+    if (currentSensor && showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
         return (

@@ -11,15 +11,10 @@ import { createToastMessage } from '../utils';
 
 import type { ToastButton } from '@ionic/react';
 
-const LOADING_STATUSES: SensorConnectionProcessStatus[] = [
-    SensorConnectionProcessStatus.CHECKING_BLE,
-    SensorConnectionProcessStatus.DISCOVERING,
-    SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE,
-];
-
 export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () => {
     const {
         status,
+        loading,
         discoveredDevices,
         discoveredDevicesModalOpen,
         onOpenDiscoveryDevicesModal,
@@ -28,6 +23,8 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
 
     const handleOpenDiscoveryDevicesModalEvent = useEvent(onOpenDiscoveryDevicesModal);
     const handleCancelDiscoveryEvent = useEvent(onCancelDiscovery);
+
+    const [toastOpen, setToastOpen] = React.useState(false);
 
     const toastMessage = createToastMessage(status, {
         discoveredDeviceLength: discoveredDevices.length,
@@ -61,17 +58,17 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
         handleCancelDiscoveryEvent,
     ]);
 
-    const isToastOpen =
-        !discoveredDevicesModalOpen && Boolean(toastMessage) && LOADING_STATUSES.includes(status);
+    React.useEffect(() => {
+        const isToastOpen = !discoveredDevicesModalOpen && loading && Boolean(toastMessage);
 
-    if (!isToastOpen) {
-        return null;
-    }
+        setToastOpen(isToastOpen);
+    }, [discoveredDevicesModalOpen, toastMessage, loading]);
 
     return (
         <PreemieToast
-            isOpen
+            animated={false}
             id='sensor-connection-process-loader-toast'
+            isOpen={toastOpen}
             message={toastMessage}
             buttons={toastButtons}
         />

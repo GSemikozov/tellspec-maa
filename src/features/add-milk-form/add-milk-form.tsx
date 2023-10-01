@@ -8,6 +8,7 @@ import { PreemieSelect, PreemieInput, PreemieButton, usePreemieToast } from '@ui
 import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { userSelectors } from '@entities/user';
+import { selectSensorDevice } from '@entities/sensor';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { fetchGroup, selectGroupCompartmentList, selectGroupFreezers } from '@entities/groups';
 import { AddMilkIcon } from '@ui/icons';
@@ -21,8 +22,9 @@ import type { IDonor } from '@entities/donors/model/donors.types';
 import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
-const cn = classname('add-milk-form');
 import './add-milk-form.css';
+
+const cn = classname('add-milk-form');
 
 const defaultValues = {
     milkId: '',
@@ -42,6 +44,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const router = useIonRouter();
 
+    const currentDevice = useSelector(selectSensorDevice);
     const groupId = useSelector(userSelectors.selectGroupId);
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(selectGroupFreezers);
@@ -326,14 +329,16 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             {isFetching ? 'Loading...' : 'Save this Milk and Close'}
                         </PreemieButton>
 
-                        <PreemieButton
-                            className='button'
-                            size='small'
-                            disabled={isFetching || disabledSubmit}
-                            onClick={handleAddMilkAndAnalyse}
-                        >
-                            {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
-                        </PreemieButton>
+                        {currentDevice ? (
+                            <PreemieButton
+                                className='button'
+                                size='small'
+                                disabled={isFetching || disabledSubmit}
+                                onClick={handleAddMilkAndAnalyse}
+                            >
+                                {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
+                            </PreemieButton>
+                        ) : null}
                     </IonRow>
                 </PageArea.Main>
             </PageArea>

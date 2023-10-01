@@ -1,11 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { usePreemieToast } from '@ui';
 import { useEvent } from '@shared/hooks';
 import { AppDispatch } from '@app';
+import { tellspecRetrieveDeviceConnect } from '@api/native';
 
-import { removeDevice } from '../model';
+import { removeDevice, selectSensorDevice } from '../model';
+import { isSensorDisconnectedError } from '../helpers';
 
 type UseRemoveSensorOptions = {
     onComplete?: () => void | Promise<void>;
@@ -24,25 +26,38 @@ export const useRemoveSensor = ({
 
     const [loading, setLoading] = React.useState(false);
 
-    const call = React.useCallback(async (deviceUuid: string) => {
-        try {
-            setLoading(true);
+    const currentDevice = useSelector(selectSensorDevice);
 
-            await dispatch(removeDevice(deviceUuid)).unwrap();
+    const call = React.useCallback(
+        async (deviceUuid: string) => {
+            try {
+                await tellspecRetrieveDeviceConnect(deviceUuid);
 
-            handleCompleteEvent();
-        } catch (error) {
-            console.error('[removeSensor]:', error);
+                setLoading(true);
 
-            await dismissToast();
-            await presentToast({
-                type: 'error',
-                message: 'An error occurred during unpairing',
-            });
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+                await dispatch(removeDevice(deviceUuid)).unwrap();
+
+                handleCompleteEvent();
+            } catch (error: any) {
+                console.error('[removeSensor]:', error);
+
+                let errorMessage = 'An error occurred during unpairing';
+
+                if (isSensorDisconnectedError(error)) {
+                    errorMessage = error.message;
+                }
+
+                await dismissToast();
+                await presentToast({
+                    type: 'error',
+                    message: errorMessage,
+                });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [currentDevice],
+    );
 
     return [call, { loading }];
 };

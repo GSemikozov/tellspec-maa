@@ -5,6 +5,7 @@ import { isEmulateNativeSdk } from '@api/native';
 const PERMISSIONS = {
     BLUETOOTH_CONNECT: 'android.permission.BLUETOOTH_CONNECT',
     BLUETOOTH_SCAN: 'android.permission.BLUETOOTH_SCAN',
+    ACCESS_COARSE_LOCATION: 'android.permission.ACCESS_COARSE_LOCATION',
 };
 
 const checkBlePermission = async () => {
@@ -16,17 +17,15 @@ const checkBlePermission = async () => {
         PERMISSIONS.BLUETOOTH_SCAN,
     );
 
-    console.log(
-        `[checkBlePermission]: ${PERMISSIONS.BLUETOOTH_CONNECT}`,
-        bluetoothConnectPermission.hasPermission,
+    const locationPermission = await AndroidPermissions.checkPermission(
+        PERMISSIONS.ACCESS_COARSE_LOCATION,
     );
 
-    console.log(
-        `[checkBlePermission]: ${PERMISSIONS.BLUETOOTH_SCAN}`,
-        bluetoothScanPermission.hasPermission,
+    return (
+        bluetoothConnectPermission.hasPermission &&
+        bluetoothScanPermission.hasPermission &&
+        locationPermission.hasPermission
     );
-
-    return bluetoothConnectPermission.hasPermission && bluetoothScanPermission.hasPermission;
 };
 
 const requestBlePermissions = async () => {

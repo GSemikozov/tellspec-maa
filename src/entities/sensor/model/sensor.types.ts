@@ -10,21 +10,22 @@ export enum CalibrationStatus {
     READY = 'ready',
 }
 
-export type SensorDevice = TellspecSensorDevice & {
+export type Calibration = GetCalibrationResponse;
+
+export type SensorDevice = Omit<TellspecSensorDevice, 'activeCal'> & {
     batteryLevel?: number;
     humidity?: number;
     temperature?: number;
     lampTime?: string;
+    activeCal?: Calibration;
 };
 
-export type Calibration = GetCalibrationResponse;
 export type SensorScannerData = GetSensorScannerResponse;
 
 export type SensorState = {
     calibrationStatus: CalibrationStatus;
     currentDevice: SensorDevice | null;
     pairedDevices: SensorDevice[];
-    lastCalibration: Calibration | null;
     sensorScannerData: SensorScannerData | null;
 
     calibrationRequired: boolean;

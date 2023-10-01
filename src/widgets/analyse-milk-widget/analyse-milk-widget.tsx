@@ -4,12 +4,11 @@ import { IonLabel, IonSegment, IonSegmentButton, useIonRouter } from '@ionic/rea
 
 import { usePreemieToast, BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
-import { apiInstance } from '@api/network';
 import { useEventAsync } from '@shared/hooks';
 import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
 import { selectUserEmail } from '@entities/user/model/user.selectors';
-import { CalibrationType, runSensorScan /*, selectSensorDevice */ } from '@entities/sensor';
+import { useRunScanSensor } from '@entities/sensor';
 import { extractReportAnalyseData } from '@entities/reports';
 import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
@@ -21,7 +20,6 @@ import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
 
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import type { AppDispatch } from '@app/store';
-import type { Report } from '@entities/reports';
 
 import './analyse-milk-widget.css';
 
@@ -43,7 +41,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         AnalyseWidgetTabs.TEST_RESULTS,
     );
 
-    const [analyseMilkLoading, setAnalyseMilkLoading] = React.useState(false);
     const [, setModelScannedData] = React.useState<any>(null);
 
     const [fetchSpectrumScan, onSetSpectrumScan, { spectrumScan, loading: spectrumScanLoading }] =
@@ -62,7 +59,27 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
             },
         });
 
-    // const connectedSensor = useSelector(selectSensorDevice);
+    const [call, { scanValidationResultComponent, loading: analyseMilkLoading }] = useRunScanSensor(
+        {
+            onComplete: async runScanSensorData => {
+                const { newReport, newModelData, newSensorScanData } = runScanSensorData;
+
+                setModelScannedData(newModelData);
+
+                onSetReport(newReport);
+                onSetSpectrumScan(newSensorScanData);
+
+                if (activeTab === AnalyseWidgetTabs.SPECTRUM) {
+                    await presentToast({
+                        type: 'success',
+                        message:
+                            'Milk was successfully analysed! You can see the result on the tab "Test Results"',
+                    });
+                }
+            },
+        },
+    );
+
     const userEmail = useSelector(selectUserEmail);
 
     const milksLoading = useSelector(selectIsMilkLoading);
@@ -74,64 +91,9 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         lazyFetchReport({ milk_id: milkId });
     });
 
-    const handleAnalyseMilk = useEventAsync(async () => {
-        try {
-            setAnalyseMilkLoading(true);
-
-            await presentToast({ message: 'Start analyse...' });
-
-            if (!reportMilk) {
-                throw new Error('Missing milk report');
-            }
-
-            const newSensorScanData = await dispatch(runSensorScan(userEmail)).unwrap();
-
-            if (!newSensorScanData || !newSensorScanData.uuid || !newSensorScanData.absorbance) {
-                throw new Error('An error occured on analyse milk');
-            }
-
-            const scanId = newSensorScanData.uuid;
-
-            const modelData = await apiInstance.sensor.runModel({
-                scans: [scanId],
-                average: false,
-                'calib-to-use': CalibrationType.FACTORY,
-            });
-
-            const updatedReport: Report = {
-                ...reportMilk,
-                data: {
-                    ...reportMilk.data,
-                    analyseData: {
-                        scanId: scanId,
-                        result: modelData,
-                    },
-                },
-            };
-
-            await apiInstance.reports.updateReport(updatedReport);
-
-            setModelScannedData(modelData);
-
-            onSetReport(updatedReport);
-            onSetSpectrumScan(newSensorScanData);
-
-            if (activeTab === AnalyseWidgetTabs.SPECTRUM) {
-                await presentToast({
-                    type: 'success',
-                    message:
-                        'Milk was successfully analysed! You can see the result on the tab "Test Results"',
-                });
-            }
-        } catch (error: any) {
-            await presentToast({
-                type: 'error',
-                message: error.message,
-            });
-        } finally {
-            setAnalyseMilkLoading(false);
-        }
-    });
+    const handleAnalyseMilk = React.useCallback(async () => {
+        await call(reportMilk, userEmail);
+    }, [call, reportMilk, userEmail]);
 
     const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
         setActiveTab(event.target.value as AnalyseWidgetTabs);
@@ -230,6 +192,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                         <IonSegmentButton value={AnalyseWidgetTabs.TEST_RESULTS}>
                             <IonLabel>Test Results</IonLabel>
                         </IonSegmentButton>
+
                         <IonSegmentButton value={AnalyseWidgetTabs.SPECTRUM}>
                             <IonLabel>Spectrum</IonLabel>
                         </IonSegmentButton>
@@ -240,14 +203,16 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     {showActions && reportMilk ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
+                                report={reportMilk}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleAnalyseMilk}
-                                report={reportMilk}
                             />
                         </div>
                     ) : null}
                 </div>
+
+                {scanValidationResultComponent}
             </PageArea.Main>
         </PageArea>
     );

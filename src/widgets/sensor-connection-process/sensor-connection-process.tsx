@@ -9,7 +9,6 @@ import {
     tellspecAddListener,
     tellspecCheckBleState,
     tellspecEnableDiscovery,
-    tellspecGetPairDevice,
 } from '@api/native';
 import {
     useCalibrateSensor,
@@ -31,6 +30,12 @@ import type { PluginListenerHandle } from '@capacitor/core';
 import type { AppDispatch } from '@app';
 import type { TellspecListenerEvents, TellspecSensorDevice } from '@api/native';
 import type { SensorConnectionProcessContextValue } from './sensor-connection-process-context';
+
+const LOADING_STATUSES: SensorConnectionProcessStatus[] = [
+    SensorConnectionProcessStatus.CHECKING_BLE,
+    SensorConnectionProcessStatus.DISCOVERING,
+    SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE,
+];
 
 export const SensorConnectionProcessProvider: React.FunctionComponent<React.PropsWithChildren> = ({
     children,
@@ -145,14 +150,12 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             await presentToast({
                 type: 'success',
                 message: createToastMessage(SensorConnectionProcessStatus.PAIRING_SUCCESS),
-                onDidDismiss: async () => {
-                    if (requiredCalibration) {
-                        await new Promise(resolve => setTimeout(resolve, 1_000));
-
-                        calibrateSensor();
-                    }
-                },
             });
+
+            if (requiredCalibration) {
+                await new Promise(resolve => setTimeout(resolve, 1_000));
+                calibrateSensor(device);
+            }
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);
 
@@ -166,13 +169,11 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     React.useEffect(() => {
         const retrievePairedDeviceFromStorage = async () => {
             try {
-                const storeDevice = await tellspecGetPairDevice();
-
-                if (storeDevice === null) {
+                if (!currentDevice) {
                     return;
                 }
 
-                await dispatch(connectSensorDevice(storeDevice)).unwrap();
+                await dispatch(connectSensorDevice(currentDevice)).unwrap();
 
                 setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
             } catch {
@@ -190,7 +191,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
             retrievePairedDeviceFromStorage();
         }
-    }, []);
+    }, [currentDevice]);
 
     React.useEffect(() => {
         if (updateDiscoveredDevicesListener === null) {
@@ -234,6 +235,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const context = React.useMemo(
         () => ({
             status,
+            loading: LOADING_STATUSES.includes(status),
 
             discoveredDevices,
             discoveredDevicesModalOpen,

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { SENSOR_DISCONNECTED } from '../helpers';
+
 import { CalibrationStatus } from './sensor.types';
 import {
     connectSensorDevice,
@@ -7,7 +9,6 @@ import {
     removeDevice,
     runSensorScan,
     getSensorStatus,
-    getSensorCalibration,
     getSensorScanner,
 } from './sensor.actions';
 
@@ -17,7 +18,6 @@ const initialState: SensorState = {
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     calibrationRequired: false,
     currentDevice: null,
-    lastCalibration: null,
     sensorScannerData: null,
     pairedDevices: [],
 
@@ -48,14 +48,10 @@ export const sensorSlice = createSlice({
                 lampTime: action.payload.lampTime,
             };
         });
-
-        // get sensor calibration
-        builder.addCase(getSensorCalibration.fulfilled, (state, action) => {
-            if (!action.payload) {
-                return;
+        builder.addCase(getSensorStatus.rejected, (state, action) => {
+            if (action.payload === SENSOR_DISCONNECTED) {
+                state.currentDevice = null;
             }
-
-            state.lastCalibration = action.payload;
         });
 
         // get sensor scanner
@@ -90,6 +86,11 @@ export const sensorSlice = createSlice({
             }
 
             state.pairedDevices = [updatedDevice];
+        });
+        builder.addCase(connectSensorDevice.rejected, (state, action) => {
+            if (action.payload === SENSOR_DISCONNECTED) {
+                state.currentDevice = null;
+            }
         });
 
         // calibrate sensor device
@@ -127,9 +128,13 @@ export const sensorSlice = createSlice({
             }
         });
         builder.addCase(calibrateSensorDevice.rejected, (state, action) => {
+            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
+
             state.calibrationStatus = CalibrationStatus.ERROR;
 
-            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
+            if (action.payload === SENSOR_DISCONNECTED) {
+                state.currentDevice = null;
+            }
         });
 
         // sensor scanning
@@ -139,8 +144,12 @@ export const sensorSlice = createSlice({
         builder.addCase(runSensorScan.fulfilled, state => {
             state.sensorScanning.status = 'idle';
         });
-        builder.addCase(runSensorScan.rejected, state => {
+        builder.addCase(runSensorScan.rejected, (state, action) => {
             state.sensorScanning.status = 'idle';
+
+            if (action.payload === SENSOR_DISCONNECTED) {
+                state.currentDevice = null;
+            }
         });
 
         // remove device

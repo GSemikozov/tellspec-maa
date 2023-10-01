@@ -5,7 +5,6 @@ import { SensorEvent } from 'tellspec-sensor-sdk/src';
 
 import { classname } from '@shared/utils';
 import {
-    selectSensorCalibrationDisconnected,
     selectSensorCalibrationLoading,
     selectSensorCalibrationRequired,
     selectSensorDevice,
@@ -48,7 +47,6 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const currentDevice = useSelector(selectSensorDevice);
 
-    const calibrationDisconnected = useSelector(selectSensorCalibrationDisconnected);
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
 
@@ -61,7 +59,7 @@ export const SensorManager: React.FunctionComponent = () => {
     };
 
     const getInstructions = React.useCallback(() => {
-        if (calibrationDisconnected) {
+        if (!currentDevice) {
             const discovering = [
                 SensorConnectionProcessStatus.CHECKING_BLE,
                 SensorConnectionProcessStatus.DISCOVERING,
@@ -93,13 +91,15 @@ export const SensorManager: React.FunctionComponent = () => {
             };
         }
 
-        if (calibrationRequired && currentDevice) {
+        if (currentDevice && calibrationRequired) {
             return {
                 title: 'Calibration required',
                 content: (
                     <>
                         <div className={cn('actions')}>
-                            <IonButton onClick={calibrateSensor}>Start Calibration</IonButton>
+                            <IonButton onClick={() => calibrateSensor(currentDevice)}>
+                                Start Calibration
+                            </IonButton>
 
                             <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
                                 Unpair Sensor
@@ -132,7 +132,6 @@ export const SensorManager: React.FunctionComponent = () => {
         removeSensor,
         sensorInformationVideo,
         sensorConnectionProcessStatus,
-        calibrationDisconnected,
         calibrationRequired,
         calibrationLoading,
         onStartDiscovery,

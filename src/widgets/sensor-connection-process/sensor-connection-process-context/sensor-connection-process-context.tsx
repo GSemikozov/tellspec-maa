@@ -10,6 +10,7 @@ type onStartDiscoveryOptions = {
 
 export type SensorConnectionProcessContextValue = {
     status: SensorConnectionProcessStatus;
+    loading: boolean;
 
     discoveredDevices: TellspecSensorDevice[];
     discoveredDevicesModalOpen: boolean;

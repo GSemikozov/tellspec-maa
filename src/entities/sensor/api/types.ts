@@ -137,6 +137,7 @@ export type GetSensorScannerResponse = {
     last_calibration: string; // ie. 2020-02-26 13:51:21
     notes: string; // ie. some notes
     created_at: string; // ie. 2019-07-23 19:34:19
+    number_scans: number;
     calibrations: [
         {
             config: string; // ie. TSH20X9
@@ -152,4 +153,5 @@ export type GetSensorScannerResponse = {
 export type SaveScanResponse = {
     success: boolean;
     'failed-scan': string[]; // [scan uuid]
+    'scan-validation': 'ok' | 'not_ideal' | 'bad';
 };

@@ -93,6 +93,10 @@ export const tellspecCheckBleState = async (): Promise<TellspecSensorBaseRespons
 };
 
 export const tellspecRetrieveDeviceConnect = async (deviceUuid: string) => {
+    if (await isEmulateNativeSdk()) {
+        return;
+    }
+
     await tellspecConnect({ address: deviceUuid });
     await tellspecReadScannerInfo();
 
@@ -112,6 +116,9 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
     if (device.name === '' || device.serial === '') {
         throw new Error('Missing device info');
     }
+
+    // connect and get info
+    await tellspecRetrieveDeviceConnect(device.uuid);
 
     const getCalibration = async (config: string) => {
         const sensorCalibration = await apiInstance.sensor.getCalibration(
@@ -155,10 +162,6 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
         return storageDeviceCalibration;
     }
 
-    // connect and get info
-    await tellspecConnect({ address: device.uuid });
-    await tellspecReadScannerInfo();
-
     // get the sensor config
     const configs = await tellspecGetConfigs();
 
@@ -166,42 +169,33 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
     return getCalibration(configs.activeConfig);
 };
 
-export const tellspecGetPairDevice = async (): Promise<TellspecSensorDevice | null> => {
-    const storeDevice = await nativeStore.get(NativeStorageKeys.DEVICE);
-
-    return storeDevice?.device ?? null;
-};
-
-export const tellspecSavePairDevice = async (device: TellspecSensorDevice): Promise<void> => {
-    await nativeStore.set(NativeStorageKeys.DEVICE, { device, scan: null });
-};
-
 export const tellspecRemoveDevice = async (): Promise<void> => {
     await TellspecSensorSdk.forgetDevice();
-    await nativeStore.remove(NativeStorageKeys.DEVICE);
 };
 
-export const tellspecRunScan = async (userEmail: string) => {
-    const pairedDevice = await tellspecGetPairDevice();
-
-    if (!pairedDevice) {
-        throw new Error('not found paired device');
-    }
-
-    await tellspecRetrieveDeviceConnect(pairedDevice.uuid);
+export const tellspecRunScan = async (device: TellspecSensorDevice, userEmail: string) => {
+    await tellspecRetrieveDeviceConnect(device.uuid);
 
     const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
 
-    await tellspecSaveScan({
+    const saveScanResponse = await tellspecSaveScan({
         sensorScannedData,
-        device: pairedDevice,
+        device,
         userEmail,
     });
 
-    return sensorScannedData;
+    if (saveScanResponse.error) {
+        return null;
+    }
+
+    return {
+        saveScanResponse: saveScanResponse.data,
+        sensorScannedData,
+    };
 };
 
 type tellspecSaveScanOptions = tellspecPrepareScanOptions;
+
 export const tellspecSaveScan = async (options: tellspecSaveScanOptions) => {
     const requestBody = tellspecPrepareScan(options);
     const saveScanResponse = await apiInstance.sensor.saveScan(requestBody);

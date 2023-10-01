@@ -24,8 +24,9 @@ export const usePreemieToast = (): [
         async (presentOptions: presentToastOptions) => {
             const {
                 type,
+                animated = false,
                 position = 'top',
-                duration = 3000,
+                duration = 4500,
                 delay,
                 ...otherPresentOptions
             } = presentOptions;
@@ -43,8 +44,11 @@ export const usePreemieToast = (): [
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
 
+            await dismissToast();
+
             await presentToast({
                 ...otherPresentOptions,
+                animated,
                 position,
                 duration,
                 cssClass,
