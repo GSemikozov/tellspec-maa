@@ -45,6 +45,7 @@ export const ForgetPasswordForm: React.FunctionComponent = () => {
             <IonList class='ion-padding'>
                 <IonItem lines='none'>
                     <PreemieInput
+                        inputMode='email'
                         label-placement='floating'
                         label='Email'
                         placeholder='Email'

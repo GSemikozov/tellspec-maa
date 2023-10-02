@@ -180,7 +180,7 @@ export const SensorManager: React.FunctionComponent = () => {
 
             <IonAccordionGroup>
                 <IonAccordion value='first'>
-                    <IonItem slot='header' color='light' className={cn('accordion-header')}>
+                    <IonItem slot='header' color='none' className={cn('accordion-header')}>
                         <IonTitle className='ion-no-padding ion-no-margin  '>
                             Video tutorials
                         </IonTitle>

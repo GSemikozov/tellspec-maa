@@ -71,4 +71,5 @@
 
 .sensor-manager__accordion-header {
     width: 39rem;
+    border-bottom: 1px solid var(--ion-color-primary);
 }
