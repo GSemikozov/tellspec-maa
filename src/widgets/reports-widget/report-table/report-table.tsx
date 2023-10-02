@@ -3,6 +3,7 @@ import {
     createColumnHelper,
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
     useReactTable,
     getSortedRowModel,
 } from '@tanstack/react-table';
@@ -10,10 +11,12 @@ import { IonCheckbox } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { formatUTCDate } from '@ui/date-range/utils';
+import { StatusFilter } from '@widgets/reports-widget/status-filter';
 
-import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
+import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-table.utils';
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
+import type { FilterValue } from '@widgets/reports-widget/status-filter';
 
 import './report-table.css';
 
@@ -60,6 +63,7 @@ const columns = [
     // }),
 
     columnHelper.accessor(row => row, {
+        id: 'dataAnalysed',
         header: 'Date Analysed',
         cell: info => {
             const data = info.getValue();
@@ -123,6 +127,7 @@ const columns = [
 
 export type ReportTableProps = {
     reports: Report[];
+    onRowClick: (id: string) => void;
 };
 
 export type ColumnSort = {
@@ -132,19 +137,22 @@ export type ColumnSort = {
 
 export type SortingState = ColumnSort[];
 
-export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
+export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports, onRowClick }) => {
     const [rowSelection, setRowSelection] = React.useState({});
     const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [globalFilter, setGlobalFilter] = React.useState<FilterValue>('analysed');
 
     const table = useReactTable({
         enableRowSelection: true,
         data: reports,
         columns,
-        state: { rowSelection, sorting: sorting },
-        onSortingChange: setSorting,
+        state: { rowSelection, sorting, globalFilter },
+        globalFilterFn: statusFilter,
+        onGlobalFilterChange: setGlobalFilter,
+        getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-
+        onSortingChange: setSorting,
         onRowSelectionChange: value => setRowSelection(value),
     });
 
@@ -152,6 +160,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
     return (
         <div className={cn()}>
+            <StatusFilter onChange={setGlobalFilter} value={globalFilter} />
             <table>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -180,7 +189,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
+                        <tr key={row.id} onClick={() => onRowClick(row.getValue('milk_id'))}>
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

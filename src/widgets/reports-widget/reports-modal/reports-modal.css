@@ -1,0 +1,11 @@
+.report-modal::part(content) {
+    padding-bottom: 2rem;
+    max-height: 90%;
+    --width: 80%;
+    --height: fit-content;
+    overflow-y: scroll;
+}
+
+.report-modal__close-button {
+    margin: 0 auto;
+}

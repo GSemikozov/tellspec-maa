@@ -14,7 +14,7 @@ import './test-results.css';
 const cn = classname('test-results');
 
 type TestResultsProps = {
-    reportMilk: Report | null;
+    reportMilk: Report | null | undefined;
 };
 
 type ScaleValue = {
