@@ -158,13 +158,16 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
         let result: any | null = null;
 
-        log('sensor/calibrate:sensorScannedData', sensorScannedData);
         log('sensor/calibrate:configs', configs);
 
         for (let index = 0; index < scannerData.try_configs.length; index++) {
-            const preferConfig = scannerData.try_configs[index];
+            const preferConfig = scannerData.try_configs[index].toLowerCase();
+            const activeConfig = configs.activeConfig.toLowerCase();
 
-            if (preferConfig === configs.activeConfig) {
+            log('sensor/calibrate:preferConfig', preferConfig);
+            log('sensor/calibrate:activeConfig', activeConfig);
+
+            if (preferConfig === configs.activeConfig.toLowerCase()) {
                 // the config is already active.
                 result = await saveCalibration({
                     user,
@@ -183,7 +186,11 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     configIndex < configs.configsAvailable.length;
                     configIndex++
                 ) {
-                    const avaliableConfig = configs.configsAvailable[configIndex];
+                    const avaliableConfig =
+                        (configs.configsAvailable[configIndex] as string)?.toLowerCase() ?? '';
+
+                    log('sensor/calibrate:preferConfig', preferConfig);
+                    log('sensor/calibrate:avaliableConfig', avaliableConfig);
 
                     if (avaliableConfig === preferConfig) {
                         // we found a config that we can use. Its not active, se we need to set the device accordantly
