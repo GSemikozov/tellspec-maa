@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { usePreemieToast } from '@ui';
 import { tellspecRetrieveDeviceConnect } from '@api/native';
 import { AppDispatch } from '@app';
+import { log } from '@shared/utils';
 
 import { SensorDevice, calibrateSensorDevice } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
@@ -22,6 +23,8 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
 
     const call = React.useCallback(async (device: SensorDevice | null) => {
         try {
+            log('useCalibrateSensor:device', device);
+
             await tellspecRetrieveDeviceConnect(device?.uuid ?? '');
 
             setLoading(true);
@@ -32,7 +35,7 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
 
             await dispatch(calibrateSensorDevice()).unwrap();
         } catch (error: any) {
-            console.error('[calibrateSensor]:', error);
+            console.error('useCalibrateSensor:error', error);
 
             let errorMessage = 'An error occurred during calibration';
 
