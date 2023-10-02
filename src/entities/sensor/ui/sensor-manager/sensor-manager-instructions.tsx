@@ -31,7 +31,7 @@ export const SensorManagerInstructions: React.FunctionComponent<SensorManagerIns
         <div className={rootClassName}>
             <IonAccordionGroup>
                 <IonAccordion value='first'>
-                    <IonItem slot='header' color='light' className={cn('title')}>
+                    <IonItem slot='header' color='none' className={cn('title')}>
                         <div>{title}</div>
                     </IonItem>
                     <div className={cn('content')} slot='content'>
