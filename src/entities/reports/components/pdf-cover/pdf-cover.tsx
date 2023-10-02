@@ -18,6 +18,7 @@ export const PDFCover: React.FC<PDFCover> = props => {
     const date = new Date(props.reportDate);
     const formattedDate = format(date, 'MMMM do yyyy');
 
+    console.log(props)
     return (
         <div className={'pdf-milk-cover'} style={{ background: `url(${coverImage})` }}>
             <div className={'pdf-milk-imgContainer'}>

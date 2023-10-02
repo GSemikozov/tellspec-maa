@@ -20,6 +20,7 @@ export const PDFHeader: React.FC = () => {
                 <span className={'pdf-milk-headerContainerResults'}>
                     HUMAN MILK ANALYSIS RESULTS
                 </span>
+               
                 <span>Prepared for: {user ? `${user.last_name}, ${user.first_name}` : ''}</span>
                 <span>{formattedDate}</span>
             </div>

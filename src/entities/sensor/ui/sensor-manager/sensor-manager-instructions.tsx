@@ -29,16 +29,16 @@ export const SensorManagerInstructions: React.FunctionComponent<SensorManagerIns
 
     return (
         <div className={rootClassName}>
-            <IonAccordionGroup>
+            {/* <IonAccordionGroup>
                 <IonAccordion value='first'>
                     <IonItem slot='header' color='none' className={cn('title')}>
-                        <div>{title}</div>
-                    </IonItem>
+                </IonItem> */}
+                <div>{title}</div>
                     <div className={cn('content')} slot='content'>
                         {children}
                     </div>
-                </IonAccordion>
-            </IonAccordionGroup>
+                {/* </IonAccordion>
+            </IonAccordionGroup> */}
         </div>
     );
 };

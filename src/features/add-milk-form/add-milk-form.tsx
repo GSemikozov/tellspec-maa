@@ -208,7 +208,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <div className={cn('form-group', { fluid: true })}>
                             <PreemieInput
                                 type='text'
-                                label='Milk ID'
+                                label='Milk ID*'
                                 label-placement='floating'
                                 {...register('milkId')}
                             />
@@ -220,7 +220,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect
-                                    label='Donor ID'
+                                    label='Donor ID*'
                                     label-placement='floating'
                                     {...register('donorId')}
                                 >
@@ -241,7 +241,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
-                                    label='Infant Delivery Date'
+                                    label='Infant Delivery Date*'
                                     label-placement='floating'
                                     {...register('infantDeliveryDate')}
                                 />
@@ -255,7 +255,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
-                                    label='Received Date'
+                                    label='Received Date*BHUVGC'
                                     label-placement='floating'
                                     className='received-date-size'
                                     {...register('receivedDate')}
@@ -306,7 +306,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
-                                    label='Milk Expression Date'
+                                    label='Milk Expression Date*'
                                     label-placement='floating'
                                     {...register('milkExpressionDate')}
                                 />
