@@ -9,6 +9,7 @@ import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { fetchReport, selectIsReportLoading, selectReportsByDate } from '@entities/reports';
 
+import { ReportModal } from './reports-modal';
 import { ReportTable } from './report-table';
 import { ActionsPanel } from './actions-panel';
 
@@ -25,6 +26,9 @@ export const ReportsWidget: React.FunctionComponent = () => {
     const date = new Date();
     const fromDefaultDate = setStartDay(date);
     const toDefaultDate = setEndDay(date);
+
+    const [selectedMilkID, setSelectedMilkID] = React.useState<string | null>();
+    const [isReportModalOpened, setIsReportModalOpened] = React.useState(false);
 
     const [from, setFrom] = React.useState<string>(fromDefaultDate);
     const [to, setTo] = React.useState<string>(toDefaultDate);
@@ -52,6 +56,16 @@ export const ReportsWidget: React.FunctionComponent = () => {
         );
     };
 
+    const handleModalClose = () => {
+        setIsReportModalOpened(false);
+        setTimeout(setSelectedMilkID, 500, null);
+    };
+
+    const handleRowClick = (id: string) => {
+        setSelectedMilkID(id);
+        setIsReportModalOpened(true);
+    };
+
     const renderMain = React.useMemo(() => {
         if (reportsLoading) {
             return (
@@ -62,7 +76,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
             );
         }
 
-        return <ReportTable reports={reports} />;
+        return <ReportTable reports={reports} onRowClick={handleRowClick} />;
     }, [reportsLoading, reports]);
 
     return (
@@ -88,6 +102,14 @@ export const ReportsWidget: React.FunctionComponent = () => {
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 
             <div className={cn('actions')}>{reportsLoading ? null : <ActionsPanel />}</div>
+
+            {selectedMilkID && (
+                <ReportModal
+                    milkID={selectedMilkID}
+                    isOpen={isReportModalOpened}
+                    onClose={handleModalClose}
+                />
+            )}
         </PageArea>
     );
 };

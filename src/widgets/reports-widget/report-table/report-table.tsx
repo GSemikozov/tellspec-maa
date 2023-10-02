@@ -11,12 +11,11 @@ import { IonCheckbox } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { formatUTCDate } from '@ui/date-range/utils';
-
 import { StatusFilter } from '@widgets/reports-widget/status-filter';
+
 import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-table.utils';
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
-
 import type { FilterValue } from '@widgets/reports-widget/status-filter';
 
 import './report-table.css';
@@ -128,6 +127,7 @@ const columns = [
 
 export type ReportTableProps = {
     reports: Report[];
+    onRowClick: (id: string) => void;
 };
 
 export type ColumnSort = {
@@ -137,7 +137,7 @@ export type ColumnSort = {
 
 export type SortingState = ColumnSort[];
 
-export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
+export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports, onRowClick }) => {
     const [rowSelection, setRowSelection] = React.useState({});
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [globalFilter, setGlobalFilter] = React.useState<FilterValue>('analysed');
@@ -189,7 +189,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
+                        <tr key={row.id} onClick={() => onRowClick(row.getValue('milk_id'))}>
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
