@@ -153,8 +153,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             });
 
             if (requiredCalibration) {
-                await new Promise(resolve => setTimeout(resolve, 1_000));
-                calibrateSensor(device);
+                await calibrateSensor(device);
             }
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);

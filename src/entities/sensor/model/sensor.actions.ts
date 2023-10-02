@@ -16,6 +16,7 @@ import {
     tellspecStartScan,
 } from '@api/native';
 import { apiInstance } from '@api/network';
+import { log } from '@shared/utils';
 
 import { EMULATION_SCAN_ID } from '../sensor.constants';
 import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
@@ -91,26 +92,35 @@ export const getSensorCalibration = createAsyncThunk(
 
 export const connectSensorDevice = createAsyncThunk(
     'sensor/connect',
-    async (device: TellspecSensorDevice, thunkAPI) => {
+    async (device: TellspecSensorDevice) => {
         try {
             const shallowDevice = { ...device };
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const calibrationReady = Boolean(calibrationData);
+
+            log('sensor/connect:shallowDevice', shallowDevice);
+            log('sensor/connect:calibrationData', calibrationData);
 
             if (calibrationReady) {
                 shallowDevice.activeCal = calibrationData;
                 shallowDevice.activeConfig = calibrationData.config;
             }
 
+            log('sensor/connect:shallowDeviceResult', shallowDevice);
+            log('sensor/connect:result', {
+                device: shallowDevice,
+                requiredCalibration: !calibrationReady,
+            });
+
             return {
                 device: shallowDevice,
                 requiredCalibration: !calibrationReady,
             };
         } catch (error: any) {
-            console.error('[connectDevice]: ', error);
+            log('sensor/connect:error', error);
 
             if (isSensorDisconnectedError(error)) {
-                return thunkAPI.rejectWithValue(SENSOR_DISCONNECTED);
+                throw new Error(SENSOR_DISCONNECTED);
             }
 
             throw error;
@@ -120,6 +130,8 @@ export const connectSensorDevice = createAsyncThunk(
 
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
+
+    log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
         return;
@@ -131,6 +143,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
             sensor.currentDevice.name,
             sensor.currentDevice.serial,
         );
+
+        log('sensor/calibrate:scannerData', scannerData);
 
         if (!scannerData) {
             return;
@@ -144,6 +158,9 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
         let result: any | null = null;
 
+        log('sensor/calibrate:sensorScannedData', sensorScannedData);
+        log('sensor/calibrate:configs', configs);
+
         for (let index = 0; index < scannerData.try_configs.length; index++) {
             const preferConfig = scannerData.try_configs[index];
 
@@ -155,6 +172,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     preferConfig,
                     sensorScannedData,
                 });
+
+                log('sensor/calibrate:preferConfig === configs.activeConfig', result);
 
                 return;
             } else {
@@ -177,11 +196,15 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                             sensorScannedData,
                         });
 
+                        log('sensor/calibrate:preferConfig === avaliableConfig', result);
+
                         return;
                     }
                 }
             }
         }
+
+        log('sensor/calibrate:result', result);
 
         if (!result) {
             throw new Error("Sensor doesn't a valid config.");
@@ -192,11 +215,20 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         updatedDevice.activeCal = result;
         updatedDevice.activeConfig = result.config;
 
+        log('sensor/calibrate:updatedDevice', updatedDevice);
+
+        log('sensor/calibrate:calibrationResult', {
+            calibrationData: result,
+            updatedDevice,
+        });
+
         return {
             calibrationData: result,
             updatedDevice,
         };
     } catch (error: any) {
+        log('sensor/calibrate:error', error);
+
         if (isSensorDisconnectedError(error)) {
             throw new Error(error);
         }
