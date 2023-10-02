@@ -43,14 +43,15 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
         tickAmount: 5,
         title: {
             text: 'Absorbance',
-            offsetX: -10,
             style: {
-                fontSize: '1em',
+                fontSize: '1.4em',
                 fontWeight: 400,
             },
         },
         labels: {
+            offsetX: 12,
             style: { fontSize: '1em', fontWeight: 400 },
+
             /**
              * Allows users to apply a custom formatter function to yaxis labels.
              *
@@ -72,7 +73,7 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
         title: {
             text: 'Wavelength (nm)',
             style: {
-                fontSize: '1em',
+                fontSize: '1.4em',
                 fontWeight: 400,
             },
         },
