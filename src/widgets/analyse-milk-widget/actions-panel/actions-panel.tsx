@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonButton, IonModal, useIonAlert } from '@ionic/react';
 
@@ -31,7 +31,7 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     const dispatch = useDispatch<AppDispatch>();
 
     const [presentAlert] = useIonAlert();
-    const [showPDFModal, setShowPDFModal] = useState(false);
+    const [showPDFModal, setShowPDFModal] = React.useState(false);
 
     const currentSensor = useSelector(selectSensorDevice);
 

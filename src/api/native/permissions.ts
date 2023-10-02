@@ -1,4 +1,5 @@
 import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { Filesystem } from '@capacitor/filesystem';
 
 import { isEmulateNativeSdk } from '@api/native';
 
@@ -55,6 +56,29 @@ export const retrieveBlePermissions = async (): Promise<boolean> => {
         return hasBlePermissions;
     } catch (error) {
         console.error('[retrieveBlePermissions]', error);
+
+        return false;
+    }
+};
+
+export const retrieveFilesystemPermissions = async (): Promise<boolean> => {
+    if (await isEmulateNativeSdk()) {
+        const emulateResponse = true;
+
+        console.log('[retrieveFilesystemPermissions/emulate]:', emulateResponse);
+        return emulateResponse;
+    }
+
+    try {
+        let hasPermission = await Filesystem.checkPermissions();
+
+        if (hasPermission.publicStorage !== 'granted') {
+            hasPermission = await Filesystem.requestPermissions();
+        }
+
+        return hasPermission.publicStorage === 'granted';
+    } catch (error) {
+        console.error('[retrieveFilesystemPermissions]', error);
 
         return false;
     }

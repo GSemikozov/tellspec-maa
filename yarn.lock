@@ -1047,6 +1047,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/filesystem@^5.1.4":
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/@capacitor/filesystem/-/filesystem-5.1.4.tgz#6e3278f4c47c72416d586367889736b576113ef5"
+  integrity sha512-10EM1KvFMs+pTzxkcflspzxBWcX9sOnS9nTP5Afjr5hn4OxLrwTFySw2Z12Uv6jdN4OnhY3jXtDKXPljXvXILg==
+
 "@capacitor/geolocation@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@capacitor/geolocation/-/geolocation-5.0.6.tgz#05f7d96f4274847c4e09f443cad71a21126a679a"
