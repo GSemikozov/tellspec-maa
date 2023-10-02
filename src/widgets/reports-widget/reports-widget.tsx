@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import { IonModal } from '@ionic/react';
 
 import { LogoAnimation } from '@ui/logo/animated-logo';
 import { DateRange, setEndDay, setStartDay } from '@ui/date-range';
@@ -15,7 +16,6 @@ import type { AppDispatch } from '@app';
 
 // import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
-// import { IonCheckbox } from '@ionic/react';
 
 const cn = classname('reports-widget');
 

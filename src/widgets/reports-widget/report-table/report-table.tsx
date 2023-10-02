@@ -3,6 +3,7 @@ import {
     createColumnHelper,
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
     useReactTable,
     getSortedRowModel,
 } from '@tanstack/react-table';
@@ -11,9 +12,12 @@ import { IonCheckbox } from '@ionic/react';
 import { classname } from '@shared/utils';
 import { formatUTCDate } from '@ui/date-range/utils';
 
-import { getParameterByName, ColumnNamesMapping } from './report-table.utils';
+import { StatusFilter } from '@widgets/reports-widget/status-filter';
+import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-table.utils';
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
+
+import type { FilterValue } from '@widgets/reports-widget/status-filter';
 
 import './report-table.css';
 
@@ -60,6 +64,7 @@ const columns = [
     // }),
 
     columnHelper.accessor(row => row, {
+        id: 'dataAnalysed',
         header: 'Date Analysed',
         cell: info => {
             const data = info.getValue();
@@ -135,16 +140,19 @@ export type SortingState = ColumnSort[];
 export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports }) => {
     const [rowSelection, setRowSelection] = React.useState({});
     const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [globalFilter, setGlobalFilter] = React.useState<FilterValue>('analysed');
 
     const table = useReactTable({
         enableRowSelection: true,
         data: reports,
         columns,
-        state: { rowSelection, sorting: sorting },
-        onSortingChange: setSorting,
+        state: { rowSelection, sorting, globalFilter },
+        globalFilterFn: statusFilter,
+        onGlobalFilterChange: setGlobalFilter,
+        getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-
+        onSortingChange: setSorting,
         onRowSelectionChange: value => setRowSelection(value),
     });
 
@@ -152,6 +160,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
     return (
         <div className={cn()}>
+            <StatusFilter onChange={setGlobalFilter} value={globalFilter} />
             <table>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
