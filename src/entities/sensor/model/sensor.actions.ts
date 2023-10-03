@@ -153,7 +153,12 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
         // start by getting the sensor scan
-        const sensorScannedData = tellspecPrepareSensorScannedData(await tellspecStartScan());
+        const sensorScannedData = await tellspecStartScan();
+        log('sensor/calibrate:sensorScannedData', sensorScannedData);
+
+        const preparedSensorScannedData = tellspecPrepareSensorScannedData(sensorScannedData);
+        log('sensor/calibrate:preparedSensorScannedData', preparedSensorScannedData);
+
         const configs = await tellspecGetConfigs();
 
         let result: any | null = null;
@@ -173,7 +178,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     user,
                     sensor,
                     preferConfig,
-                    sensorScannedData,
+                    sensorScannedData: preparedSensorScannedData,
                 });
 
                 log('sensor/calibrate:preferConfig === configs.activeConfig', result);
@@ -200,7 +205,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                             user,
                             sensor,
                             preferConfig,
-                            sensorScannedData,
+                            sensorScannedData: preparedSensorScannedData,
                         });
 
                         log('sensor/calibrate:preferConfig === avaliableConfig', result);
