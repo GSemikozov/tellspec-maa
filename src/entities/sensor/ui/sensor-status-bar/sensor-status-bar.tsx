@@ -59,7 +59,7 @@ export const SensorStatusBar: React.FunctionComponent = () => {
     const statusTitle = React.useMemo(() => {
         if (!devicePaired) {
             if (bleStatusOn) {
-                return 'Please connect a sensor';
+                return 'Sensor is not connected';
             }
         }
 

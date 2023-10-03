@@ -79,7 +79,7 @@ export const SensorManager: React.FunctionComponent = () => {
             };
 
             return {
-                title: 'Connect a Preemie sensor',
+                title: '',
                 content: (
                     <>
                         <div className={cn('actions')}>
