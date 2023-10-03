@@ -178,7 +178,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
                 log('sensor/calibrate:preferConfig === configs.activeConfig', result);
 
-                return;
+                break;
             } else {
                 // check if it matches one of our configs
                 for (
@@ -205,7 +205,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
                         log('sensor/calibrate:preferConfig === avaliableConfig', result);
 
-                        return;
+                        break;
                     }
                 }
             }
