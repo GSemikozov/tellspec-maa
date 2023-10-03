@@ -40,7 +40,6 @@ export const App: React.FunctionComponent = () => {
         }
 
         dispatch(fetchAppSettings());
-        nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, true);
 
         if (typeof window !== 'undefined') {
             const searchParams = new URLSearchParams(window.location.search);
