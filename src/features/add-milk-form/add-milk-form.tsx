@@ -183,6 +183,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
+                                    
                                     buttons={[
                                         {
                                             text: 'Yes',
@@ -208,6 +209,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <div className={cn('form-group', { fluid: true })}>
                             <PreemieInput
                                 type='text'
+                                required
                                 label='Milk ID*'
                                 label-placement='floating'
                                 {...register('milkId')}
@@ -241,6 +243,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
+                                    required
                                     label='Infant Delivery Date*'
                                     label-placement='floating'
                                     {...register('infantDeliveryDate')}
@@ -255,7 +258,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
-                                    label='Received Date*BHUVGC'
+                                    required
+                                    label='Received Date*'
                                     label-placement='floating'
                                     className='received-date-size'
                                     {...register('receivedDate')}
@@ -307,6 +311,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <PreemieInput
                                     type='date'
                                     label='Milk Expression Date*'
+                                    required={true}
                                     label-placement='floating'
                                     {...register('milkExpressionDate')}
                                 />

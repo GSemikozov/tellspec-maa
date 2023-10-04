@@ -2,7 +2,6 @@ import React from 'react';
 import { IonButton, IonCol, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { routesMapping } from '@app/routes';
 
 import './actions-panel.css';
 
@@ -23,7 +22,6 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props =>
                 <IonButton href={printURL} disabled={isPrintButtonDisabled}>
                     Print Milk Test Results
                 </IonButton>
-                <IonButton routerLink={routesMapping.addMilk}>Analyse Another Milk</IonButton>
             </IonCol>
         </IonRow>
     );
