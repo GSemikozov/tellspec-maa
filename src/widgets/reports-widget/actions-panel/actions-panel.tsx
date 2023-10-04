@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonButton, IonCol, IonRow } from '@ionic/react';
+import { IonCol, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 // import { routesMapping } from '@app/routes';
