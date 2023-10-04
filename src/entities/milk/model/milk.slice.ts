@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchMilks } from './milk.actions';
+import { fetchMilkById, fetchMilks, fetchMilksByIds } from './milk.actions';
 
 import type { MilkSliceState } from './milk.types';
 
@@ -27,6 +27,35 @@ export const milkSlice = createSlice({
             }, {});
         });
         builder.addCase(fetchMilks.rejected, state => {
+            state.status = 'error';
+        });
+        builder.addCase(fetchMilkById.pending, state => {
+            state.status = 'loading';
+        });
+        builder.addCase(fetchMilkById.fulfilled, (state, action) => {
+            state.status = 'success';
+            state.byIds[action.payload.milk_id] = action.payload;
+        });
+        builder.addCase(fetchMilkById.rejected, state => {
+            state.status = 'error';
+        });
+
+        builder.addCase(fetchMilksByIds.pending, state => {
+            state.status = 'loading';
+        });
+        builder.addCase(fetchMilksByIds.fulfilled, (state, action) => {
+            state.status = 'success';
+            state.byIds = {
+                ...state.byIds,
+                ...action.payload.reduce((previousValue, currentValue) => {
+                    return {
+                        ...previousValue,
+                        [currentValue.milk_id]: currentValue,
+                    };
+                }, {}),
+            };
+        });
+        builder.addCase(fetchMilksByIds.rejected, state => {
             state.status = 'error';
         });
     },

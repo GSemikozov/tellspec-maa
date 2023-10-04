@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
+import { PDFPage } from '@pages/pdf';
 import { LoginPage } from '@pages/login';
 import { ForgetPasswordPage } from '@pages/forget-password';
 import { HomePage } from '@pages/home';
@@ -14,7 +15,7 @@ import { SensorPage } from '@pages/sensor-page';
 import { userSelectors } from '@entities/user';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
-import { selectIsAppFetching } from '@app/model';
+import { selectIsAppFetching, selectLayoutClassName } from '@app/model';
 
 import { fetchAppSettings, fetchBleStatus } from './model/app.actions';
 import { routesMapping } from './routes';
@@ -31,6 +32,7 @@ export const App: React.FunctionComponent = () => {
 
     const isAppFetching = useSelector(selectIsAppFetching);
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
+    const layoutClassName = useSelector(selectLayoutClassName);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -68,7 +70,7 @@ export const App: React.FunctionComponent = () => {
         <SensorConnectionProcessProvider>
             <IonApp>
                 <IonReactRouter>
-                    <IonRouterOutlet animated={false}>
+                    <IonRouterOutlet className={layoutClassName} animated={false}>
                         <PublicOnlyRoute exact path={routesMapping.login}>
                             <LoginPage />
                         </PublicOnlyRoute>
@@ -100,6 +102,8 @@ export const App: React.FunctionComponent = () => {
                         <ProtectedRoute exact path={routesMapping.sensorPage}>
                             <SensorPage />
                         </ProtectedRoute>
+
+                        <ProtectedRoute exact path={routesMapping.pdfPage} component={PDFPage} />
                     </IonRouterOutlet>
                 </IonReactRouter>
             </IonApp>

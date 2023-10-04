@@ -19,3 +19,8 @@ export const selectIsSidebarOpen = createSelector(
 
 export const selectBleState = createSelector([selectAppState], appState => appState.ble);
 export const selectBleStatus = createSelector([selectBleState], bleState => bleState.status);
+
+export const selectLayoutClassName = createSelector(
+    [selectAppState],
+    appState => appState.layout.className,
+);

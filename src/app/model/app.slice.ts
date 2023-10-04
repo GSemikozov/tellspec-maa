@@ -17,6 +17,7 @@ const initialState: IApp = {
     },
     layout: {
         isSidebarVisible: true,
+        className: '',
     },
     alert: {
         isAlertVisible: false,
@@ -35,6 +36,10 @@ export const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
+        setLayoutClassName: (state, action) => {
+            state.layout.className = action.payload;
+        },
+
         hideSidebar: state => {
             state.layout.isSidebarVisible = false;
         },

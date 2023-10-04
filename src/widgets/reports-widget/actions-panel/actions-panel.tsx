@@ -8,11 +8,21 @@ import './actions-panel.css';
 
 const cn = classname('actions-panel');
 
-export const ActionsPanel: React.FunctionComponent = () => {
+type ActionsPanelProps = {
+    selectedIDS: string[];
+};
+
+export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props => {
+    const { selectedIDS } = props;
+    const printURL = `/pdf/${encodeURIComponent(selectedIDS.join(','))}`;
+    const isPrintButtonDisabled = selectedIDS.length === 0;
+
     return (
         <IonRow>
             <IonCol className={cn()}>
-                {/* <IonButton>Print Milk Test Results</IonButton> */}
+                <IonButton href={printURL} disabled={isPrintButtonDisabled}>
+                    Print Milk Test Results
+                </IonButton>
                 <IonButton routerLink={routesMapping.addMilk}>Analyse Another Milk</IonButton>
             </IonCol>
         </IonRow>

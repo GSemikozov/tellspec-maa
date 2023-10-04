@@ -1,0 +1,8 @@
+.scrollable {
+    position: static;
+    overflow: auto;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    color: black;
+}

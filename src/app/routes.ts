@@ -8,4 +8,5 @@ export const routesMapping: Record<string, string> = {
     reports: '/reports',
     settings: '/settings',
     sensorPage: '/sensor',
+    pdfPage: '/pdf/:ids',
 };

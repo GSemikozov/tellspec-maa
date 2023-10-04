@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { IonModal } from '@ionic/react';
 
 import { LogoAnimation } from '@ui/logo/animated-logo';
 import { DateRange, setEndDay, setStartDay } from '@ui/date-range';
@@ -15,7 +14,6 @@ import { ActionsPanel } from './actions-panel';
 
 import type { AppDispatch } from '@app';
 
-// import { ReportsIcon } from '@ui/icons';
 import './reports-widget.css';
 
 const cn = classname('reports-widget');
@@ -29,6 +27,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
     const [selectedMilkID, setSelectedMilkID] = React.useState<string | null>();
     const [isReportModalOpened, setIsReportModalOpened] = React.useState(false);
+    const [reportsSelection, setReportsSelection] = React.useState({});
 
     const [from, setFrom] = React.useState<string>(fromDefaultDate);
     const [to, setTo] = React.useState<string>(toDefaultDate);
@@ -44,6 +43,8 @@ export const ReportsWidget: React.FunctionComponent = () => {
             }),
         );
     }, []);
+
+    console.log('reportsSelection', reportsSelection);
 
     const handleDateRangeChange = range => {
         setFrom(range.from);
@@ -76,7 +77,13 @@ export const ReportsWidget: React.FunctionComponent = () => {
             );
         }
 
-        return <ReportTable reports={reports} onRowClick={handleRowClick} />;
+        return (
+            <ReportTable
+                reports={reports}
+                onRowSelectionChange={setReportsSelection}
+                onRowClick={handleRowClick}
+            />
+        );
     }, [reportsLoading, reports]);
 
     return (
@@ -101,7 +108,11 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>
 
-            <div className={cn('actions')}>{reportsLoading ? null : <ActionsPanel />}</div>
+            <div className={cn('actions')}>
+                {reportsLoading ? null : (
+                    <ActionsPanel selectedIDS={Object.keys(reportsSelection)} />
+                )}
+            </div>
 
             {selectedMilkID && (
                 <ReportModal
