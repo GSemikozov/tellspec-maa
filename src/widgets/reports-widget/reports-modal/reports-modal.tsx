@@ -1,12 +1,17 @@
 import React from 'react';
 import { IonButton, IonModal } from '@ionic/react';
 import { useSelector } from 'react-redux';
+import { TabSwitch } from '../tab-switch';
 
-import { TestResults } from '@widgets/test-results';
+// import { TestResults } from '@widgets/test-results';
 import { classname } from '@shared/utils';
 import { selectReportByMilkId } from '@entities/reports';
 
 import './reports-modal.css';
+import { TabSwitchValue } from '../tab-switch/tab-switch';
+
+import { TestResults } from '@widgets/test-results';
+import { ReportInfo } from '../report-info';
 
 type ReportModalProps = {
     isOpen: boolean;
@@ -17,7 +22,8 @@ type ReportModalProps = {
 const cn = classname('report-modal');
 
 export const ReportModal: React.FC<ReportModalProps> = props => {
-    const { milkID, isOpen, onClose } = props;
+    const { isOpen, onClose, milkID } = props;
+    const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
 
     const report = useSelector(state => selectReportByMilkId(state, milkID));
     const selectedMilkReportHasData = !!report?.data?.analyseData;
@@ -26,9 +32,19 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
         return null;
     }
 
+    const handleTabChange = (value: TabSwitchValue) => {
+        setTabSwitch(value);
+    };
+
     return (
-        <IonModal className={cn()} isOpen={isOpen} onIonModalDidDismiss={onClose}>
-            <TestResults reportMilk={report} />
+        <IonModal className={cn()} isOpen={isOpen}>
+            <TabSwitch onChange={handleTabChange} value={tabSwitch} />
+            {selectedMilkReportHasData && (
+                <div className={cn('content')}>
+                    {tabSwitch === 'info' && <ReportInfo />}
+                    {tabSwitch === 'results' && <TestResults reportMilk={report} />}
+                </div>
+            )}
             <IonButton className={cn('close-button')} onClick={onClose}>
                 Close
             </IonButton>

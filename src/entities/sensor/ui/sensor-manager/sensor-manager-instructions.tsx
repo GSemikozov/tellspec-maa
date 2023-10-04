@@ -3,7 +3,7 @@ import React from 'react';
 import { classname } from '@shared/utils';
 
 import './sensor-manager-instructions.css';
-import { IonAccordion, IonAccordionGroup, IonItem } from '@ionic/react';
+// import { IonAccordion, IonAccordionGroup, IonItem } from '@ionic/react';
 
 const cn = classname('sensor-manager-instructions');
 
