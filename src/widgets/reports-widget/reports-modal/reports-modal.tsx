@@ -3,7 +3,7 @@ import { IonButton, IonModal } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { TabSwitch } from '../tab-switch';
 
-// import { TestResults } from '@widgets/test-results';
+
 import { classname } from '@shared/utils';
 import { selectReportByMilkId } from '@entities/reports';
 
@@ -37,17 +37,19 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
     };
 
     return (
-        <IonModal className={cn()} isOpen={isOpen}>
-            <TabSwitch onChange={handleTabChange} value={tabSwitch} />
+        <IonModal className={cn()} isOpen={isOpen} onIonModalDidDismiss={onClose}>
+            <div className={cn('header')}>
+                <TabSwitch onChange={handleTabChange} value={tabSwitch} />
+            <IonButton className={cn('close-button')} onClick={onClose}>
+                Close
+            </IonButton>
+            </div>
             {selectedMilkReportHasData && (
                 <div className={cn('content')}>
                     {tabSwitch === 'info' && <ReportInfo />}
                     {tabSwitch === 'results' && <TestResults reportMilk={report} />}
                 </div>
             )}
-            <IonButton className={cn('close-button')} onClick={onClose}>
-                Close
-            </IonButton>
         </IonModal>
     );
 };

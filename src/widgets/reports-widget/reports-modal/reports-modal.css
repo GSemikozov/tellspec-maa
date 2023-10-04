@@ -1,11 +1,22 @@
 .report-modal::part(content) {
     padding-bottom: 2rem;
-    max-height: 90%;
-    --width: 80%;
-    --height: fit-content;
+    /* max-height: 100%; */
+    --width: 100%;
+    --height: 100%; 
     overflow-y: scroll;
 }
 
-.report-modal__close-button {
-    margin: 0 auto;
+.report-modal__header {
+    display: flex;
+    margin: 1rem;
+}
+/* .report-modal__close-button {
+
+} */
+
+.report-modal__content{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 4rem 6rem;
 }
