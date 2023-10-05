@@ -81,22 +81,27 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
 
     return (
         <div className={cn('scales')}>
-            {analyseData.map(data => {
-                const { name, units, value } = data;
-                const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
+            {analyseData
+                .filter(item => {
+                    console.log('scales name: ', item);
+                    return item.name !== 'Total solids' && item.name !== 'Total Carbs';
+                })
+                .map(data => {
+                    const { name, units, value } = data;
+                    const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
 
-                return (
-                    <Scale
-                        key={data.name}
-                        label={name}
-                        value={typeof value === 'string' ? parseFloat(value) : value}
-                        units={units}
-                        minRequiredValue={minRequiredValue}
-                        maxRequiredValue={maxRequiredValue}
-                        step={step}
-                    />
-                );
-            })}
+                    return (
+                        <Scale
+                            key={data.name}
+                            label={name}
+                            value={typeof value === 'string' ? parseFloat(value) : value}
+                            units={units}
+                            minRequiredValue={minRequiredValue}
+                            maxRequiredValue={maxRequiredValue}
+                            step={step}
+                        />
+                    );
+                })}
         </div>
     );
 };
