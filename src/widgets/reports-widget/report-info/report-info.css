@@ -14,10 +14,10 @@
     justify-content: space-between;
 }
 .report-info__columns{
-    margin: 2rem;
+    margin: 2rem 0rem 2rem 7rem
 }
 .report-info__segment {
     border-bottom: 1px solid var(--ion-color-primary);
-    width: 80%;
+    width: 90%;
     margin: 2rem;
 }

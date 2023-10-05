@@ -53,11 +53,12 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
 
     return (
         <IonModal className={cn()} isOpen={isOpen} onIonModalDidDismiss={onClose}>
-            <div className={cn('header')}>
+            <span className={cn('header')}>
+              
                 <IonButton className={cn('close-button')} onClick={onClose}>
                     Close
                 </IonButton>
-            </div>
+            </span>
             {selectedMilkReportHasData && <ModalContent milkID={milkID} />}
         </IonModal>
     );

@@ -11,11 +11,11 @@ const defaultValues = {
     milkId: '123',
     donorId: '321',
     infantDeliveryDate: '04/10/2023',
-    milkExpressionDate: '',
-    milkExpirationDate: '',
-    receivedDate: '',
-    storageFreezer: '',
-    storageCompartment: '',
+    milkExpressionDate: '04/10/2023',
+    milkExpirationDate: '04/10/2023',
+    receivedDate: '04/10/2023',
+    storageFreezer: 'A-123',
+    
 };
 
 export const ReportInfo = () => {
