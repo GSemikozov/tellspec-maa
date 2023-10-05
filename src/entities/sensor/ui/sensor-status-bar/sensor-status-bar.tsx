@@ -22,6 +22,7 @@ import { BleStatus, selectBleStatus } from '@app/model';
 
 import './sensor-status-bar.css';
 
+
 import type { AppDispatch } from '@app';
 
 const cn = classname('sensor');
@@ -72,7 +73,7 @@ export const SensorStatusBar: React.FunctionComponent = () => {
                 return 'Please wait, the sensor is calibrating';
             }
 
-            return 'The sensor is connected & ready';
+            return 'The sensor is connected & ready' + ` (${currentDevice.serial})`;
         }
 
         return 'Turn on and connect a sensor';
