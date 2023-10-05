@@ -14,7 +14,7 @@ import {
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
-    selectSensorPairedDevices,
+    // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
 
@@ -33,7 +33,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
 
-    const pairedDevices = useSelector(selectSensorPairedDevices);
+    // const pairedDevices = useSelector(selectSensorPairedDevices);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -97,13 +97,13 @@ export const SensorPage: React.FunctionComponent = () => {
                                     <div className={cn('section-option', { header: true })}>
                                         <p>Sensor</p>
 
-                                        <div className={cn('section-option-action')}>
+                                        {/* <div className={cn('section-option-action')}>
                                             <IonChip>
                                                 <IonText className={cn('chip-text')}>
                                                     {currentDevice.serial}
                                                 </IonText>
                                             </IonChip>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     {currentDevice.humidity ? (
@@ -142,11 +142,12 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 information: true,
                                             })}
                                         >
-                                            {pairedDevices.map(pairedDevice => (
+                                            {/* {pairedDevices.map(pairedDevice => (
                                                 <div key={pairedDevice.uuid}>
                                                     {pairedDevice.name}
                                                 </div>
-                                            ))}
+                                            ))} */}
+                                            {currentDevice.serial}
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +171,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                     {sensorScannerData ? (
                                         <div className={cn('section-option')}>
-                                            <p>Number of scans</p>
+                                            <p>Lifetime number of scans</p>
 
                                             <div
                                                 className={cn('section-option-action', {
