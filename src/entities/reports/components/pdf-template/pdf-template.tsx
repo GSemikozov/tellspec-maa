@@ -18,7 +18,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ report }) => {
     const result = report.data.analyseData?.result;
     const proteinValue = result?.find(item => item.name === 'Protein (True Protein)')?.value || 0;
     const fatValue = result?.find(item => item.name === 'Fat')?.value || 0;
-    const carbValue = result?.find(item => item.name === 'Total Carbs')?.value || 0;
+    // const carbValue = result?.find(item => item.name === 'Total Carbs')?.value || 0;
     const energyValue = result?.find(item => item.name === 'Energy')?.value || 0;
 
     return (
