@@ -1,4 +1,4 @@
-import { isBefore, isDate, parse } from 'date-fns';
+import { isAfter, isBefore, isDate, parse } from 'date-fns';
 import * as yup from 'yup';
 
 const parseDateString = (value: string): Date => {
@@ -12,6 +12,7 @@ const parseDateString = (value: string): Date => {
 const isDateBefore = (firstDate: Date, secondDate: Date) => {
     return isBefore(firstDate, secondDate);
 };
+
 
 export const buildMilkData = (milk: AddMilkFormFieldValues) => {
     return {
@@ -71,6 +72,31 @@ export const validationSchema = yup.object({
                     });
                 }
 
+                return true;
+            },
+        })
+        .test({
+            exclusive: false,
+            name: 'validate milkExpressionDate and ReceivedDate',
+            test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
+                const {
+                    milkExpressionDate: milkExpressionDateString,
+                    receivedDate: receivedDateString,
+                } = parent;
+
+                if (!milkExpressionDateString || !receivedDateString) {
+                    return true;
+                }
+
+                const milkExpressionDate = parseDateString(milkExpressionDateString);
+                const receivedDate = parseDateString(receivedDateString);
+
+                if (isDateBefore(receivedDate, milkExpressionDate)) {
+                    return createError({
+                        path: 'milkExpressionDate',
+                        message: "Milk expression date can't be after delivery date",
+                    });
+                }
                 return true;
             },
         })
