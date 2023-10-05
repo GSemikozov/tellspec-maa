@@ -58,7 +58,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
                     Close
                 </IonButton>
             </div>
-            {selectedMilkReportHasData && <ModalContent />}
+            {selectedMilkReportHasData && <ModalContent milkID={milkID} />}
         </IonModal>
     );
 };

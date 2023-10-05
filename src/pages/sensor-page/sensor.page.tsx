@@ -14,7 +14,7 @@ import {
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
-    selectSensorPairedDevices,
+    // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
 
@@ -33,7 +33,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
 
-    const pairedDevices = useSelector(selectSensorPairedDevices);
+    // const pairedDevices = useSelector(selectSensorPairedDevices);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());

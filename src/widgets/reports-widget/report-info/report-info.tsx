@@ -1,4 +1,5 @@
-import { IonCol, IonGrid, IonInput, IonRow, IonText } from '@ionic/react';
+import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
+
 import { classname } from '@shared/utils';
 
 import './report-info.css';
