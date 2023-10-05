@@ -21,6 +21,10 @@ export const getScaleValues = ({ min, max, value, step }: getScaleValuesOptions)
     let minBoundaryValue = Math.round(minValue * 100 - step * 100 * STEPS_TO_BOUNDARY) / 100;
     let maxBoundaryValue = Math.round(maxValue * 100 + step * 100 * STEPS_TO_BOUNDARY) / 100;
 
+    if (minBoundaryValue < 0) {
+        minBoundaryValue = 0;
+    }
+
     if (!isFloat(step)) {
         minBoundaryValue = Math.round(minBoundaryValue);
         maxBoundaryValue = Math.round(maxBoundaryValue);

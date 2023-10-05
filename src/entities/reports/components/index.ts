@@ -1,1 +1,1 @@
-export { PDFReport } from './pdf-report';
+export { PDFTemplate } from './pdf-template';

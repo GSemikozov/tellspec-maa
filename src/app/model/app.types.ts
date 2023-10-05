@@ -9,6 +9,7 @@ export type BleState = {
 
 export type LayoutSettings = {
     isSidebarVisible: boolean;
+    className?: string;
 };
 
 interface IAlertSettings {

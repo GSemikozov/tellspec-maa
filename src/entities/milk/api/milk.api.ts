@@ -65,8 +65,30 @@ const encodeMilkInformation = async (source: Milk): Promise<any> => {
 
 export class MilkApi extends BaseEndpoint {
     private getMilksUrl = '/main/milks-all';
-
+    private getMilksCompleteUrl = '/main/milks-all-complete/';
     private milkUrl = '/main/milks/';
+
+    getMilkById = async (id: string) => {
+        const userData = await getUserLocalData();
+
+        const response = await this.http.get<Milk>(this.milkUrl, {
+            preemie_group_id: userData?.metadata.group_id,
+            milk_id: encodeURIComponent(id),
+        });
+
+        return response.data;
+    };
+
+    getMilksByIds = async (ids: string[]) => {
+        const userData = await getUserLocalData();
+
+        const response = await this.http.get<Milk[]>(this.getMilksCompleteUrl, {
+            preemie_group_id: userData?.metadata.group_id,
+            milks: ids.join(','),
+        });
+
+        return response.data;
+    };
 
     getMilks = async () => {
         const userData = await getUserLocalData();

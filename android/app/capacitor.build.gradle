@@ -17,7 +17,7 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':barcode-printer')
     implementation project(':tellspec-sensor-sdk')
-
+    implementation "com.android.support:support-v4:28.+"
 }
 
 

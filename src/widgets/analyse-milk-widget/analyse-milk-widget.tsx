@@ -207,6 +207,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleAnalyseMilk}
+                                selectedID={milkId}
                             />
                         </div>
                     ) : null}

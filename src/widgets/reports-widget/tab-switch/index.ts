@@ -1,1 +1,1 @@
-export {TabSwitch} from './tab-switch'
+export { TabSwitch } from './tab-switch';

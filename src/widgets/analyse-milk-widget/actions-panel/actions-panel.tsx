@@ -1,10 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonButton, IonModal, useIonAlert } from '@ionic/react';
+import { IonButton, useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { labelPrinterAsyncActions } from '@features/label-printer';
-import { PDFReport } from '@entities/reports/components';
 import { selectSensorDevice } from '@entities/sensor';
 
 import type { AppDispatch } from '@app';
@@ -18,7 +17,7 @@ type ActionsPanelProps = {
     report: Report;
     analyseMilkLoading: boolean;
     onAnalyseMilk: () => Promise<void>;
-
+    selectedID: string;
     showOnlyAnalyse?: boolean;
 };
 
@@ -27,11 +26,11 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     onAnalyseMilk,
     showOnlyAnalyse,
     report,
+    selectedID,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const [presentAlert] = useIonAlert();
-    const [showPDFModal, setShowPDFModal] = React.useState(false);
 
     const currentSensor = useSelector(selectSensorDevice);
 
@@ -73,12 +72,6 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
         });
     };
 
-    const handlePrintTestResults = () => {
-        setShowPDFModal(true);
-    };
-
-    const handlePDFModalClose = () => setShowPDFModal(false);
-
     if (currentSensor && showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
@@ -99,23 +92,17 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
                 Print Milk Bag Labels
             </IonButton>
 
-            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintTestResults}>
+            <IonButton
+                expand='full'
+                disabled={analyseMilkLoading}
+                href={`/pdf/${encodeURIComponent(selectedID)}`}
+            >
                 Print Milk Test Results
             </IonButton>
 
             <IonButton expand='full' disabled={analyseMilkLoading} onClick={handleConfirmReAnalyse}>
                 {reAnalyseTitle}
             </IonButton>
-
-            {showPDFModal && report.data.analyseData && (
-                <IonModal
-                    className={cn('modal')}
-                    isOpen={showPDFModal}
-                    onIonModalDidDismiss={handlePDFModalClose}
-                >
-                    <PDFReport report={report} onClose={handlePDFModalClose} />
-                </IonModal>
-            )}
         </div>
     );
 };

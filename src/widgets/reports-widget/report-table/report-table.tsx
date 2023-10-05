@@ -17,8 +17,16 @@ import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-t
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 import type { FilterValue } from '@widgets/reports-widget/status-filter';
+import type { SortingFn } from '@tanstack/react-table';
 
 import './report-table.css';
+
+declare module '@tanstack/table-core' {
+    interface SortingFns {
+        customNameSorting: SortingFn<Report>;
+        customDateSorting: SortingFn<Report>;
+    }
+}
 
 const cn = classname('report-table');
 
@@ -27,46 +35,49 @@ const columnHelper = createColumnHelper<Report>();
 const columns = [
     columnHelper.display({
         id: 'select',
-        header: info => (
-            <IonCheckbox
-                {...{
-                    checked: info.table.getIsAllRowsSelected(),
-                    disabled: info.table.getRowModel().rows.length === 0,
-                    onIonChange: info.table.getToggleAllRowsSelectedHandler(),
-                }}
-            />
-        ),
-        cell: info => (
-            <IonCheckbox
-                {...{
-                    checked: info.row.getIsSelected(),
-                    disabled: !info.row.getCanSelect(),
-                    onIonChange: info.row.getToggleSelectedHandler(),
-                }}
-            />
-        ),
+        header: ({ table }) => {
+            const rows = table.getRowModel().rows;
+
+            return (
+                <IonCheckbox
+                    {...{
+                        checked: table.getIsAllRowsSelected(),
+                        indeterminate: table.getIsSomeRowsSelected(),
+                        disabled: rows.length === 0,
+                        onIonChange: e => {
+                            const { checked, indeterminate } = e.target;
+                            table.toggleAllRowsSelected(checked && indeterminate ? false : checked);
+                        },
+                    }}
+                />
+            );
+        },
+        cell: ({ row }) => {
+            const hasData = (row.getValue('dataAnalysed') as Report)?.data?.analyseData;
+
+            return (
+                <IonCheckbox
+                    {...{
+                        checked: row.getIsSelected(),
+                        disabled: !hasData,
+                        onIonChange: row.getToggleSelectedHandler(),
+                    }}
+                />
+            );
+        },
     }),
 
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
+        sortingFn: 'customNameSorting',
     }),
-
-    // columnHelper.accessor(row => row.data.analyseData, {
-    //     header: 'Analysed',
-    //     cell: info => {
-    //         if (!info.getValue()) {
-    //             return 'false';
-    //         }
-
-    //         return 'true';
-    //     },
-    // }),
 
     columnHelper.accessor(row => row, {
         id: 'dataAnalysed',
         header: 'Date Analysed',
+        sortingFn: 'customDateSorting',
         cell: info => {
-            const data = info.getValue();
+            const data = info.getValue() as Report;
             const date = data.last_modified_at;
             let value;
             const isDataExists = data?.data?.analyseData;
@@ -125,8 +136,11 @@ const columns = [
     ),
 ];
 
+type SelectedRows = Record<string, boolean>;
+
 export type ReportTableProps = {
     reports: Report[];
+    onRowSelectionChange: (ids: SelectedRows) => void;
     onRowClick: (id: string) => void;
 };
 
@@ -137,10 +151,40 @@ export type ColumnSort = {
 
 export type SortingState = ColumnSort[];
 
-export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports, onRowClick }) => {
-    const [rowSelection, setRowSelection] = React.useState({});
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
+    const { reports, onRowSelectionChange, onRowClick } = props;
+    const [rowSelection, setRowSelection] = React.useState<SelectedRows>({});
     const [globalFilter, setGlobalFilter] = React.useState<FilterValue>('analysed');
+    const [sorting, setSorting] = React.useState<SortingState>([
+        {
+            id: 'milk_id',
+            desc: true,
+        },
+    ]);
+
+    const handleRowSelectionChange = updaterOrValue => {
+        const ids =
+            typeof updaterOrValue === 'function' ? updaterOrValue(rowSelection) : updaterOrValue;
+        const selectableKeys = Object.keys(ids).filter(id => {
+            return reports.find(report => report.milk_id === id)?.data.analyseData;
+        });
+
+        const selectableIds = selectableKeys.reduce((previousValue, currentValue) => {
+            return {
+                ...previousValue,
+                [currentValue]: true,
+            };
+        }, {});
+
+        onRowSelectionChange(selectableIds);
+        setRowSelection(selectableIds);
+    };
+
+    const handleRowClick = row => e => {
+        if (e.target.tagName !== 'ION-CHECKBOX') {
+            onRowClick(row.getValue('milk_id'));
+        }
+    };
 
     const table = useReactTable({
         enableRowSelection: true,
@@ -152,11 +196,45 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
         getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getRowId: row => row.milk_id,
         onSortingChange: setSorting,
-        onRowSelectionChange: value => setRowSelection(value),
-    });
+        onRowSelectionChange: handleRowSelectionChange,
+        enableSortingRemoval: false,
+        sortingFns: {
+            customNameSorting: (rowA, rowB) => {
+                const rowADate = formatUTCDate(new Date(rowA.original.last_modified_at));
+                const rowBDate = formatUTCDate(new Date(rowB.original.last_modified_at));
 
-    console.log('reports', reports);
+                if (rowADate === rowBDate) {
+                    return (rowA.getValue('milk_id') as string) <
+                        (rowB.getValue('milk_id') as string)
+                        ? 1
+                        : -1;
+                }
+
+                return 0;
+            },
+            customDateSorting: (rowA, rowB) => {
+                const sortingOrderDesc = sorting[0].desc;
+
+                const rowADate = new Date(rowA.original.last_modified_at);
+                const rowBDate = new Date(rowB.original.last_modified_at);
+
+                const rowADateString = formatUTCDate(rowADate);
+                const rowBDateString = formatUTCDate(rowBDate);
+
+                if (rowADateString === rowBDateString) {
+                    return (
+                        (rowA.getValue('milk_id') as string).localeCompare(
+                            rowB.getValue('milk_id'),
+                        ) * (sortingOrderDesc ? -1 : 1)
+                    );
+                }
+
+                return rowADate.getTime() - rowBDate.getTime();
+            },
+        },
+    });
 
     return (
         <div className={cn()}>
@@ -189,7 +267,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = ({ reports
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} onClick={() => onRowClick(row.getValue('milk_id'))}>
+                        <tr key={row.original.uuid} onClick={handleRowClick(row)}>
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -1308,6 +1308,13 @@
   dependencies:
     "@types/cordova" latest
 
+"@ionic-native/printer@^5.36.0":
+  version "5.36.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/printer/-/printer-5.36.0.tgz#aed8742b26c1e16904defa33f62e4a9f6029151c"
+  integrity sha512-O4j+OWMEp09V13oZyTDcLS4tyVVf608mEr2vfvMZK+5pMnnW1H+5H9z6xBjj33sDAV/9r/91tFfwt0HgezdvhQ==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic-native/screen-orientation@^5.36.0":
   version "5.36.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/screen-orientation/-/screen-orientation-5.36.0.tgz#940245b246b0c0253fc488daa7be4c3b9341db7b"
@@ -3167,6 +3174,11 @@ cordova-plugin-android-permissions@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/cordova-plugin-android-permissions/-/cordova-plugin-android-permissions-1.1.5.tgz#aeecda735c4e5fe39ffc243e67a7a6faa6dd57d4"
   integrity sha512-oTTV9cCMBqXTCmU+nYRebsP2IQfrtdvl2vYXHjoJgv5NHCIDgY4KFg6kJTcwXQOiymeGXuw0+MTvJJOueAdleA==
+
+cordova-plugin-printer@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-printer/-/cordova-plugin-printer-0.8.0.tgz#9ae2e9e85dc1adfcce9d37a42d273e20b0914d0e"
+  integrity sha512-Olu2SuCedztO6PtXoHwA4J/emOxZlj64Ya9aZhcxoXJITG+RDF6Nb3oThcpYPTa73+py+gPF7r19lv3Q8RR/Nw==
 
 cordova-plugin-screen-orientation@^3.0.3:
   version "3.0.3"
@@ -5110,6 +5122,11 @@ jest-util@^29.7.0:
     ci-info "^3.2.0"
     graceful-fs "^4.2.9"
     picomatch "^2.2.3"
+
+jetifier@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/jetifier/-/jetifier-2.0.0.tgz#699391367ca1fe7bc4da5f8bf691eb117758e4cb"
+  integrity sha512-J4Au9KuT74te+PCCCHKgAjyLlEa+2VyIAEPNCdE5aNkAJ6FAJcAqcdzEkSnzNksIa9NkGmC4tPiClk2e7tCJuQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

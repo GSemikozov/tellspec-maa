@@ -1,7 +1,7 @@
 .pdf-milk-page {
-    width: 210mm;
-    height: 296.5mm;
-    margin: 1em 0;
+    width: 100vw;
+    height: 100vh;
+    page-break-after: always;
     background-color: white;
     display: flex;
     flex-direction: column;
