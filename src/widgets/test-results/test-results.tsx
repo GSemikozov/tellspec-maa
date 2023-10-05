@@ -39,16 +39,16 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
         maxRequiredValue: 5,
         step: 1,
     },
-    'Total Carbs': {
-        minRequiredValue: 11,
-        maxRequiredValue: 15,
-        step: 1,
-    },
-    'Total solids': {
-        minRequiredValue: 5,
-        maxRequiredValue: 12,
-        step: 1,
-    },
+    // 'Total Carbs': {
+    //     minRequiredValue: 11,
+    //     maxRequiredValue: 15,
+    //     step: 1,
+    // },
+    // 'Total solids': {
+    //     minRequiredValue: 5,
+    //     maxRequiredValue: 12,
+    //     step: 1,
+    // },
 };
 
 export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportMilk }) => {

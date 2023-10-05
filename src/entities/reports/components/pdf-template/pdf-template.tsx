@@ -78,7 +78,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ report }) => {
                     </div>
                 </div>
 
-                <div className={'pdf-milk-macroHeader'}>Carbohydrates</div>
+                {/* <div className={'pdf-milk-macroHeader'}>Carbohydrates</div>
                 <RangeItem
                     generalRange={[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]}
                     normalRangeWidth={36.8}
@@ -92,7 +92,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ report }) => {
                         unhealthy bacteria in the stomach. It also helps with the absorption of key
                         nutrients and minerals.
                     </div>
-                </div>
+                </div> */}
                 <PDFFooter page={3} />
             </div>
         </div>
