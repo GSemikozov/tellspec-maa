@@ -1,0 +1,23 @@
+.report-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.report-info p {
+    font-size: 15px;
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.report-info__columns{
+    margin: 2rem;
+}
+.report-info__segment {
+    border-bottom: 1px solid var(--ion-color-primary);
+    width: 80%;
+    margin: 2rem;
+}
