@@ -17,8 +17,16 @@ import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-t
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
 import type { FilterValue } from '@widgets/reports-widget/status-filter';
+import type { SortingFn } from '@tanstack/react-table';
 
 import './report-table.css';
+
+declare module '@tanstack/table-core' {
+    interface SortingFns {
+        customNameSorting: SortingFn<Report>;
+        customDateSorting: SortingFn<Report>;
+    }
+}
 
 const cn = classname('report-table');
 
@@ -61,13 +69,15 @@ const columns = [
 
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
+        sortingFn: 'customNameSorting',
     }),
 
     columnHelper.accessor(row => row, {
         id: 'dataAnalysed',
         header: 'Date Analysed',
+        sortingFn: 'customDateSorting',
         cell: info => {
-            const data = info.getValue();
+            const data = info.getValue() as Report;
             const date = data.last_modified_at;
             let value;
             const isDataExists = data?.data?.analyseData;
@@ -144,8 +154,13 @@ export type SortingState = ColumnSort[];
 export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const { reports, onRowSelectionChange, onRowClick } = props;
     const [rowSelection, setRowSelection] = React.useState<SelectedRows>({});
-    const [sorting, setSorting] = React.useState<SortingState>([]);
     const [globalFilter, setGlobalFilter] = React.useState<FilterValue>('analysed');
+    const [sorting, setSorting] = React.useState<SortingState>([
+        {
+            id: 'milk_id',
+            desc: true,
+        },
+    ]);
 
     const handleRowSelectionChange = updaterOrValue => {
         const ids =
@@ -184,9 +199,42 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
         getRowId: row => row.milk_id,
         onSortingChange: setSorting,
         onRowSelectionChange: handleRowSelectionChange,
-    });
+        enableSortingRemoval: false,
+        sortingFns: {
+            customNameSorting: (rowA, rowB) => {
+                const rowADate = formatUTCDate(new Date(rowA.original.last_modified_at));
+                const rowBDate = formatUTCDate(new Date(rowB.original.last_modified_at));
 
-    console.log('reports', reports);
+                if (rowADate === rowBDate) {
+                    return (rowA.getValue('milk_id') as string) <
+                        (rowB.getValue('milk_id') as string)
+                        ? 1
+                        : -1;
+                }
+
+                return 0;
+            },
+            customDateSorting: (rowA, rowB) => {
+                const sortingOrderDesc = sorting[0].desc;
+
+                const rowADate = new Date(rowA.original.last_modified_at);
+                const rowBDate = new Date(rowB.original.last_modified_at);
+
+                const rowADateString = formatUTCDate(rowADate);
+                const rowBDateString = formatUTCDate(rowBDate);
+
+                if (rowADateString === rowBDateString) {
+                    return (
+                        (rowA.getValue('milk_id') as string).localeCompare(
+                            rowB.getValue('milk_id'),
+                        ) * (sortingOrderDesc ? -1 : 1)
+                    );
+                }
+
+                return rowADate.getTime() - rowBDate.getTime();
+            },
+        },
+    });
 
     return (
         <div className={cn()}>
@@ -219,7 +267,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.id} onClick={handleRowClick(row)}>
+                        <tr key={row.original.uuid} onClick={handleRowClick(row)}>
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -183,7 +183,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
-                                    
                                     buttons={[
                                         {
                                             text: 'Yes',

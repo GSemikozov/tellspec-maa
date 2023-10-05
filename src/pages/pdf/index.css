@@ -6,3 +6,16 @@
     min-height: 100%;
     color: black;
 }
+
+.pdf__preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.pdf__preloader-message {
+    margin-top: 1rem;
+    font-size: 2rem;
+}

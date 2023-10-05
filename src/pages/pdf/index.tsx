@@ -25,6 +25,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
 
     const milks = useSelector(state => selectMilkByIds(state, ids));
     const isLoading = useSelector(selectIsMilkLoading);
+    const isPending = useRef(false);
     const layoutClassName = useSelector(selectLayoutClassName);
 
     const classNames = useRef<Record<string, string>>({});
@@ -59,24 +60,40 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
 
         dispatch(appActions.setLayoutClassName('scrollable'));
 
-        Printer.print(undefined, { margin: false }).then(() => {
-            dispatch(appActions.setLayoutClassName(classNames.current.layout));
-            document.body.className = classNames.current.body;
+        const print = async () => {
+            isPending.current = false;
+            return Printer.print(undefined, { margin: false })
+                .then(() => {
+                    dispatch(appActions.setLayoutClassName(classNames.current.layout));
+                    document.body.className = classNames.current.body;
 
-            if (rootElement) {
-                rootElement.className = classNames.current.root;
-            }
+                    if (rootElement) {
+                        rootElement.className = classNames.current.root;
+                    }
 
-            if (pageElement) {
-                pageElement.className = classNames.current.page;
-            }
+                    if (pageElement) {
+                        pageElement.className = classNames.current.page;
+                    }
 
-            history.goBack();
-        });
+                    history.goBack();
+                })
+                .catch(e => {
+                    console.log(e);
+                    isPending.current = true;
+                    setTimeout(print, 3000);
+                });
+        };
+
+        print();
     }, [milks]);
 
-    if (isLoading) {
-        return <LogoAnimation />;
+    if (isLoading || isPending.current) {
+        return (
+            <div className='pdf__preloader'>
+                <LogoAnimation />
+                {isPending && <div className='pdf__preloader-message'>Wait...</div>}
+            </div>
+        );
     }
 
     if (milks.length === 0) {
