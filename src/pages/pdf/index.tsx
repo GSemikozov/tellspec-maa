@@ -62,7 +62,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
 
         const print = async () => {
             isPending.current = false;
-            return Printer.print(undefined, { margin: false })
+            return Printer.print(undefined, { margin: false, autoFit: false })
                 .then(() => {
                     dispatch(appActions.setLayoutClassName(classNames.current.layout));
                     document.body.className = classNames.current.body;
