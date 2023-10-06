@@ -16,6 +16,7 @@ import type { AppDispatch } from '@app';
 
 import './reports-widget.css';
 
+
 const cn = classname('reports-widget');
 
 export const ReportsWidget: React.FunctionComponent = () => {
@@ -64,8 +65,9 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
     const handleRowClick = (id: string) => {
         setSelectedMilkID(id);
-
         setIsReportModalOpened(true);
+     
+
     };
 
     const renderMain = React.useMemo(() => {
@@ -115,13 +117,14 @@ export const ReportsWidget: React.FunctionComponent = () => {
                 )}
             </div>
 
+         
             {selectedMilkID && (
                 <ReportModal
-                    milkID={selectedMilkID}
-                    isOpen={isReportModalOpened}
-                    onClose={handleModalClose}
+                milkID={selectedMilkID}
+                isOpen={isReportModalOpened}
+                onClose={handleModalClose}
                 />
-            )}
+                )}
         </PageArea>
     );
 };

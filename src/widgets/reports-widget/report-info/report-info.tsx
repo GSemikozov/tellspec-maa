@@ -32,7 +32,7 @@ export const ReportInfo = ({milkInfo}) => {
                     <div className={cn('segment')}>
                         <p>
                             <IonText>Milk ID:</IonText>
-                            <IonText>{defaultValues.milkId}</IonText>
+                            <IonText>{milkInfo[0].milk_id}</IonText>
                         </p>
                     </div>
                     <div className={cn('segment')}>
