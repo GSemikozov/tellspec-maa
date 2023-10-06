@@ -1,11 +1,13 @@
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
 
+
 import { classname } from '@shared/utils';
 
 import './report-info.css';
-// import { useSelector } from 'react-redux';
+
 
 const cn = classname('report-info');
+
 
 const defaultValues = {
     milkId: '123',
@@ -18,7 +20,11 @@ const defaultValues = {
     
 };
 
-export const ReportInfo = () => {
+export const ReportInfo = ({milkInfo}) => {
+
+
+ console.log('milk', milkInfo)
+
     return (
         <IonGrid className={cn()}>
             <IonRow className='ion-margin'>

@@ -1,4 +1,4 @@
-import { isAfter, isBefore, isDate, parse } from 'date-fns';
+import { isBefore, isDate, parse } from 'date-fns';
 import * as yup from 'yup';
 
 const parseDateString = (value: string): Date => {

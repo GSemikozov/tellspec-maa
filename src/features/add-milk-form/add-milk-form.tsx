@@ -169,6 +169,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const disabledSubmit = !hasTouchedField || hasErrors;
 
+   const today = new Date().toISOString().slice(0, 10);
+
     return (
         <form className={cn()}>
             <PageArea>
@@ -242,6 +244,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
+                                    max={today}
                                     required
                                     label='Infant Delivery Date*'
                                     label-placement='floating'
@@ -257,6 +260,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
+                                    max={today}
                                     required
                                     label='Received Date*'
                                     label-placement='floating'
@@ -309,6 +313,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
+                                    max={today}
                                     label='Milk Expression Date*'
                                     required={true}
                                     label-placement='floating'
@@ -324,6 +329,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='date'
+                                    max={today}
                                     label='Milk Expiration Date'
                                     label-placement='floating'
                                     disabled

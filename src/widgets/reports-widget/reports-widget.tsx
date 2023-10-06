@@ -64,6 +64,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
 
     const handleRowClick = (id: string) => {
         setSelectedMilkID(id);
+
         setIsReportModalOpened(true);
     };
 

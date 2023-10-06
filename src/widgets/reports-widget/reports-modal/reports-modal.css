@@ -9,7 +9,7 @@
 .report-modal__header {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content:flex-end;
     margin: 1rem;
 }
 /* .report-modal__close-button {
@@ -22,4 +22,13 @@
     height: 100%;
     margin: 4rem 0;
     padding: 0 2rem
+}
+.report-modal__close-button{
+    display: flex;
+    justify-self: flex-end;
+}
+
+.report-modal__tabs{
+
+  
 }

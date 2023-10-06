@@ -112,17 +112,17 @@ const columns = [
         },
     }),
 
-    columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
-        {
-            header: 'Carbs.',
-            cell: info => {
-                const result = info.getValue<ReportAnalyseDataResult>();
+    // columnHelper.accessor(
+    //     row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
+    //     {
+    //         header: 'Carbs.',
+    //         cell: info => {
+    //             const result = info.getValue<ReportAnalyseDataResult>();
 
-                return result?.value || '-';
-            },
-        },
-    ),
+    //             return result?.value || '-';
+    //         },
+    //     },
+    // ),
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
@@ -183,6 +183,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const handleRowClick = row => e => {
         if (e.target.tagName !== 'ION-CHECKBOX') {
             onRowClick(row.getValue('milk_id'));
+           
         }
     };
 
