@@ -43,7 +43,6 @@ const ModalContent = React.memo(({ milkID }: any) => {
     );
 });
 const ModalContentUnanalysed = milkID => {
-    
     const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
     const milkInfo = useSelector(state => selectMilkById(state, milkID));
     const handleTabChange = (value: TabSwitchValue) => {
@@ -77,7 +76,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
             {selectedMilkReportHasData ? (
                 <ModalContent milkID={milkID} />
             ) : (
-                <ModalContentUnanalysed milkID={milkID}/>
+                <ModalContentUnanalysed milkID={milkID} />
             )}
         </IonModal>
     );
