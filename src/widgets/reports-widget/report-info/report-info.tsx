@@ -19,6 +19,8 @@ const defaultValues = {
 export const ReportInfo = ({ milkInfo }) => {
     console.log('milk', milkInfo && milkInfo);
 
+    console.log('milk', milkInfo && milkInfo);
+
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }

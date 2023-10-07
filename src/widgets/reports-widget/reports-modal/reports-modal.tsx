@@ -44,9 +44,11 @@ const ModalContent = React.memo(({ milkID }: any) => {
                 {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
                 {tabSwitch === 'results' &&
                     (report && Object.keys(report).length === 0 ? (
-                        <TestResults reportMilk={report} />
+                        <div className={cn('test-results')}>
+                            <TestResults reportMilk={report} />
+                        </div>
                     ) : (
-                        <ReportNonAnalysed />
+                        <ReportNonAnalysed milkId={milkInfo[0]} />
                     ))}
             </div>
         </>
@@ -59,11 +61,10 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
-        console.log('ReportModal goona dispatch', ReportModal);
         if (milkID.length > 0) {
             dispatch(fetchMilksByIds([milkID]));
         }
-    }, [milkID]);
+    }, []);
 
     return (
         <IonModal className={cn()} isOpen={isOpen} onIonModalDidDismiss={onClose}>
