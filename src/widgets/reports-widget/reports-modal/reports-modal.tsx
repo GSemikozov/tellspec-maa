@@ -43,7 +43,7 @@ const ModalContent = React.memo(({ milkID }: any) => {
                     (report && Object.keys(report).length === 0 ? (
                         <TestResults reportMilk={report} />
                     ) : (
-                        <ReportNonAnalysed milkId={milkInfo[0].milk_id} />
+                        <ReportNonAnalysed milkId={milkInfo[0]} />
                     ))}
             </div>
         </>
