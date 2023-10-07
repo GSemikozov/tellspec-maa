@@ -41,7 +41,9 @@ const ModalContent = React.memo(({ milkID }: any) => {
                 {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
                 {tabSwitch === 'results' &&
                     (report && Object.keys(report).length === 0 ? (
+                        <div className={cn('test-results')}>
                         <TestResults reportMilk={report} />
+                        </div>
                     ) : (
                         <ReportNonAnalysed milkId={milkInfo[0]} />
                     ))}
