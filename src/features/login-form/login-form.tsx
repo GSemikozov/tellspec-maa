@@ -73,6 +73,7 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
                 <IonItem lines='none' style={{ display: 'flex', flexDirection: 'column' }}>
                     <PreemieInput
                         {...inputRef}
+                        autocomplete='email'
                         inputmode='email'
                         label-placement='floating'
                         label='Email'
@@ -92,6 +93,7 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
                     <div style={{ position: 'relative', width: '100%' }}>
                         <PreemieInput
                             {...inputRef}
+                            autocomplete='current-password'
                             label-placement='floating'
                             label='Password'
                             placeholder='Password'

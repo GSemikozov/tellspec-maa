@@ -73,6 +73,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const {
         register,
+        trigger,
         reset,
         watch,
         getValues,
@@ -80,7 +81,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
         resolver: yupResolver(validationSchema),
-        mode: 'onBlur', // onChange - when the values change... check for errors
+        mode: 'onChange', // onChange - when the values change... check for errors
         reValidateMode: 'onBlur',
     });
 
@@ -245,7 +246,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     required
                                     label='Infant Delivery Date*'
                                     label-placement='floating'
-                                    {...register('infantDeliveryDate')}
+                                    {...register('infantDeliveryDate', {
+                                        onChange: () => {
+                                            trigger(['milkExpressionDate']);
+                                        },
+                                    })}
                                 />
 
                                 <p className={cn('form-group-error')}>

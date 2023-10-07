@@ -42,13 +42,13 @@ export const SensorConnectionProcessLoaderToast: React.FunctionComponent = () =>
                     handler: handleOpenDiscoveryDevicesModalEvent,
                 });
             }
-
-            buttons.push({
-                text: 'Cancel',
-                role: 'cancel',
-                handler: handleCancelDiscoveryEvent,
-            });
         }
+
+        buttons.push({
+            text: 'Cancel',
+            role: 'cancel',
+            handler: handleCancelDiscoveryEvent,
+        });
 
         return buttons;
     }, [

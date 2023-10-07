@@ -66,9 +66,6 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
-    console.log('currentDevice', currentDevice);
-    console.log('sensorScannerData', sensorScannerData);
-
     const handleClickCalibrate = () => calibrateSensor(currentDevice);
 
     const activeCalibration = currentDevice.activeCal;
@@ -246,13 +243,25 @@ export const SensorPage: React.FunctionComponent = () => {
                                     ) : null}
 
                                     {activeCalibration ? (
-                                        <div className={cn('section-option', { fluid: true })}>
-                                            <p>Spectrum of last calibration</p>
+                                        <>
+                                            <div className={cn('section-option', { fluid: true })}>
+                                                <p>Spectrum of last calibration</p>
 
-                                            <SensorCalibrationChart
-                                                calibration={activeCalibration}
-                                            />
-                                        </div>
+                                                <SensorCalibrationChart
+                                                    variant='last-calibration'
+                                                    calibration={activeCalibration}
+                                                />
+                                            </div>
+
+                                            <div className={cn('section-option', { fluid: true })}>
+                                                <p>Reference calibration spectrum</p>
+
+                                                <SensorCalibrationChart
+                                                    variant='reference-calibration'
+                                                    calibration={activeCalibration}
+                                                />
+                                            </div>
+                                        </>
                                     ) : null}
                                 </div>
                             </div>
