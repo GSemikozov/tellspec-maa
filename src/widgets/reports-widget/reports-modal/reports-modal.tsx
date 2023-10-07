@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IonButton, IonModal } from '@ionic/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
 import { selectReportByMilkId } from '@entities/reports';
@@ -10,9 +10,12 @@ import { TabSwitchValue } from '../tab-switch/tab-switch';
 import { TabSwitch } from '../tab-switch';
 import { ReportInfo } from '../report-info';
 
-import './reports-modal.css';
 import { ReportNonAnalysed } from '../report-nonanalysed';
-import { selectMilkById, selectMilkByIds } from '@entities/milk/model/milk.selectors';
+import { selectMilkByIds } from '@entities/milk/model/milk.selectors';
+import { fetchMilksByIds } from '@entities/milk';
+import { AppDispatch } from '@app/store';
+
+import './reports-modal.css';
 
 type ReportModalProps = {
     isOpen: boolean;
@@ -26,10 +29,12 @@ const ModalContent = React.memo(({ milkID }: any) => {
     const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
 
     const report = useSelector(state => selectReportByMilkId(state, milkID));
-    const milkInfo = useSelector(state => selectMilkById(state, milkID));
+    const milkInfo = useSelector(state => selectMilkByIds(state, milkID));
     const handleTabChange = (value: TabSwitchValue) => {
         setTabSwitch(value);
     };
+
+    console.log('report from ModalContent', report);
 
     return (
         <>
@@ -37,34 +42,28 @@ const ModalContent = React.memo(({ milkID }: any) => {
 
             <div className={cn('content')}>
                 {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
-                {tabSwitch === 'results' && <TestResults reportMilk={report} />}
+                {tabSwitch === 'results' &&
+                    (report && Object.keys(report).length === 0 ? (
+                        <TestResults reportMilk={report} />
+                    ) : (
+                        <ReportNonAnalysed />
+                    ))}
             </div>
         </>
     );
 });
-const ModalContentUnanalysed = milkID => {
-    const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
-    const milkInfo = useSelector(state => selectMilkById(state, milkID));
-    const handleTabChange = (value: TabSwitchValue) => {
-        setTabSwitch(value);
-    };
-
-    return (
-        <>
-            <TabSwitch onChange={handleTabChange} value={tabSwitch} />
-            <div className={cn('content')}>
-                {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
-                {tabSwitch === 'results' && <ReportNonAnalysed />}
-            </div>
-        </>
-    );
-};
 
 export const ReportModal: React.FC<ReportModalProps> = props => {
     const { isOpen, onClose, milkID } = props;
 
-    const report = useSelector(state => selectReportByMilkId(state, milkID));
-    const selectedMilkReportHasData = !!report?.data?.analyseData;
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        console.log('ReportModal goona dispatch', ReportModal);
+        if (milkID.length > 0) {
+            dispatch(fetchMilksByIds([milkID]));
+        }
+    }, [milkID]);
 
     return (
         <IonModal className={cn()} isOpen={isOpen} onIonModalDidDismiss={onClose}>
@@ -73,11 +72,8 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
                     Close
                 </IonButton>
             </span>
-            {selectedMilkReportHasData ? (
-                <ModalContent milkID={milkID} />
-            ) : (
-                <ModalContentUnanalysed milkID={milkID} />
-            )}
+
+            <ModalContent milkID={milkID} />
         </IonModal>
     );
 };
