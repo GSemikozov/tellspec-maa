@@ -41,7 +41,7 @@ const ModalContent = React.memo(({ milkID, onClose }: any) => {
             <div className={cn('content')}>
                 {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
                 {tabSwitch === 'results' &&
-                    (report && Object.keys(report).length === 0 ? (
+                    (report && report?.data?.analyseData ? (
                         <div className={cn('test-results')}>
                             <TestResults reportMilk={report} />
                         </div>
@@ -60,7 +60,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
 
     useEffect(() => {
         if (milkID.length > 0) {
-            dispatch(fetchMilksByIds([milkID]));
+            dispatch(fetchMilksByIds(milkID));
         }
     }, []);
 
