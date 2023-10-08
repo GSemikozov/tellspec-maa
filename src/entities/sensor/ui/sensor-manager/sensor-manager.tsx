@@ -178,7 +178,7 @@ export const SensorManager: React.FunctionComponent = () => {
                 </SensorManagerInstructions>
             ) : null}
 
-            <IonAccordionGroup>
+            <IonAccordionGroup className={cn('accordion-group')}>
                 <IonAccordion value='first'>
                     <IonItem slot='header' color='none' className={cn('accordion-header')}>
                         <IonTitle className='ion-no-padding ion-no-margin  '>
@@ -245,7 +245,9 @@ export const SensorManager: React.FunctionComponent = () => {
                     </div>
                 </IonAccordion>
             </IonAccordionGroup>
+
             <IonTitle className='ion-text-center ion-margin-top'>{currentDevice?.serial}</IonTitle>
+
             <SensorManagerInteractiveImage />
         </div>
     );

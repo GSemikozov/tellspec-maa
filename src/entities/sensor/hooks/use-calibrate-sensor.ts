@@ -36,8 +36,7 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
             await dispatch(calibrateSensorDevice()).unwrap();
         } catch (error: any) {
             console.error('useCalibrateSensor:error', error);
-
-            let errorMessage = 'An error occurred during calibration';
+            let errorMessage = error.message;
 
             if (isSensorDisconnectedError(error)) {
                 errorMessage = error.message;

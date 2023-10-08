@@ -28,6 +28,7 @@ export const usePreemieToast = (): [
                 position = 'top',
                 duration = 4500,
                 delay,
+                buttons = [],
                 ...otherPresentOptions
             } = presentOptions;
 
@@ -52,6 +53,7 @@ export const usePreemieToast = (): [
                 position,
                 duration,
                 cssClass,
+                buttons: [...buttons, { text: 'Cancel', role: 'cancel' }],
             });
         },
         [presentToast],

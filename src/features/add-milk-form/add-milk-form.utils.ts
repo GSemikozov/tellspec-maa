@@ -13,7 +13,6 @@ const isDateBefore = (firstDate: Date, secondDate: Date) => {
     return isBefore(firstDate, secondDate);
 };
 
-
 export const buildMilkData = (milk: AddMilkFormFieldValues) => {
     return {
         milk_id: milk.milkId,

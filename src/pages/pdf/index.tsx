@@ -19,7 +19,7 @@ import './index.css';
 interface PDFPageProps extends RouteComponentProps<{ ids: string }> {}
 
 export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
-    const ids = decodeURIComponent(match.params.ids)?.split(',') || [];
+    const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
     const history = useHistory();
 
@@ -34,7 +34,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
         if (ids.length > 0) {
             dispatch(fetchMilksByIds(ids));
         }
-    }, []);
+    }, [ids]);
 
     useEffect(() => {
         if (milks.length === 0) {

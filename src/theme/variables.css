@@ -246,6 +246,31 @@ html {
     font-size: 10px;
 }
 
+&::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+&::-webkit-scrollbar-track {
+    background: rgb(0, 0, 0);
+}
+
+&::-webkit-scrollbar-track:hover {
+    background: #35d703;
+}
+
+&::-webkit-scrollbar-thumb {
+    background: rgb(75, 75, 75);
+}
+
+&::-webkit-scrollbar-thumb:hover {
+    background: #94173a;
+}
+
+.inner-scroll {
+    scrollbar-width: thin;
+}
+
 @font-face {
     font-family: 'Campton';
     font-style: normal;

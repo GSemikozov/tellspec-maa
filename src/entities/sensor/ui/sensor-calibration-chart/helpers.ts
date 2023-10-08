@@ -42,7 +42,7 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
         tickAmount: 5,
         title: {
             text: 'Absorbance',
-            offsetX: -10,
+            offsetX: 0,
             style: {
                 fontSize: '1em',
                 fontWeight: 400,
@@ -64,10 +64,10 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             },
         },
     },
-    colors: ['#E503B0'],
     xaxis: {
         tickAmount: 5,
         tickPlacement: 'between',
+        categories: data?.wavelengths || [],
         title: {
             text: 'Wavelength (nm)',
             style: {
@@ -75,7 +75,6 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
                 fontWeight: 400,
             },
         },
-        categories: data?.wavelengths || [],
         labels: {
             style: { fontSize: '1em', fontWeight: 400 },
             formatter: function (val: string) {
@@ -83,4 +82,5 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             },
         },
     },
+    colors: ['#E503B0', '#3dc04a'],
 });

@@ -70,7 +70,11 @@
     text-align: center;
 }
 
+.sensor-manager__accordion-group {
+    width: 100%;
+}
+
 .sensor-manager__accordion-header {
-    width: 39rem;
+    width: 100%;
     border-bottom: 1px solid var(--ion-color-primary);
 }
