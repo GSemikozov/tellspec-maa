@@ -25,7 +25,7 @@ type ReportModalProps = {
 
 const cn = classname('report-modal');
 
-const ModalContent = React.memo(({ milkID }: any) => {
+const ModalContent = React.memo(({ milkID, onClose }: any) => {
     const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
 
     const report = useSelector(state => selectReportByMilkId(state, milkID));
@@ -33,8 +33,6 @@ const ModalContent = React.memo(({ milkID }: any) => {
     const handleTabChange = (value: TabSwitchValue) => {
         setTabSwitch(value);
     };
-
-    console.log('report from ModalContent', report);
 
     return (
         <>
@@ -48,7 +46,7 @@ const ModalContent = React.memo(({ milkID }: any) => {
                             <TestResults reportMilk={report} />
                         </div>
                     ) : (
-                        <ReportNonAnalysed milkId={milkInfo[0]} />
+                        <ReportNonAnalysed milkId={milkID} onModalClose={onClose} />
                     ))}
             </div>
         </>
@@ -74,7 +72,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
                 </IonButton>
             </span>
 
-            <ModalContent milkID={milkID} />
+            <ModalContent milkID={milkID} onClose={onClose} />
         </IonModal>
     );
 };
