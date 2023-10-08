@@ -31,7 +31,7 @@
 
 .add-milk-form__form-group-error {
     width: 100%;
-    min-height: 36px;
+    min-height: 20px; /* 36px;*/
 
     margin: 1rem 0 0;
 
