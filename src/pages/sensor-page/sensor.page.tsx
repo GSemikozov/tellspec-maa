@@ -70,6 +70,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const activeCalibration = currentDevice.activeCal;
 
+    console.log('sensor data', sensorScannerData);
     return (
         <IonPage>
             <IonContent>
@@ -103,7 +104,8 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div> */}
                                     </div>
 
-                                    {currentDevice.humidity ? (
+                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
+                                        .humidity ? (
                                         <div className={cn('section-option')}>
                                             <p>Humidity</p>
 
@@ -112,12 +114,17 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {Number(currentDevice.humidity).toFixed()}% RH
+                                                {Number(
+                                                    currentDevice.activeCal?.scan['scan-info']
+                                                        .dlp_header.humidity,
+                                                ).toFixed()}
+                                                % RH
                                             </div>
                                         </div>
                                     ) : null}
 
-                                    {currentDevice.temperature ? (
+                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
+                                        .temperature ? (
                                         <div className={cn('section-option')}>
                                             <p>Temperature</p>
 
@@ -126,7 +133,11 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {currentDevice.temperature}°C
+                                                {
+                                                    currentDevice.activeCal?.scan['scan-info']
+                                                        .dlp_header.temperature
+                                                }
+                                                °C
                                             </div>
                                         </div>
                                     ) : null}
