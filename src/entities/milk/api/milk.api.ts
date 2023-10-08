@@ -87,7 +87,19 @@ export class MilkApi extends BaseEndpoint {
             milks: ids,
         });
 
-        return response.data;
+        if (response.error) {
+            return null;
+        }
+
+        const result: Milk[] = [];
+
+        for (let i = 0; i < response.data.length; i++) {
+            const decodedMilk = await decodeMilkInformation(response.data[i]);
+
+            result.push(decodedMilk);
+        }
+
+        return result;
     };
 
     getMilks = async () => {

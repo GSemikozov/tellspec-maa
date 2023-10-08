@@ -59,6 +59,7 @@
         "ionicons": "^7.0.0",
         "jetifier": "^2.0.0",
         "moment": "^2.29.4",
+        "phonegap-plugin-barcodescanner": "./phonegap-plugin-barcodescanner",
         "react": "^18.2.0",
         "react-apexcharts": "^1.4.1",
         "react-countdown-circle-timer": "^3.2.1",

@@ -170,7 +170,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const disabledSubmit = !hasTouchedField || hasErrors;
 
-   const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0, 10);
 
     return (
         <form className={cn()}>
@@ -270,7 +270,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label='Received Date*'
                                     label-placement='floating'
                                     className='received-date-size'
-                                    {...register('receivedDate')}
+                                    {...register('receivedDate', {
+                                        onChange: () => {
+                                            trigger(['milkExpressionDate']);
+                                        },
+                                    })}
                                 />
 
                                 <p className={cn('form-group-error')}>

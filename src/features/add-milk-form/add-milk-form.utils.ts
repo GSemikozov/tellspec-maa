@@ -13,26 +13,6 @@ const isDateBefore = (firstDate: Date, secondDate: Date) => {
     return isBefore(firstDate, secondDate);
 };
 
-export const buildMilkData = (milk: AddMilkFormFieldValues) => {
-    return {
-        milk_id: milk.milkId,
-        data: {},
-        donor: milk.donorId,
-        archived: false,
-        created_at: new Date().toISOString(),
-        last_modified_at: new Date().toISOString(),
-        reports: [],
-        sensitive_data: {
-            notes: '',
-            receivedDate: milk.receivedDate,
-            sourceId: milk.donorId,
-            volume: milk.milkVolume ?? '',
-            expirationDate: milk.milkExpirationDate,
-            volumeUnit: 'ml',
-        },
-    };
-};
-
 export const validationSchema = yup.object({
     milkVolume: yup.string(),
     milkId: yup.string().required('This is a required field'),
@@ -96,6 +76,7 @@ export const validationSchema = yup.object({
                         message: "Milk expression date can't be after delivery date",
                     });
                 }
+
                 return true;
             },
         })
@@ -103,3 +84,29 @@ export const validationSchema = yup.object({
 });
 
 export type AddMilkFormFieldValues = yup.InferType<typeof validationSchema>;
+
+export const buildMilkData = (milk: AddMilkFormFieldValues) => {
+    return {
+        milk_id: milk.milkId,
+        data: {},
+        donor: milk.donorId,
+        archived: false,
+        created_at: new Date().toISOString(),
+        last_modified_at: new Date().toISOString(),
+        reports: [],
+        sensitive_data: {
+            sourceId: milk.donorId,
+            numberOfContainers: milk.numberOfContainers,
+            expirationDate: milk.milkExpirationDate,
+            expressionDate: milk.milkExpressionDate,
+            infantDeliveryDate: milk.infantDeliveryDate,
+            receivedDate: milk.receivedDate,
+            storageFreezer: milk.storageFreezer,
+            storageCompartment: milk.storageCompartment,
+
+            notes: '',
+            volume: milk.milkVolume ?? '',
+            volumeUnit: 'ml',
+        },
+    };
+};

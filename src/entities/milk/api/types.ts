@@ -6,11 +6,17 @@ export type AddMilkResponse = {
 
 export type MilkSensitiveData = {
     sourceId: string;
+    numberOfContainers: number;
+    expirationDate: string;
+    expressionDate: string;
+    infantDeliveryDate: string;
+    receivedDate: string;
+    storageFreezer: string;
+    storageCompartment: string;
+
+    notes: string;
     volume: string;
     volumeUnit: string;
-    notes: string;
-    receivedDate: string;
-    expirationDate: string;
 };
 
 export type Milk = {
