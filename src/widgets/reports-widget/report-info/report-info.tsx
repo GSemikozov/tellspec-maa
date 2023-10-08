@@ -3,7 +3,6 @@ import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
 import { classname } from '@shared/utils';
 
 import './report-info.css';
-// import { useSelector } from 'react-redux';
 
 const cn = classname('report-info');
 
@@ -15,10 +14,13 @@ const defaultValues = {
     milkExpirationDate: '04/10/2023',
     receivedDate: '04/10/2023',
     storageFreezer: 'A-123',
-    
 };
 
-export const ReportInfo = () => {
+export const ReportInfo = ({ milkInfo }) => {
+    if (milkInfo.length === 0 || !milkInfo) {
+        return null;
+    }
+
     return (
         <IonGrid className={cn()}>
             <IonRow className='ion-margin'>
@@ -26,7 +28,7 @@ export const ReportInfo = () => {
                     <div className={cn('segment')}>
                         <p>
                             <IonText>Milk ID:</IonText>
-                            <IonText>{defaultValues.milkId}</IonText>
+                            <IonText>{milkInfo[0].milk_id}</IonText>
                         </p>
                     </div>
                     <div className={cn('segment')}>

@@ -5,9 +5,10 @@ import { classname } from '@shared/utils';
 import { appActions } from '@app';
 
 import { Scale } from './scale';
+import { MockData } from './mock-data';
 
-import type { Report } from '@entities/reports';
 import type { AppDispatch } from '@app/store';
+import type { Report } from '@entities/reports';
 
 import './test-results.css';
 
@@ -39,20 +40,37 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
         maxRequiredValue: 5,
         step: 1,
     },
-    // 'Total Carbs': {
-    //     minRequiredValue: 11,
-    //     maxRequiredValue: 15,
-    //     step: 1,
-    // },
-    // 'Total solids': {
-    //     minRequiredValue: 5,
-    //     maxRequiredValue: 12,
-    //     step: 1,
-    // },
+    'Linoleic acid': {
+        minRequiredValue: 5,
+        maxRequiredValue: 7,
+        step: 1,
+    },
+    '&alpha Linoleic acid': {
+        minRequiredValue: 1,
+        maxRequiredValue: 15,
+        step: 1,
+    },
+    DHA: {
+        minRequiredValue: 12,
+        maxRequiredValue: 19,
+        step: 1,
+    },
+    ARA: {
+        minRequiredValue: 9,
+        maxRequiredValue: 15,
+        step: 1,
+    },
+    EPA: {
+        minRequiredValue: 10,
+        maxRequiredValue: 20,
+        step: 1,
+    },
 };
 
 export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportMilk }) => {
     const dispatch = useDispatch<AppDispatch>();
+
+    const mockData = MockData.data;
 
     React.useEffect(() => {
         if (!reportMilk) {
@@ -102,6 +120,23 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
                         />
                     );
                 })}
+
+            {mockData.map(data => {
+                console.log('mock data', data);
+                const { name, units, value } = data;
+                const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
+                return (
+                    <Scale
+                        key={data.name}
+                        label={name}
+                        value={typeof value === 'string' ? parseFloat(value) : value}
+                        units={units}
+                        minRequiredValue={minRequiredValue}
+                        maxRequiredValue={maxRequiredValue}
+                        step={step}
+                    />
+                );
+            })}
         </div>
     );
 };

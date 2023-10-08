@@ -6,7 +6,7 @@ export enum ColumnNamesMapping {
     FAT = 'Fat',
     CARBS = 'Total Carbs',
     ENERGY = 'Energy',
-    SOLIDS = 'Total solids',
+    // SOLIDS = 'Total solids',
 }
 
 export const getParameterByName = (name: ColumnNamesMapping, analyseData?: ReportAnalyseData) => {
