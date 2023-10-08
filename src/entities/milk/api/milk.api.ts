@@ -79,12 +79,12 @@ export class MilkApi extends BaseEndpoint {
         return response.data;
     };
 
-    getMilksByIds = async (ids: string[]) => {
+    getMilksByIds = async (ids: string) => {
         const userData = await getUserLocalData();
 
         const response = await this.http.get<Milk[]>(this.getMilksCompleteUrl, {
             preemie_group_id: userData?.metadata.group_id,
-            milks: ids.join(','),
+            milks: ids,
         });
 
         return response.data;

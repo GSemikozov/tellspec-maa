@@ -1,4 +1,4 @@
-import { isAfter, isBefore, isDate, parse } from 'date-fns';
+import { isBefore, isDate, parse } from 'date-fns';
 import * as yup from 'yup';
 
 const parseDateString = (value: string): Date => {
@@ -12,7 +12,6 @@ const parseDateString = (value: string): Date => {
 const isDateBefore = (firstDate: Date, secondDate: Date) => {
     return isBefore(firstDate, secondDate);
 };
-
 
 export const buildMilkData = (milk: AddMilkFormFieldValues) => {
     return {

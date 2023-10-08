@@ -39,7 +39,7 @@ export const fetchMilkById = createAsyncThunk(
 
 export const fetchMilksByIds = createAsyncThunk(
     'milk/fetch-by-ids',
-    async (ids: string[]): Promise<Milk[]> => {
+    async (ids: string): Promise<Milk[]> => {
         try {
             const milksResponse = await apiInstance.milk.getMilksByIds(ids);
 

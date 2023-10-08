@@ -21,12 +21,13 @@ export const selectMilkById = createSelector(
 );
 
 export const selectMilkByIds = createSelector(
-    [selectMilkSliceState, (_, milkIds: string[]) => milkIds],
+    [selectMilkSliceState, (_, milkIds: string) => milkIds],
     (milkState, milkIds) => {
+        const idsArray = milkIds.split(',');
         return Object.entries(milkState.byIds).reduce((previousValue: Milk[], currentValue) => {
             const [key, value] = currentValue;
 
-            if (milkIds.indexOf(key) !== -1) {
+            if (idsArray.indexOf(key) !== -1) {
                 return [...previousValue, value];
             }
 
