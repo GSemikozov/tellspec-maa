@@ -1,5 +1,3 @@
-
-
 export const MockData = {
     data: [
         {
@@ -29,4 +27,3 @@ export const MockData = {
         },
     ],
 };
-

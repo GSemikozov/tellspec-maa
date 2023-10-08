@@ -5,12 +5,12 @@ import { classname } from '@shared/utils';
 import { appActions } from '@app';
 
 import { Scale } from './scale';
+import { MockData } from './mock-data';
 
-import type { Report } from '@entities/reports';
 import type { AppDispatch } from '@app/store';
+import type { Report } from '@entities/reports';
 
 import './test-results.css';
-import { MockData } from './mock-data';
 
 const cn = classname('test-results');
 
@@ -45,7 +45,7 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
         maxRequiredValue: 7,
         step: 1,
     },
-    '&alpha Linolenic acid': {
+    '&alpha Linoleic acid': {
         minRequiredValue: 1,
         maxRequiredValue: 15,
         step: 1,
@@ -69,6 +69,8 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
 
 export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportMilk }) => {
     const dispatch = useDispatch<AppDispatch>();
+
+    const mockData = MockData.data;
 
     React.useEffect(() => {
         if (!reportMilk) {
@@ -94,7 +96,6 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
 
     // TODO: we have to process somehow multiple scan results on the Test Results page
     const analyseData = reportMilk.data.analyseData.result || reportMilk.data.analyseData[0];
-    const mockData = MockData.data
 
     return (
         <div className={cn('scales')}>
@@ -119,27 +120,23 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
                         />
                     );
                 })}
-                
-                {
-                    mockData.map(data => {
-                        console.log('mock data', data)
-                         const { name, units, value } = data;
-                         const { minRequiredValue, maxRequiredValue, step } =
-                             SCALE_VALUES[name] || {};
-                             return (
-                                <Scale
-                                    key={data.name}
-                                    label={name}
-                                    value={typeof value === 'string' ? parseFloat(value) : value}
-                                    units={units}
-                                    minRequiredValue={minRequiredValue}
-                                    maxRequiredValue={maxRequiredValue}
-                                    step={step}
-                                />
-                            );
-                    })
-              
-                }
+
+            {mockData.map(data => {
+                console.log('mock data', data);
+                const { name, units, value } = data;
+                const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
+                return (
+                    <Scale
+                        key={data.name}
+                        label={name}
+                        value={typeof value === 'string' ? parseFloat(value) : value}
+                        units={units}
+                        minRequiredValue={minRequiredValue}
+                        maxRequiredValue={maxRequiredValue}
+                        step={step}
+                    />
+                );
+            })}
         </div>
     );
 };

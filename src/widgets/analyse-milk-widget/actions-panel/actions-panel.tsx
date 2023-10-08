@@ -1,12 +1,15 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+    //useDispatch,
+    useSelector,
+} from 'react-redux';
 import { IonButton, useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { labelPrinterAsyncActions } from '@features/label-printer';
+// import { labelPrinterAsyncActions } from '@features/label-printer';
 import { selectSensorDevice } from '@entities/sensor';
 
-import type { AppDispatch } from '@app';
+// import type { AppDispatch } from '@app';
 import type { Report } from '@entities/reports';
 
 import './actions-panel.css';
@@ -25,33 +28,33 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     analyseMilkLoading,
     onAnalyseMilk,
     showOnlyAnalyse,
-    report,
+    // report,
     selectedID,
 }) => {
-    const dispatch = useDispatch<AppDispatch>();
+    // const dispatch = useDispatch<AppDispatch>();
 
     const [presentAlert] = useIonAlert();
 
     const currentSensor = useSelector(selectSensorDevice);
 
-    const handlePrintLabels = () => {
-        const reportAnalyseDataResult = report.data.analyseData?.result;
+    // const handlePrintLabels = () => {
+    //     const reportAnalyseDataResult = report.data.analyseData?.result;
 
-        if (!reportAnalyseDataResult) {
-            return;
-        }
+    //     if (!reportAnalyseDataResult) {
+    //         return;
+    //     }
 
-        // TODO: not implemented, needs to be clarified
-        // dispatch(labelPrinterAsyncActions.pairPrinter());
-        dispatch(
-            labelPrinterAsyncActions.printLabel({
-                milkId: report.milk_id,
-                data: reportAnalyseDataResult,
-                width: '50',
-                height: '25',
-            }),
-        );
-    };
+    //     // TODO: not implemented, needs to be clarified
+    //     // dispatch(labelPrinterAsyncActions.pairPrinter());
+    //     dispatch(
+    //         labelPrinterAsyncActions.printLabel({
+    //             milkId: report.milk_id,
+    //             data: reportAnalyseDataResult,
+    //             width: '50',
+    //             height: '25',
+    //         }),
+    //     );
+    // };
 
     const handleConfirmReAnalyse = async () => {
         await presentAlert({
@@ -88,9 +91,9 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     return (
         <div className={cn()}>
-            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintLabels}>
+            {/* <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintLabels}>
                 Print Milk Bag Labels
-            </IonButton>
+            </IonButton> */}
 
             <IonButton
                 expand='full'

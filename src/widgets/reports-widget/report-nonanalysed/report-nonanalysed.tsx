@@ -1,23 +1,25 @@
-import { classname } from '@shared/utils';
-import './report-nonanalysed.css';
 import { IonButton, useIonAlert, useIonRouter } from '@ionic/react';
+
+import { classname } from '@shared/utils';
 import { routesMapping } from '@app/routes';
 import { usePreemieToast } from '@ui';
 
+import './report-nonanalysed.css';
+
 const cn = classname('non-analysed');
 
-export const ReportNonAnalysed = ({ milkId }) => {
+export const ReportNonAnalysed = ({ milkId, onModalClose }: any) => {
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
     const router = useIonRouter();
 
-    
     const handleAnalyseReroute = async () => {
         try {
             await presentAlert({
                 header: 'redirecting to analyse page',
                 buttons: ['OK'],
                 onDidDismiss: () => {
+                    onModalClose(true);
                     router.push(routesMapping.analyse + `?milkId=${milkId}`);
                 },
             });

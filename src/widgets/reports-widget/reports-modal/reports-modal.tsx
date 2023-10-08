@@ -10,11 +10,12 @@ import { TabSwitchValue } from '../tab-switch/tab-switch';
 import { TabSwitch } from '../tab-switch';
 import { ReportInfo } from '../report-info';
 
-import './reports-modal.css';
 import { ReportNonAnalysed } from '../report-nonanalysed';
 import { selectMilkByIds } from '@entities/milk/model/milk.selectors';
 import { fetchMilksByIds } from '@entities/milk';
 import { AppDispatch } from '@app/store';
+
+import './reports-modal.css';
 
 type ReportModalProps = {
     isOpen: boolean;
@@ -24,7 +25,7 @@ type ReportModalProps = {
 
 const cn = classname('report-modal');
 
-const ModalContent = React.memo(({ milkID }: any) => {
+const ModalContent = React.memo(({ milkID, onClose }: any) => {
     const [tabSwitch, setTabSwitch] = React.useState<TabSwitchValue>('info');
 
     const report = useSelector(state => selectReportByMilkId(state, milkID));
@@ -40,12 +41,12 @@ const ModalContent = React.memo(({ milkID }: any) => {
             <div className={cn('content')}>
                 {tabSwitch === 'info' && <ReportInfo milkInfo={milkInfo} />}
                 {tabSwitch === 'results' &&
-                    (report && Object.keys(report).length === 0 ? (
+                    (report && report?.data?.analyseData ? (
                         <div className={cn('test-results')}>
-                        <TestResults reportMilk={report} />
+                            <TestResults reportMilk={report} />
                         </div>
                     ) : (
-                        <ReportNonAnalysed milkId={milkInfo[0]} />
+                        <ReportNonAnalysed milkId={milkID} onModalClose={onClose} />
                     ))}
             </div>
         </>
@@ -59,7 +60,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
 
     useEffect(() => {
         if (milkID.length > 0) {
-            dispatch(fetchMilksByIds([milkID]));
+            dispatch(fetchMilksByIds(milkID));
         }
     }, []);
 
@@ -71,7 +72,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
                 </IonButton>
             </span>
 
-            <ModalContent milkID={milkID} />
+            <ModalContent milkID={milkID} onClose={onClose} />
         </IonModal>
     );
 };

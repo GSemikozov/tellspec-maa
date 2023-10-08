@@ -53,13 +53,13 @@ const columns = [
             );
         },
         cell: ({ row }) => {
-            const hasData = (row.getValue('dataAnalysed') as Report)?.data?.analyseData;
+            // const hasData = (row.getValue('dataAnalysed') as Report)?.data?.analyseData;
 
             return (
                 <IonCheckbox
                     {...{
                         checked: row.getIsSelected(),
-                        disabled: !hasData,
+                        // disabled: !hasData,
                         onIonChange: row.getToggleSelectedHandler(),
                     }}
                 />
@@ -123,6 +123,7 @@ const columns = [
     //         },
     //     },
     // ),
+
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
@@ -165,8 +166,12 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const handleRowSelectionChange = updaterOrValue => {
         const ids =
             typeof updaterOrValue === 'function' ? updaterOrValue(rowSelection) : updaterOrValue;
+        // const selectableKeys = Object.keys(ids).filter(id => {
+        //     return reports.find(report => report.milk_id === id)?.data.analyseData;
+        // });
+
         const selectableKeys = Object.keys(ids).filter(id => {
-            return reports.find(report => report.milk_id === id)?.data.analyseData;
+            return reports.find(report => report.milk_id === id);
         });
 
         const selectableIds = selectableKeys.reduce((previousValue, currentValue) => {
@@ -183,7 +188,6 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const handleRowClick = row => e => {
         if (e.target.tagName !== 'ION-CHECKBOX') {
             onRowClick(row.getValue('milk_id'));
-           
         }
     };
 

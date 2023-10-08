@@ -1,13 +1,10 @@
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
 
-
 import { classname } from '@shared/utils';
 
 import './report-info.css';
 
-
 const cn = classname('report-info');
-
 
 const defaultValues = {
     milkId: '123',
@@ -17,16 +14,12 @@ const defaultValues = {
     milkExpirationDate: '04/10/2023',
     receivedDate: '04/10/2023',
     storageFreezer: 'A-123',
-    
 };
 
-export const ReportInfo = ({milkInfo}) => {
-
- console.log('milk', milkInfo && milkInfo)
-
- if(milkInfo.length === 0 || !milkInfo) {
-    return null
- }
+export const ReportInfo = ({ milkInfo }) => {
+    if (milkInfo.length === 0 || !milkInfo) {
+        return null;
+    }
 
     return (
         <IonGrid className={cn()}>
