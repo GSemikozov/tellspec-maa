@@ -26,37 +26,35 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
     return (
         <>
             <IonGrid className='ion-no-padding'>
-                <IonContent>
-                    <IonRow>
-                        <IonCol size='2.5'>
-                            <SidebarMenu />
-                        </IonCol>
+                <IonRow>
+                    <IonCol size='2.5'>
+                        <SidebarMenu />
+                    </IonCol>
 
-                        <IonCol size='9.5'>
-                            <Header />
+                    <IonCol size='9.5'>
+                        <Header />
 
-                            <IonContent>
-                                <div className='layout-body'>
-                                    <IonRow>
-                                        {/* TODO: something strange is here in the size property */}
-                                        <IonCol
-                                            size={showSidebar ? '7' : '12'}
-                                            className='ion-padding main'
-                                        >
-                                            {children}
+                        <IonContent>
+                            <div className='layout-body'>
+                                <IonRow>
+                                    {/* TODO: something strange is here in the size property */}
+                                    <IonCol
+                                        size={showSidebar ? '7' : '12'}
+                                        className='ion-padding main'
+                                    >
+                                        {children}
+                                    </IonCol>
+
+                                    {showSidebar ? (
+                                        <IonCol size='5' className='ion-padding'>
+                                            {rightSideBar}
                                         </IonCol>
-
-                                        {showSidebar ? (
-                                            <IonCol size='5' className='ion-padding'>
-                                                {rightSideBar}
-                                            </IonCol>
-                                        ) : null}
-                                    </IonRow>
-                                </div>
-                            </IonContent>
-                        </IonCol>
-                    </IonRow>
-                </IonContent>
+                                    ) : null}
+                                </IonRow>
+                            </div>
+                        </IonContent>
+                    </IonCol>
+                </IonRow>
             </IonGrid>
             <Alert />
             <Backdrop />
