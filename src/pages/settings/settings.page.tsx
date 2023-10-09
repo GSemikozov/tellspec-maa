@@ -105,7 +105,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                 </div>
                                 <div className={cn('section')}>
                                     <div className={cn('apk-number')}>
-                                        Milk Analysis Software version: 05-10-23
+                                        Milk Analysis Software version: 09-10-23.v2
                                     </div>
                                 </div>
                             </div>

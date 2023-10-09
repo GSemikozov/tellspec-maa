@@ -11,5 +11,11 @@ ion-content::part(scroll) {
 }
 
 ion-content {
-    height: 91%;
+    height: 90%;
+}
+
+@media (max-width: 1200px) {
+    ion-content {
+        height: 100%;
+    }
 }

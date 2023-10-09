@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -32,6 +32,7 @@ import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
 import './add-milk-form.css';
+import { Keyboard } from '@capacitor/keyboard';
 
 const cn = classname('add-milk-form');
 
@@ -59,6 +60,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(selectGroupFreezers);
     const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
+    const [enteredValue, setEnteredValue] = useState('1')
 
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
@@ -218,6 +220,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 label='Milk ID*'
                                 label-placement='floating'
                                 {...register('milkId')}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter') {
+                                        Keyboard.hide();
+                                    }
+                                }}
                             />
 
                             <p className={cn('form-group-error')}>
@@ -312,9 +319,15 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='number'
+                                    value={enteredValue}
                                     label='Number of Containers'
                                     label-placement='floating'
                                     {...register('numberOfContainers')}
+                                    onKeyDown={e => {
+                                        if (e.key === 'Enter') {
+                                            Keyboard.hide();
+                                        }
+                                    }}
                                 />
 
                                 <p className={cn('form-group-error')}>
