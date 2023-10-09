@@ -35,14 +35,6 @@ import './add-milk-form.css';
 
 const cn = classname('add-milk-form');
 
-// function expirationDate(inputDate: any): any {
-//     const resultDate = new Date(inputDate);
-
-//     const dateWith6Months = resultDate.setMonth(resultDate.getMonth() + 6);
-//     const result = format(dateWith6Months, 'yyy-MM-dd');
-
-//     return result;
-// }
 
 const defaultValues = {
     milkId: '',
@@ -77,6 +69,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
         reset,
         watch,
         getValues,
+        setValue,
         formState: { errors, touchedFields },
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
@@ -85,6 +78,16 @@ export const AddMilkForm: React.FunctionComponent = () => {
         reValidateMode: 'onBlur',
     });
 
+
+    const handleReceivedDateChange = e => {
+        const receivedDate = e.target.value;
+        const expirationMilkDate = new Date(receivedDate);
+        expirationMilkDate.setMonth(expirationMilkDate.getMonth() + 6);
+
+        const formattedDate = expirationMilkDate.toISOString().split('T')[0];
+
+        setValue('milkExpirationDate', formattedDate);
+    };
     const storageFreezerValue = watch('storageFreezer');
 
     const compartmentList = useSelector(state =>
@@ -271,8 +274,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label-placement='floating'
                                     className='received-date-size'
                                     {...register('receivedDate', {
-                                        onChange: () => {
-                                            trigger(['milkExpressionDate']);
+                                        onChange: e => {
+                                            handleReceivedDateChange(e);
+                                            trigger(['milkExpirationDate']);
                                         },
                                     })}
                                 />
@@ -341,6 +345,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     max={today}
                                     label='Milk Expiration Date'
                                     label-placement='floating'
+                                    id='milkExpirationDate'
                                     disabled
                                     {...register('milkExpirationDate')}
                                 />
@@ -355,7 +360,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <PreemieSelect
                                     label='Storage Compartment'
                                     label-placement='floating'
-                                    disabled={!storageFreezerValue}
+                                    // disabled={!storageFreezerValue}
                                     {...register('storageCompartment')}
                                 >
                                     {compartmentList.map(compartment => (
