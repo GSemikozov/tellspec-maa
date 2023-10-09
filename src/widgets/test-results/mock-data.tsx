@@ -3,22 +3,22 @@ export const MockData = {
         {
             name: 'Linoleic acid',
             units: 'mg/kg/d',
-            value: 8,
+            value: 870,
         },
         {
             name: '&alpha Linoleic acid',
             units: 'mg/kg/d',
-            value: 12,
+            value: 67,
         },
         {
             name: 'DHA',
             units: 'mg/kg/d',
-            value: 13,
+            value: 64,
         },
         {
             name: 'ARA',
             units: 'mg/kg/d',
-            value: 15.3,
+            value: 78,
         },
         {
             name: 'EPA',
