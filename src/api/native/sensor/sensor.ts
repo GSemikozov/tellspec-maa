@@ -242,7 +242,7 @@ export const tellspecPrepareScan = (options: tellspecPrepareScanOptions): any =>
             'scan-data': {
                 'scanner-type-name': device.name,
                 'scanner-hardware-version': sensorScannedData.HWRev,
-                'scanner-serial-number': sensorScannedData.SerialNumber,
+                'scanner-serial-number': sensorScannedData.SerialNumber.replace(/x.x.x$/, ''),
                 'scanner-firmware-version': sensorScannedData.TivaRev,
                 'scanner-spectrum-version': sensorScannedData.SpectrumRev,
                 'scan-performed-utc': date,
@@ -310,7 +310,7 @@ export const tellspecPrepareScanCalibration = ({
         'scan-data': {
             'scanner-type-name': model,
             'scanner-hardware-version': sensorScannedData.HWRev,
-            'scanner-serial-number': sensorScannedData.SerialNumber,
+            'scanner-serial-number': sensorScannedData.SerialNumber.replace(/x.x.x$/, ''),
             'scanner-firmware-version': sensorScannedData.TivaRev,
             'scanner-spectrum-version': sensorScannedData.SpectrumRev,
             'scan-performed-utc': date,

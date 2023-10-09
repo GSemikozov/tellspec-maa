@@ -45,7 +45,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [presentToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
-    // const discoveredDevicesListenerRef = React.useRef<PluginListenerHandle | null>(null);
+    const discoveredDevicesListenerRef = React.useRef<PluginListenerHandle | null>(null);
 
     const [calibrateSensor] = useCalibrateSensor();
     const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
@@ -56,9 +56,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
         SensorConnectionProcessStatus.IDLE,
     );
-
-    const [updateDiscoveredDevicesListener, setUpdateDiscoveredDevicesListener] =
-        React.useState<PluginListenerHandle | null>(null);
 
     const [discoveredDevicesModalOpen, setDiscoveredDevicesModalOpen] = React.useState(false);
 
@@ -81,36 +78,36 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
     }, []);
 
-    // const setupDiscoveredDevicesListener = React.useCallback(() => {
-    //     discoveredDevicesListenerRef.current = tellspecAddListener(
-    //         SensorEvent.DEVICE_LIST,
-    //         (data: TellspecListenerEvents.UpdateDeviceList) => {
-    //             console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
+    const setupDiscoveredDevicesListener = React.useCallback(() => {
+        discoveredDevicesListenerRef.current = tellspecAddListener(
+            SensorEvent.DEVICE_LIST,
+            (data: TellspecListenerEvents.UpdateDeviceList) => {
+                console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
 
-    //             if (data.devices.length === 0) {
-    //                 return;
-    //             }
+                if (data.devices.length === 0) {
+                    return;
+                }
 
-    //             const newDiscoveredDevices = data.devices.filter(device =>
-    //                 device.name.includes('T11'),
-    //             );
+                const newDiscoveredDevices = data.devices.filter(device =>
+                    device.name.includes('T11'),
+                );
 
-    //             setDiscoveredDevices(newDiscoveredDevices);
-    //         },
-    //     );
-    // }, []);
+                setDiscoveredDevices(newDiscoveredDevices);
+            },
+        );
+    }, []);
 
-    // const resetDiscoveredDevicesListener = React.useCallback(() => {
-    //     if (discoveredDevicesListenerRef.current) {
-    //         discoveredDevicesListenerRef.current.remove();
-    //         discoveredDevicesListenerRef.current = null;
-    //     }
-    // }, []);
+    const resetDiscoveredDevicesListener = React.useCallback(() => {
+        if (discoveredDevicesListenerRef.current) {
+            discoveredDevicesListenerRef.current.remove();
+            discoveredDevicesListenerRef.current = null;
+        }
+    }, []);
 
     const handleStartDiscovery: SensorConnectionProcessContextValue['onStartDiscovery'] =
         React.useCallback(async ({ enableBleCheck } = {}) => {
             try {
-                // setupDiscoveredDevicesListener();
+                setupDiscoveredDevicesListener();
 
                 if (enableBleCheck) {
                     setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
@@ -128,9 +125,9 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     }
                 }
 
-                // if (discoveredDevicesListenerRef.current === null) {
-                //     return;
-                // }
+                if (discoveredDevicesListenerRef.current === null) {
+                    return;
+                }
 
                 setStatus(SensorConnectionProcessStatus.DISCOVERING);
 
@@ -169,12 +166,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         setDiscoveredDevices([]);
-        setUpdateDiscoveredDevicesListener(null);
-        // resetDiscoveredDevicesListener();
-    }, [
-        handleCloseDiscoveryDevicesModal,
-        //, resetDiscoveredDevicesListener
-    ]);
+        resetDiscoveredDevicesListener();
+    }, [handleCloseDiscoveryDevicesModal, resetDiscoveredDevicesListener]);
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
         setStatus(SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE);
@@ -232,54 +225,21 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         }
     }, [currentDevice]);
 
-    // React.useEffect(() => {
-    //     if (!currentDevice) {
-    //         stopSensorStatusPolling();
-    //     }
-
-    //     if (currentDevice && !isPolling) {
-    //         startSensorStatusPolling();
-    //     }
-    // }, [isPolling, currentDevice]);
-
-    React.useEffect(() => {
-        if (updateDiscoveredDevicesListener === null) {
-            setUpdateDiscoveredDevicesListener(
-                tellspecAddListener(
-                    SensorEvent.DEVICE_LIST,
-                    (data: TellspecListenerEvents.UpdateDeviceList) => {
-                        console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
-                        if (data.devices.length === 0) {
-                            return;
-                        }
-                        const newDiscoveredDevices = data.devices.filter(device =>
-                            device.name.includes('T11'),
-                        );
-                        setDiscoveredDevices(newDiscoveredDevices);
-                    },
-                ),
-            );
-        }
-        return () => {
-            if (updateDiscoveredDevicesListener) {
-                updateDiscoveredDevicesListener.remove();
-            }
-        };
-    }, []);
     React.useEffect(() => {
         if (!currentDevice) {
             stopSensorStatusPolling();
         }
+
         if (currentDevice && !isPolling) {
             startSensorStatusPolling();
         }
     }, [isPolling, currentDevice]);
 
-    // React.useEffect(() => {
-    //     return () => {
-    //         resetDiscoveredDevicesListener();
-    //     };
-    // }, []);
+    React.useEffect(() => {
+        return () => {
+            resetDiscoveredDevicesListener();
+        };
+    }, []);
 
     const context = React.useMemo(
         () => ({
