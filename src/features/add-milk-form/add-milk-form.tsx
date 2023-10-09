@@ -36,7 +36,6 @@ import { Keyboard } from '@capacitor/keyboard';
 
 const cn = classname('add-milk-form');
 
-
 const defaultValues = {
     milkId: '',
     milkVolume: '',
@@ -60,7 +59,10 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(selectGroupFreezers);
     const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
-    const [enteredValue, setEnteredValue] = useState('1')
+    const [
+        enteredValue,
+        //, setEnteredValue
+    ] = useState('1');
 
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
@@ -79,7 +81,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         mode: 'onChange', // onChange - when the values change... check for errors
         reValidateMode: 'onBlur',
     });
-
 
     const handleReceivedDateChange = e => {
         const receivedDate = e.target.value;
