@@ -9,9 +9,10 @@ import {
     useIonAlert,
     useIonRouter,
 } from '@ionic/react';
+// import { format } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import { format } from 'date-fns';
+import { Keyboard } from '@capacitor/keyboard';
 
 import { PreemieSelect, PreemieInput, PreemieButton, usePreemieToast } from '@ui';
 import { PageArea } from '@shared/ui';
@@ -32,7 +33,6 @@ import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
 import './add-milk-form.css';
-import { Keyboard } from '@capacitor/keyboard';
 
 const cn = classname('add-milk-form');
 
@@ -281,12 +281,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label='Received Date*'
                                     label-placement='floating'
                                     className='received-date-size'
-                                    {...register('receivedDate', {
-                                        onChange: e => {
-                                            handleReceivedDateChange(e);
-                                            trigger(['milkExpirationDate']);
-                                        },
-                                    })}
+                                    {...register('receivedDate', {})}
                                 />
 
                                 <p className={cn('form-group-error')}>
@@ -344,7 +339,13 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label='Milk Expression Date*'
                                     required={true}
                                     label-placement='floating'
-                                    {...register('milkExpressionDate')}
+                                    {...(register('milkExpressionDate'),
+                                    {
+                                        onChange: e => {
+                                            handleReceivedDateChange(e);
+                                            trigger(['milkExpirationDate']);
+                                        },
+                                    })}
                                 />
 
                                 <p className={cn('form-group-error')}>
