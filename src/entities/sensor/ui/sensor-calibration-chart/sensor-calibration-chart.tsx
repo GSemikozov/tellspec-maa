@@ -60,5 +60,5 @@ export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationCh
         return null;
     }
 
-    return <Chart type='line' height={350} options={options} series={series} />;
+    return <Chart type='line' height={350} width={550} options={options} series={series} />;
 };

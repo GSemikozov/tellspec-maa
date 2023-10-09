@@ -9,8 +9,13 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             enabled: false,
         },
         toolbar: {
+            
             show: false,
         },
+        
+    },
+    legend: {
+        position: "left",
     },
     dataLabels: {
         enabled: false,
@@ -76,6 +81,7 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             },
         },
         labels: {
+            
             style: { fontSize: '1em', fontWeight: 400 },
             formatter: function (val: string) {
                 return parseFloat(val).toFixed(1);
@@ -83,4 +89,5 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
         },
     },
     colors: ['#E503B0', '#3dc04a'],
+    
 });
