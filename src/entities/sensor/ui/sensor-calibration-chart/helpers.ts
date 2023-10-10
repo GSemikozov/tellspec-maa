@@ -9,13 +9,11 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             enabled: false,
         },
         toolbar: {
-            
             show: false,
         },
-        
     },
     legend: {
-        position: "left",
+        position: 'left',
     },
     dataLabels: {
         enabled: false,
@@ -48,6 +46,7 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
         title: {
             text: 'Intensity',
             offsetX: 0,
+
             style: {
                 fontSize: '1.4em',
                 fontWeight: 400,
@@ -55,25 +54,36 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
         },
         labels: {
             style: { fontSize: '1em', fontWeight: 400 },
-            
+
             /**
              * Allows users to apply a custom formatter function to yaxis labels.
-            *
-            * @param { String } value - The generated value of the y-axis tick
-            * @param { index } index of the tick / currently executing iteration in yaxis labels array
-            */
-           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-           // @ts-ignore
-           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-           formatter: function (val: number, index: number) {
-               return val.toFixed(2);
+             *
+             * @param { String } value - The generated value of the y-axis tick
+             * @param { index } index of the tick / currently executing iteration in yaxis labels array
+             */
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            formatter: function (val: number, index: number) {
+                return val.toFixed(2);
             },
         },
     },
     xaxis: {
-        tickAmount: 5,
+        tickAmount: 9,
         tickPlacement: 'between',
-        categories: data?.wavelengths || [1350, 1450, 1550, 1650, 1750, 1850, 1950, 2050, 2150],
+        categories: data?.wavelengths || [
+            '1350',
+            '1450',
+            '1550',
+            '1650',
+            '1750',
+            '1850',
+            '1950',
+            '2050',
+            '2150',
+        ],
+
         title: {
             text: 'Wavelength (nm)',
             style: {
@@ -82,15 +92,11 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             },
         },
         labels: {
-            
             style: { fontSize: '1em', fontWeight: 400 },
             formatter: function (val: string) {
                 return parseFloat(val).toFixed(0);
             },
-            
         },
     },
     colors: ['#E503B0', '#3dc04a'],
-    
 });
-

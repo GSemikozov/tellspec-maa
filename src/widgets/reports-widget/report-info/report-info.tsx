@@ -5,11 +5,9 @@ import { classname } from '@shared/utils';
 import type { Milk } from '@entities/milk';
 
 import './report-info.css';
-// import { useSelector } from 'react-redux';
-// import { donorsSelectors } from '@entities/donors';
+import { useSelector } from 'react-redux';
+import { donorsSelectors } from '@entities/donors';
 // import { IDonor } from '@entities/donors/model/donors.types';
-
-// const donorsList = useSelector(donorsSelectors.getAllDonors);
 
 const cn = classname('report-info');
 
@@ -21,12 +19,13 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-
+    
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
-    // console.log(sensitiveData)
+    console.log(sensitiveData);
+    const donorsList = useSelector(donorsSelectors.getAllDonors(sensitiveData.sourceId));
+    console.log('donorlist', donorsList);
     // console.log('milk', [milk])
-    // console.log('donorlist', donorsList);
 
     return (
         <IonGrid className={cn()}>
@@ -39,17 +38,14 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                         </p>
                     </div>
 
-                    {/* <div className={cn('segment')}>
+                    <div className={cn('segment')}>
                         <p>
                             <IonText>Donor ID:</IonText>
-                            {donorsList.map((donor: IDonor) => (
-                                <IonText key={donor.uuid}>
-                                    {donor.sensitive_data.name} {donor.sensitive_data.surname} -{' '}
-                                    {donor.sensitive_data.id}
-                                </IonText>
-                            ))}
+                            {/* {donorsList.map((donor: IDonor) => (
+                             <IonText key={donor.uuid}>{donor.sensitive_data.name}</IonText>   
+                            ))} */}
                         </p>
-                    </div> */}
+                    </div>
 
                     {sensitiveData.infantDeliveryDate ? (
                         <div className={cn('segment')}>
@@ -88,7 +84,7 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                             </p>
                         </div>
                     ) : null}
-{/* 
+                    {/* 
                     {sensitiveData.storageFreezer ? (
                         <div className={cn('segment')}>
                             <p>

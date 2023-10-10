@@ -59,11 +59,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(selectGroupFreezers);
     const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
-    const [
-        enteredValue,
-        //, setEnteredValue
-    ] = useState('1');
 
+
+    console.log('donor', donorsList)
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
 
@@ -315,7 +313,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='number'
-                                    value={enteredValue}
+                                    
                                     label='Number of Containers'
                                     label-placement='floating'
                                     {...register('numberOfContainers')}
