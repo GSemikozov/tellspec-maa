@@ -28,8 +28,8 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
 
     return (
         <IonGrid className={cn()}>
-            <IonRow className='ion-margin'>
-                <IonCol size='5' className={cn('columns')}>
+            <IonRow className={`ion-margin ${cn('columns')}`}>
+                <IonCol size='6' className={cn('column')}>
                     <div className={cn('segment')}>
                         <p>
                             <IonText>Milk ID:</IonText>
@@ -72,7 +72,7 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                     ) : null}
                 </IonCol>
 
-                <IonCol size='5' className={cn('columns')}>
+                <IonCol size='6' className={cn('column')}>
                     {sensitiveData.expirationDate ? (
                         <div className={cn('segment')}>
                             <p>

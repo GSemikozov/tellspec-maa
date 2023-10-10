@@ -21,7 +21,7 @@ const decodeMilkInformation = async (source: any): Promise<Milk> => {
         created_at: source.created_at,
         last_modified_at: source.last_modified_at,
         sensitive_data: source.sensitive_data,
-        reports: [],
+        reports: [...source.reports],
     };
 
     if (!sensitiveData || !sensitiveData.trim()) {

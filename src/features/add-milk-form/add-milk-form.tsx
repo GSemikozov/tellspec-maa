@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -60,8 +60,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const freezersList = useSelector(selectGroupFreezers);
     const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
 
-
-    console.log('donor', donorsList)
+    console.log('donor', donorsList);
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
 
@@ -313,7 +312,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='number'
-                                    
                                     label='Number of Containers'
                                     label-placement='floating'
                                     {...register('numberOfContainers')}
