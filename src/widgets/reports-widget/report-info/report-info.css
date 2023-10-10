@@ -20,4 +20,11 @@
     border-bottom: 1px solid var(--ion-color-primary);
     width: 90%;
     margin: 2rem;
+    display: flex;
+    justify-content: space-between
+}
+
+.report-info__donor{
+    display: flex;
+    flex-direction: row-reverse;
 }

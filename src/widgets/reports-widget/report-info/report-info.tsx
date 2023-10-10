@@ -7,7 +7,7 @@ import type { Milk } from '@entities/milk';
 import './report-info.css';
 import { useSelector } from 'react-redux';
 import { donorsSelectors } from '@entities/donors';
-// import { IDonor } from '@entities/donors/model/donors.types';
+import { IDonor } from '@entities/donors/model/donors.types';
 
 const cn = classname('report-info');
 
@@ -19,13 +19,12 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-    
+
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
     console.log(sensitiveData);
-    const donorsList = useSelector(donorsSelectors.getAllDonors(sensitiveData.sourceId));
+    const donorsList = useSelector(donorsSelectors.getAllDonors);
     console.log('donorlist', donorsList);
-    // console.log('milk', [milk])
 
     return (
         <IonGrid className={cn()}>
@@ -41,9 +40,16 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                     <div className={cn('segment')}>
                         <p>
                             <IonText>Donor ID:</IonText>
-                            {/* {donorsList.map((donor: IDonor) => (
-                             <IonText key={donor.uuid}>{donor.sensitive_data.name}</IonText>   
-                            ))} */}
+                            {donorsList.map((donor: IDonor) => {
+                                if (donor.uuid === sensitiveData.sourceId) {
+                                    return (
+                                        <IonText key={donor.uuid} className={cn('donor')}>
+                                            {`${donor.sensitive_data.name}  ${donor.sensitive_data.surname}`}
+                                        </IonText>
+                                    );
+                                }
+                                return null;
+                            })}
                         </p>
                     </div>
 
