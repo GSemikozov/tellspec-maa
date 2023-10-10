@@ -60,7 +60,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const freezersList = useSelector(selectGroupFreezers);
     const isFetching = useSelector(addMilkFormSelectors.selectIsAddMilkFormLoading);
 
-    console.log('donor', donorsList);
     const [presentAlert] = useIonAlert();
     const [presentToast] = usePreemieToast();
 
@@ -104,9 +103,12 @@ export const AddMilkForm: React.FunctionComponent = () => {
         dispatch(fetchGroup({ preemie_group_id: groupId }));
     }, []);
 
+    React.useEffect(() => {
+        trigger();
+    }, []);
+
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
-        console.log(values);
 
         try {
             await dispatch(addMilkFormAsyncActions.addMilk(buildMilkData(values))).unwrap();
@@ -168,10 +170,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-    const hasTouchedField = Object.values(touchedFields).length > 0;
     const hasErrors = Object.values(errors).length > 0;
-
-    const disabledSubmit = !hasTouchedField || hasErrors;
+    const disabledSubmit = hasErrors;
 
     const today = new Date().toISOString().slice(0, 10);
 
@@ -185,9 +185,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton id='present-alert'
-                                
-                                >Clear the form</IonButton>
+                                <IonButton id='present-alert'>Clear the form</IonButton>
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
@@ -232,6 +230,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 {touchedFields.milkId && errors.milkId?.message}
                             </p>
                         </div>
+
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect
@@ -281,7 +280,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label='Received Date*'
                                     label-placement='floating'
                                     className='received-date-size'
-                                    {...register('receivedDate', {})}
+                                    {...register('receivedDate')}
                                 />
 
                                 <p className={cn('form-group-error')}>
@@ -338,8 +337,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     label='Milk Expression Date*'
                                     required={true}
                                     label-placement='floating'
-                                    {...(register('milkExpressionDate'),
-                                    {
+                                    {...register('milkExpressionDate', {
                                         onChange: e => {
                                             handleReceivedDateChange(e);
                                             trigger(['milkExpirationDate']);

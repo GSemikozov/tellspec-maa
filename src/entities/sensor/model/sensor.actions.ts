@@ -336,7 +336,11 @@ export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async 
             throw new Error(SENSOR_DISCONNECTED);
         }
 
-        return tellspecGetSensorStatus();
+        const sensorStatus = await tellspecGetSensorStatus();
+
+        log('sensor/getSensorStatus:sensorStatus', sensorStatus);
+
+        return sensorStatus;
     } catch (error) {
         console.error(error);
 

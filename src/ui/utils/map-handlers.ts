@@ -1,7 +1,7 @@
-import { PreemieInputProps } from '@ui';
+import { PreemieInputProps, PreemieSelectProps } from '@ui';
 
 // map onChange to onIonChange etc.
-export const mapHandlers = (props: PreemieInputProps) => {
+export const mapHandlers = (props: PreemieInputProps | PreemieSelectProps) => {
     return Object.entries(props).reduce((handlers, [key, value]) => {
         if (!key.startsWith('on')) {
             return handlers;

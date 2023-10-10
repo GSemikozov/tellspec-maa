@@ -35,11 +35,11 @@ export const useSensorStatusPolling = ({
     );
 
     const stop = React.useCallback(() => {
+        setIsPolling(false);
+
         if (!timeoutRef.current) {
             return;
         }
-
-        setIsPolling(false);
 
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;

@@ -45,7 +45,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [presentToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
-    const discoveredDevicesListenerRef = React.useRef<PluginListenerHandle | null>(null);
+    const cancelSignalRef = React.useRef<boolean>(false);
 
     const [calibrateSensor] = useCalibrateSensor();
     const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
@@ -56,6 +56,9 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
         SensorConnectionProcessStatus.IDLE,
     );
+
+    const [updateDiscoveredDevicesListener, setUpdateDiscoveredDevicesListener] =
+        React.useState<PluginListenerHandle | null>(null);
 
     const [discoveredDevicesModalOpen, setDiscoveredDevicesModalOpen] = React.useState(false);
 
@@ -78,36 +81,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
     }, []);
 
-    const setupDiscoveredDevicesListener = React.useCallback(() => {
-        discoveredDevicesListenerRef.current = tellspecAddListener(
-            SensorEvent.DEVICE_LIST,
-            (data: TellspecListenerEvents.UpdateDeviceList) => {
-                console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
-
-                if (data.devices.length === 0) {
-                    return;
-                }
-
-                const newDiscoveredDevices = data.devices.filter(device =>
-                    device.name.includes('T11'),
-                );
-
-                setDiscoveredDevices(newDiscoveredDevices);
-            },
-        );
-    }, []);
-
-    const resetDiscoveredDevicesListener = React.useCallback(() => {
-        if (discoveredDevicesListenerRef.current) {
-            discoveredDevicesListenerRef.current.remove();
-            discoveredDevicesListenerRef.current = null;
-        }
-    }, []);
-
     const handleStartDiscovery: SensorConnectionProcessContextValue['onStartDiscovery'] =
         React.useCallback(async ({ enableBleCheck } = {}) => {
             try {
-                setupDiscoveredDevicesListener();
+                cancelSignalRef.current = false;
 
                 if (enableBleCheck) {
                     setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
@@ -125,7 +102,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     }
                 }
 
-                if (discoveredDevicesListenerRef.current === null) {
+                if (cancelSignalRef.current) {
+                    cancelSignalRef.current = false;
                     return;
                 }
 
@@ -166,8 +144,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         setDiscoveredDevices([]);
-        resetDiscoveredDevicesListener();
-    }, [handleCloseDiscoveryDevicesModal, resetDiscoveredDevicesListener]);
+        setUpdateDiscoveredDevicesListener(null);
+
+        cancelSignalRef.current = true;
+    }, [handleCloseDiscoveryDevicesModal]);
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
         setStatus(SensorConnectionProcessStatus.PAIRING_DISCOVERED_DEVICE);
@@ -236,11 +216,33 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     }, [isPolling, currentDevice]);
 
     React.useEffect(() => {
+        if (updateDiscoveredDevicesListener === null) {
+            setUpdateDiscoveredDevicesListener(
+                tellspecAddListener(
+                    SensorEvent.DEVICE_LIST,
+                    (data: TellspecListenerEvents.UpdateDeviceList) => {
+                        console.log('tellspecAddListener[SensorEvent.DEVICE_LIST]', data);
+
+                        if (data.devices.length === 0) {
+                            return;
+                        }
+
+                        const newDiscoveredDevices = data.devices.filter(device =>
+                            device.name.includes('T11'),
+                        );
+
+                        setDiscoveredDevices(newDiscoveredDevices);
+                    },
+                ),
+            );
+        }
+
         return () => {
-            resetDiscoveredDevicesListener();
+            if (updateDiscoveredDevicesListener) {
+                updateDiscoveredDevicesListener.remove();
+            }
         };
     }, []);
-
     const context = React.useMemo(
         () => ({
             status,

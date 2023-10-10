@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonInput } from '@ionic/react';
 
-import { mapHandlers } from '@ui/input/utils';
+import { mapHandlers } from '@ui/utils';
 
 import './input.css';
 
