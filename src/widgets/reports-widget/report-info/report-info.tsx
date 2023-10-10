@@ -8,6 +8,7 @@ import './report-info.css';
 import { useSelector } from 'react-redux';
 import { donorsSelectors } from '@entities/donors';
 import { IDonor } from '@entities/donors/model/donors.types';
+import { IFreezer, selectGroupFreezers } from '@entities/groups';
 
 const cn = classname('report-info');
 
@@ -22,9 +23,9 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
 
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
-    console.log(sensitiveData);
     const donorsList = useSelector(donorsSelectors.getAllDonors);
-    console.log('donorlist', donorsList);
+     const freezersList = useSelector(selectGroupFreezers);
+     console.log(sensitiveData)
 
     return (
         <IonGrid className={cn()}>
@@ -90,15 +91,24 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                             </p>
                         </div>
                     ) : null}
-                    {/* 
+
                     {sensitiveData.storageFreezer ? (
                         <div className={cn('segment')}>
                             <p>
                                 <IonText>Storage Freezer:</IonText>
-                                <IonText>{sensitiveData.storageFreezer}</IonText>
+                                {freezersList.map((freezer: IFreezer) => {
+                                    if (freezer.freezer_id === sensitiveData.storageFreezer) {
+                                        return (
+                                            <IonText key={freezer.freezer_id} className={cn('donor')}>
+                                                {freezer.name}
+                                            </IonText>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </p>
                         </div>
-                    ) : null} */}
+                    ) : null}
                 </IonCol>
             </IonRow>
         </IonGrid>
