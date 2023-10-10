@@ -185,7 +185,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton id='present-alert'>Clear the form</IonButton>
+                                <IonButton id='present-alert'
+                                
+                                >Clear the form</IonButton>
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
@@ -216,6 +218,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 type='text'
                                 required
                                 label='Milk ID*'
+                                id='milkId'
                                 label-placement='floating'
                                 {...register('milkId')}
                                 onKeyDown={e => {

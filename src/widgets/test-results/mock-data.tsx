@@ -6,7 +6,7 @@ export const MockData = {
             value: 870,
         },
         {
-            name: '&alpha Linoleic acid',
+            name: '⍺-Linoleic acid',
             units: 'mg/kg/d',
             value: 67,
         },

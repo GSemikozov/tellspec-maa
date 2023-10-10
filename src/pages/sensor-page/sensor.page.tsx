@@ -14,6 +14,7 @@ import {
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
+    selectSensorDeviceBatteryLevel,
     // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
@@ -21,12 +22,13 @@ import { Layout } from '@widgets/layout';
 import type { AppDispatch } from '@app';
 
 import './sensor.page.css';
-
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
-
+    
+    
+     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
 
@@ -34,6 +36,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const sensorScannerData = useSelector(selectSensorScannerData);
 
     // const pairedDevices = useSelector(selectSensorPairedDevices);
+    console.log(batteryLevel)
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -103,6 +106,22 @@ export const SensorPage: React.FunctionComponent = () => {
                                             </IonChip>
                                         </div> */}
                                     </div>
+                                    <div className={cn('section-option')}>
+                                        <p>Paired with</p>
+
+                                        <div
+                                            className={cn('section-option-action', {
+                                                information: true,
+                                            })}
+                                        >
+                                            {/* {pairedDevices.map(pairedDevice => (
+                                                <div key={pairedDevice.uuid}>
+                                                    {pairedDevice.name}
+                                                </div>
+                                            ))} */}
+                                            {currentDevice.serial}
+                                        </div>
+                                    </div>
 
                                     {currentDevice.activeCal?.scan['scan-info'].dlp_header
                                         .humidity ? (
@@ -142,22 +161,18 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     ) : null}
 
-                                    <div className={cn('section-option')}>
-                                        <p>Paired with</p>
-
-                                        <div
-                                            className={cn('section-option-action', {
-                                                information: true,
-                                            })}
-                                        >
-                                            {/* {pairedDevices.map(pairedDevice => (
-                                                <div key={pairedDevice.uuid}>
-                                                    {pairedDevice.name}
-                                                </div>
-                                            ))} */}
-                                            {currentDevice.serial}
+                                    {currentDevice ? (
+                                        <div className={cn('section-option')}>
+                                            <p>Battery</p>
+                                            <div
+                                                className={cn('section-option-action', {
+                                                    information: true,
+                                                })}
+                                            >
+                                                {batteryLevel}%
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
                                 </div>
 
                                 <div className={cn('section')}>

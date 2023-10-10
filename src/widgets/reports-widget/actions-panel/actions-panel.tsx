@@ -20,7 +20,7 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props =>
         <IonRow>
             <IonCol className={cn()}>
                 <IonButton href={printURL} disabled={isPrintButtonDisabled}>
-                    Print Milk Test Results
+                    Print Milk Report(s)
                 </IonButton>
             </IonCol>
         </IonRow>

@@ -9,6 +9,7 @@ import type { Milk } from '@entities/milk';
 
 import './pdf-template.css';
 import { ReportInfo } from '@widgets/reports-widget/report-info';
+import { MockData } from '@widgets/test-results/mock-data';
 
 type PDFTemplateProps = {
     milk: Milk;
@@ -24,6 +25,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
     const fatValue = analyseData?.find(item => item.name === 'Fat')?.value || 0;
     // const carbValue = analyseData?.find(item => item.name === 'Total Carbs')?.value || 0;
     const energyValue = analyseData?.find(item => item.name === 'Energy')?.value || 0;
+   const fattyAcidValue = MockData
 
     return (
         <div id={'pdf-container-milk'} className={'pdf-milk-container'}>
@@ -98,21 +100,99 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
                             </div>
                         </div>
 
-                        {/* <div className={'pdf-milk-macroHeader'}>Carbohydrates</div>
+                        <div className={'pdf-milk-macroHeader'}>Linoleic Acid</div>
                         <RangeItem
-                            generalRange={[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]}
-                            normalRangeWidth={36.8}
-                            value={carbValue}
-                            unit={'g/dl'}
+                            generalRange={[
+                                231, 308, 385, 462, 539, 616, 693, 770, 847, 924, 1001, 1078, 1155,
+                                1232, 1309, 1386, 1463, 1540, 1617, 1694,
+                            ]}
+                            normalRangeWidth={1155}
+                            value={fattyAcidValue[0].value}
+                            unit={'mg/kg/d'}
                         />
                         <div className={'resultContainer'}>
-                            <div className={'pdf-milk-yourResult'}>Your result: {carbValue} g/dl</div>
-                            <div className={'pdf-milk-details'}>
-                                Lactose is the main sugar in breast milk. It helps decrease the amount of
-                                unhealthy bacteria in the stomach. It also helps with the absorption of key
-                                nutrients and minerals.
+                            <div className={'pdf-milk-yourResult'}>
+                                Your result: {fattyAcidValue[0].name} mg/kg/d
                             </div>
-                        </div> */}
+                            <div className={'pdf-milk-details'}>
+                                Lactose is the main sugar in breast milk. It helps decrease the
+                                amount of unhealthy bacteria in the stomach. It also helps with the
+                                absorption of key nutrients and minerals.
+                            </div>
+                        </div>
+
+                        <div className={'pdf-milk-macroHeader'}>⍺-Linoleic Acid</div>
+                        <RangeItem
+                            generalRange={[50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105]}
+                            normalRangeWidth={45}
+                            value={fattyAcidValue[1].value}
+                            unit={'mg/kg/d'}
+                        />
+                        <div className={'resultContainer'}>
+                            <div className={'pdf-milk-yourResult'}>
+                                Your result: {fattyAcidValue[1].name} mg/kg/d
+                            </div>
+                            <div className={'pdf-milk-details'}>
+                                Lactose is the main sugar in breast milk. It helps decrease the
+                                amount of unhealthy bacteria in the stomach. It also helps with the
+                                absorption of key nutrients and minerals.
+                            </div>
+                        </div>
+                        <div className={'pdf-milk-macroHeader'}>DHA</div>
+                        <RangeItem
+                            generalRange={[20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 75]}
+                            normalRangeWidth={35}
+                            value={fattyAcidValue[2].value}
+                            unit={'mg/kg/d'}
+                        />
+                        <div className={'resultContainer'}>
+                            <div className={'pdf-milk-yourResult'}>
+                                Your result: {fattyAcidValue[2].name} mg/kg/d
+                            </div>
+                            <div className={'pdf-milk-details'}>
+                                Lactose is the main sugar in breast milk. It helps decrease the
+                                amount of unhealthy bacteria in the stomach. It also helps with the
+                                absorption of key nutrients and minerals.
+                            </div>
+                        </div>
+
+                        <div className={'pdf-milk-macroHeader'}>ARA</div>
+                        <RangeItem
+                            generalRange={[20,30, 40, 50, 60, 70, 80, 90, 100, 110]}
+                            normalRangeWidth={70}
+                            value={fattyAcidValue[3].value}
+                            unit={'mg/kg/d'}
+                        />
+                        <div className={'resultContainer'}>
+                            <div className={'pdf-milk-yourResult'}>
+                                Your result: {fattyAcidValue[3].name} mg/kg/d                            </div>
+                            <div className={'pdf-milk-details'}>
+                                Lactose is the main sugar in breast milk. It helps decrease the
+                                amount of unhealthy bacteria in the stomach. It also helps with the
+                                absorption of key nutrients and minerals.
+                            </div>
+                        </div>
+
+                        <div className={'pdf-milk-macroHeader'}>EPA</div>
+                        <RangeItem
+                            generalRange={[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]}
+                            normalRangeWidth={20}
+                            value={fattyAcidValue[4].value}
+                            unit={'mg/kg/d'}
+                        />
+                        <div className={'resultContainer'}>
+                            <div className={'pdf-milk-yourResult'}>
+                                Your result: {fattyAcidValue[4].name} mg/kg/d
+                            </div>
+                            <div className={'pdf-milk-details'}>
+                                Lactose is the main sugar in breast milk. It helps decrease the
+                                amount of unhealthy bacteria in the stomach. It also helps with the
+                                absorption of key nutrients and minerals.
+                            </div>
+                        </div>
+
+                        
+
                         <PDFFooter page={4} />
                     </div>
                 </>

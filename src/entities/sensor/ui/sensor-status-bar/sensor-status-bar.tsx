@@ -41,6 +41,7 @@ export const SensorStatusBar: React.FunctionComponent = () => {
     const calibrationReady = useSelector(selectSensorCalibrationReady);
 
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+   
 
     const bleStatusOn = bleStatus === BleStatus.ON;
     const devicePaired = currentDevice !== null;

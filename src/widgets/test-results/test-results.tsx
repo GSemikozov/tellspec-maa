@@ -45,7 +45,7 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
         maxRequiredValue: 1540,
         step: 77,
     },
-    '&alpha Linoleic acid': {
+    '⍺-Linoleic acid': {
         minRequiredValue: 55,
         maxRequiredValue: 100,
         step: 5,
