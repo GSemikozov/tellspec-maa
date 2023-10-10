@@ -1,6 +1,6 @@
 .pdf-milk-page {
-    width: 100vw;
-    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
     page-break-after: always;
     background-color: white;
     display: flex;

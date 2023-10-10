@@ -1,3 +1,5 @@
+import type { Report } from '@entities/reports';
+
 export type AddMilkResponse = {
     milk_id: string;
 
@@ -24,10 +26,10 @@ export type Milk = {
     data: Record<string, any>;
     sensitive_data: MilkSensitiveData;
     archived: boolean;
-    reports: unknown[];
+    reports: Report[];
 
     donor?: string;
-    created_at?: string;
+    created_at: string;
     archived_at?: string;
-    last_modified_at?: string;
+    last_modified_at: string;
 };

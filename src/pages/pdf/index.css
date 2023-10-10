@@ -1,10 +1,14 @@
 .scrollable {
-    position: static;
-    overflow: auto;
-    width: 100%;
-    height: auto;
-    min-height: 100%;
+    position: relative;
     color: black;
+    overflow: scroll;
+}
+
+ion-app.scrollable {
+    display: inline-block;
+
+    /* do not touch */
+    margin-bottom: -5px;
 }
 
 .pdf__preloader {

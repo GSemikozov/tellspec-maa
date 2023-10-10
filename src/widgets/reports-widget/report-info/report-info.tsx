@@ -5,8 +5,8 @@ import { classname } from '@shared/utils';
 import type { Milk } from '@entities/milk';
 
 import './report-info.css';
-import { useSelector } from 'react-redux';
-import { donorsSelectors } from '@entities/donors';
+// import { useSelector } from 'react-redux';
+// import { donorsSelectors } from '@entities/donors';
 // import { IDonor } from '@entities/donors/model/donors.types';
 
 const cn = classname('report-info');
@@ -19,18 +19,18 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-    
+
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
     console.log(sensitiveData);
-    const donorsList = useSelector(donorsSelectors.getAllDonors(sensitiveData.sourceId));
-    console.log('donorlist', donorsList);
+    // const donorsList = useSelector(donorsSelectors.getAllDonors(sensitiveData.sourceId));
+    // console.log('donorlist', donorsList);
     // console.log('milk', [milk])
 
     return (
         <IonGrid className={cn()}>
-            <IonRow className='ion-margin'>
-                <IonCol size='5' className={cn('columns')}>
+            <IonRow className={`ion-margin ${cn('columns')}`}>
+                <IonCol size='6' className={cn('column')}>
                     <div className={cn('segment')}>
                         <p>
                             <IonText>Milk ID:</IonText>
@@ -66,7 +66,7 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                     ) : null}
                 </IonCol>
 
-                <IonCol size='5' className={cn('columns')}>
+                <IonCol size='6' className={cn('column')}>
                     {sensitiveData.expirationDate ? (
                         <div className={cn('segment')}>
                             <p>

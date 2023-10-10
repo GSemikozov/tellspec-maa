@@ -11,7 +11,6 @@ import { LogoAnimation } from '@ui/logo/animated-logo';
 
 import type { RouteComponentProps } from 'react-router';
 import type { AppDispatch } from '@app';
-import type { Report } from '@entities/reports';
 import type { Milk } from '@entities/milk';
 
 import './index.css';
@@ -103,7 +102,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     return (
         <>
             {milks.map((milk: Milk) => (
-                <PDFTemplate key={milk.milk_id} report={milk.reports[0] as Report} />
+                <PDFTemplate key={milk.milk_id} milk={milk} />
             ))}
         </>
     );
