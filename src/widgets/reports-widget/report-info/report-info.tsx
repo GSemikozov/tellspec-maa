@@ -1,15 +1,14 @@
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
+import { useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
-
-import type { Milk } from '@entities/milk';
-
-import './report-info.css';
-import { useSelector } from 'react-redux';
 import { donorsSelectors } from '@entities/donors';
 import { IDonor } from '@entities/donors/model/donors.types';
 import { IFreezer, selectGroupFreezers } from '@entities/groups';
 
+import type { Milk } from '@entities/milk';
+
+import './report-info.css';
 
 const cn = classname('report-info');
 
@@ -17,17 +16,16 @@ type ReportInfoProps = {
     milkInfo: Milk[];
 };
 
-
 export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo }) => {
+    const donorsList = useSelector(donorsSelectors.getAllDonors);
+    const freezersList = useSelector(selectGroupFreezers);
+
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-   
 
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
-    const donorsList = useSelector(donorsSelectors.getAllDonors);
-    const freezersList = useSelector(selectGroupFreezers);
 
     return (
         <IonGrid className={cn()}>
