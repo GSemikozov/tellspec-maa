@@ -4,12 +4,12 @@ import { RangeItem } from '@entities/reports/components/range-item';
 import { PDFCover } from '@entities/reports/components/pdf-cover';
 import { PDFHeader } from '@entities/reports/components/pdf-header';
 import { PDFFooter } from '@entities/reports/components/pdf-footer';
+import { ReportInfo } from '@widgets/reports-widget/report-info';
+import { MockData } from '@widgets/test-results/mock-data';
 
 import type { Milk } from '@entities/milk';
 
 import './pdf-template.css';
-import { ReportInfo } from '@widgets/reports-widget/report-info';
-import { MockData } from '@widgets/test-results/mock-data';
 
 type PDFTemplateProps = {
     milk: Milk;
@@ -25,7 +25,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
     const fatValue = analyseData?.find(item => item.name === 'Fat')?.value || 0;
     // const carbValue = analyseData?.find(item => item.name === 'Total Carbs')?.value || 0;
     const energyValue = analyseData?.find(item => item.name === 'Energy')?.value || 0;
-   const fattyAcidValue = MockData
+    const fattyAcidValue = MockData;
 
     return (
         <div id={'pdf-container-milk'} className={'pdf-milk-container'}>
@@ -158,14 +158,15 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
 
                         <div className={'pdf-milk-macroHeader'}>ARA</div>
                         <RangeItem
-                            generalRange={[20,30, 40, 50, 60, 70, 80, 90, 100, 110]}
+                            generalRange={[20, 30, 40, 50, 60, 70, 80, 90, 100, 110]}
                             normalRangeWidth={70}
                             value={fattyAcidValue[3].value}
                             unit={'mg/kg/d'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[3].name} mg/kg/d                            </div>
+                                Your result: {fattyAcidValue[3].name} mg/kg/d{' '}
+                            </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the
                                 amount of unhealthy bacteria in the stomach. It also helps with the
@@ -190,8 +191,6 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
                                 absorption of key nutrients and minerals.
                             </div>
                         </div>
-
-                        
 
                         <PDFFooter page={4} />
                     </div>

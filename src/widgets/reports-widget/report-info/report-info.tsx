@@ -1,5 +1,6 @@
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
 
+
 import { classname } from '@shared/utils';
 
 import type { Milk } from '@entities/milk';
@@ -12,6 +13,9 @@ import { IFreezer, selectGroupFreezers } from '@entities/groups';
 import React from 'react';
 import { AppDispatch } from '@app/store';
 
+
+import './report-info.css';
+
 const cn = classname('report-info');
 
 type ReportInfoProps = {
@@ -19,6 +23,9 @@ type ReportInfoProps = {
 };
 
 export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo }) => {
+    const donorsList = useSelector(donorsSelectors.getAllDonors);
+    const freezersList = useSelector(selectGroupFreezers);
+
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
@@ -35,8 +42,6 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
 
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
-    const donorsList = useSelector(donorsSelectors.getAllDonors);
-    const freezersList = useSelector(selectGroupFreezers);
 
     return (
         <IonGrid className={cn()}>
