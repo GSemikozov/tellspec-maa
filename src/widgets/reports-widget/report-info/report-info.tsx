@@ -5,11 +5,12 @@ import { classname } from '@shared/utils';
 import type { Milk } from '@entities/milk';
 
 import './report-info.css';
-import { useSelector } from 'react-redux';
-import { donorsSelectors } from '@entities/donors';
+import { useDispatch, useSelector } from 'react-redux';
+import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { IDonor } from '@entities/donors/model/donors.types';
 import { IFreezer, selectGroupFreezers } from '@entities/groups';
-
+import React from 'react';
+import { AppDispatch } from '@app/store';
 
 const cn = classname('report-info');
 
@@ -17,12 +18,20 @@ type ReportInfoProps = {
     milkInfo: Milk[];
 };
 
-
 export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo }) => {
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-   
+    const dispatch = useDispatch<AppDispatch>();
+
+    React.useEffect(() => {
+        const fetchDonorsRequest = {
+            completeData: true,
+            showArchived: false,
+        };
+
+        dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
+    }, []);
 
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
