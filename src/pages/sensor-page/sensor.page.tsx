@@ -93,7 +93,6 @@ export const SensorPage: React.FunctionComponent = () => {
                         />
 
                         <PageArea.Main>
-                            ;
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>
