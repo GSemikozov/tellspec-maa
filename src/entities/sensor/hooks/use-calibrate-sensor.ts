@@ -8,7 +8,7 @@ import { log } from '@shared/utils';
 
 import { SensorDevice, calibrateSensorDevice } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
-import { CalibrationModal } from '../ui/sensor-manager/calibration-modal';
+// import { CalibrationModal } from '../ui/sensor-manager/calibration-modal';
 
 type UseCalibrateSensorResult = [
     (device: SensorDevice | null) => Promise<void>,
@@ -35,7 +35,6 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
             });
 
             await dispatch(calibrateSensorDevice()).unwrap();
-
         } catch (error: any) {
             console.error('useCalibrateSensor:error', error);
             let errorMessage = error.message;
