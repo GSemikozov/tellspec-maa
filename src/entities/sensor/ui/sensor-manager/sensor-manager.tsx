@@ -110,7 +110,6 @@ export const SensorManager: React.FunctionComponent = () => {
                     </>
                 ),
             };
-            
         }
 
         if (currentDevice && calibrationRequired) {

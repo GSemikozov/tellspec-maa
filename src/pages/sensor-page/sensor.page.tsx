@@ -22,14 +22,13 @@ import { Layout } from '@widgets/layout';
 import type { AppDispatch } from '@app';
 
 import './sensor.page.css';
-import { CalibrationModal } from '@entities/sensor/ui/sensor-manager/calibration-modal';
+// import { CalibrationModal } from '@entities/sensor/ui/sensor-manager/calibration-modal';
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
-    
-    
-     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+
+    const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
 
@@ -37,7 +36,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const sensorScannerData = useSelector(selectSensorScannerData);
 
     // const pairedDevices = useSelector(selectSensorPairedDevices);
-    console.log(batteryLevel)
+    console.log(batteryLevel);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -94,7 +93,6 @@ export const SensorPage: React.FunctionComponent = () => {
                         />
 
                         <PageArea.Main>
-                          
                             ;
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>

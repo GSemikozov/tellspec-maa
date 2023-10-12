@@ -1,18 +1,11 @@
+import React from 'react';
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
-
 
 import { classname } from '@shared/utils';
 
+import type { IFreezer } from '@entities/groups';
+import type { IDonor } from '@entities/donors';
 import type { Milk } from '@entities/milk';
-
-import './report-info.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
-import { IDonor } from '@entities/donors/model/donors.types';
-import { IFreezer, selectGroupFreezers } from '@entities/groups';
-import React from 'react';
-import { AppDispatch } from '@app/store';
-
 
 import './report-info.css';
 
@@ -20,28 +13,18 @@ const cn = classname('report-info');
 
 type ReportInfoProps = {
     milkInfo: Milk[];
+    donor?: IDonor;
+    freezer?: IFreezer;
 };
 
-export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo }) => {
-    const donorsList = useSelector(donorsSelectors.getAllDonors);
-    const freezersList = useSelector(selectGroupFreezers);
+export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
+    const { milkInfo, donor, freezer } = props;
+    const [milk] = milkInfo;
+    const sensitiveData = milk.sensitive_data;
 
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
-    const dispatch = useDispatch<AppDispatch>();
-
-    React.useEffect(() => {
-        const fetchDonorsRequest = {
-            completeData: true,
-            showArchived: false,
-        };
-
-        dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
-    }, []);
-
-    const [milk] = milkInfo;
-    const sensitiveData = milk.sensitive_data;
 
     return (
         <IonGrid className={cn()}>
@@ -54,21 +37,16 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                         </p>
                     </div>
 
-                    <div className={cn('segment')}>
-                        <p>
-                            <IonText>Donor ID:</IonText>
-                            {donorsList.map((donor: IDonor) => {
-                                if (donor.uuid === sensitiveData.sourceId) {
-                                    return (
-                                        <IonText key={donor.uuid} className={cn('donor')}>
-                                            {`${donor.sensitive_data.name}  ${donor.sensitive_data.surname}`}
-                                        </IonText>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </p>
-                    </div>
+                    {donor ? (
+                        <div className={cn('segment')}>
+                            <p>
+                                <IonText>Donor ID:</IonText>
+                                <IonText key={donor.uuid} className={cn('donor')}>
+                                    {`${donor.sensitive_data.name}  ${donor.sensitive_data.surname}`}
+                                </IonText>
+                            </p>
+                        </div>
+                    ) : null}
 
                     {sensitiveData.infantDeliveryDate ? (
                         <div className={cn('segment')}>
@@ -108,11 +86,12 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                         </div>
                     ) : null}
 
-                    {sensitiveData.storageFreezer ? (
+                    {sensitiveData.storageFreezer && freezer ? (
                         <div className={cn('segment')}>
                             <p>
                                 <IonText>Storage Freezer:</IonText>
-                                {freezersList.map((freezer: IFreezer) => {
+                                <IonText className={cn('donor')}>{freezer?.name}</IonText>
+                                {/* {freezersList.map((freezer: IFreezer) => {
                                     if (freezer.freezer_id === sensitiveData.storageFreezer) {
                                         return (
                                             <IonText
@@ -124,7 +103,7 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
                                         );
                                     }
                                     return null;
-                                })}
+                                })} */}
                             </p>
                         </div>
                     ) : null}

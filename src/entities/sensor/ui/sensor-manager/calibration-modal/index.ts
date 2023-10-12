@@ -1,1 +1,1 @@
-export {CalibrationModal} from './calibration-modal'
+export { CalibrationModal } from './calibration-modal';

@@ -86,9 +86,9 @@
 .sensor-page__chip-icon_end {
     margin-left: 4px;
 }
-.sensor-page__section-chart{
-display: flex;
-justify-content: space-between;
+.sensor-page__section-chart {
+    display: flex;
+    justify-content: space-between;
 }
 .sensor-page__section-chart p {
     font-size: 1.8rem;

@@ -1,10 +1,10 @@
-.non-analysed{
-   display: flex;
-   flex-direction: column;
-   width: 100%;
-   justify-content: center; 
-   align-items: center;
+.non-analysed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
-.non-analysed__analyse-button{
+.non-analysed__analyse-button {
     width: 20%;
 }

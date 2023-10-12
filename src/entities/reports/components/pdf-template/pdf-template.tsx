@@ -8,14 +8,18 @@ import { ReportInfo } from '@widgets/reports-widget/report-info';
 import { MockData } from '@widgets/test-results/mock-data';
 
 import type { Milk } from '@entities/milk';
+import type { IDonor } from '@entities/donors';
+import type { IFreezer } from '@entities/groups';
 
 import './pdf-template.css';
 
 type PDFTemplateProps = {
     milk: Milk;
+    donor?: IDonor;
+    freezer?: IFreezer;
 };
 
-export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
+export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }) => {
     const report = milk.reports[0] || {};
     const { milk_id, last_modified_at } = milk;
 
@@ -25,7 +29,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
     const fatValue = analyseData?.find(item => item.name === 'Fat')?.value || 0;
     // const carbValue = analyseData?.find(item => item.name === 'Total Carbs')?.value || 0;
     const energyValue = analyseData?.find(item => item.name === 'Energy')?.value || 0;
-    const fattyAcidValue = MockData;
+    const fattyAcidValue = MockData.data;
 
     return (
         <div id={'pdf-container-milk'} className={'pdf-milk-container'}>
@@ -33,7 +37,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
             <div className={'pdf-milk-page'}>
                 <PDFHeader />
                 <div className={'pdf-milk-macroHeader'}>Report Info</div>
-                <ReportInfo milkInfo={[milk]} />
+                <ReportInfo milkInfo={[milk]} donor={donor} freezer={freezer} />
                 <PDFFooter page={2} />
             </div>
             {analyseData && (
@@ -77,11 +81,6 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
                                 and bones.
                             </div>
                         </div>
-                        <PDFFooter page={3} />
-                    </div>
-
-                    <div className={'pdf-milk-page'}>
-                        <PDFHeader />
                         <div className={'pdf-milk-macroHeader'}>Fat</div>
                         <RangeItem
                             generalRange={[0, 1, 2, 3, 4, 5, 6, 7]}
@@ -99,6 +98,11 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
                                 neurodevelopment and is the main source of calories.
                             </div>
                         </div>
+                        <PDFFooter page={3} />
+                    </div>
+
+                    <div className={'pdf-milk-page'}>
+                        <PDFHeader />
 
                         <div className={'pdf-milk-macroHeader'}>Linoleic Acid</div>
                         <RangeItem
@@ -155,7 +159,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk }) => {
                                 absorption of key nutrients and minerals.
                             </div>
                         </div>
+                    </div>
 
+                    <div className={'pdf-milk-page'}>
+                        <PDFHeader />
                         <div className={'pdf-milk-macroHeader'}>ARA</div>
                         <RangeItem
                             generalRange={[20, 30, 40, 50, 60, 70, 80, 90, 100, 110]}

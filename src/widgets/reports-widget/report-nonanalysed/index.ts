@@ -1,1 +1,1 @@
-export {ReportNonAnalysed} from './report-nonanalysed'
+export { ReportNonAnalysed } from './report-nonanalysed';
