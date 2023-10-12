@@ -31,14 +31,15 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = ({ milkInfo 
     }
     const dispatch = useDispatch<AppDispatch>();
 
-    React.useEffect(() => {
-        const fetchDonorsRequest = {
-            completeData: true,
-            showArchived: false,
-        };
+   
+    // React.useEffect(() => {
+    //     const fetchDonorsRequest = {
+    //         completeData: true,
+    //         showArchived: false,
+    //     };
 
-        dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
-    }, []);
+    //     dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
+    // }, []);
 
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;

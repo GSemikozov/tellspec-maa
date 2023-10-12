@@ -130,12 +130,12 @@ export const SensorManager: React.FunctionComponent = () => {
             };
         }
 
-        if (calibrationLoading) {
-            return {
-                title: 'Calibration in Progress',
-                content: <></>,
-            };
-        }
+        // if (calibrationLoading) {
+        //     return {
+        //         title: 'Calibration in Progress',
+        //         content: <></>,
+        //     };
+        // }
 
         return null;
     }, [
