@@ -22,6 +22,7 @@ import { Layout } from '@widgets/layout';
 import type { AppDispatch } from '@app';
 
 import './sensor.page.css';
+import { CalibrationModal } from '@entities/sensor/ui/sensor-manager/calibration-modal';
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
@@ -93,6 +94,8 @@ export const SensorPage: React.FunctionComponent = () => {
                         />
 
                         <PageArea.Main>
+                          
+                            ;
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>
@@ -207,7 +210,6 @@ export const SensorPage: React.FunctionComponent = () => {
                                     ) : null}
                                 </div>
                             </div>
-
                             {/** TODO: available only for admins */}
                             {/* <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
@@ -228,7 +230,6 @@ export const SensorPage: React.FunctionComponent = () => {
                                     </div>
                                 </div>
                             </div> */}
-
                             <div className={cn('section-grid')}>
                                 <div className={cn('section')}>
                                     <div className={cn('section-option', { header: true })}>

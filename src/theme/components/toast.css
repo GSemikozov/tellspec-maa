@@ -1,19 +1,20 @@
 .preemie-toast {
-    --background: var(--ion-color-secondary-shade);
+    --background: var(--ion-color-secondary-tint);
 }
 
 .preemie-toast_success {
-    --background: var(--ion-color-success);
+    --background: var(--ion-color-success-tint);
 }
 
 .preemie-toast_error {
-    --background: var(--ion-color-danger);
+    --background: var(--ion-color-danger-tint);
 }
 
 .preemie-toast::part(message) {
     font-size: 1.6rem;
+    color: black;
 }
 
 .preemie-toast::part(button) {
-    color: var(--ion-color-primary-contrast);
+    color: black;
 }

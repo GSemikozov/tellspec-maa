@@ -6,6 +6,7 @@ import {
     IonItem,
     IonModal,
     IonTitle,
+    useIonRouter,
 } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
@@ -24,16 +25,21 @@ import {
 } from '@widgets/sensor-connection-process';
 import { tellspecAddListener } from '@api/native';
 
+import { routesMapping } from '@app/routes';
+
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
 
 import './sensor-manager.css';
 
 import type { PluginListenerHandle } from '@capacitor/core';
+import { CalibrationModal } from './calibration-modal';
 
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
+    const router = useIonRouter();
+
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
@@ -52,17 +58,31 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
 
+    const [calibrationModalOpened, setCalibrationModalOpened] = React.useState<boolean | null>(
+        null,
+    );
+
     const currentDevice = useSelector(selectSensorDevice);
 
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
 
+    const handleModalClose = () => {
+        setCalibrationModalOpened(false);
+    };
     const handleChooseSensorInformationVideo = (video: string) => () => {
         setSensorInformationVideo(video);
     };
 
     const handleResetSensorInformationVideo = () => {
         setSensorInformationVideo(null);
+    };
+
+    const handleCalibration = () => {
+        setCalibrationModalOpened(true);
+        <CalibrationModal isOpen={calibrationModalOpened} onClose={handleModalClose} />;
+        router.push(routesMapping.sensorPage);
+        calibrateSensor(currentDevice);
     };
 
     const getInstructions = React.useCallback(() => {
@@ -90,6 +110,7 @@ export const SensorManager: React.FunctionComponent = () => {
                     </>
                 ),
             };
+            
         }
 
         if (currentDevice && calibrationRequired) {
@@ -98,9 +119,7 @@ export const SensorManager: React.FunctionComponent = () => {
                 content: (
                     <>
                         <div className={cn('actions')}>
-                            <IonButton onClick={() => calibrateSensor(currentDevice)}>
-                                Start Calibration
-                            </IonButton>
+                            <IonButton onClick={handleCalibration}>Start Calibration</IonButton>
 
                             <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
                                 Unpair Sensor
@@ -114,15 +133,7 @@ export const SensorManager: React.FunctionComponent = () => {
         if (calibrationLoading) {
             return {
                 title: 'Calibration in Progress',
-                content: (
-                    <>
-                        <p>
-                            Please refrain from touching or interfering with the sensor during this
-                            brief calibration process. Your cooperation ensures accurate
-                            measurements. This will only take around 90 seconds.
-                        </p>
-                    </>
-                ),
+                content: <></>,
             };
         }
 

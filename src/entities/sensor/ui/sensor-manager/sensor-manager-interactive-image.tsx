@@ -66,7 +66,7 @@ export const SensorManagerInteractiveImage: React.FunctionComponent = () => {
                     <CountdownCircleTimer
                         isPlaying
                         size={32}
-                        duration={5}
+                        duration={15}
                         trailStrokeWidth={0}
                         strokeWidth={2}
                         strokeLinecap='square'

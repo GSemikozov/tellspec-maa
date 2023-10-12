@@ -26,7 +26,7 @@ export const usePreemieToast = (): [
                 type,
                 animated = false,
                 position = 'top',
-                duration = 4500,
+                duration = 5000,
                 delay,
                 buttons = [],
                 ...otherPresentOptions
