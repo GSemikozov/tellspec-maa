@@ -1,4 +1,4 @@
-import { isBefore, isDate, parse } from 'date-fns';
+import { isBefore, isDate, isEqual, parse } from 'date-fns';
 import * as yup from 'yup';
 
 const parseDateString = (value: string): Date => {
@@ -12,6 +12,9 @@ const parseDateString = (value: string): Date => {
 const isDateBefore = (firstDate: Date, secondDate: Date) => {
     return isBefore(firstDate, secondDate);
 };
+const isDateEqual = (firstDate: Date, secondDate: Date) => {
+    return isEqual(firstDate, secondDate);
+};
 
 export const validationSchema = yup.object({
     milkVolume: yup.string(),
@@ -21,10 +24,63 @@ export const validationSchema = yup.object({
     storageFreezer: yup.string().required('This is a required field'),
     storageCompartment: yup.string().required('This is a required field'),
 
-    receivedDate: yup.string().required('This is a required field'),
+    receivedDate: yup
+        .string()
+        .test({
+            exclusive: false,
+            name: 'validate infantDeliveryDate and receivedDate',
+            test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
+                const {
+                    infantDeliveryDate: infantDeliveryDateString,
+                    receivedDate: receivedDateString,
+                } = parent;
+
+                const infantDeliveryDate = parseDateString(infantDeliveryDateString);
+                const receivedDate = parseDateString(receivedDateString);
+
+                if (isDateEqual(receivedDate, infantDeliveryDate)) {
+                    return true;
+                }
+
+                if (isDateBefore(receivedDate, infantDeliveryDate)) {
+                    return createError({
+                        path: 'receivedDate',
+                        message: 'Received date cannot be before infant delivery date.',
+                    });
+                }
+                return true;
+            },
+        })
+        .required('This is a required field'),
     milkExpirationDate: yup.string().required('This is a required field'),
 
-    infantDeliveryDate: yup.string().required('This is a required field'),
+    infantDeliveryDate: yup
+        .string()
+        .test({
+            exclusive: false,
+            name: 'validate infantDeliveryDate and receivedDate',
+            test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
+                const {
+                    infantDeliveryDate: infantDeliveryDateString,
+                    receivedDate: receivedDateString,
+                } = parent;
+
+                const infantDeliveryDate = parseDateString(infantDeliveryDateString);
+                const receivedDate = parseDateString(receivedDateString);
+
+                if (isDateEqual(receivedDate, infantDeliveryDate)) {
+                    return true;
+                }
+                if (isDateBefore(receivedDate, infantDeliveryDate)) {
+                    return createError({
+                        path: 'infantDeliveryDate',
+                        message: 'Infant delivery date cannot be after received date.',
+                    });
+                }
+                return true;
+            },
+        })
+        .required('This is a required field'),
 
     milkExpressionDate: yup
         .string()
@@ -43,6 +99,10 @@ export const validationSchema = yup.object({
 
                 const milkExpressionDate = parseDateString(milkExpressionDateString);
                 const infantDeliveryDate = parseDateString(infantDeliveryDateString);
+
+                if (isDateEqual(milkExpressionDate, infantDeliveryDate)) {
+                    return true;
+                }
 
                 if (isDateBefore(milkExpressionDate, infantDeliveryDate)) {
                     return createError({

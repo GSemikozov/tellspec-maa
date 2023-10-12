@@ -13,7 +13,7 @@ import { TabSwitchValue } from '../tab-switch/tab-switch';
 import { TabSwitch } from '../tab-switch';
 import { ReportInfo } from '../report-info';
 import { ReportNonAnalysed } from '../report-nonanalysed';
-import { donorsSelectors } from '@entities/donors';
+// import { donorsSelectors } from '@entities/donors';
 
 import './reports-modal.css';
 

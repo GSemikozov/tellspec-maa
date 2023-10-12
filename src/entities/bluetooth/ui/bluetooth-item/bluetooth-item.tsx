@@ -27,7 +27,7 @@ export const BluetoothItem: React.FunctionComponent<BluetoothItemProps> = ({ dev
 
             <div className={cn('content')}>
                 <h4 style={{ whiteSpace: 'nowrap' }}>
-                    {device.name} - {device.serial}
+                    {device.serial}
                 </h4>
             </div>
         </div>

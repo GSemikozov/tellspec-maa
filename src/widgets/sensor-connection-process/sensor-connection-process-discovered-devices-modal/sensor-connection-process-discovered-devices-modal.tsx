@@ -27,7 +27,6 @@ export const SensorConnectionProcessDiscoveredDevicesModal = () => {
 
         onCloseDiscoveryDevicesModal();
     };
-
     return (
         <IonModal
             className={cn()}
