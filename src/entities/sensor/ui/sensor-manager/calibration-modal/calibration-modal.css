@@ -1,5 +1,5 @@
-.calibration-modal{
-    margin: 4rem 5rem 5rem 5rem ;
+.calibration-modal {
+    margin: 4rem 5rem 5rem 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +10,7 @@
     font-size: large;
 }
 
-ion-modal{
+ion-modal {
     --width: 40%;
     --height: 50%;
 }

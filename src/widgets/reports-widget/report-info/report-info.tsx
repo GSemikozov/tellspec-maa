@@ -9,7 +9,6 @@ import type { Milk } from '@entities/milk';
 
 import './report-info.css';
 
-
 const cn = classname('report-info');
 
 type ReportInfoProps = {
@@ -26,13 +25,12 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
         return null;
     }
 
-    if(milk.sensitive_data === undefined) {
-        return null
+    if (milk.sensitive_data === undefined) {
+        return null;
     }
 
     return (
         <>
-           
             <IonGrid className={cn()}>
                 <IonRow className={`ion-margin ${cn('columns')}`}>
                     <IonCol size='6' className={cn('column')}>

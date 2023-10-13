@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line import/named
 import { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import { IonSegment, IonSegmentButton, IonLabel } from '@ionic/react';
 
