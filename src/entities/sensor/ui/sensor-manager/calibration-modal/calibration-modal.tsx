@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonButton, IonModal } from '@ionic/react';
+import {  IonModal } from '@ionic/react';
 import { classname } from '@shared/utils';
 
 import './calibration-modal.css'
