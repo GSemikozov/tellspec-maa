@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
+import { IonChip, IonContent, IonPage, IonText, useIonRouter } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
@@ -18,15 +18,20 @@ import {
     // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
+import { CalibrationModal } from '@entities/sensor/ui/sensor-manager/calibration-modal';
 
 import type { AppDispatch } from '@app';
 
 import './sensor.page.css';
-// import { CalibrationModal } from '@entities/sensor/ui/sensor-manager/calibration-modal';
+
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
+    const { routeInfo } = useIonRouter();
     const dispatch = useDispatch<AppDispatch>();
+
+    const query = new URLSearchParams(routeInfo.search);
+    const shouldStartCalibration = !!query.get('calibration');
 
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
@@ -35,12 +40,19 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
 
+    const [isCalibrationModalOpened, setCalibrationModalOpened] =
+        React.useState<boolean>(shouldStartCalibration);
+
     // const pairedDevices = useSelector(selectSensorPairedDevices);
     console.log(batteryLevel);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
         dispatch(getSensorCalibration());
+
+        if (shouldStartCalibration) {
+            calibrateSensor(currentDevice);
+        }
     }, []);
 
     const handleRemoveSensor = () => {
@@ -50,6 +62,12 @@ export const SensorPage: React.FunctionComponent = () => {
 
         removeSensor(currentDevice.uuid);
     };
+
+    const handleCalibrationModalClose = () => {
+        setCalibrationModalOpened(false);
+    };
+
+    const handleClickCalibrate = () => calibrateSensor(currentDevice);
 
     if (!currentDevice) {
         return (
@@ -68,8 +86,6 @@ export const SensorPage: React.FunctionComponent = () => {
             </IonPage>
         );
     }
-
-    const handleClickCalibrate = () => calibrateSensor(currentDevice);
 
     const activeCalibration = currentDevice.activeCal;
 
@@ -289,6 +305,10 @@ export const SensorPage: React.FunctionComponent = () => {
                                     ) : null}
                                 </div>
                             </div>
+                            <CalibrationModal
+                                isOpen={isCalibrationModalOpened}
+                                onClose={handleCalibrationModalClose}
+                            />
                         </PageArea.Main>
                     </PageArea>
                 </Layout>

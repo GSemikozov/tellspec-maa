@@ -87,6 +87,7 @@ export const ReportsWidget: React.FunctionComponent = () => {
     return (
         <PageArea>
             <PageArea.Header
+                className={cn('header')}
                 title='Milk Reports'
                 icon={<ReportsIcon />}
                 actions={
@@ -101,7 +102,6 @@ export const ReportsWidget: React.FunctionComponent = () => {
                         </div>
                     )
                 }
-                className={cn('header')}
             />
 
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>

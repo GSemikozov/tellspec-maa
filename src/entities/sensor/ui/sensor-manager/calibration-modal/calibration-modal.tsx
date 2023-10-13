@@ -1,6 +1,13 @@
+import React from 'react';
 import { IonModal } from '@ionic/react';
 
-export const CalibrationModal = (isOpen, onClose) => {
+type CalibrationModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+};
+
+export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = props => {
+    const { isOpen, onClose } = props;
     return (
         <IonModal isOpen={isOpen} onIonModalDidDismiss={onClose}>
             <h1>Calibration in process...</h1>

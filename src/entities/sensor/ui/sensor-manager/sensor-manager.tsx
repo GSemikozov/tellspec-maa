@@ -24,16 +24,14 @@ import {
     useSensorConnectionProcess,
 } from '@widgets/sensor-connection-process';
 import { tellspecAddListener } from '@api/native';
-
 import { routesMapping } from '@app/routes';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
 
-import './sensor-manager.css';
-
 import type { PluginListenerHandle } from '@capacitor/core';
-import { CalibrationModal } from './calibration-modal';
+
+import './sensor-manager.css';
 
 const cn = classname('sensor-manager');
 
@@ -58,18 +56,11 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const [sensorInformationVideo, setSensorInformationVideo] = React.useState<string | null>(null);
 
-    const [calibrationModalOpened, setCalibrationModalOpened] = React.useState<boolean | null>(
-        null,
-    );
-
     const currentDevice = useSelector(selectSensorDevice);
 
     const calibrationRequired = useSelector(selectSensorCalibrationRequired);
     const calibrationLoading = useSelector(selectSensorCalibrationLoading);
 
-    const handleModalClose = () => {
-        setCalibrationModalOpened(false);
-    };
     const handleChooseSensorInformationVideo = (video: string) => () => {
         setSensorInformationVideo(video);
     };
@@ -79,10 +70,7 @@ export const SensorManager: React.FunctionComponent = () => {
     };
 
     const handleCalibration = () => {
-        setCalibrationModalOpened(true);
-        <CalibrationModal isOpen={calibrationModalOpened} onClose={handleModalClose} />;
-        router.push(routesMapping.sensorPage);
-        calibrateSensor(currentDevice);
+        router.push(`${routesMapping.sensorPage}?calibration`);
     };
 
     const getInstructions = React.useCallback(() => {

@@ -7,7 +7,7 @@ import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { userSelectors } from '@entities/user';
 import { selectReportByMilkId } from '@entities/reports';
 import { fetchGroup, selectGroupFreezers } from '@entities/groups';
-import { fetchMilksByIds, selectMilkByIds } from '@entities/milk';
+import { fetchMilksByIds, selectMilkById } from '@entities/milk';
 import { TestResults } from '@widgets/test-results';
 
 import { TabSwitchValue } from '../tab-switch/tab-switch';
@@ -33,15 +33,17 @@ const ModalContent = React.memo(({ milkID, onClose }: any) => {
 
     const user = useSelector(userSelectors.getUser);
     const report = useSelector(state => selectReportByMilkId(state, milkID));
-    const milkInfo = useSelector(state => selectMilkByIds(state, milkID));
+    const milk = useSelector(state => selectMilkById(state, milkID));
     const donorsList = useSelector(donorsSelectors.getAllDonors);
     const freezersList = useSelector(selectGroupFreezers);
 
-    const sensitiveData = milkInfo[0]?.sensitive_data || {};
+    const sensitiveData = milk?.sensitive_data || {};
     const donor = donorsList.find(donor => donor.uuid === sensitiveData.sourceId);
     const freezer = freezersList.find(
         freezer => freezer.freezer_id === sensitiveData.storageFreezer,
     );
+
+    console.log('modal sensitiveData in milk: ', milk);
 
     useEffect(() => {
         const fetchDonorsRequest = {
@@ -68,7 +70,7 @@ const ModalContent = React.memo(({ milkID, onClose }: any) => {
 
             <div className={cn('content')}>
                 {tabSwitch === 'info' ? (
-                    <ReportInfo milkInfo={milkInfo} donor={donor} freezer={freezer} />
+                    <ReportInfo milk={milk} donor={donor} freezer={freezer} />
                 ) : null}
 
                 {tabSwitch === 'results' ? (

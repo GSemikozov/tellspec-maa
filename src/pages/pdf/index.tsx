@@ -108,7 +108,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
                 });
         };
 
-        // print();
+        print();
     }, [milks]);
 
     if (isLoading) {
