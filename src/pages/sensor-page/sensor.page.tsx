@@ -57,6 +57,12 @@ export const SensorPage: React.FunctionComponent = () => {
         }
     }, [shouldStartCalibration]);
 
+    React.useEffect(() => {
+        setTimeout(() => {
+            handleCalibrationModalClose();
+        }, 10000);
+    }, []);
+
     const handleRemoveSensor = () => {
         if (!currentDevice) {
             return;

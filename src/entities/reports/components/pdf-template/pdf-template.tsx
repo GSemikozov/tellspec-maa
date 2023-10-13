@@ -109,7 +109,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                     <div className={'pdf-milk-page'}>
                         <PDFHeader />
 
-                        <div className={'pdf-milk-macroHeader'}>Linoleic Acid</div>
+                        <div className={'pdf-milk-macroHeader'}>Linolenic Acid</div>
                         <RangeItem
                             generalRange={[
                                 231, 308, 385, 462, 539, 616, 693, 770, 847, 924, 1001, 1078, 1155,
@@ -133,7 +133,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
 
                     <div className={'pdf-milk-page'}>
                         <PDFHeader />
-                        <div className={'pdf-milk-macroHeader'}>⍺-Linoleic Acid</div>
+                        <div className={'pdf-milk-macroHeader'}>⍺-Linolenic Acid</div>
                         <RangeItem
                             generalRange={[50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105]}
                             normalRangeWidth={101}

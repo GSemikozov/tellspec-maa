@@ -135,6 +135,8 @@ const columns = [
             },
         },
     ),
+
+ 
 ];
 
 type SelectedRows = Record<string, boolean>;
@@ -272,13 +274,17 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr key={row.original.uuid} onClick={handleRowClick(row)}>
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
+                        <>
+                            <tr key={row.original.uuid} onClick={handleRowClick(row)}>
+                                {row.getVisibleCells().map(cell => (
+                                    <td key={cell.id}>
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </td>
+                                ))}
+                                <td>new col</td>
+                            </tr>
+                           
+                        </>
                     ))}
                 </tbody>
             </table>
