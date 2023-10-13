@@ -12,22 +12,18 @@ import './report-info.css';
 const cn = classname('report-info');
 
 type ReportInfoProps = {
-    milkInfo: Milk[];
+    milk: Milk;
     donor?: IDonor;
     freezer?: IFreezer;
 };
 
 export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
-    const { milkInfo, donor, freezer } = props;
+    const { milk, donor, freezer } = props;
+    const sensitiveData = milk?.sensitive_data;
 
-    if (milkInfo.length === 0 || !milkInfo) {
+    if (!milk) {
         return null;
     }
-
-    const [milk] = milkInfo;
-    const sensitiveData = milk.sensitive_data;
-
-    console.log('ReportInfo milkInfo', milkInfo);
 
     return (
         <IonGrid className={cn()}>
