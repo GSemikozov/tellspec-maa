@@ -15,7 +15,7 @@ import {
     SensorCalibrationChart,
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
-    selectSensorCalibrationLoading,
+    // selectSensorCalibrationLoading,
     // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
