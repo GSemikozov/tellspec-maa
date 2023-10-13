@@ -3,6 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { IonCol, IonGrid, IonItem, IonRow } from '@ionic/react';
 
+import PreemieLogo from '../../../public/img/MAA-logo.png'
+
 import { classname } from '@shared/utils';
 import {
     HomeIcon,
@@ -75,7 +77,7 @@ export const SidebarMenu: React.FunctionComponent = () => {
     return (
         <div className={cn()}>
             <IonItem className='ion-no-margin' id='menu-logo' lines='none'>
-                <img src='./icons/general/logo.svg' alt='Preemie Logo' />
+                <img src={PreemieLogo} alt='Preemie Logo' />
             </IonItem>
 
             <IonGrid className='tabs ion-no-padding'>

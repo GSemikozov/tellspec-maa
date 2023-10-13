@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
 import { getUser } from '@entities/user/model/user.selectors';
-import PreemieLogo from '/public/img/logo-pdf.png';
+import PreemieLogo from '../../../../../public/img/MAA-logo.png'
 import coverImage from './images/pdf-cover.jpeg';
 
 import './pdf-cover.css';
@@ -31,7 +31,7 @@ export const PDFCover: React.FC<PDFCover> = props => {
                     Prepared for: {user ? `${user.last_name}, ${user.first_name}` : ''}
                 </div>
             </div>
-            <div className={'pdf-milk-url'}>PreemieSystem.com</div>
+            <div className={'pdf-milk-url'}>PreemieSensor.com</div>
         </div>
     );
 };

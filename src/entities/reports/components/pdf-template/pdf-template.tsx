@@ -40,7 +40,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                 <ReportInfo milk={milk} donor={donor} freezer={freezer} />
                 <PDFFooter page={2} />
             </div>
-            {analyseData && (
+            {analyseData ? (
                 <>
                     <div className={'pdf-milk-page'}>
                         <PDFHeader />
@@ -49,35 +49,35 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             generalRange={[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                             normalRangeWidth={50}
                             value={energyValue}
-                            unit={'kcal/dl'}
+                            unit={'kcal/dL'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {energyValue} kcal/dl
+                                Your result: {energyValue} kcal/dL
                             </div>
                             <div className={'pdf-milk-details'}>
                                 This is a measure of the energy content of the milk. The major
-                                contributors are fats, carbohydrates and proteins. It is estimated
+                                contributors are fats, carbohydrates, and proteins. It is estimated
                                 that a breastfeeding woman should be consuming a minimum of an extra
-                                500 calories per day above her normal baseline.
+                                500 kcal per day above her normal baseline.
                             </div>
                         </div>
 
                         <div className={'pdf-milk-macroHeader'}>Protein</div>
                         <RangeItem
-                            generalRange={[0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2]}
+                            generalRange={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                             normalRangeWidth={37}
                             value={proteinValue}
-                            unit={'g/dl'}
+                            unit={'g/dL'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {proteinValue} g/dl
+                                Your result: {proteinValue} g/dL
                             </div>
                             <div className={'pdf-milk-details'}>
-                                It is estimated that protein is responsible for 8-10% of a babys
+                                It is estimated that protein is responsible for 8-10% of a baby's
                                 energy requirements. Proteins are important for immune and
-                                neurological funtion and the building blocks for tissues, muscles
+                                neurological function and the building blocks for tissues, muscles,
                                 and bones.
                             </div>
                         </div>
@@ -91,16 +91,16 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             generalRange={[0, 1, 2, 3, 4, 5, 6, 7]}
                             normalRangeWidth={37.5}
                             value={fatValue}
-                            unit={'g/dl'}
+                            unit={'g/dL'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fatValue} g/dl
+                                Your result: {fatValue} g/dL
                             </div>
                             <div className={'pdf-milk-details'}>
-                                The amount of fat in milk is contributes to your baby’s growth. It
-                                is essential for the metabolism of vitamins important for
-                                neurodevelopment and is the main source of calories.
+                                The amount of fat in milk contributes to your baby’s growth. It is
+                                essential for the metabolism of vitamins, is important for
+                                neurodevelopment, and is the main source of calories.
                             </div>
                         </div>
                         <PDFFooter page={3} />
@@ -111,10 +111,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
 
                         <div className={'pdf-milk-macroHeader'}>Linoleic Acid</div>
                         <RangeItem
-                            generalRange={[
-                                231, 308, 385, 462, 539, 616, 693, 770, 847, 924, 1001, 1078, 1155,
-                                1232, 1309, 1386, 1463, 1540, 1617, 1694,
-                            ]}
+                            generalRange={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                             normalRangeWidth={101}
                             value={fattyAcidValue[0].value}
                             unit={'g/100g of FA'}
@@ -131,7 +128,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <PDFHeader />
                         <div className={'pdf-milk-macroHeader'}>⍺-Linolenic Acid</div>
                         <RangeItem
-                            generalRange={[50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105]}
+                            generalRange={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                             normalRangeWidth={101}
                             value={fattyAcidValue[1].value}
                             unit={'g/100g of FA'}
@@ -144,7 +141,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         </div>
                         <div className={'pdf-milk-macroHeader'}>DHA</div>
                         <RangeItem
-                            generalRange={[20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 75]}
+                            generalRange={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                             normalRangeWidth={101}
                             value={fattyAcidValue[2].value}
                             unit={'g/100g of FA'}
@@ -162,7 +159,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <PDFHeader />
                         <div className={'pdf-milk-macroHeader'}>ARA</div>
                         <RangeItem
-                            generalRange={[20, 30, 40, 50, 60, 70, 80, 90, 100, 110]}
+                            generalRange={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                             normalRangeWidth={101}
                             value={fattyAcidValue[3].value}
                             unit={'g/100g of FA'}
@@ -191,6 +188,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <PDFFooter page={4} />
                     </div>
                 </>
+            ) : (
+                <div>
+                    <h1> This milk has not been analysed. There are no test results.</h1>
+                </div>
             )}
         </div>
     );

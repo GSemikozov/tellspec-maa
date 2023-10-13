@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -40,7 +40,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: 1,
+    numberOfContainers: '',
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
@@ -239,6 +239,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 type='text'
                                 required
                                 // label='Milk ID*'
+
                                 id='milkId'
                                 label-placement='floating'
                                 {...register('milkId')}
@@ -248,7 +249,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     }
                                 }}
                             >
-                                Milk ID<span className={cn('asterisk')}>*</span>{' '}
+                                Milk ID<span className={cn('asterisk')}>*</span>
                             </PreemieInput>
 
                             <p className={cn('form-group-error')}>
@@ -400,7 +401,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <PreemieSelect
                                     label='Storage Compartment'
                                     label-placement='floating'
-                                    // disabled={!storageFreezerValue}
+                                    disabled={!storageFreezerValue}
                                     {...register('storageCompartment')}
                                 >
                                     {compartmentList.map(compartment => (
@@ -440,7 +441,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <PreemieButton
                                 className='button'
                                 size='small'
-                                id='analyse-alert'
+                                // id='analyse-alert'
                                 disabled={isFetching || disabledSubmit}
                                 onClick={handleAddMilkAndAnalyse}
                             >
