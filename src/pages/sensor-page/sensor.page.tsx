@@ -40,7 +40,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
 
-    const [CalibrationModalOpened, setCalibrationModalOpened] =
+    const [isCalibrationModalOpened, setIsCalibrationModalOpened] =
         React.useState<boolean>(shouldStartCalibration);
 
     // const pairedDevices = useSelector(selectSensorPairedDevices);
@@ -66,7 +66,7 @@ export const SensorPage: React.FunctionComponent = () => {
     };
 
     const handleCalibrationModalClose = () => {
-        setCalibrationModalOpened(false);
+        setIsCalibrationModalOpened(false);
     };
 
     const handleClickCalibrate = () => calibrateSensor(currentDevice);
@@ -308,7 +308,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                 </div>
                             </div>
                             <CalibrationModal
-                                isOpen={CalibrationModalOpened}
+                                isOpen={isCalibrationModalOpened}
                                 onClose={handleCalibrationModalClose}
                             />
                         </PageArea.Main>
