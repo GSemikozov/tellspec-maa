@@ -9,7 +9,7 @@ import {
     tellspecAddListener,
     tellspecCheckBleState,
     tellspecEnableDiscovery,
-    tellspecDisconnect,
+    // tellspecDisconnect, // TODO: tem hidden for testing
 } from '@api/native';
 import {
     useCalibrateSensor,
@@ -154,7 +154,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         try {
-            await tellspecDisconnect();
+            // await tellspecDisconnect(); // TODO: temp hidden
 
             const { requiredCalibration } = await dispatch(connectSensorDevice(device)).unwrap();
 
