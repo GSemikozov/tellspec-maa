@@ -15,6 +15,7 @@ import {
     SensorCalibrationChart,
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
+    selectSensorCalibrationLoading,
     // selectSensorPairedDevices,
 } from '@entities/sensor';
 import { Layout } from '@widgets/layout';
@@ -43,6 +44,10 @@ export const SensorPage: React.FunctionComponent = () => {
     const [isCalibrationModalOpened, setIsCalibrationModalOpened] =
         React.useState<boolean>(shouldStartCalibration);
 
+    // const calibrationLoading = useSelector(selectSensorCalibrationLoading);
+
+    console.log('modal', calibrateSensor);
+
     // const pairedDevices = useSelector(selectSensorPairedDevices);
     // console.log(batteryLevel);
 
@@ -60,7 +65,7 @@ export const SensorPage: React.FunctionComponent = () => {
     React.useEffect(() => {
         setTimeout(() => {
             handleCalibrationModalClose();
-        }, 10000);
+        }, 15000);
     }, []);
 
     const handleRemoveSensor = () => {
