@@ -33,7 +33,6 @@ export const SensorPage: React.FunctionComponent = () => {
     const query = new URLSearchParams(routeInfo.search);
     const shouldStartCalibration = !!query.get('calibration');
 
-
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
@@ -48,13 +47,14 @@ export const SensorPage: React.FunctionComponent = () => {
     // console.log(batteryLevel);
 
     React.useEffect(() => {
-       
+        dispatch(getSensorScanner());
+        dispatch(getSensorCalibration());
+    }, []);
+
+    React.useEffect(() => {
         if (shouldStartCalibration) {
             calibrateSensor(currentDevice);
         }
-        dispatch(getSensorScanner());
-        dispatch(getSensorCalibration());
-
     }, [shouldStartCalibration]);
 
     const handleRemoveSensor = () => {
