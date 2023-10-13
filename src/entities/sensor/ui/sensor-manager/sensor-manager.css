@@ -16,7 +16,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-  
 }
 .sensor-manager__actions ion-text {
     display: flex;
