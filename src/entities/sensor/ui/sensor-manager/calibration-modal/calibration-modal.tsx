@@ -1,11 +1,12 @@
 import React from 'react';
-import { IonButton, IonModal } from '@ionic/react';
-import { classname } from '@shared/utils';
+import { IonModal } from '@ionic/react';
 
-import './calibration-modal.css'
+import { classname } from '@shared/utils';
 import { LogoAnimation } from '@ui/logo/animated-logo';
 
-const cn = classname('calibration-modal')
+import './calibration-modal.css';
+
+const cn = classname('calibration-modal');
 
 type CalibrationModalProps = {
     isOpen: boolean;
@@ -25,7 +26,7 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                 </p>
                 <LogoAnimation />
             </div>
-                {/* <IonButton onClick={onClose}>Close</IonButton> */}
+            {/* <IonButton onClick={onClose}>Close</IonButton> */}
         </IonModal>
     );
 };
