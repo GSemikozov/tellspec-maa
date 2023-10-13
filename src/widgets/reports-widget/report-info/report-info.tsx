@@ -8,8 +8,7 @@ import type { IDonor } from '@entities/donors';
 import type { Milk } from '@entities/milk';
 
 import './report-info.css';
-import { LogoAnimation } from '@ui/logo/animated-logo';
-// import { LogoAnimation } from '@ui/logo/animated-logo';
+
 
 const cn = classname('report-info');
 

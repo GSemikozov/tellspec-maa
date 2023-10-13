@@ -1,12 +1,12 @@
 export const MockData = {
     data: [
         {
-            name: 'Linoleic acid',
+            name: 'Linolenic acid',
             units: 'mg/100ml of milk',
             value: 870,
         },
         {
-            name: '⍺-Linoleic acid',
+            name: '⍺-Linolenic acid',
             units: 'mg/100ml of milk',
             value: 67,
         },

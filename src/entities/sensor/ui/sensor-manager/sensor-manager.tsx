@@ -70,7 +70,7 @@ export const SensorManager: React.FunctionComponent = () => {
     };
 
     const handleCalibration = () => {
-        router.push(`${routesMapping.sensorPage}?calibration`);
+        router.push(`${routesMapping.sensorPage}?calibration=true`);
     };
 
     const getInstructions = React.useCallback(() => {

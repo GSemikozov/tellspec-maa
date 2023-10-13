@@ -33,6 +33,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const query = new URLSearchParams(routeInfo.search);
     const shouldStartCalibration = !!query.get('calibration');
 
+
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
@@ -40,20 +41,21 @@ export const SensorPage: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
 
-    const [isCalibrationModalOpened, setCalibrationModalOpened] =
+    const [CalibrationModalOpened, setCalibrationModalOpened] =
         React.useState<boolean>(shouldStartCalibration);
-
+console.log()
     // const pairedDevices = useSelector(selectSensorPairedDevices);
-    console.log(batteryLevel);
+    // console.log(batteryLevel);
 
     React.useEffect(() => {
-        dispatch(getSensorScanner());
-        dispatch(getSensorCalibration());
-
+       
         if (shouldStartCalibration) {
             calibrateSensor(currentDevice);
         }
-    }, []);
+        dispatch(getSensorScanner());
+        dispatch(getSensorCalibration());
+
+    }, [shouldStartCalibration]);
 
     const handleRemoveSensor = () => {
         if (!currentDevice) {
@@ -306,7 +308,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                 </div>
                             </div>
                             <CalibrationModal
-                                isOpen={isCalibrationModalOpened}
+                                isOpen={CalibrationModalOpened}
                                 onClose={handleCalibrationModalClose}
                             />
                         </PageArea.Main>

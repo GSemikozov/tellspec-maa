@@ -1,0 +1,16 @@
+.calibration-modal{
+    margin: 4rem 5rem 5rem 5rem ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calibration-modal p {
+    margin-top: 3rem;
+    font-size: large;
+}
+
+ion-modal{
+    --width: 40%;
+    --height: 50%;
+}
