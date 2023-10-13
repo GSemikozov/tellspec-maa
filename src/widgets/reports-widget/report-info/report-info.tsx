@@ -8,6 +8,8 @@ import type { IDonor } from '@entities/donors';
 import type { Milk } from '@entities/milk';
 
 import './report-info.css';
+import { LogoAnimation } from '@ui/logo/animated-logo';
+// import { LogoAnimation } from '@ui/logo/animated-logo';
 
 const cn = classname('report-info');
 
@@ -22,76 +24,83 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
     const [milk] = milkInfo;
     const sensitiveData = milk.sensitive_data;
 
+
     if (milkInfo.length === 0 || !milkInfo) {
         return null;
     }
 
+    if(milk.sensitive_data === undefined) {
+        return null
+    }
+
     return (
-        <IonGrid className={cn()}>
-            <IonRow className={`ion-margin ${cn('columns')}`}>
-                <IonCol size='6' className={cn('column')}>
-                    <div className={cn('segment')}>
-                        <p>
-                            <IonText>Milk ID:</IonText>
-                            <IonText>{milk.milk_id}</IonText>
-                        </p>
-                    </div>
-
-                    {donor ? (
+        <>
+           
+            <IonGrid className={cn()}>
+                <IonRow className={`ion-margin ${cn('columns')}`}>
+                    <IonCol size='6' className={cn('column')}>
                         <div className={cn('segment')}>
                             <p>
-                                <IonText>Donor ID:</IonText>
-                                <IonText key={donor.uuid} className={cn('donor')}>
-                                    {`${donor.sensitive_data.name}  ${donor.sensitive_data.surname}`}
-                                </IonText>
+                                <IonText>Milk ID:</IonText>
+                                <IonText>{milk.milk_id}</IonText>
                             </p>
                         </div>
-                    ) : null}
 
-                    {sensitiveData.infantDeliveryDate ? (
-                        <div className={cn('segment')}>
-                            <p>
-                                <IonText>Infant delivery date:</IonText>
-                                <IonText>{sensitiveData.infantDeliveryDate}</IonText>
-                            </p>
-                        </div>
-                    ) : null}
+                        {donor ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Donor ID:</IonText>
+                                    <IonText key={donor.uuid} className={cn('donor')}>
+                                        {`${donor.sensitive_data.name}  ${donor.sensitive_data.surname}`}
+                                    </IonText>
+                                </p>
+                            </div>
+                        ) : null}
 
-                    {sensitiveData.expirationDate ? (
-                        <div className={cn('segment')}>
-                            <p>
-                                <IonText>Milk expression date:</IonText>
-                                <IonText>{sensitiveData.expressionDate}</IonText>
-                            </p>
-                        </div>
-                    ) : null}
-                </IonCol>
+                        {sensitiveData.infantDeliveryDate ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Infant delivery date:</IonText>
+                                    <IonText>{sensitiveData.infantDeliveryDate}</IonText>
+                                </p>
+                            </div>
+                        ) : null}
 
-                <IonCol size='6' className={cn('column')}>
-                    {sensitiveData.expirationDate ? (
-                        <div className={cn('segment')}>
-                            <p>
-                                <IonText>Milk expiration date:</IonText>
-                                <IonText>{sensitiveData.expirationDate}</IonText>
-                            </p>
-                        </div>
-                    ) : null}
+                        {sensitiveData.expirationDate ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Milk expression date:</IonText>
+                                    <IonText>{sensitiveData.expressionDate}</IonText>
+                                </p>
+                            </div>
+                        ) : null}
+                    </IonCol>
 
-                    {sensitiveData.receivedDate ? (
-                        <div className={cn('segment')}>
-                            <p>
-                                <IonText>Date received:</IonText>
-                                <IonText>{sensitiveData.receivedDate}</IonText>
-                            </p>
-                        </div>
-                    ) : null}
+                    <IonCol size='6' className={cn('column')}>
+                        {sensitiveData.expirationDate ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Milk expiration date:</IonText>
+                                    <IonText>{sensitiveData.expirationDate}</IonText>
+                                </p>
+                            </div>
+                        ) : null}
 
-                    {sensitiveData.storageFreezer && freezer ? (
-                        <div className={cn('segment')}>
-                            <p>
-                                <IonText>Storage Freezer:</IonText>
-                                <IonText className={cn('donor')}>{freezer?.name}</IonText>
-                                {/* {freezersList.map((freezer: IFreezer) => {
+                        {sensitiveData.receivedDate ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Date received:</IonText>
+                                    <IonText>{sensitiveData.receivedDate}</IonText>
+                                </p>
+                            </div>
+                        ) : null}
+
+                        {sensitiveData.storageFreezer && freezer ? (
+                            <div className={cn('segment')}>
+                                <p>
+                                    <IonText>Storage Freezer:</IonText>
+                                    <IonText className={cn('donor')}>{freezer?.name}</IonText>
+                                    {/* {freezersList.map((freezer: IFreezer) => {
                                     if (freezer.freezer_id === sensitiveData.storageFreezer) {
                                         return (
                                             <IonText
@@ -104,11 +113,12 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                                     }
                                     return null;
                                 })} */}
-                            </p>
-                        </div>
-                    ) : null}
-                </IonCol>
-            </IonRow>
-        </IonGrid>
+                                </p>
+                            </div>
+                        ) : null}
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+        </>
     );
 };

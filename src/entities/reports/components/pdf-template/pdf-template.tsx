@@ -110,13 +110,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                                 231, 308, 385, 462, 539, 616, 693, 770, 847, 924, 1001, 1078, 1155,
                                 1232, 1309, 1386, 1463, 1540, 1617, 1694,
                             ]}
-                            normalRangeWidth={1155}
+                            normalRangeWidth={101}
                             value={fattyAcidValue[0].value}
-                            unit={'mg/kg/d'}
+                            unit={'mg/100ml of milk'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[0].name} mg/kg/d
+                                Your result: {fattyAcidValue[0].name} mg/100ml of milk
                             </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the
@@ -128,13 +128,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <div className={'pdf-milk-macroHeader'}>⍺-Linoleic Acid</div>
                         <RangeItem
                             generalRange={[50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105]}
-                            normalRangeWidth={45}
+                            normalRangeWidth={101}
                             value={fattyAcidValue[1].value}
-                            unit={'mg/kg/d'}
+                            unit={'mg/100ml of milk'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[1].name} mg/kg/d
+                                Your result: {fattyAcidValue[1].name} mg/100ml of milk
                             </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the
@@ -145,13 +145,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <div className={'pdf-milk-macroHeader'}>DHA</div>
                         <RangeItem
                             generalRange={[20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 75]}
-                            normalRangeWidth={35}
+                            normalRangeWidth={101}
                             value={fattyAcidValue[2].value}
-                            unit={'mg/kg/d'}
+                            unit={'mg/100ml of milk'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[2].name} mg/kg/d
+                                Your result: {fattyAcidValue[2].name} mg/100ml of milk
                             </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the
@@ -166,13 +166,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <div className={'pdf-milk-macroHeader'}>ARA</div>
                         <RangeItem
                             generalRange={[20, 30, 40, 50, 60, 70, 80, 90, 100, 110]}
-                            normalRangeWidth={70}
+                            normalRangeWidth={101}
                             value={fattyAcidValue[3].value}
-                            unit={'mg/kg/d'}
+                            unit={'mg/100ml of milk'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[3].name} mg/kg/d{' '}
+                                Your result: {fattyAcidValue[3].name} mg/100ml of milk{' '}
                             </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the
@@ -184,13 +184,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         <div className={'pdf-milk-macroHeader'}>EPA</div>
                         <RangeItem
                             generalRange={[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]}
-                            normalRangeWidth={20}
+                            normalRangeWidth={101}
                             value={fattyAcidValue[4].value}
-                            unit={'mg/kg/d'}
+                            unit={'mg/100ml of milk'}
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[4].name} mg/kg/d
+                                Your result: {fattyAcidValue[4].name} mg/100ml of milk
                             </div>
                             <div className={'pdf-milk-details'}>
                                 Lactose is the main sugar in breast milk. It helps decrease the

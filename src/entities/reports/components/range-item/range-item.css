@@ -9,7 +9,9 @@
     align-items: center;
     bottom: 140%;
     padding-bottom: 0.5em;
+    padding-top: 0.5em;
     z-index: 10;
+    
 }
 
 .tooltipValue {
@@ -19,8 +21,9 @@
 }
 
 .tooltipUnit {
-    font-size: 0.9em;
+    font-size: 1em;
     z-index: 11;
+    text-align: center;
 }
 
 .tooltipArrow {

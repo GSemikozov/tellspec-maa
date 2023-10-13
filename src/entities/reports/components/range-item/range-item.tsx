@@ -41,7 +41,7 @@ export const RangeItem: React.FC<RangeItemProps> = ({
         <div className={'rangeMain'}>
             {Tooltip}
             <div className={'rangeNormal'} style={{ width: `${normalRangeWidth}%` }}>
-                Normal Range
+                {normalRangeWidth === 101 ? 'Currently not available' : 'Normal Range'}
             </div>
             <div className={'rangeRuler'}>
                 {generalRange.map(number => {
