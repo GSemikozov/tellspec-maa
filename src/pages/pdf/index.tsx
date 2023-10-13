@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Printer } from '@ionic-native/printer';
 import { useHistory } from 'react-router';
+import { useIonRouter } from '@ionic/react';
 
 import { appActions } from '@app';
+import { routesMapping } from '@app/routes';
 import { userSelectors } from '@entities/user';
 import { fetchMilksByIds, selectIsMilkLoading, selectMilkByIds } from '@entities/milk';
 import { fetchGroup, selectGroupFreezers, selectIsGroupLoading } from '@entities/groups';
@@ -24,6 +26,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
     const history = useHistory();
+    const ionRouter = useIonRouter();
 
     const user = useSelector(userSelectors.getUser);
     const milks = useSelector(state => selectMilkByIds(state, ids));
@@ -110,6 +113,12 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
 
         print();
     }, [milks]);
+
+    useEffect(() => {
+        return () => {
+            ionRouter.push(routesMapping.reports);
+        };
+    }, []);
 
     if (isLoading) {
         return (
