@@ -227,7 +227,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                         },
                                     ]}
                                 ></IonAlert>
-                                ;
                             </div>
                         </>
                     }
@@ -239,7 +238,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <PreemieInput
                                 type='text'
                                 required
-                                label='Milk ID*'
+                                // label='Milk ID*'
                                 id='milkId'
                                 label-placement='floating'
                                 {...register('milkId')}
@@ -248,7 +247,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                         Keyboard.hide();
                                     }
                                 }}
-                            />
+                            >
+                                Milk ID<span className={cn('asterisk')}>*</span>{' '}
+                            </PreemieInput>
 
                             <p className={cn('form-group-error')}>
                                 {touchedFields.milkId && errors.milkId?.message}
@@ -258,7 +259,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
                                 <PreemieSelect
-                                    label='Donor ID*'
+                                    label='Donor ID * '
                                     label-placement='floating'
                                     {...register('donorId')}
                                 >
@@ -281,14 +282,15 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     max={today}
                                     required
-                                    label='Infant Delivery Date*'
                                     label-placement='floating'
                                     {...register('infantDeliveryDate', {
                                         onChange: () => {
                                             trigger(['milkExpressionDate']);
                                         },
                                     })}
-                                />
+                                >
+                                    Infant Delivery Date <span className={cn('asterisk')}>*</span>
+                                </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
                                     {touchedFields.infantDeliveryDate &&
@@ -301,11 +303,12 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     max={today}
                                     required
-                                    label='Received Date*'
                                     label-placement='floating'
                                     className='received-date-size'
                                     {...register('receivedDate')}
-                                />
+                                >
+                                    Received Date <span className={cn('asterisk')}>*</span>
+                                </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
                                     {touchedFields.receivedDate && errors.receivedDate?.message}
@@ -358,7 +361,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <PreemieInput
                                     type='date'
                                     max={today}
-                                    label='Milk Expression Date*'
                                     required={true}
                                     label-placement='floating'
                                     {...register('milkExpressionDate', {
@@ -367,7 +369,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                             trigger(['milkExpirationDate']);
                                         },
                                     })}
-                                />
+                                >
+                                    Milk Expression Date <span className={cn('asterisk')}>*</span>
+                                </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
                                     {touchedFields.milkExpressionDate &&

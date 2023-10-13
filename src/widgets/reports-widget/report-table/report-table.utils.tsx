@@ -6,7 +6,7 @@ export enum ColumnNamesMapping {
     FAT = 'Fat',
     CARBS = 'Total Carbs',
     ENERGY = 'Energy',
-    LINOLENICACID = 'Linolenic Acid',
+    LINOLEICACID = 'Linoleic Acid',
     ALPHALINOLENICACID = '⍺-Linolenic Acid',
     DHA = 'DHA',
     ARA = 'ARA',

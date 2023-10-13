@@ -270,11 +270,9 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                     }
                                 </th>
                             ))}
-                            <th>{MockData.data[0].name}</th>
-                            <th>{MockData.data[1].name}</th>
-                            <th>{MockData.data[2].name}</th>
-                            <th>{MockData.data[3].name}</th>
-                            <th>{MockData.data[4].name}</th>
+                            {MockData.data.map(item => (
+                                <th key={item.id}>{item.name}</th>
+                            ))}
                         </tr>
                     ))}
                 </thead>
@@ -290,9 +288,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                 ))}
 
                                 {MockData.data.map(item => (
-                                    <td>
-                                        {item.value} {item.units}
-                                    </td>
+                                    <td key={item.id}>{item.value}</td>
                                 ))}
                             </tr>
                         </>

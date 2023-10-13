@@ -1,29 +1,34 @@
 export const MockData = {
     data: [
         {
-            name: 'Linolenic acid',
-            units: 'mg/100ml of milk',
-            value: 870,
+            id: 1,
+            name: 'Linoleic acid',
+            units: 'g/100g of FA',
+            value: 'N/A',
         },
         {
+            id: 2,
             name: '⍺-Linolenic acid',
-            units: 'mg/100ml of milk',
-            value: 67,
+            units: 'g/100g of FA',
+            value: 'N/A',
         },
         {
+            id: 3,
             name: 'DHA',
-            units: 'mg/100ml of milk',
-            value: 64,
+            units: 'g/100g of FA',
+            value: 'N/A',
         },
         {
+            id: 4, 
             name: 'ARA',
-            units: 'mg/100ml of milk',
-            value: 78,
+            units: 'g/100g of FA',
+            value: 'N/A',
         },
         {
+            id: 5,
             name: 'EPA',
-            units: 'mg/100ml of milk',
-            value: 12.1,
+            units: 'g/100g of FA',
+            value: 'N/A',
         },
     ],
 };

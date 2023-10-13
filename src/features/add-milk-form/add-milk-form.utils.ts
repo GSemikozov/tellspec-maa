@@ -21,8 +21,8 @@ export const validationSchema = yup.object({
     milkId: yup.string().required('This is a required field'),
     donorId: yup.string().required('This is a required field'),
     numberOfContainers: yup.number().required('This is a required field'),
-    storageFreezer: yup.string().required('This is a required field'),
-    storageCompartment: yup.string().required('This is a required field'),
+    storageFreezer: yup.string(),
+    storageCompartment: yup.string(),
 
     receivedDate: yup
         .string()

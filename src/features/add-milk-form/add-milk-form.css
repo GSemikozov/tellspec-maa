@@ -59,3 +59,7 @@
 
     width: 100%;
 }
+.add-milk-form__asterisk{
+    font-size: 20px;
+    color: red;
+}

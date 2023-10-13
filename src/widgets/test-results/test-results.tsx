@@ -40,20 +40,20 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
         maxRequiredValue: 5,
         step: 1,
     },
-    'Linolenic acid': {
+    'Linoleic acid': {
         minRequiredValue: 0, //385,
         maxRequiredValue: 0, //1540,
-        step: 77,
+        step: 10,
     },
     '⍺-Linolenic acid': {
         minRequiredValue: 0,
         maxRequiredValue: 0,
-        step: 5,
+        step: 10,
     },
     DHA: {
         minRequiredValue: 0, //30,
         maxRequiredValue: 0, //65,
-        step: 5,
+        step: 10,
     },
     ARA: {
         minRequiredValue: 0, //30,
@@ -63,7 +63,7 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
     EPA: {
         minRequiredValue: 0,
         maxRequiredValue: 0, //20,
-        step: 1,
+        step: 10,
     },
 };
 
