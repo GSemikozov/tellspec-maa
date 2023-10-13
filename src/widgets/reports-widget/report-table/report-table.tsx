@@ -20,6 +20,7 @@ import type { FilterValue } from '@widgets/reports-widget/status-filter';
 import type { SortingFn } from '@tanstack/react-table';
 
 import './report-table.css';
+import { MockData } from '@widgets/test-results/mock-data';
 
 declare module '@tanstack/table-core' {
     interface SortingFns {
@@ -97,8 +98,9 @@ const columns = [
             header: 'Protein',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-
-                return result?.value || '-';
+                const display = result?.value + ' ' + result?.units;
+                if (result?.value) return display;
+                else return '-';
             },
         },
     ),
@@ -107,8 +109,9 @@ const columns = [
         header: 'Fat',
         cell: info => {
             const result = info.getValue<ReportAnalyseDataResult>();
-
-            return result?.value || '-';
+            const display = result?.value + ' ' + result?.units;
+            if (result?.value) return display;
+            else return '-';
         },
     }),
 
@@ -130,13 +133,12 @@ const columns = [
             header: 'Energy',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-
-                return result?.value || '-';
+                const display = result?.value + ' ' + result?.units;
+                if (result?.value) return display;
+                else return '-';
             },
         },
     ),
-
- 
 ];
 
 type SelectedRows = Record<string, boolean>;
@@ -268,6 +270,11 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                     }
                                 </th>
                             ))}
+                            <th>{MockData.data[0].name}</th>
+                            <th>{MockData.data[1].name}</th>
+                            <th>{MockData.data[2].name}</th>
+                            <th>{MockData.data[3].name}</th>
+                            <th>{MockData.data[4].name}</th>
                         </tr>
                     ))}
                 </thead>
@@ -281,9 +288,13 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </td>
                                 ))}
-                                <td>new col</td>
+
+                                {MockData.data.map(item => (
+                                    <td>
+                                        {item.value} {item.units}
+                                    </td>
+                                ))}
                             </tr>
-                           
                         </>
                     ))}
                 </tbody>
