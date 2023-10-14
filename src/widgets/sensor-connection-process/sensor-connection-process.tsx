@@ -9,7 +9,7 @@ import {
     tellspecAddListener,
     tellspecCheckBleState,
     tellspecEnableDiscovery,
-    // tellspecDisconnect, // TODO: tem hidden for testing
+    tellspecDisconnect,
 } from '@api/native';
 import {
     useCalibrateSensor,
@@ -45,7 +45,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [presentToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
-    // const cancelSignalRef = React.useRef<boolean>(false);
+    const cancelSignalRef = React.useRef<boolean>(false);
 
     const [calibrateSensor] = useCalibrateSensor();
     const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
@@ -84,7 +84,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const handleStartDiscovery: SensorConnectionProcessContextValue['onStartDiscovery'] =
         React.useCallback(async ({ enableBleCheck } = {}) => {
             try {
-                // cancelSignalRef.current = false;
+                cancelSignalRef.current = false;
 
                 if (enableBleCheck) {
                     setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
@@ -102,10 +102,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     }
                 }
 
-                // if (cancelSignalRef.current) {
-                //     cancelSignalRef.current = false;
-                //     return;
-                // }
+                if (cancelSignalRef.current) {
+                    cancelSignalRef.current = false;
+                    return;
+                }
 
                 setStatus(SensorConnectionProcessStatus.DISCOVERING);
 
@@ -154,7 +154,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         try {
-            // await tellspecDisconnect(); // TODO: temp hidden
+            await tellspecDisconnect();
 
             const { requiredCalibration } = await dispatch(connectSensorDevice(device)).unwrap();
 
