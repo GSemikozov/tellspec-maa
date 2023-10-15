@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
 import { getUser } from '@entities/user/model/user.selectors';
-import PreemieLogo from '/public/img/logo-pdf.png';
+
+import PreemieLogo from '../../../../../public/img/MAA-logo.png';
 
 import './pdf-header.css';
 
