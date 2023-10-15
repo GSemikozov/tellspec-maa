@@ -42,7 +42,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     children,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [presentToast] = usePreemieToast();
+    const [presentToast, dismissToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
     const cancelSignalRef = React.useRef<boolean>(false);
@@ -166,6 +166,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             });
 
             if (requiredCalibration) {
+                await dismissToast();
                 await calibrateSensor(device);
             }
         } catch (error: any) {

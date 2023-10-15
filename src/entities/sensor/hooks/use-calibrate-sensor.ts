@@ -1,14 +1,16 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIonRouter } from '@ionic/react';
 
+import { log } from '@shared/utils';
 import { usePreemieToast } from '@ui';
 import { tellspecRetrieveDeviceConnect } from '@api/native';
-import { AppDispatch } from '@app';
-import { log } from '@shared/utils';
+import { routesMapping } from '@app/routes';
 
-import { SensorDevice, calibrateSensorDevice } from '../model';
+import { SensorDevice, calibrateSensorDevice, selectSensorCalibrationLoading } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
-// import { CalibrationModal } from '../ui/sensor-manager/calibration-modal';
+
+import type { AppDispatch } from '@app';
 
 type UseCalibrateSensorResult = [
     (device: SensorDevice | null) => Promise<void>,
@@ -16,42 +18,48 @@ type UseCalibrateSensorResult = [
 ];
 
 export const useCalibrateSensor = (): UseCalibrateSensorResult => {
+    const router = useIonRouter();
+
     const dispatch = useDispatch<AppDispatch>();
 
-    const [presentToast, dismissToast] = usePreemieToast();
+    const [presentToast] = usePreemieToast();
 
-    const [loading, setLoading] = React.useState(false);
+    const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
 
-    const call = React.useCallback(async (device: SensorDevice | null) => {
-        try {
-            log('useCalibrateSensor:device', device);
+    console.log('isCalibrationLoading', isCalibrationLoading);
 
-            await tellspecRetrieveDeviceConnect(device?.uuid ?? '');
+    const call = React.useCallback(
+        async (device: SensorDevice | null) => {
+            try {
+                if (isCalibrationLoading) {
+                    return;
+                }
 
-            setLoading(true);
+                router.push(routesMapping.sensorPage);
 
-            await presentToast({
-                message: 'Start calibration...',
-            });
+                await log('useCalibrateSensor:device', device);
 
-            await dispatch(calibrateSensorDevice()).unwrap();
-        } catch (error: any) {
-            console.error('useCalibrateSensor:error', error);
-            let errorMessage = error.message;
+                await presentToast({ message: 'Start calibration...' });
 
-            if (isSensorDisconnectedError(error)) {
-                errorMessage = error.message;
+                await tellspecRetrieveDeviceConnect(device?.uuid ?? '');
+                await dispatch(calibrateSensorDevice()).unwrap();
+            } catch (error: any) {
+                await log('useCalibrateSensor:error', error);
+
+                let errorMessage = error.message;
+
+                if (isSensorDisconnectedError(error)) {
+                    errorMessage = error.message;
+                }
+
+                await presentToast({
+                    type: 'error',
+                    message: errorMessage,
+                });
             }
+        },
+        [isCalibrationLoading],
+    );
 
-            await dismissToast();
-            await presentToast({
-                type: 'error',
-                message: errorMessage,
-            });
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    return [call, { loading }];
+    return [call, { loading: isCalibrationLoading }];
 };

@@ -1,3 +1,8 @@
+ion-modal {
+    --width: 40%;
+    --height: initial;
+}
+
 .calibration-modal {
     margin: 4rem 5rem 5rem 5rem;
     display: flex;
@@ -8,9 +13,4 @@
 .calibration-modal p {
     margin-top: 3rem;
     font-size: large;
-}
-
-ion-modal {
-    --width: 40%;
-    --height: 50%;
 }

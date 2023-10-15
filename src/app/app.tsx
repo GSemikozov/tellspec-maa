@@ -43,11 +43,12 @@ export const App: React.FunctionComponent = () => {
 
         dispatch(fetchAppSettings());
 
-        if (typeof window !== 'undefined') {
-            const searchParams = new URLSearchParams(window.location.search);
+        nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, true);
 
-            nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, searchParams.has('emulate'));
-        }
+        // if (typeof window !== 'undefined') {
+        //     const searchParams = new URLSearchParams(window.location.search);
+        //     nativeStore.set(NativeStorageKeys.IS_EMULATE_NATIVE_SDK, searchParams.has('emulate'));
+        // }
     }, [readyStore]);
 
     React.useEffect(() => {
@@ -67,9 +68,9 @@ export const App: React.FunctionComponent = () => {
     }
 
     return (
-        <SensorConnectionProcessProvider>
-            <IonApp>
-                <IonReactRouter>
+        <IonApp>
+            <IonReactRouter>
+                <SensorConnectionProcessProvider>
                     <IonRouterOutlet className={layoutClassName} animated={false}>
                         <PublicOnlyRoute exact path={routesMapping.login}>
                             <LoginPage />
@@ -105,8 +106,8 @@ export const App: React.FunctionComponent = () => {
 
                         <ProtectedRoute exact path={routesMapping.pdfPage} component={PDFPage} />
                     </IonRouterOutlet>
-                </IonReactRouter>
-            </IonApp>
-        </SensorConnectionProcessProvider>
+                </SensorConnectionProcessProvider>
+            </IonReactRouter>
+        </IonApp>
     );
 };

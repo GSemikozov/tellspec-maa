@@ -98,16 +98,16 @@ export const connectSensorDevice = createAsyncThunk(
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const calibrationReady = Boolean(calibrationData);
 
-            log('sensor/connect:shallowDevice', shallowDevice);
-            log('sensor/connect:calibrationData', calibrationData);
+            await log('sensor/connect:shallowDevice', shallowDevice);
+            await log('sensor/connect:calibrationData', calibrationData);
 
             if (calibrationReady) {
                 shallowDevice.activeCal = calibrationData;
                 shallowDevice.activeConfig = calibrationData.config;
             }
 
-            log('sensor/connect:shallowDeviceResult', shallowDevice);
-            log('sensor/connect:result', {
+            await log('sensor/connect:shallowDeviceResult', shallowDevice);
+            await log('sensor/connect:result', {
                 device: shallowDevice,
                 requiredCalibration: !calibrationReady,
             });
@@ -117,7 +117,7 @@ export const connectSensorDevice = createAsyncThunk(
                 requiredCalibration: !calibrationReady,
             };
         } catch (error: any) {
-            log('sensor/connect:error', error);
+            await log('sensor/connect:error', error);
 
             if (isSensorDisconnectedError(error)) {
                 throw new Error(SENSOR_DISCONNECTED);
@@ -131,7 +131,7 @@ export const connectSensorDevice = createAsyncThunk(
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
-    log('sensor/calibrate:currentDevice', sensor.currentDevice);
+    await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
         return;
@@ -144,7 +144,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
             sensor.currentDevice.serial,
         );
 
-        log('sensor/calibrate:scannerData', scannerData);
+        await log('sensor/calibrate:scannerData', scannerData);
 
         if (!scannerData) {
             return;
@@ -154,23 +154,23 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
         // start by getting the sensor scan
         const sensorScannedData = await tellspecStartScan();
-        log('sensor/calibrate:sensorScannedData', sensorScannedData);
+        await log('sensor/calibrate:sensorScannedData', sensorScannedData);
 
         const preparedSensorScannedData = tellspecPrepareSensorScannedData(sensorScannedData);
-        log('sensor/calibrate:preparedSensorScannedData', preparedSensorScannedData);
+        await log('sensor/calibrate:preparedSensorScannedData', preparedSensorScannedData);
 
         const configs = await tellspecGetConfigs();
 
         let result: any | null = null;
 
-        log('sensor/calibrate:configs', configs);
+        await log('sensor/calibrate:configs', configs);
 
         for (let index = 0; index < scannerData.try_configs.length; index++) {
             const preferConfig = scannerData.try_configs[index].toLowerCase();
             const activeConfig = configs.activeConfig.toLowerCase();
 
-            log('sensor/calibrate:preferConfig', preferConfig);
-            log('sensor/calibrate:activeConfig', activeConfig);
+            await log('sensor/calibrate:preferConfig', preferConfig);
+            await log('sensor/calibrate:activeConfig', activeConfig);
 
             if (preferConfig === configs.activeConfig.toLowerCase()) {
                 // the config is already active.
@@ -181,7 +181,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     sensorScannedData: preparedSensorScannedData,
                 });
 
-                log('sensor/calibrate:preferConfig === configs.activeConfig', result);
+                await log('sensor/calibrate:preferConfig === configs.activeConfig', result);
 
                 break;
             } else {
@@ -194,8 +194,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                     const avaliableConfig =
                         (configs.configsAvailable[configIndex] as string)?.toLowerCase() ?? '';
 
-                    log('sensor/calibrate:preferConfig', preferConfig);
-                    log('sensor/calibrate:avaliableConfig', avaliableConfig);
+                    await log('sensor/calibrate:preferConfig', preferConfig);
+                    await log('sensor/calibrate:avaliableConfig', avaliableConfig);
 
                     if (avaliableConfig === preferConfig) {
                         // we found a config that we can use. Its not active, se we need to set the device accordantly
@@ -208,7 +208,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                             sensorScannedData: preparedSensorScannedData,
                         });
 
-                        log('sensor/calibrate:preferConfig === avaliableConfig', result);
+                        await log('sensor/calibrate:preferConfig === avaliableConfig', result);
 
                         break;
                     }
@@ -216,7 +216,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
             }
         }
 
-        log('sensor/calibrate:result', result);
+        await log('sensor/calibrate:result', result);
 
         if (!result) {
             throw new Error("Sensor doesn't a valid config.");
@@ -227,9 +227,9 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         updatedDevice.activeCal = result;
         updatedDevice.activeConfig = result.config;
 
-        log('sensor/calibrate:updatedDevice', updatedDevice);
+        await log('sensor/calibrate:updatedDevice', updatedDevice);
 
-        log('sensor/calibrate:calibrationResult', {
+        await log('sensor/calibrate:calibrationResult', {
             calibrationData: result,
             updatedDevice,
         });
@@ -239,7 +239,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
             updatedDevice,
         };
     } catch (error: any) {
-        log('sensor/calibrate:error', error);
+        await log('sensor/calibrate:error', error);
 
         if (isSensorDisconnectedError(error)) {
             throw new Error(error);
@@ -338,7 +338,7 @@ export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async 
 
         const sensorStatus = await tellspecGetSensorStatus();
 
-        log('sensor/getSensorStatus:sensorStatus', sensorStatus);
+        await log('sensor/getSensorStatus:sensorStatus', sensorStatus);
 
         return sensorStatus;
     } catch (error) {

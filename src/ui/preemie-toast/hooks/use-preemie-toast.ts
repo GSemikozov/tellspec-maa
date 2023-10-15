@@ -46,7 +46,6 @@ export const usePreemieToast = (): [
             }
 
             await dismissToast();
-
             await presentToast({
                 ...otherPresentOptions,
                 animated,

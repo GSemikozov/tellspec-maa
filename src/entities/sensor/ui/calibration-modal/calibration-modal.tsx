@@ -1,22 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { IonModal } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { LogoAnimation } from '@ui/logo/animated-logo';
+import { LogoAnimation } from '@ui/logo';
+import { selectSensorCalibrationLoading } from '@entities/sensor/model';
 
 import './calibration-modal.css';
 
 const cn = classname('calibration-modal');
 
-type CalibrationModalProps = {
-    isOpen: boolean;
-    onClose: () => void;
-};
+export const CalibrationModal: React.FunctionComponent = () => {
+    const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
 
-export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = props => {
-    const { isOpen, onClose } = props;
+    const [open, setOpen] = React.useState(isCalibrationLoading);
+
+    React.useEffect(() => {
+        setOpen(isCalibrationLoading);
+    }, [isCalibrationLoading]);
+
     return (
-        <IonModal isOpen={isOpen} onIonModalDidDismiss={onClose}>
+        <IonModal backdropDismiss={false} isOpen={open}>
             <div className={cn()}>
                 <h1>Calibration in process...</h1>
                 <p>
@@ -24,9 +28,9 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                     calibration process. Your cooperation ensures accurate measurements. This will
                     only take around 20 seconds.
                 </p>
+
                 <LogoAnimation />
             </div>
-            {/* <IonButton onClick={onClose}>Close</IonButton> */}
         </IonModal>
     );
 };

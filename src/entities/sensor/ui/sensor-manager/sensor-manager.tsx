@@ -6,7 +6,6 @@ import {
     IonItem,
     IonModal,
     IonTitle,
-    useIonRouter,
 } from '@ionic/react';
 import { useSelector } from 'react-redux';
 import { SensorEvent } from 'tellspec-sensor-sdk/src';
@@ -24,7 +23,6 @@ import {
     useSensorConnectionProcess,
 } from '@widgets/sensor-connection-process';
 import { tellspecAddListener } from '@api/native';
-import { routesMapping } from '@app/routes';
 
 import { SensorManagerInstructions } from './sensor-manager-instructions';
 import { SensorManagerInteractiveImage } from './sensor-manager-interactive-image';
@@ -36,8 +34,6 @@ import './sensor-manager.css';
 const cn = classname('sensor-manager');
 
 export const SensorManager: React.FunctionComponent = () => {
-    const router = useIonRouter();
-
     const {
         status: sensorConnectionProcessStatus,
         onStartDiscovery,
@@ -67,10 +63,6 @@ export const SensorManager: React.FunctionComponent = () => {
 
     const handleResetSensorInformationVideo = () => {
         setSensorInformationVideo(null);
-    };
-
-    const handleCalibration = () => {
-        router.push(`${routesMapping.sensorPage}?calibration=true`);
     };
 
     const getInstructions = React.useCallback(() => {
@@ -106,7 +98,9 @@ export const SensorManager: React.FunctionComponent = () => {
                 content: (
                     <>
                         <div className={cn('actions')}>
-                            <IonButton onClick={handleCalibration}>Start Calibration</IonButton>
+                            <IonButton onClick={() => calibrateSensor(currentDevice)}>
+                                Start Calibration
+                            </IonButton>
 
                             <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
                                 Unpair Sensor
@@ -116,13 +110,6 @@ export const SensorManager: React.FunctionComponent = () => {
                 ),
             };
         }
-
-        // if (calibrationLoading) {
-        //     return {
-        //         title: 'Calibration in Progress',
-        //         content: <></>,
-        //     };
-        // }
 
         return null;
     }, [
@@ -141,15 +128,6 @@ export const SensorManager: React.FunctionComponent = () => {
         if (scannerStatusListener === null) {
             setScannerStatusListener(
                 tellspecAddListener(SensorEvent.SCANNER_STATUS, (data: any) => {
-                    // const status = data.state;
-
-                    // switch (status) {
-                    //     case 'off':
-                    //         dispatch(removeDevice());
-                    //         onResetStatus();
-                    //         break;
-                    // }
-
                     console.log('[scanner status listener]', JSON.stringify(data));
                 }),
             );
