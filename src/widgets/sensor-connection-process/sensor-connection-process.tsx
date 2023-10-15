@@ -148,7 +148,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         try {
-            await tellspecDisconnect();
             await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);

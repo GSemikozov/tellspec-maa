@@ -95,6 +95,8 @@ export const connectSensorDevice = createAsyncThunk(
     'sensor/connect',
     async (device: TellspecSensorDevice) => {
         try {
+            await tellspecDisconnect();
+
             const shallowDevice = { ...device };
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const calibrationReady = Boolean(calibrationData);
@@ -132,6 +134,7 @@ export const connectSensorDevice = createAsyncThunk(
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
+    await tellspecDisconnect();
     await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
@@ -260,6 +263,7 @@ export const removeDevice = createAsyncThunk(
         let removedCurrent = false;
 
         if (sensor.currentDevice?.uuid === deviceUuid) {
+            await tellspecDisconnect();
             await tellspecRemoveDevice();
 
             removedCurrent = true;
