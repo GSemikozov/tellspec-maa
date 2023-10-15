@@ -7,7 +7,10 @@ const PERMISSIONS = {
     BLUETOOTH_CONNECT: 'android.permission.BLUETOOTH_CONNECT',
     BLUETOOTH_SCAN: 'android.permission.BLUETOOTH_SCAN',
     ACCESS_COARSE_LOCATION: 'android.permission.ACCESS_COARSE_LOCATION',
+    ACCESS_FINE_LOCATION: 'android.permission.ACCESS_FINE_LOCATION',
 };
+
+console.log(AndroidPermissions);
 
 const checkBlePermission = async () => {
     const bluetoothConnectPermission = await AndroidPermissions.checkPermission(
@@ -18,14 +21,19 @@ const checkBlePermission = async () => {
         PERMISSIONS.BLUETOOTH_SCAN,
     );
 
-    const locationPermission = await AndroidPermissions.checkPermission(
+    const coarseLocationPermission = await AndroidPermissions.checkPermission(
         PERMISSIONS.ACCESS_COARSE_LOCATION,
+    );
+
+    const fineLocationPermission = await AndroidPermissions.checkPermission(
+        PERMISSIONS.ACCESS_FINE_LOCATION,
     );
 
     return (
         bluetoothConnectPermission.hasPermission &&
         bluetoothScanPermission.hasPermission &&
-        locationPermission.hasPermission
+        coarseLocationPermission.hasPermission &&
+        fineLocationPermission.hasPermission
     );
 };
 
@@ -33,6 +41,8 @@ const requestBlePermissions = async () => {
     const permissionsResponse = await AndroidPermissions.requestPermissions([
         PERMISSIONS.BLUETOOTH_CONNECT,
         PERMISSIONS.BLUETOOTH_SCAN,
+        PERMISSIONS.ACCESS_COARSE_LOCATION,
+        PERMISSIONS.ACCESS_FINE_LOCATION,
     ]);
 
     return permissionsResponse.hasPermission;
