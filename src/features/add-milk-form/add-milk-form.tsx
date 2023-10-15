@@ -71,23 +71,14 @@ export const AddMilkForm: React.FunctionComponent = () => {
         watch,
         getValues,
         setValue,
-        formState: { errors, touchedFields },
+        formState: { errors, touchedFields, isValid },
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
         resolver: yupResolver(validationSchema),
         mode: 'onChange', // onChange - when the values change... check for errors
-        reValidateMode: 'onBlur',
+        reValidateMode: 'onChange',
     });
 
-    const handleReceivedDateChange = e => {
-        const receivedDate = e.target.value;
-        const expirationMilkDate = new Date(receivedDate);
-        expirationMilkDate.setMonth(expirationMilkDate.getMonth() + 6);
-
-        const formattedDate = expirationMilkDate.toISOString().split('T')[0];
-
-        setValue('milkExpirationDate', formattedDate);
-    };
     const storageFreezerValue = watch('storageFreezer');
 
     const compartmentList = useSelector(state =>
@@ -108,6 +99,22 @@ export const AddMilkForm: React.FunctionComponent = () => {
         trigger();
     }, []);
 
+    const handleReceivedDateChange = e => {
+        const receivedDate = e.target.value;
+
+        try {
+            const expirationMilkDate = new Date(receivedDate);
+            expirationMilkDate.setMonth(expirationMilkDate.getMonth() + 6);
+            const formattedDate = expirationMilkDate.toISOString().split('T')[0];
+
+            setValue('milkExpirationDate', formattedDate);
+        } catch (e) {
+            setValue('milkExpirationDate', '');
+        }
+
+        return trigger();
+    };
+
     const handleAddMilkAndClearForm = async () => {
         const values = getValues();
 
@@ -117,7 +124,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
             await presentAlert({
                 header: 'The record has been saved',
                 buttons: ['OK'],
-                onDidDismiss: () => reset(),
+                onDidDismiss: handleResetForm,
             });
         } catch (error: any) {
             await presentToast({
@@ -137,7 +144,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                 header: 'The record has been saved',
                 buttons: ['OK'],
                 onDidDismiss: () => {
-                    reset();
+                    handleResetForm();
                     router.push(routesMapping.home);
                 },
             });
@@ -159,11 +166,10 @@ export const AddMilkForm: React.FunctionComponent = () => {
                 header: 'The record has been saved',
                 buttons: ['OK'],
                 onDidDismiss: () => {
-                    reset();
-                    router.push(routesMapping.analyse + `?milkId=${values.milkId}`);
+                    handleResetForm();
+                    router.push(`${routesMapping.analyse}?milkId=${values.milkId}`);
                 },
             });
-           
         } catch (error: any) {
             await presentToast({
                 type: 'error',
@@ -172,8 +178,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-    const hasErrors = Object.values(errors).length > 0;
-    const disabledSubmit = hasErrors;
+    const handleResetForm = () => reset(defaultValues);
 
     const today = new Date().toISOString().slice(0, 10);
 
@@ -195,12 +200,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                         {
                                             text: 'Yes',
                                             role: 'confirm',
-                                            handler: () => {
-                                                reset();
-                                                // TODO: check if it works
-                                                setValue('numberOfContainers', 1);
-                                                trigger();
-                                            },
+                                            handler: handleResetForm,
                                         },
                                         {
                                             text: 'No',
@@ -270,11 +270,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     max={today}
                                     required
                                     labelPlacement='floating'
-                                    {...register('infantDeliveryDate', {
-                                        onChange: () => {
-                                            trigger(['milkExpressionDate']);
-                                        },
-                                    })}
+                                    {...register('infantDeliveryDate')}
                                 >
                                     <div slot='label'>
                                         Infant Delivery Date{' '}
@@ -367,10 +363,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     required={true}
                                     labelPlacement='floating'
                                     {...register('milkExpressionDate', {
-                                        onChange: e => {
-                                            handleReceivedDateChange(e);
-                                            trigger(['milkExpirationDate']);
-                                        },
+                                        onChange: handleReceivedDateChange,
                                     })}
                                 >
                                     <div slot='label'>
@@ -435,7 +428,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <PreemieButton
                             className='button'
                             size='small'
-                            disabled={isFetching || disabledSubmit}
+                            disabled={isFetching || !isValid}
                             onClick={handleAddMilkAndClearForm}
                         >
                             {isFetching ? 'Loading...' : 'Save & Add Another Milk'}
@@ -445,7 +438,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             className='button'
                             size='small'
                             id='analyse-alert'
-                            disabled={isFetching || disabledSubmit}
+                            disabled={isFetching || !isValid}
                             onClick={handleAddMilkAndClose}
                         >
                             {isFetching ? 'Loading...' : 'Save this Milk and Close'}
@@ -456,13 +449,12 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 className='button'
                                 size='small'
                                 // id='analyse-alert'
-                                disabled={isFetching || disabledSubmit}
+                                disabled={isFetching || !isValid}
                                 onClick={handleAddMilkAndAnalyse}
                             >
                                 {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
                             </PreemieButton>
                         ) : null}
-             
                     </IonRow>
                 </PageArea.Main>
             </PageArea>
