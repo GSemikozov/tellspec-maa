@@ -2,8 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { apiInstance } from '@api/network';
 import { clearStorageData, saveGroupKey } from '@app/app.utils';
-import { RootState } from '@app';
-import { removeDevice } from '@entities/sensor';
 
 import { userActions } from './user.slice';
 
@@ -14,12 +12,6 @@ export const isOnline = () => {
 };
 
 export const logout = createAsyncThunk('user/logout', async (_, thunkAPI): Promise<any> => {
-    const { sensor } = thunkAPI.getState() as RootState;
-
-    if (sensor.currentDevice) {
-        await thunkAPI.dispatch(removeDevice(sensor.currentDevice.uuid)).unwrap();
-    }
-
     await apiInstance.users.logout();
 
     thunkAPI.dispatch(userActions.clearUser);
