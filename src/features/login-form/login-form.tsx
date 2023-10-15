@@ -70,53 +70,57 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <IonList class='ion-padding'>
-                <IonItem lines='none' style={{ display: 'flex', flexDirection: 'column' }}>
-                    <PreemieInput
-                        {...inputRef}
-                        autocomplete='email'
-                        inputmode='email'
-                        label-placement='floating'
-                        label='Email'
-                        placeholder='Email'
-                        {...register('email', {
-                            required: 'This is a required field',
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                message: 'invalid email address',
-                            },
-                        })}
-                    />
-                    <span style={{ color: 'red' }}>{errors.email?.message}</span>
-                </IonItem>
-
-                <IonItem lines='none' style={{ display: 'flex', flexDirection: 'column' }}>
+                <IonItem lines='none'>
                     <div style={{ position: 'relative', width: '100%' }}>
                         <PreemieInput
                             {...inputRef}
-                            autocomplete='current-password'
+                            autocomplete='email'
+                            inputmode='email'
                             label-placement='floating'
-                            label='Password'
-                            placeholder='Password'
-                            type={visible ? 'text' : 'password'}
-                            {...register('password', {
+                            label='Email'
+                            placeholder='Email'
+                            {...register('email', {
                                 required: 'This is a required field',
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                    message: 'invalid email address',
+                                },
                             })}
                         />
-
-                        <div
-                            style={{
-                                position: 'absolute',
-                                right: '10px',
-                                top: '50%',
-                                height: '22px',
-                                zIndex: '10',
-                            }}
-                            onClick={togglePasswordVisibility}
-                        >
-                            {visible ? <HideIcon /> : <ShowIcon />}
-                        </div>
+                        <p style={{ color: 'red' }}>{errors.email?.message}</p>
                     </div>
-                    <span style={{ color: 'red' }}>{errors.password?.message}</span>
+                </IonItem>
+
+                <IonItem lines='none'>
+                    <div style={{ position: 'relative', width: '100%' }}>
+                        <div style={{ position: 'relative' }}>
+                            <PreemieInput
+                                {...inputRef}
+                                autocomplete='current-password'
+                                label-placement='floating'
+                                label='Password'
+                                placeholder='Password'
+                                type={visible ? 'text' : 'password'}
+                                {...register('password', {
+                                    required: 'This is a required field',
+                                })}
+                            />
+
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    top: '50%',
+                                    height: '22px',
+                                    zIndex: '10',
+                                }}
+                                onClick={togglePasswordVisibility}
+                            >
+                                {visible ? <HideIcon /> : <ShowIcon />}
+                            </div>
+                        </div>
+                        <p style={{ color: 'red' }}>{errors.password?.message}</p>
+                    </div>
                 </IonItem>
 
                 {authError ? <div className='error'>{authError}</div> : null}

@@ -6,6 +6,7 @@ import {
     IonCol,
     IonRow,
     IonSelectOption,
+    IonText,
     useIonAlert,
     useIonRouter,
 } from '@ionic/react';
@@ -259,11 +260,13 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
                         <IonCol size='6' className={cn('form-column')}>
                             <div className={cn('form-group')}>
-                                <PreemieSelect
-                                    label='Donor ID * '
-                                    label-placement='floating'
-                                    {...register('donorId')}
-                                >
+                                <PreemieSelect labelPlacement='floating' {...register('donorId')}>
+                                    <div slot='label'>
+                                        Donor ID{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
                                     {donorsList.map((donor: IDonor) => (
                                         <IonSelectOption key={donor.uuid} value={donor.uuid}>
                                             {donor.sensitive_data.name}{' '}
@@ -283,14 +286,19 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     max={today}
                                     required
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     {...register('infantDeliveryDate', {
                                         onChange: () => {
                                             trigger(['milkExpressionDate']);
                                         },
                                     })}
                                 >
-                                    Infant Delivery Date <span className={cn('asterisk')}>*</span>
+                                    <div slot='label'>
+                                        Infant Delivery Date{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>

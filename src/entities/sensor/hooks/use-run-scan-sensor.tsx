@@ -105,7 +105,10 @@ export const useRunScanSensor = ({
                 await dismissToast();
                 await presentToast({
                     type: 'error',
-                    message: error.message,
+                    message:
+                        error.message === 'disconnectDevice'
+                            ? 'Please connect a Preemie sensor first'
+                            : error.message,
                 });
             } finally {
                 setLoading(false);

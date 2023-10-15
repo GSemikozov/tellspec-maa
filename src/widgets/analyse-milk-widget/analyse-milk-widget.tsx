@@ -121,7 +121,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const activeTabComponent = React.useMemo(() => {
         if (!milkId) {
-            return <div className={cn('tab-placeholder')}>Select or scan milk barcode first</div>;
+            return <div className={cn('tab-placeholder')}>Please select or scan the milk ID</div>;
         }
 
         if (reportLoading) {

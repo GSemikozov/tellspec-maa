@@ -15,7 +15,7 @@ export const UserInfo: React.FunctionComponent = () => {
 
     return (
         <div className={cn()}>
-            <span className={cn('name')}>{fullName}!</span>
+            <span className={cn('name')}>{fullName}</span>
 
             <IonAvatar className={cn('avatar')}>
                 <img alt={fullName} src='https://ionicframework.com/docs/img/demos/avatar.svg' />

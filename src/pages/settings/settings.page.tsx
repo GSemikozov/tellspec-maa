@@ -64,11 +64,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     </p>
 
                                     <div className={cn('section-option-action')}>
-                                        <IonSelect
-                                            disabled
-                                            label='Milk expiration date'
-                                            label-placement='floating'
-                                        >
+                                        <IonSelect disabled label-placement='floating'>
                                             {expirationMonth.map(month => (
                                                 <IonSelectOption key={month} value={month}>
                                                     {month}
@@ -89,7 +85,7 @@ export const SettingsPage: React.FunctionComponent = () => {
 
                                     <div className={cn('section-option-action')}>
                                         {freezersList.map(freezer => (
-                                            <IonChip key={freezer.freezer_id}>
+                                            <IonChip key={freezer.freezer_id} disabled={true}>
                                                 {freezer.name}
                                             </IonChip>
                                         ))}
@@ -104,9 +100,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     <p>Add another storage</p>
                                 </div>
                                 <div className={cn('section')}>
-                                    <div className={cn('apk-number')}>
-                                        Milk Analysis Software version: 13-10-23
-                                    </div>
+                                    <div className={cn('apk-number')}>MAA version: 15/10/23</div>
                                 </div>
                             </div>
                             {/* </div> */}
