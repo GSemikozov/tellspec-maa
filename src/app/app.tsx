@@ -68,12 +68,12 @@ export const App: React.FunctionComponent = () => {
     return (
         <IonApp>
             <IonReactRouter>
-                <IonRouterOutlet className={layoutClassName} animated={false}>
-                    <PublicOnlyRoute exact path={routesMapping.login}>
-                        <LoginPage />
-                    </PublicOnlyRoute>
+                <SensorConnectionProcessProvider>
+                    <IonRouterOutlet className={layoutClassName} animated={false}>
+                        <PublicOnlyRoute exact path={routesMapping.login}>
+                            <LoginPage />
+                        </PublicOnlyRoute>
 
-                    <SensorConnectionProcessProvider>
                         <PublicOnlyRoute exact path={routesMapping.forgetPassword}>
                             <ForgetPasswordPage />
                         </PublicOnlyRoute>
@@ -103,8 +103,8 @@ export const App: React.FunctionComponent = () => {
                         </ProtectedRoute>
 
                         <ProtectedRoute exact path={routesMapping.pdfPage} component={PDFPage} />
-                    </SensorConnectionProcessProvider>
-                </IonRouterOutlet>
+                    </IonRouterOutlet>
+                </SensorConnectionProcessProvider>
             </IonReactRouter>
         </IonApp>
     );

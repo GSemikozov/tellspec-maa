@@ -260,7 +260,6 @@ export const removeDevice = createAsyncThunk(
         let removedCurrent = false;
 
         if (sensor.currentDevice?.uuid === deviceUuid) {
-            await tellspecDisconnect();
             await tellspecRemoveDevice();
 
             removedCurrent = true;
