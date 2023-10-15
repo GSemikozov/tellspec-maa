@@ -2,10 +2,10 @@ import type { Report, ReportAnalyseData } from '@entities/reports';
 import type { FilterFn } from '@tanstack/react-table';
 
 export enum ColumnNamesMapping {
-    PROTEIN = 'Protein (True Protein)',
-    FAT = 'Fat',
+    PROTEIN = 'Protein (True Protein) g/dL',
+    FAT = 'Fat g/dL',
     CARBS = 'Total Carbs',
-    ENERGY = 'Energy',
+    ENERGY = 'Energy g/dL',
     LINOLEICACID = 'Linoleic Acid',
     ALPHALINOLENICACID = '⍺-Linolenic Acid',
     DHA = 'DHA',

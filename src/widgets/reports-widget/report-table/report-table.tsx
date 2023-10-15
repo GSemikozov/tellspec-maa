@@ -93,7 +93,7 @@ const columns = [
             header: 'Protein',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-                const display = result?.value + ' ' + result?.units;
+                const display = result?.value 
                 if (result?.value) return display;
                 else return '-';
             },
@@ -104,7 +104,7 @@ const columns = [
         header: 'Fat',
         cell: info => {
             const result = info.getValue<ReportAnalyseDataResult>();
-            const display = result?.value + ' ' + result?.units;
+            const display = result?.value
             if (result?.value) return display;
             else return '-';
         },
@@ -128,7 +128,7 @@ const columns = [
             header: 'Energy',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-                const display = result?.value + ' ' + result?.units;
+                const display = result?.value 
                 if (result?.value) return display;
                 else return '-';
             },
@@ -266,7 +266,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                 </th>
                             ))}
                             {MockData.data.map(item => (
-                                <th key={item.id}>{item.name}</th>
+                                <th key={item.id}>{item.name} </th>
                             ))}
                         </tr>
                     ))}

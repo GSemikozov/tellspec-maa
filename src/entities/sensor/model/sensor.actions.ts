@@ -4,7 +4,7 @@ import {
     NativeStorageKeys,
     isEmulateNativeSdk,
     nativeStore,
-    tellspecDisconnect,
+    // tellspecDisconnect,
     tellspecGetConfigs,
     tellspecGetDeviceInfo,
     tellspecGetSensorStatus,
