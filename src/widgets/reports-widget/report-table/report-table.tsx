@@ -12,6 +12,7 @@ import { IonCheckbox } from '@ionic/react';
 import { classname } from '@shared/utils';
 import { formatUTCDate } from '@ui/date-range/utils';
 import { StatusFilter } from '@widgets/reports-widget/status-filter';
+import { MockData } from '@widgets/test-results/mock-data';
 
 import { getParameterByName, ColumnNamesMapping, statusFilter } from './report-table.utils';
 
@@ -20,7 +21,6 @@ import type { FilterValue } from '@widgets/reports-widget/status-filter';
 import type { SortingFn } from '@tanstack/react-table';
 
 import './report-table.css';
-import { MockData } from '@widgets/test-results/mock-data';
 
 declare module '@tanstack/table-core' {
     interface SortingFns {
@@ -53,19 +53,14 @@ const columns = [
                 />
             );
         },
-        cell: ({ row }) => {
-            // const hasData = (row.getValue('dataAnalysed') as Report)?.data?.analyseData;
-
-            return (
-                <IonCheckbox
-                    {...{
-                        checked: row.getIsSelected(),
-                        // disabled: !hasData,
-                        onIonChange: row.getToggleSelectedHandler(),
-                    }}
-                />
-            );
-        },
+        cell: ({ row }) => (
+            <IonCheckbox
+                {...{
+                    checked: row.getIsSelected(),
+                    onIonChange: row.getToggleSelectedHandler(),
+                }}
+            />
+        ),
     }),
 
     columnHelper.accessor('milk_id', {
@@ -279,19 +274,17 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
 
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <>
-                            <tr key={row.original.uuid} onClick={handleRowClick(row)}>
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
+                        <tr key={row.original.uuid} onClick={handleRowClick(row)}>
+                            {row.getVisibleCells().map(cell => (
+                                <td key={cell.id}>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
 
-                                {MockData.data.map(item => (
-                                    <td key={item.id}>{item.value}</td>
-                                ))}
-                            </tr>
-                        </>
+                            {MockData.data.map(item => (
+                                <td key={row.original.uuid + item.id}>{item.value}</td>
+                            ))}
+                        </tr>
                     ))}
                 </tbody>
             </table>

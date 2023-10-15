@@ -161,8 +161,8 @@ export const buildMilkData = (milk: AddMilkFormFieldValues) => {
             expressionDate: milk.milkExpressionDate,
             infantDeliveryDate: milk.infantDeliveryDate,
             receivedDate: milk.receivedDate,
-            storageFreezer: milk.storageFreezer,
-            storageCompartment: milk.storageCompartment,
+            storageFreezer: milk.storageFreezer ?? '',
+            storageCompartment: milk.storageCompartment ?? '',
 
             notes: '',
             volume: milk.milkVolume ?? '',

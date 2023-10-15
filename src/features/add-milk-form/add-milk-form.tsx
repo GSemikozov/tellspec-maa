@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -40,7 +40,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: '',
+    numberOfContainers: 1,
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
@@ -90,7 +90,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     const storageFreezerValue = watch('storageFreezer');
 
     const compartmentList = useSelector(state =>
-        selectGroupCompartmentList(state, storageFreezerValue),
+        selectGroupCompartmentList(state, storageFreezerValue!),
     );
 
     React.useEffect(() => {

@@ -1,8 +1,11 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchReport } from './reports.actions';
 
 import type { ReportsSliceState } from './reports.types';
+import type { Report } from '@entities/reports';
 
 const initialState: ReportsSliceState = {
     status: 'idle',
@@ -12,7 +15,14 @@ const initialState: ReportsSliceState = {
 export const reportsSlice = createSlice({
     name: 'reports',
     initialState,
-    reducers: {},
+    reducers: {
+        addReport: (state, action: PayloadAction<Report>) => {
+            state.byIds = {
+                ...state.byIds,
+                [action.payload.uuid]: action.payload,
+            };
+        },
+    },
     extraReducers: builder => {
         builder.addCase(fetchReport.pending, state => {
             state.status = 'loading';
