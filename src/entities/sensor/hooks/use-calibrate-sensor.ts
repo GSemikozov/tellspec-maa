@@ -4,7 +4,6 @@ import { useIonRouter } from '@ionic/react';
 
 import { log } from '@shared/utils';
 import { usePreemieToast } from '@ui';
-import { tellspecRetrieveDeviceConnect } from '@api/native';
 import { routesMapping } from '@app/routes';
 
 import { SensorDevice, calibrateSensorDevice, selectSensorCalibrationLoading } from '../model';
@@ -26,8 +25,6 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
 
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
 
-    console.log('isCalibrationLoading', isCalibrationLoading);
-
     const call = React.useCallback(
         async (device: SensorDevice | null) => {
             try {
@@ -41,7 +38,6 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
 
                 await presentToast({ message: 'Start calibration...' });
 
-                await tellspecRetrieveDeviceConnect(device?.uuid ?? '');
                 await dispatch(calibrateSensorDevice()).unwrap();
             } catch (error: any) {
                 await log('useCalibrateSensor:error', error);

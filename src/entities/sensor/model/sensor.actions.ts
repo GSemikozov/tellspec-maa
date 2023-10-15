@@ -138,6 +138,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     }
 
     try {
+        await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
+
         // get the ScannerData
         const scannerData = await apiInstance.sensor.getScanner(
             sensor.currentDevice.name,
