@@ -3,8 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { IonCol, IonGrid, IonItem, IonRow } from '@ionic/react';
 
-import PreemieLogo from '../../../public/img/MAA-logo.png'
-
 import { classname } from '@shared/utils';
 import {
     HomeIcon,
@@ -17,6 +15,8 @@ import {
 } from '@ui/icons';
 import { userAsyncActions } from '@entities/user';
 import { routesMapping } from '@app/routes';
+
+import PreemieLogo from '../../../public/img/MAA-logo.png';
 
 import type { AppDispatch } from '@app/store';
 

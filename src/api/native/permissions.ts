@@ -10,8 +10,6 @@ const PERMISSIONS = {
     ACCESS_FINE_LOCATION: 'android.permission.ACCESS_FINE_LOCATION',
 };
 
-console.log(AndroidPermissions);
-
 const checkBlePermission = async () => {
     const bluetoothConnectPermission = await AndroidPermissions.checkPermission(
         PERMISSIONS.BLUETOOTH_CONNECT,

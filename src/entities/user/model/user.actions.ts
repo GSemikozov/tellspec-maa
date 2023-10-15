@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { apiInstance } from '@api/network';
 import { clearStorageData, saveGroupKey } from '@app/app.utils';
+import { tellspecDisconnect } from '@api/native';
 
 import { userActions } from './user.slice';
 
@@ -12,7 +13,9 @@ export const isOnline = () => {
 };
 
 export const logout = createAsyncThunk('user/logout', async (_, thunkAPI): Promise<any> => {
+    await tellspecDisconnect();
     await apiInstance.users.logout();
+
     thunkAPI.dispatch(userActions.clearUser);
 
     await clearStorageData();

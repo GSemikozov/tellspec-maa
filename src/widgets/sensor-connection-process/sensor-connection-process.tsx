@@ -140,7 +140,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevices([]);
         setUpdateDiscoveredDevicesListener(null);
 
-        // cancelSignalRef.current = true;
+        cancelSignalRef.current = true;
     }, [handleCloseDiscoveryDevicesModal]);
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
@@ -149,7 +149,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
         try {
             await tellspecDisconnect();
-
             await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
@@ -163,7 +162,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
             await presentToast({
                 type: 'error',
-                message: createToastMessage(SensorConnectionProcessStatus.ERROR),
+                message: error?.message,
             });
         }
     }, []);
@@ -178,12 +177,12 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 await dispatch(connectSensorDevice(currentDevice)).unwrap();
 
                 setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
-            } catch {
+            } catch (error: any) {
                 setStatus(SensorConnectionProcessStatus.ERROR);
 
                 await presentToast({
                     type: 'error',
-                    message: createToastMessage(SensorConnectionProcessStatus.ERROR),
+                    message: error?.message,
                 });
             }
         };
