@@ -76,6 +76,8 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
     //     return utcFrom < utcTo;
     // };
 
+    const today = new Date().toISOString().slice(0, 10);
+
     return (
         <div className={cn()}>
             <IonButton
@@ -96,6 +98,7 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
                               <IonRow style={{ flexWrap: 'nowrap' }}>
                                   <IonDatetime
                                       name='from'
+                                      max={today}
                                       presentation='date'
                                       onIonChange={handleDateChange}
                                       value={from}
@@ -104,6 +107,7 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
                                   <IonDatetime
                                       name='to'
+                                      max={today}
                                       presentation='date'
                                       onIonChange={handleDateChange}
                                       value={to}

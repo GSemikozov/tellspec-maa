@@ -41,7 +41,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: 1,
+    numberOfContainers: 0,
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
@@ -163,30 +163,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     router.push(routesMapping.analyse + `?milkId=${values.milkId}`);
                 },
             });
-            // await (
-            //     <IonAlert
-            //         header='The milk should be analysed in room temperature. Do you want to proceed?'
-            //         trigger='analyse-alert'
-            //         buttons={[
-            //             {
-            //                 text: 'Yes',
-            //                 role: 'confirm',
-            //                 handler: () => {
-            //                     reset();
-            //                     router.push(routesMapping.analyse + `?milkId=${values.milkId}`);
-            //                 },
-            //             },
-            //             {
-            //                 text: 'No',
-            //                 role: 'save',
-            //                 handler: () => {
-            //                     reset();
-            //                     router.push(routesMapping.home);
-            //                 },
-            //             },
-            //         ]}
-            //     ></IonAlert>
-            // );
+           
         } catch (error: any) {
             await presentToast({
                 type: 'error',
@@ -467,6 +444,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                         <PreemieButton
                             className='button'
                             size='small'
+                            id='analyse-alert'
                             disabled={isFetching || disabledSubmit}
                             onClick={handleAddMilkAndClose}
                         >
@@ -484,6 +462,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 {isFetching ? 'Loading...' : 'Save this Milk & Analyse'}
                             </PreemieButton>
                         ) : null}
+             
                     </IonRow>
                 </PageArea.Main>
             </PageArea>
