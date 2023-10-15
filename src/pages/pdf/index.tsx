@@ -35,8 +35,11 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
 
     const isLoading = isMilkLoading || areDonorsFetching || areFreezersFetching;
 
+    const date = new Date().toLocaleString().replace(/[ ,]/gm, '_');
+    const filename = milks.length === 1 ? `report_${milks[0].milk_id}_${date}` : `reports_${date}`;
+
     const print = () =>
-        Printer.print(undefined, { margin: false, autoFit: false })
+        Printer.print(undefined, { margin: false, autoFit: false, name: filename })
             .then(() => {
                 ionRouter.push(routesMapping.reports);
                 window.location.reload();
