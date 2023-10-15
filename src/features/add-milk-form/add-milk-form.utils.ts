@@ -20,7 +20,15 @@ export const validationSchema = yup.object({
     milkVolume: yup.string(),
     milkId: yup.string().required('This is a required field'),
     donorId: yup.string().required('This is a required field'),
-    numberOfContainers: yup.number().required('This is a required field'),
+    numberOfContainers: yup
+        .number()
+        .typeError('Must be numeric.')
+        .integer('Error message')
+        .min(1, 'Minimum 1')
+        .max(10, 'Maximum 10')
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable()
+        .required('This is a required field'),
     storageFreezer: yup.string(),
     storageCompartment: yup.string(),
 

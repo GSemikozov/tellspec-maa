@@ -220,6 +220,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                             role: 'confirm',
                                             handler: () => {
                                                 reset();
+                                                // TODO: check if it works
+                                                setValue('numberOfContainers', 1);
+                                                trigger();
                                             },
                                         },
                                         {
@@ -239,10 +242,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <PreemieInput
                                 type='text'
                                 required
-                                // label='Milk ID*'
-
                                 id='milkId'
-                                label-placement='floating'
+                                labelPlacement='floating'
                                 {...register('milkId')}
                                 onKeyDown={e => {
                                     if (e.key === 'Enter') {
@@ -250,7 +251,12 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     }
                                 }}
                             >
-                                Milk ID<span className={cn('asterisk')}>*</span>
+                                <div slot='label'>
+                                    Milk ID{' '}
+                                    <IonText color='danger'>
+                                        <span className={cn('asterisk')}>*</span>
+                                    </IonText>
+                                </div>
                             </PreemieInput>
 
                             <p className={cn('form-group-error')}>
@@ -312,11 +318,16 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     max={today}
                                     required
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     className='received-date-size'
                                     {...register('receivedDate')}
                                 >
-                                    Received Date <span className={cn('asterisk')}>*</span>
+                                    <div slot='label'>
+                                        Received Date{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
@@ -327,7 +338,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieSelect
                                     label='Storage Freezer'
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     {...register('storageFreezer')}
                                 >
                                     {freezersList.map((freezer: IFreezer) => (
@@ -350,15 +361,21 @@ export const AddMilkForm: React.FunctionComponent = () => {
                             <div className={cn('form-group')}>
                                 <PreemieInput
                                     type='number'
-                                    label='Number of Containers'
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     {...register('numberOfContainers')}
                                     onKeyDown={e => {
                                         if (e.key === 'Enter') {
                                             Keyboard.hide();
                                         }
                                     }}
-                                />
+                                >
+                                    <div slot='label'>
+                                        Number of Containers{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
+                                </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
                                     {touchedFields.numberOfContainers &&
@@ -371,7 +388,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     type='date'
                                     max={today}
                                     required={true}
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     {...register('milkExpressionDate', {
                                         onChange: e => {
                                             handleReceivedDateChange(e);
@@ -379,7 +396,12 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                         },
                                     })}
                                 >
-                                    Milk Expression Date <span className={cn('asterisk')}>*</span>
+                                    <div slot='label'>
+                                        Milk Expression Date{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
@@ -392,12 +414,18 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 <PreemieInput
                                     type='date'
                                     max={today}
-                                    label='Milk Expiration Date'
-                                    label-placement='floating'
+                                    labelPlacement='floating'
                                     id='milkExpirationDate'
                                     disabled
                                     {...register('milkExpirationDate')}
-                                />
+                                >
+                                    <div slot='label'>
+                                        Milk Expiration Date{' '}
+                                        <IonText color='danger'>
+                                            <span className={cn('asterisk')}>*</span>
+                                        </IonText>
+                                    </div>
+                                </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
                                     {touchedFields.milkExpirationDate &&
