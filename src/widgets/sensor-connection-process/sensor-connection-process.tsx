@@ -11,12 +11,7 @@ import {
     tellspecEnableDiscovery,
     tellspecDisconnect,
 } from '@api/native';
-import {
-    useCalibrateSensor,
-    connectSensorDevice,
-    useSensorStatusPolling,
-    selectSensorDevice,
-} from '@entities/sensor';
+import { connectSensorDevice, useSensorStatusPolling, selectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 
 import { SensorConnectionProcessLoaderToast } from './sensor-connection-process-loader-toast';
@@ -42,12 +37,11 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     children,
 }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [presentToast, dismissToast] = usePreemieToast();
+    const [presentToast] = usePreemieToast();
 
     const mountedRef = React.useRef(false);
     const cancelSignalRef = React.useRef<boolean>(false);
 
-    const [calibrateSensor] = useCalibrateSensor();
     const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
         useSensorStatusPolling();
 
@@ -156,7 +150,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         try {
             await tellspecDisconnect();
 
-            const { requiredCalibration } = await dispatch(connectSensorDevice(device)).unwrap();
+            await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
 
@@ -164,11 +158,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 type: 'success',
                 message: createToastMessage(SensorConnectionProcessStatus.PAIRING_SUCCESS),
             });
-
-            if (requiredCalibration) {
-                await dismissToast();
-                await calibrateSensor(device);
-            }
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);
 

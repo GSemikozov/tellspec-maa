@@ -16,6 +16,7 @@ import {
 import { apiInstance } from '@api/network';
 import { CalibrationType } from '@entities/sensor';
 import { isGivenDateOlderThan } from '@shared/time';
+import { log } from '@shared/utils';
 
 import { createTellspecErrorResponse } from './utils';
 
@@ -97,12 +98,12 @@ export const tellspecRetrieveDeviceConnect = async (deviceUuid: string) => {
         return;
     }
 
+    await log('tellspecRetrieveDeviceConnect:before', deviceUuid);
+
     await tellspecConnect({ address: deviceUuid });
     await tellspecReadScannerInfo();
 
-    return async () => {
-        await tellspecDisconnect();
-    };
+    await log('tellspecRetrieveDeviceConnect:after', deviceUuid);
 };
 
 export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promise<any> => {
