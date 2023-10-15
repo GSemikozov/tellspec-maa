@@ -412,7 +412,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 </PreemieSelect>
 
                                 <p className={cn('form-group-error')}>
-                                    {errors.milkVolume?.message}
+                                    {errors.storageCompartment?.message}
                                 </p>
                             </div>
                         </IonCol>

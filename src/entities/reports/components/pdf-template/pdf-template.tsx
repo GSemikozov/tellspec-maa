@@ -118,7 +118,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[0].name} g/100g of FA
+                                Your result: {fattyAcidValue[0].value} g/100g of FA
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
@@ -135,7 +135,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[1].name} g/100g of FA
+                                Your result: {fattyAcidValue[1].value} g/100g of FA
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
@@ -148,7 +148,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[2].name} g/100g of FA
+                                Your result: {fattyAcidValue[2].value} g/100g of FA
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
@@ -166,7 +166,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[3].name} g/100g of FA{' '}
+                                Your result: {fattyAcidValue[3].value} g/100g of FA{' '}
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
@@ -180,7 +180,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                         />
                         <div className={'resultContainer'}>
                             <div className={'pdf-milk-yourResult'}>
-                                Your result: {fattyAcidValue[4].name} g/100g of FA
+                                Your result: {fattyAcidValue[4].value} g/100g of FA
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>

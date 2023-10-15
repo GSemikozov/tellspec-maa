@@ -151,9 +151,13 @@ export const Scale: React.FunctionComponent<ScaleProps> = ({
             <div className={cn('line')}>
                 <div className={cn('marker')} ref={scaleMarkerRef} />
 
-                <div className={cn('tooltip')} ref={scaleTooltipRef}>
-                    {value}
-                </div>
+                {!isNaN(value) ? (
+                    <div className={cn('tooltip')} ref={scaleTooltipRef}>
+                        {value}
+                    </div>
+                ) : (
+                    <div className={cn('na')}>Currently not available</div>
+                )}
             </div>
 
             <div className={cn('values')} ref={scaleValuesRef}>

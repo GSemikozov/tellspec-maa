@@ -22,6 +22,7 @@ export const RangeItem: React.FC<RangeItemProps> = ({
 
     const tickWidth = 100 / generalRange.length;
     const percentageCorrection = tickWidth / 2;
+    const valueIsNotAvailable = normalRangeWidth === 101;
 
     const Tooltip = (
         <div
@@ -39,23 +40,21 @@ export const RangeItem: React.FC<RangeItemProps> = ({
 
     return (
         <div className={'rangeMain'}>
-            {Tooltip}
+            {!valueIsNotAvailable ? Tooltip : null}
             <div className={'rangeNormal'} style={{ width: `${normalRangeWidth}%` }}>
-                {normalRangeWidth === 101 ? 'Currently not available' : 'Normal Range'}
+                {valueIsNotAvailable ? 'Currently not available' : 'Normal Range'}
             </div>
             <div className={'rangeRuler'}>
-                {generalRange.map(number => {
-                    return (
-                        <div
-                            className={'rangeItem'}
-                            key={number * Math.random()}
-                            style={{ width: `${tickWidth}%` }}
-                        >
-                            <span>{number}</span>
-                            <div className={'rangeTick'}></div>
-                        </div>
-                    );
-                })}
+                {generalRange.map(number => (
+                    <div
+                        className={'rangeItem'}
+                        key={number * Math.random()}
+                        style={{ width: `${tickWidth}%` }}
+                    >
+                        <span>{number}</span>
+                        <div className={'rangeTick'}></div>
+                    </div>
+                ))}
             </div>
         </div>
     );
