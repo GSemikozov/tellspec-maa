@@ -203,7 +203,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     }, [isPolling, currentDevice]);
 
     React.useEffect(() => {
-        if (updateDiscoveredDevicesListener === null) {
+        if (currentDevice === null && updateDiscoveredDevicesListener === null) {
             setUpdateDiscoveredDevicesListener(
                 tellspecAddListener(
                     SensorEvent.DEVICE_LIST,
@@ -229,7 +229,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 updateDiscoveredDevicesListener.remove();
             }
         };
-    }, []);
+    }, [currentDevice]);
 
     const context = React.useMemo(
         () => ({
