@@ -10,18 +10,17 @@ import { classname } from '@shared/utils';
 import { selectSensorDevice } from '@entities/sensor';
 
 // import type { AppDispatch } from '@app';
-import type { Report } from '@entities/reports';
 
 import './actions-panel.css';
 
 const cn = classname('actions-panel');
 
 type ActionsPanelProps = {
-    report: Report;
     analyseMilkLoading: boolean;
     onAnalyseMilk: () => Promise<void>;
     selectedID: string;
     showOnlyAnalyse?: boolean;
+    isMilkAnalysed?: boolean;
 };
 
 export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
@@ -30,6 +29,7 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     showOnlyAnalyse,
     // report,
     selectedID,
+    isMilkAnalysed,
 }) => {
     // const dispatch = useDispatch<AppDispatch>();
 
@@ -75,6 +75,9 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
         });
     };
 
+    const handleAnalyseButtonClick = async () =>
+        isMilkAnalysed ? handleConfirmReAnalyse() : onAnalyseMilk();
+
     if (currentSensor && showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
@@ -103,8 +106,12 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
                 Print Milk Test Results
             </IonButton>
 
-            <IonButton expand='full' disabled={analyseMilkLoading} onClick={handleConfirmReAnalyse}>
-                {reAnalyseTitle}
+            <IonButton
+                expand='full'
+                disabled={analyseMilkLoading}
+                onClick={handleAnalyseButtonClick}
+            >
+                {isMilkAnalysed ? reAnalyseTitle : 'Analyse this milk'}
             </IonButton>
         </div>
     );

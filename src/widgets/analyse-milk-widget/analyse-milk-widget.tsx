@@ -121,9 +121,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const activeTabComponent = React.useMemo(() => {
         if (!milkId) {
-            return (
-                <div className={cn('tab-placeholder')}>Select or scan milk barcode first</div>
-            );
+            return <div className={cn('tab-placeholder')}>Select or scan milk barcode first</div>;
         }
 
         if (reportLoading) {
@@ -203,11 +201,11 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     {showActions && reportMilk ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
-                                report={reportMilk}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleAnalyseMilk}
                                 selectedID={milkId}
+                                isMilkAnalysed={!!reportMilk.data.analyseData}
                             />
                         </div>
                     ) : null}
