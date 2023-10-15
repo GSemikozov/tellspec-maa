@@ -9,7 +9,6 @@ import {
     tellspecAddListener,
     tellspecCheckBleState,
     tellspecEnableDiscovery,
-    tellspecDisconnect,
 } from '@api/native';
 import { connectSensorDevice, useSensorStatusPolling, selectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
