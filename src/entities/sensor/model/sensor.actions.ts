@@ -134,7 +134,6 @@ export const connectSensorDevice = createAsyncThunk(
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
     const { user, sensor } = thunkAPI.getState() as RootState;
 
-    await tellspecDisconnect();
     await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
