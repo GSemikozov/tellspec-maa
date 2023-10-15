@@ -140,7 +140,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevices([]);
         setUpdateDiscoveredDevicesListener(null);
 
-        cancelSignalRef.current = true;
+        // cancelSignalRef.current = true;
     }, [handleCloseDiscoveryDevicesModal]);
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {

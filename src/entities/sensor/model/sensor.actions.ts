@@ -4,6 +4,7 @@ import {
     NativeStorageKeys,
     isEmulateNativeSdk,
     nativeStore,
+    tellspecDisconnect,
     tellspecGetConfigs,
     tellspecGetDeviceInfo,
     tellspecGetSensorStatus,
@@ -259,6 +260,7 @@ export const removeDevice = createAsyncThunk(
         let removedCurrent = false;
 
         if (sensor.currentDevice?.uuid === deviceUuid) {
+            await tellspecDisconnect();
             await tellspecRemoveDevice();
 
             removedCurrent = true;
