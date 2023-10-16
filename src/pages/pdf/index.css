@@ -1,14 +1,10 @@
 .scrollable {
-    position: relative;
     color: black;
     overflow: scroll;
 }
 
 ion-app.scrollable {
     display: inline-block;
-
-    /* do not touch */
-    margin-bottom: -5px;
 }
 
 .pdf__preloader {
@@ -23,4 +19,31 @@ ion-app.scrollable {
 .pdf__preloader-message {
     margin-top: 1rem;
     font-size: 2rem;
+}
+
+.pdf__buttons-panel {
+    position: sticky;
+    left: 95vw;
+    bottom: 2rem;
+    width: fit-content;
+    z-index: 9999;
+}
+
+.pdf__button + .pdf__button {
+    margin-top: 1rem;
+}
+
+@media print {
+    .scrollable {
+        position: relative;
+    }
+
+    .pdf__buttons-panel {
+        display: none;
+    }
+
+    ion-app.scrollable {
+        /* do not remove */
+        margin-bottom: -5px;
+    }
 }

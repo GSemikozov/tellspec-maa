@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Printer } from '@ionic-native/printer';
-import { useIonRouter } from '@ionic/react';
-
-import { routesMapping } from '@app/routes';
+import { useHistory } from 'react-router';
 import { userSelectors } from '@entities/user';
 import { fetchMilksByIds, selectIsMilkLoading, selectMilkByIds } from '@entities/milk';
 import { fetchGroup, selectGroupFreezers, selectIsGroupLoading } from '@entities/groups';
 import { PDFTemplate } from '@entities/reports/components/pdf-template';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { LogoAnimation } from '@ui/logo/animated-logo';
+import { IonFabButton, IonIcon } from '@ionic/react';
+import { print as printIcon, arrowBack as arrowBackIcon } from 'ionicons/icons';
 
 import type { RouteComponentProps } from 'react-router';
 import type { AppDispatch } from '@app';
@@ -22,7 +22,7 @@ interface PDFPageProps extends RouteComponentProps<{ ids: string }> {}
 export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
-    const ionRouter = useIonRouter();
+    const history = useHistory();
 
     const user = useSelector(userSelectors.getUser);
     const milks = useSelector(state => selectMilkByIds(state, ids));
@@ -38,16 +38,13 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const date = new Date().toLocaleString().replace(/[ ,]/gm, '_');
     const filename = milks.length === 1 ? `report_${milks[0].milk_id}_${date}` : `reports_${date}`;
 
+    const handleBackClick = () => history.goBack();
+
     const print = () =>
-        Printer.print(undefined, { margin: false, autoFit: false, name: filename })
-            .then(() => {
-                ionRouter.push(routesMapping.reports);
-                window.location.reload();
-            })
-            .catch(e => {
-                console.log(e);
-                setTimeout(print, 3000);
-            });
+        Printer.print(undefined, { margin: false, autoFit: false, name: filename }).catch(e => {
+            console.log(e);
+            setTimeout(print, 3000);
+        });
 
     useEffect(() => {
         if (ids.length > 0) {
@@ -92,14 +89,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
         if (outletElement) {
             outletElement.className = 'scrollable';
         }
-        setTimeout(() => print(), 0);
     }, [milks]);
-
-    useEffect(() => {
-        return () => {
-            ionRouter.push(routesMapping.reports);
-        };
-    }, []);
 
     if (isLoading) {
         return (
@@ -120,7 +110,24 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
                 );
 
                 return (
-                    <PDFTemplate key={milk.milk_id} milk={milk} donor={donor} freezer={freezer} />
+                    <>
+                        <PDFTemplate
+                            key={milk.milk_id}
+                            milk={milk}
+                            donor={donor}
+                            freezer={freezer}
+                        />
+
+                        <div className='pdf__buttons-panel'>
+                            <IonFabButton className='pdf__button' onClick={print}>
+                                <IonIcon icon={printIcon}></IonIcon>
+                            </IonFabButton>
+
+                            <IonFabButton className='pdf__button' onClick={handleBackClick}>
+                                <IonIcon icon={arrowBackIcon}></IonIcon>
+                            </IonFabButton>
+                        </div>
+                    </>
                 );
             })}
         </>
