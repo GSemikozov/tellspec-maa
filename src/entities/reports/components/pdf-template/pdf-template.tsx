@@ -38,6 +38,13 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                 <PDFHeader />
                 <div className={'pdf-milk-macroHeader'}>Report Info</div>
                 <ReportInfo milk={milk} donor={donor} freezer={freezer} />
+                {!analyseData ? (
+                    <h1 className='pdf-milk-unanalysed'>
+                        This milk has not been analysed.
+                        <br />
+                        There are no test results.
+                    </h1>
+                ) : null}
                 <PDFFooter page={2} />
             </div>
             {analyseData ? (
@@ -122,6 +129,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
+                        <PDFFooter page={4} />
                     </div>
 
                     <div className={'pdf-milk-page'}>
@@ -152,7 +160,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             </div>
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
-                        <PDFFooter page={4} />
+                        <PDFFooter page={5} />
                     </div>
 
                     <div className={'pdf-milk-page'}>
@@ -185,14 +193,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
                         </div>
 
-                        <PDFFooter page={4} />
+                        <PDFFooter page={6} />
                     </div>
                 </>
-            ) : (
-                <div>
-                    <h1> This milk has not been analysed. There are no test results.</h1>
-                </div>
-            )}
+            ) : null}
         </div>
     );
 };
