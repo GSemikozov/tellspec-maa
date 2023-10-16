@@ -228,6 +228,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
         if (currentDevice !== null && updateDiscoveredDevicesListener !== null) {
             updateDiscoveredDevicesListener.remove();
+            setUpdateDiscoveredDevicesListener(null);
 
             return;
         }
@@ -235,6 +236,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         return () => {
             if (updateDiscoveredDevicesListener) {
                 updateDiscoveredDevicesListener.remove();
+                setUpdateDiscoveredDevicesListener(null);
             }
         };
     }, [currentDevice]);
