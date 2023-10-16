@@ -95,10 +95,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         dispatch(fetchGroup({ preemie_group_id: groupId }));
     }, []);
 
-    React.useEffect(() => {
-        trigger();
-    }, []);
-
     const handleMilkExpressionDateChange = e => {
         const receivedDate = e.target.value;
 
