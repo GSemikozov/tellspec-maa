@@ -124,6 +124,36 @@ export const validationSchema = yup.object({
         })
         .test({
             exclusive: false,
+            name: 'validate milkExpressionDate and receivedDate',
+            test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
+                const {
+                    milkExpressionDate: milkExpressionDateString,
+                    receivedDate: receivedDateString,
+                } = parent;
+
+                if (!milkExpressionDateString || !receivedDateString) {
+                    return true;
+                }
+
+                const milkExpressionDate = parseDateString(milkExpressionDateString);
+                const receivedDate = parseDateString(receivedDateString);
+
+                if (isDateEqual(milkExpressionDate, receivedDate)) {
+                    return true;
+                }
+
+                if (isDateBefore(receivedDate, milkExpressionDate)) {
+                    return createError({
+                        path: 'milkExpressionDate',
+                        message: "Milk expression date can't be after received date",
+                    });
+                }
+
+                return true;
+            },
+        })
+        .test({
+            exclusive: false,
             name: 'validate milkExpressionDate and ReceivedDate',
             test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
                 const {
@@ -141,7 +171,7 @@ export const validationSchema = yup.object({
                 if (isDateBefore(receivedDate, milkExpressionDate)) {
                     return createError({
                         path: 'milkExpressionDate',
-                        message: "Milk expression date can't be after delivery date",
+                        message: "Milk expression date can't be after received date",
                     });
                 }
 
