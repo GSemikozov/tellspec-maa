@@ -16,7 +16,7 @@ type PDFCover = {
 export const PDFCover: React.FC<PDFCover> = props => {
     const user = useSelector(getUser);
     const date = new Date(props.reportDate);
-    const formattedDate = format(date, 'MMMM do yyyy');
+    const formattedDate = format(date, 'yyyy/MM/dd');
 
     return (
         <div className={'pdf-milk-cover'} style={{ background: `url(${coverImage})` }}>
