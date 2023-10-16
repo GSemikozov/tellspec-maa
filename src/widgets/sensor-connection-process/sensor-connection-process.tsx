@@ -169,6 +169,13 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
     React.useEffect(() => {
         if (!isAuthenticated) {
+            handleResetStatus();
+            return;
+        }
+    }, [isAuthenticated, handleResetStatus]);
+
+    React.useEffect(() => {
+        if (!isAuthenticated) {
             return;
         }
 
@@ -210,7 +217,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         if (currentDevice && !isPolling) {
             startSensorStatusPolling();
         }
-    }, [isAuthenticated, isPolling, currentDevice]);
+    }, [isAuthenticated, isPolling, currentDevice, handleResetStatus]);
 
     React.useEffect(() => {
         const resetListener = () => {
