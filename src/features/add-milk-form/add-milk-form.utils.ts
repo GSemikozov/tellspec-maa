@@ -29,8 +29,10 @@ export const validationSchema = yup.object({
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required('This is a required field'),
+
     storageFreezer: yup.string(),
     storageCompartment: yup.string(),
+    milkExpirationDate: yup.string().required('This is a required field'),
 
     receivedDate: yup
         .string()
@@ -56,11 +58,11 @@ export const validationSchema = yup.object({
                         message: 'Received date cannot be before infant delivery date.',
                     });
                 }
+
                 return true;
             },
         })
         .required('This is a required field'),
-    milkExpirationDate: yup.string().required('This is a required field'),
 
     infantDeliveryDate: yup
         .string()
@@ -125,36 +127,6 @@ export const validationSchema = yup.object({
         .test({
             exclusive: false,
             name: 'validate milkExpressionDate and receivedDate',
-            test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
-                const {
-                    milkExpressionDate: milkExpressionDateString,
-                    receivedDate: receivedDateString,
-                } = parent;
-
-                if (!milkExpressionDateString || !receivedDateString) {
-                    return true;
-                }
-
-                const milkExpressionDate = parseDateString(milkExpressionDateString);
-                const receivedDate = parseDateString(receivedDateString);
-
-                if (isDateEqual(milkExpressionDate, receivedDate)) {
-                    return true;
-                }
-
-                if (isDateBefore(receivedDate, milkExpressionDate)) {
-                    return createError({
-                        path: 'milkExpressionDate',
-                        message: "Milk expression date can't be after received date",
-                    });
-                }
-
-                return true;
-            },
-        })
-        .test({
-            exclusive: false,
-            name: 'validate milkExpressionDate and ReceivedDate',
             test: (_: unknown, { parent, createError }: yup.TestContext<unknown>) => {
                 const {
                     milkExpressionDate: milkExpressionDateString,

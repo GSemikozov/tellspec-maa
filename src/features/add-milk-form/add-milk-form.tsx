@@ -99,7 +99,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
         trigger();
     }, []);
 
-    const handleReceivedDateChange = e => {
+    const handleMilkExpressionDateChange = e => {
         const receivedDate = e.target.value;
 
         try {
@@ -112,7 +112,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
             setValue('milkExpirationDate', '');
         }
 
-        return trigger();
+        trigger(['infantDeliveryDate', 'receivedDate']);
     };
 
     const handleAddMilkAndClearForm = async () => {
@@ -270,7 +270,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     max={today}
                                     required
                                     labelPlacement='floating'
-                                    {...register('infantDeliveryDate')}
+                                    {...register('infantDeliveryDate', {
+                                        onChange: () => {
+                                            trigger(['receivedDate', 'milkExpressionDate']);
+                                        },
+                                    })}
                                 >
                                     <div slot='label'>
                                         Infant Delivery Date{' '}
@@ -293,7 +297,11 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     required
                                     labelPlacement='floating'
                                     className='received-date-size'
-                                    {...register('receivedDate')}
+                                    {...register('receivedDate', {
+                                        onChange: () => {
+                                            trigger(['infantDeliveryDate', 'milkExpressionDate']);
+                                        },
+                                    })}
                                 >
                                     <div slot='label'>
                                         Received Date{' '}
@@ -363,7 +371,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     required={true}
                                     labelPlacement='floating'
                                     {...register('milkExpressionDate', {
-                                        onChange: handleReceivedDateChange,
+                                        onChange: handleMilkExpressionDateChange,
                                     })}
                                 >
                                     <div slot='label'>
