@@ -4,6 +4,7 @@
     height: 100%;
     width: 100%;
     margin: 0 auto;
+    /* flex-grow: 0; */
 }
 
 .report-info p {

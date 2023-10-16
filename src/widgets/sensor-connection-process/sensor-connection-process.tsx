@@ -222,11 +222,21 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     },
                 ),
             );
+
+            return;
+        }
+
+        if (currentDevice !== null && updateDiscoveredDevicesListener !== null) {
+            updateDiscoveredDevicesListener.remove();
+            setUpdateDiscoveredDevicesListener(null);
+
+            return;
         }
 
         return () => {
             if (updateDiscoveredDevicesListener) {
                 updateDiscoveredDevicesListener.remove();
+                setUpdateDiscoveredDevicesListener(null);
             }
         };
     }, [currentDevice]);
