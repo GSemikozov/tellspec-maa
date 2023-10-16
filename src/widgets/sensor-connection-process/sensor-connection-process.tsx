@@ -12,6 +12,7 @@ import {
 } from '@api/native';
 import { connectSensorDevice, useSensorStatusPolling, selectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
+import { userSelectors } from '@entities/user';
 
 import { SensorConnectionProcessLoaderToast } from './sensor-connection-process-loader-toast';
 import { SensorConnectionProcessDiscoveredDevicesModal } from './sensor-connection-process-discovered-devices-modal';
@@ -44,6 +45,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
         useSensorStatusPolling();
 
+    const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
     const currentDevice = useSelector(selectSensorDevice);
 
     const [status, setStatus] = React.useState<SensorConnectionProcessContextValue['status']>(
@@ -166,6 +168,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     }, []);
 
     React.useEffect(() => {
+        if (!isAuthenticated) {
+            return;
+        }
+
         const retrievePairedDeviceFromStorage = async () => {
             try {
                 if (!currentDevice) {
@@ -190,9 +196,13 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
             retrievePairedDeviceFromStorage();
         }
-    }, [currentDevice]);
+    }, [isAuthenticated, currentDevice]);
 
     React.useEffect(() => {
+        if (!isAuthenticated) {
+            return;
+        }
+
         if (!currentDevice) {
             stopSensorStatusPolling();
         }
@@ -200,9 +210,22 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         if (currentDevice && !isPolling) {
             startSensorStatusPolling();
         }
-    }, [isPolling, currentDevice]);
+    }, [isAuthenticated, isPolling, currentDevice]);
 
     React.useEffect(() => {
+        const resetListener = () => {
+            if (updateDiscoveredDevicesListener) {
+                updateDiscoveredDevicesListener.remove();
+                setUpdateDiscoveredDevicesListener(null);
+            }
+        };
+
+        if (!isAuthenticated || currentDevice !== null) {
+            resetListener();
+
+            return;
+        }
+
         if (currentDevice === null && updateDiscoveredDevicesListener === null) {
             setUpdateDiscoveredDevicesListener(
                 tellspecAddListener(
@@ -226,20 +249,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             return;
         }
 
-        if (currentDevice !== null && updateDiscoveredDevicesListener !== null) {
-            updateDiscoveredDevicesListener.remove();
-            setUpdateDiscoveredDevicesListener(null);
-
-            return;
-        }
-
         return () => {
-            if (updateDiscoveredDevicesListener) {
-                updateDiscoveredDevicesListener.remove();
-                setUpdateDiscoveredDevicesListener(null);
-            }
+            resetListener();
         };
-    }, [currentDevice]);
+    }, [isAuthenticated, currentDevice]);
 
     const context = React.useMemo(
         () => ({
