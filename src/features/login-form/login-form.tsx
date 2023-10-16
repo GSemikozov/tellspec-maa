@@ -31,20 +31,18 @@ type KeyboardActions = {
 };
 
 export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
-    const [visible, setVisibility] = useState(false);
-    const authError = useSelector(userSelectors.getError);
-
     const ionRouter = useIonRouter();
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const inputRef = React.useRef(defaultValues);
-
     const isFetching = useSelector(userSelectors.isUserFetching);
 
-    // const requestError = useSelector(userSelectors.getError);
+    const authError = useSelector(userSelectors.getError);
 
-    const { register, formState, handleSubmit } = useForm<FieldValues>({
+    const [visible, setVisibility] = useState(false);
+    const inputRef = React.useRef(defaultValues);
+
+    const { register, formState, handleSubmit, setValue } = useForm<FieldValues>({
         defaultValues,
         mode: 'onChange',
     });
@@ -84,6 +82,10 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                                     message: 'invalid email address',
+                                },
+                                onChange: e => {
+                                    const value = e.currentTarget.value;
+                                    setValue('email', value.replaceAll(' ', ''));
                                 },
                             })}
                         />
