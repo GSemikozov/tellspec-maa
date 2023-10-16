@@ -24,9 +24,8 @@ export const CalibrationModal: React.FunctionComponent = () => {
             <div className={cn()}>
                 <h1>Calibration in process...</h1>
                 <p>
-                    Please refrain from touching or interfering with the sensor during this brief
-                    calibration process. Your cooperation ensures accurate measurements. This will
-                    only take around 20 seconds.
+                    Please refrain from touching or interfering with the sensor during calibration,
+                    to ensure accurate results. This will take about 20 seconds.
                 </p>
 
                 <LogoAnimation />

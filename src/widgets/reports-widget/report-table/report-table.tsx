@@ -90,25 +90,25 @@ const columns = [
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.PROTEIN, row.data.analyseData),
         {
-            header: 'Protein',
+            header: 'Protein (mg/dL)',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-                const display = result?.value 
-                if (result?.value) return display;
-                else return '-';
+                return result?.value || '-';
             },
         },
     ),
 
-    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData), {
-        header: 'Fat',
-        cell: info => {
-            const result = info.getValue<ReportAnalyseDataResult>();
-            const display = result?.value
-            if (result?.value) return display;
-            else return '-';
+    columnHelper.accessor(
+        row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData),
+
+        {
+            header: 'Fat (mg/dL)',
+            cell: info => {
+                const result = info.getValue<ReportAnalyseDataResult>();
+                return result?.value || '-';
+            },
         },
-    }),
+    ),
 
     // columnHelper.accessor(
     //     row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
@@ -125,12 +125,11 @@ const columns = [
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
-            header: 'Energy',
+            header: 'Energy (mg/dL)',
+
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
-                const display = result?.value 
-                if (result?.value) return display;
-                else return '-';
+                return result?.value || '-';
             },
         },
     ),
@@ -266,7 +265,9 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                 </th>
                             ))}
                             {MockData.data.map(item => (
-                                <th key={item.id}>{item.name} </th>
+                                <th key={item.id}>
+                                    {item.name} ({item.units}){' '}
+                                </th>
                             ))}
                         </tr>
                     ))}
