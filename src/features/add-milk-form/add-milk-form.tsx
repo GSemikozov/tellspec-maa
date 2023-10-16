@@ -75,7 +75,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
         resolver: yupResolver(validationSchema),
-        mode: 'onChange', // onChange - when the values change... check for errors
+        mode: 'onChange',
         reValidateMode: 'onChange',
     });
 
@@ -285,8 +285,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
-                                    {touchedFields.infantDeliveryDate &&
-                                        errors.infantDeliveryDate?.message}
+                                    {errors.infantDeliveryDate?.message}
                                 </p>
                             </div>
 
@@ -312,7 +311,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
-                                    {touchedFields.receivedDate && errors.receivedDate?.message}
+                                    {errors.receivedDate?.message}
                                 </p>
                             </div>
 
@@ -383,8 +382,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
-                                    {touchedFields.milkExpressionDate &&
-                                        errors.milkExpressionDate?.message}
+                                    {errors.milkExpressionDate?.message}
                                 </p>
                             </div>
 
@@ -406,8 +404,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>
-                                    {touchedFields.milkExpirationDate &&
-                                        errors.milkExpirationDate?.message}
+                                    {errors.milkExpirationDate?.message}
                                 </p>
                             </div>
 
