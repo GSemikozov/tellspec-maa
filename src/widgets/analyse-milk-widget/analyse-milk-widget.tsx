@@ -169,13 +169,15 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 icon={<AnalyseMilkIcon />}
                 actions={
                     <div className={cn('header-scanner')}>
-                        <BarcodeScanner
-                            title='Select or Scan Milk ID'
-                            options={milkOptions}
-                            value={milkId}
-                            disabled={milksLoading}
-                            onChange={handleChangeMilkId}
-                        />
+                        {!milkOptions.length ? null : (
+                            <BarcodeScanner
+                                title='Select or Scan Milk ID'
+                                options={milkOptions}
+                                value={milkId}
+                                disabled={milksLoading}
+                                onChange={handleChangeMilkId}
+                            />
+                        )}
                     </div>
                 }
             />

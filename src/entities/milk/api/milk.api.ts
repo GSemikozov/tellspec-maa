@@ -4,6 +4,11 @@ import { getUserLocalData } from '@entities/user/user.utils';
 
 import type { Milk, AddMilkResponse } from './types';
 
+const errorsMapping = {
+    'milk with this milk id already exists.':
+        'A milk with that ID already exists. Please choose a different ID or go to a different screen.',
+};
+
 /**
  * Handle converting the recieved server data to Milk type
  * @param milkPayload
@@ -117,11 +122,24 @@ export class MilkApi extends BaseEndpoint {
 
         const requestBody = await encodeMilkInformation(milkData);
 
-        const response = await this.http.post<AddMilkResponse>(this.milkUrl, requestBody, {
-            preemie_group_id: userData?.metadata.group_id,
-        });
+        try {
+            const { data, error } = await this.http.post<AddMilkResponse>(
+                this.milkUrl,
+                requestBody,
+                {
+                    preemie_group_id: userData?.metadata.group_id,
+                },
+            );
 
-        return response;
+            if (data) {
+                return data;
+            }
+
+            throw new Error(errorsMapping[error?.message] || error?.message || 'Internal error');
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     };
 
     getMilk = async (milkId: string): Promise<Milk> => {
@@ -136,9 +154,9 @@ export class MilkApi extends BaseEndpoint {
 
             if (data) {
                 return decodeMilkInformation(data);
-            } else {
-                throw new Error('internal error');
             }
+
+            throw new Error('internal error');
         } catch (error) {
             console.error(error);
             throw error;
