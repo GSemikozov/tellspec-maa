@@ -5,6 +5,7 @@
 .autocomplete__modal::part(content) {
     max-width: 360px;
     max-height: 360px;
+    height: 360px;
     margin: auto;
 
     border-radius: 4px;

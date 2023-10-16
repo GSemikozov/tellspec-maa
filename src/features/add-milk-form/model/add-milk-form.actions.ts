@@ -10,7 +10,9 @@ export const addMilk = createAsyncThunk('addMilkForm/fetch', async (data: Milk, 
     try {
         const addMilkResponse = await apiInstance.milk.addMilk(data);
 
+        // @ts-ignore todo: describe in ts
         if (addMilkResponse.error) {
+            // @ts-ignore todo: describe in ts
             throw new Error(addMilkResponse.error.message);
         }
 
