@@ -84,7 +84,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-details'}>
                                 It is estimated that protein is responsible for 8-10% of a baby's
                                 energy requirements. Proteins are important for immune and
-                                neurological function and the building blocks for tissues, muscles,
+                                neurological function, and are the building blocks for tissues, muscles,
                                 and bones.
                             </div>
                         </div>
@@ -105,7 +105,7 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                                 Your result: {fatValue} g/dL
                             </div>
                             <div className={'pdf-milk-details'}>
-                                The amount of fat in milk contributes to your baby’s growth. It is
+                                The amount of fat in milk contributes to a baby’s growth. It is
                                 essential for the metabolism of vitamins, is important for
                                 neurodevelopment, and is the main source of calories.
                             </div>

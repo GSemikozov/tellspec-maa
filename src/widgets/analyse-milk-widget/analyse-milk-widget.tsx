@@ -87,8 +87,8 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const handleChangeMilkId = useEventAsync(async (milkId: string) => {
         setMilkId(milkId);
-
         lazyFetchReport({ milk_id: milkId });
+       
     });
 
     const handleAnalyseMilk = React.useCallback(async () => {
