@@ -31,7 +31,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
     }, [isCalibrationLoading]);
 
     return (
-        <IonModal backdropDismiss={false} isOpen={open}>
+        <IonModal backdropDismiss={false} isOpen={true}>
             <div className={cn()}>
                 <h1>Calibration in process...</h1>
                 <p>
@@ -58,7 +58,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     <div>
                         <IonRow className={cn('actions')}>
                             <PreemieButton
-                                className='button'
+                                className='calibration-button'
                                 size='small'
                                 onClick={() => console.log('accept calibration click')}
                             >
@@ -66,7 +66,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             </PreemieButton>
 
                             <PreemieButton
-                                className='button'
+                                className='calibration-button'
                                 size='small'
                                 onClick={() => console.log('re-calibrate click')}
                             >
@@ -75,7 +75,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
 
                             {currentDevice ? (
                                 <PreemieButton
-                                    className='button'
+                                    className='calibration-button'
                                     size='small'
                                     onClick={() => console.log('cancel click')}
                                 >

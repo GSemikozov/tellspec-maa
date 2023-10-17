@@ -248,7 +248,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                             return (
                                 <span style={{ display: 'inline-flex', flexDirection: 'column' }}>
                                     <span style={{ whiteSpace: 'nowrap' }}>{title}</span>{' '}
-                                    <span style={{ fontWeight: 400 }}>g/dL</span>
+                                    <span style={{ fontWeight: 400 }}>(g/dL)</span>
                                 </span>
                             );
                         default:
@@ -295,7 +295,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                     >
                                         <span style={{ whiteSpace: 'nowrap' }}>{item.name}</span>{' '}
                                         <span style={{ whiteSpace: 'nowrap', fontWeight: 400 }}>
-                                            {item.units}
+                                            ({item.units})
                                         </span>{' '}
                                     </span>
                                 </th>
