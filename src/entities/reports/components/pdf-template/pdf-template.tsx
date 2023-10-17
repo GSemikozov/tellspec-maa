@@ -84,8 +84,8 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-details'}>
                                 It is estimated that protein is responsible for 8-10% of a baby's
                                 energy requirements. Proteins are important for immune and
-                                neurological function, and are the building blocks for tissues, muscles,
-                                and bones.
+                                neurological function, and are the building blocks for tissues,
+                                muscles, and bones.
                             </div>
                         </div>
                         <PDFFooter page={3} />
@@ -127,7 +127,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-yourResult'}>
                                 Your result: {fattyAcidValue[0].value} g/100g of FA
                             </div>
-                            <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
+                            <div className={'pdf-milk-details'}>
+                                Supplementation with omega-3 and omega-6 fatty acids has been shown
+                                to improve visual function in preterm infants
+                            </div>
                         </div>
                         <PDFFooter page={4} />
                     </div>
@@ -145,7 +148,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-yourResult'}>
                                 Your result: {fattyAcidValue[1].value} g/100g of FA
                             </div>
-                            <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
+                            <div className={'pdf-milk-details'}>
+                                Supplementation with omega-3 and omega-6 fatty acids has been shown
+                                to improve visual function in preterm infants
+                            </div>
                         </div>
                         <div className={'pdf-milk-macroHeader'}>DHA</div>
                         <RangeItem
@@ -158,7 +164,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-yourResult'}>
                                 Your result: {fattyAcidValue[2].value} g/100g of FA
                             </div>
-                            <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
+                            <div className={'pdf-milk-details'}>
+                                Supplementation with omega-3 and omega-6 fatty acids has been shown
+                                to improve visual function in preterm infants
+                            </div>
                         </div>
                         <PDFFooter page={5} />
                     </div>
@@ -176,7 +185,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-yourResult'}>
                                 Your result: {fattyAcidValue[3].value} g/100g of FA{' '}
                             </div>
-                            <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
+                            <div className={'pdf-milk-details'}>
+                                Supplementation with omega-3 and omega-6 fatty acids has been shown
+                                to improve visual function in preterm infants
+                            </div>
                         </div>
 
                         <div className={'pdf-milk-macroHeader'}>EPA</div>
@@ -190,7 +202,10 @@ export const PDFTemplate: React.FC<PDFTemplateProps> = ({ milk, donor, freezer }
                             <div className={'pdf-milk-yourResult'}>
                                 Your result: {fattyAcidValue[4].value} g/100g of FA
                             </div>
-                            <div className={'pdf-milk-details'}>PLACEHOLDER. TEXT NEEDED</div>
+                            <div className={'pdf-milk-details'}>
+                                Supplementation with omega-3 and omega-6 fatty acids has been shown
+                                to improve visual function in preterm infants
+                            </div>
                         </div>
 
                         <PDFFooter page={6} />
