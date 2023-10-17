@@ -31,7 +31,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
 
     React.useEffect(() => {
         // setOpen(isCalibrationLoading);
-        !isCalibrationLoading && setNewCalibration(true);
+        !isCalibrationLoading && isCalibrationReady && setNewCalibration(true);
     }, [isCalibrationReady]);
 
     return (
