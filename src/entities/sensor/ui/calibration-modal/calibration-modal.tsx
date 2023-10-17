@@ -20,22 +20,22 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
     const isCalibrationReady = useSelector(selectSensorCalibrationReady);
 
-    const [
-        open,
-        //setOpen
-    ] = React.useState(isCalibrationLoading);
+    const [open, setOpen] = React.useState(isCalibrationLoading);
     const [isNewCalibration, setNewCalibration] = React.useState(false);
 
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;
 
     React.useEffect(() => {
-        // setOpen(isCalibrationLoading);
+        setOpen(isCalibrationLoading);
+    }, [isCalibrationLoading]);
+
+    React.useEffect(() => {
         !isCalibrationLoading && isCalibrationReady && setNewCalibration(true);
     }, [isCalibrationReady]);
 
     return (
-        <IonModal backdropDismiss={false} isOpen={true}>
+        <IonModal backdropDismiss={false} isOpen={open}>
             <div className={cn()}>
                 <h1>Calibration in process...</h1>
                 <p>
