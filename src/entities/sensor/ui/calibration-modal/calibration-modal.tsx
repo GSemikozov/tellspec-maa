@@ -24,6 +24,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;
 
+  
     React.useEffect(() => {
         // setOpen(isCalibrationLoading);
         !isCalibrationLoading && setNewCalibration(true);
@@ -42,11 +43,12 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     <>
                         <div className={cn('section-chart', { fluid: true })}>
                             <p>Spectrum of last calibration</p>
-
-                            <SensorCalibrationChart
-                                variant='reference-calibration'
-                                calibration={activeCalibration}
-                            />
+                            <div className={cn('chart')}>
+                                <SensorCalibrationChart
+                                    variant='reference-calibration'
+                                    calibration={activeCalibration}
+                                />
+                            </div>
                         </div>
                     </>
                 ) : null}
