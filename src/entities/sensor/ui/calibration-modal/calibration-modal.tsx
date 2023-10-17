@@ -21,7 +21,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
     // const isCalibrationReady = useSelector(selectSensorCalibrationReady);
 
     const [open, setOpen] = React.useState(isCalibrationLoading);
-    // const [isNewCalibration, setNewCalibration] = React.useState(false);
+    const [isNewCalibration, setNewCalibration] = React.useState(false);
 
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;
@@ -30,18 +30,23 @@ export const CalibrationModal: React.FunctionComponent = () => {
         setOpen(isCalibrationLoading);
     }, [isCalibrationLoading]);
 
-    // React.useEffect(() => {
-    //     !isCalibrationLoading && isCalibrationReady && setNewCalibration(true);
-    // }, [isCalibrationReady]);
+    React.useEffect(() => {
+        !isCalibrationLoading && isCalibrationReady && setNewCalibration(true);
+    }, [isCalibrationReady]);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
             <div className={cn()}>
-                <h1>Calibration in process...</h1>
-                <p>
-                    Please refrain from touching or interfering with the sensor during calibration,
-                    to ensure accurate results. This will take about 20 seconds.
-                </p>
+                {isCalibrationLoading && (
+                    <>
+                        <h1>Calibration in process...</h1>
+                        <p>
+                            Please refrain from touching or interfering with the sensor during
+                            calibration, to ensure accurate results. This will take about 20
+                            seconds.
+                        </p>
+                    </>
+                )}
 
                 {activeCalibration ? (
                     <>
