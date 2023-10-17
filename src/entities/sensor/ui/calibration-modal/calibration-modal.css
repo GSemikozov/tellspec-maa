@@ -1,8 +1,12 @@
 ion-modal {
-    --width: 40%;
+    --width: 60%;
     --height: initial;
 }
 
+/* .calibration-modal ion-modal{
+    --width: 60%;
+    --height: 100%;
+} */
 .calibration-modal {
     margin: 4rem 5rem 5rem 5rem;
     display: flex;
@@ -13,4 +17,16 @@ ion-modal {
 .calibration-modal p {
     margin-top: 3rem;
     font-size: large;
+}
+.calibration-modal__chart {
+    width: 60rem;
+    height: 36rem;
+}
+
+.calibration-modal__actions{
+    width: 100%;
+}
+.button {
+    width: 19rem;
+    margin-right: 1rem !important;
 }
