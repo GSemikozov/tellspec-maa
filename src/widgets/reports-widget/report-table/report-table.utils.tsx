@@ -4,7 +4,7 @@ import type { FilterFn } from '@tanstack/react-table';
 export enum ColumnNamesMapping {
     PROTEIN = 'Protein (True Protein) g/dL',
     FAT = 'Fat g/dL',
-    CARBS = 'Total Carbs',
+    // CARBS = 'Total Carbs',
     ENERGY = 'Energy g/dL',
     LINOLEICACID = 'Linoleic Acid',
     ALPHALINOLENICACID = '⍺-Linolenic Acid',
