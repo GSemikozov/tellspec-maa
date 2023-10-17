@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { IonModal } from '@ionic/react';
+import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { LogoAnimation } from '@ui/logo';
-import { selectSensorCalibrationLoading } from '@entities/sensor/model';
+import { selectSensorCalibrationLoading, selectSensorDevice } from '@entities/sensor/model';
 
 import './calibration-modal.css';
+import { SensorCalibrationChart } from '../sensor-calibration-chart';
+import { PreemieButton } from '@ui';
 
 const cn = classname('calibration-modal');
 
@@ -14,6 +15,9 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
 
     const [open, setOpen] = React.useState(isCalibrationLoading);
+
+    const currentDevice = useSelector(selectSensorDevice);
+    const activeCalibration = currentDevice?.activeCal;
 
     React.useEffect(() => {
         setOpen(isCalibrationLoading);
@@ -28,7 +32,50 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     to ensure accurate results. This will take about 20 seconds.
                 </p>
 
-                <LogoAnimation />
+                {activeCalibration ? (
+                    <>
+                        <div className={cn('section-chart', { fluid: true })}>
+                            <p>Spectrum of last calibration</p>
+
+                            <SensorCalibrationChart
+                                variant='reference-calibration'
+                                calibration={activeCalibration}
+                            />
+                        </div>
+                    </>
+                ) : null}
+
+                {/*** TODO: new calibration chart */}
+
+                <div>
+                    <IonRow className={cn('actions')}>
+                        <PreemieButton
+                            className='button'
+                            size='small'
+                            onClick={() => console.log('accept calibration click')}
+                        >
+                            {'accept calibration'}
+                        </PreemieButton>
+
+                        <PreemieButton
+                            className='button'
+                            size='small'
+                            onClick={() => console.log('re-calibrate click')}
+                        >
+                            {'Re-calibrate'}
+                        </PreemieButton>
+
+                        {currentDevice ? (
+                            <PreemieButton
+                                className='button'
+                                size='small'
+                                onClick={() => console.log('cancel click')}
+                            >
+                                {'Cancel'}
+                            </PreemieButton>
+                        ) : null}
+                    </IonRow>
+                </div>
             </div>
         </IonModal>
     );
