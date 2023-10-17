@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonChip, IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
+import { IonChip, IonContent, IonPage } from '@ionic/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SettingsIcon } from '@ui/icons';
