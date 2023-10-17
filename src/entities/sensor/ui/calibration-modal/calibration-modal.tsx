@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { selectSensorCalibrationLoading, selectSensorDevice } from '@entities/sensor/model';
+import {
+    selectSensorCalibrationLoading,
+    selectSensorCalibrationReady,
+    selectSensorDevice,
+} from '@entities/sensor/model';
 import { PreemieButton } from '@ui';
 
 import { SensorCalibrationChart } from '../sensor-calibration-chart';
@@ -14,6 +18,7 @@ const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
+    const isCalibrationReady = useSelector(selectSensorCalibrationReady);
 
     const [
         open,
@@ -24,11 +29,10 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;
 
-  
     React.useEffect(() => {
         // setOpen(isCalibrationLoading);
         !isCalibrationLoading && setNewCalibration(true);
-    }, [isCalibrationLoading]);
+    }, [isCalibrationReady]);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
