@@ -114,13 +114,8 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
                 );
 
                 return (
-                    <>
-                        <PDFTemplate
-                            key={milk.milk_id}
-                            milk={milk}
-                            donor={donor}
-                            freezer={freezer}
-                        />
+                    <div key={milk.milk_id}>
+                        <PDFTemplate milk={milk} donor={donor} freezer={freezer} />
 
                         <div className='pdf__buttons-panel'>
                             <IonFabButton className='pdf__button' onClick={print}>
@@ -131,7 +126,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
                                 <IonIcon icon={arrowBackIcon}></IonIcon>
                             </IonFabButton>
                         </div>
-                    </>
+                    </div>
                 );
             })}
         </>

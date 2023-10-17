@@ -102,13 +102,10 @@ export const AutocompleteTypehead = <T extends BaseAutocompleteItem>({
                 <IonList inset>
                     <IonRadioGroup value={chosenItem} onIonChange={handleChange}>
                         {filteredItems.map(item => (
-                                console.log(item),
                             <IonItem lines='none' key={item.value} className={'list-item'}>
                                 <IonRadio justify='start' labelPlacement='end' value={item.value}>
                                     {item.title}
-                                
                                 </IonRadio>
-                    
                             </IonItem>
                         ))}
                     </IonRadioGroup>

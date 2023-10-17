@@ -43,8 +43,6 @@ const ModalContent = React.memo(({ milkID, onClose }: any) => {
         freezer => freezer.freezer_id === sensitiveData.storageFreezer,
     );
 
-    console.log('modal sensitiveData in milk: ', milk);
-
     useEffect(() => {
         const fetchDonorsRequest = {
             completeData: true,

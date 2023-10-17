@@ -90,7 +90,7 @@ const columns = [
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.PROTEIN, row.data.analyseData),
         {
-            header: 'Protein (mg/dL)',
+            header: 'Protein',
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
                 return result?.value || '-';
@@ -98,17 +98,13 @@ const columns = [
         },
     ),
 
-    columnHelper.accessor(
-        row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData),
-
-        {
-            header: 'Fat (mg/dL)',
-            cell: info => {
-                const result = info.getValue<ReportAnalyseDataResult>();
-                return result?.value || '-';
-            },
+    columnHelper.accessor(row => getParameterByName(ColumnNamesMapping.FAT, row.data.analyseData), {
+        header: 'Fat',
+        cell: info => {
+            const result = info.getValue<ReportAnalyseDataResult>();
+            return result?.value || '-';
         },
-    ),
+    }),
 
     // columnHelper.accessor(
     //     row => getParameterByName(ColumnNamesMapping.CARBS, row.data.analyseData),
@@ -125,7 +121,7 @@ const columns = [
     columnHelper.accessor(
         row => getParameterByName(ColumnNamesMapping.ENERGY, row.data.analyseData),
         {
-            header: 'Energy (mg/dL)',
+            header: 'Energy',
 
             cell: info => {
                 const result = info.getValue<ReportAnalyseDataResult>();
@@ -239,6 +235,30 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
         },
     });
 
+    const HeaderCellText = ({ title }) => {
+        return (
+            <>
+                {(() => {
+                    switch (title) {
+                        case ColumnNamesMapping.PROTEIN:
+                        case ColumnNamesMapping.FAT:
+                        case ColumnNamesMapping.ENERGY:
+                        case ColumnNamesMapping.LINOLEICACID:
+                        case ColumnNamesMapping.ALPHALINOLENICACID:
+                            return (
+                                <span style={{ display: 'inline-flex', flexDirection: 'column' }}>
+                                    <span style={{ whiteSpace: 'nowrap' }}>{title}</span>{' '}
+                                    <span style={{ fontWeight: 400 }}>g/dL</span>
+                                </span>
+                            );
+                        default:
+                            return <span style={{ whiteSpace: 'nowrap' }}>{title}</span>;
+                    }
+                })()}
+            </>
+        );
+    };
+
     return (
         <div className={cn()}>
             <StatusFilter onChange={setGlobalFilter} value={globalFilter} />
@@ -246,27 +266,38 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th
-                                    key={header.id}
-                                    onClick={header.column.getToggleSortingHandler()}
-                                >
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                              header.column.columnDef.header,
-                                              header.getContext(),
-                                          )}
-                                    {
-                                        { asc: '▲', desc: '▼' }[
-                                            (header.column.getIsSorted() as string) ?? null
-                                        ]
-                                    }
-                                </th>
-                            ))}
+                            {headerGroup.headers.map(header => {
+                                return (
+                                    <th
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                    >
+                                        {header.isPlaceholder ? null : (
+                                            <HeaderCellText
+                                                title={flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext(),
+                                                )}
+                                            />
+                                        )}
+                                        {
+                                            { asc: '▲', desc: '▼' }[
+                                                (header.column.getIsSorted() as string) ?? null
+                                            ]
+                                        }
+                                    </th>
+                                );
+                            })}
                             {MockData.data.map(item => (
                                 <th key={item.id}>
-                                    {item.name} ({item.units}){' '}
+                                    <span
+                                        style={{ display: 'inline-flex', flexDirection: 'column' }}
+                                    >
+                                        <span style={{ whiteSpace: 'nowrap' }}>{item.name}</span>{' '}
+                                        <span style={{ whiteSpace: 'nowrap', fontWeight: 400 }}>
+                                            {item.units}
+                                        </span>{' '}
+                                    </span>
                                 </th>
                             ))}
                         </tr>
