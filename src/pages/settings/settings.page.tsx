@@ -63,7 +63,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                         Default expiration <span>{expirationMonth[5]}</span>
                                     </p>
 
-                                    <div className={cn('section-option-action')}>
+                                    {/* <div className={cn('section-option-action')}>
                                         <IonSelect disabled label-placement='floating'>
                                             {expirationMonth.map(month => (
                                                 <IonSelectOption key={month} value={month}>
@@ -71,7 +71,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                                 </IonSelectOption>
                                             ))}
                                         </IonSelect>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
@@ -100,7 +100,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     <p>Add another storage</p>
                                 </div>
                                 <div className={cn('section')}>
-                                    <div className={cn('apk-number')}>MAA version: 16/10/23.v3</div>
+                                    <div className={cn('apk-number')}>MAA version: 17/10/23</div>
                                 </div>
                             </div>
                             {/* </div> */}

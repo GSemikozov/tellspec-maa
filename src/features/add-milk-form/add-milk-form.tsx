@@ -299,7 +299,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     })}
                                 >
                                     <div slot='label'>
-                                        Received Date{' '}
+                                        Milk Received Date{' '}
                                         <IonText color='danger'>
                                             <span className={cn('asterisk')}>*</span>
                                         </IonText>
