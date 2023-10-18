@@ -40,13 +40,13 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                                     {/* TODO: something strange is here in the size property */}
                                     <IonCol
                                         size={showSidebar ? '7' : '12'}
-                                        className='ion-padding main'
+                                        className='ion-padding-top ion-padding-start ion-padding-end main'
                                     >
                                         {children}
                                     </IonCol>
 
                                     {showSidebar ? (
-                                        <IonCol size='5' className='ion-padding'>
+                                        <IonCol size='5' className='ion-padding-top ion-padding-end'>
                                             {rightSideBar}
                                         </IonCol>
                                     ) : null}

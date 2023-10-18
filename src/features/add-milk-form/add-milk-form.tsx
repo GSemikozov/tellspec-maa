@@ -100,7 +100,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
     React.useEffect(() => {
         const values = getValues();
         const formIsEmpty = Object.values(values).every(value => value === '' || undefined);
-        console.log(Object.values(values))
         setIsFormEmpty(formIsEmpty);
     }, [getValues()]);
 
@@ -407,9 +406,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                 >
                                     <div slot='label'>
                                         Milk Expiration Date{' '}
-                                        <IonText color='danger'>
-                                            <span className={cn('asterisk')}>*</span>
-                                        </IonText>
+                                      
                                     </div>
                                 </PreemieInput>
 

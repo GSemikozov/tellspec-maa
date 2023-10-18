@@ -2,7 +2,7 @@ import type { Report, ReportAnalyseData } from '@entities/reports';
 import type { FilterFn } from '@tanstack/react-table';
 
 export enum ColumnNamesMapping {
-    PROTEIN = 'Protein (True Protein)',
+    PROTEIN = 'Protein',
     FAT = 'Fat',
     ENERGY = 'Energy',
     LINOLEICACID = 'Linoleic Acid',

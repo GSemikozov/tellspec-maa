@@ -49,7 +49,7 @@ export const ReportGlobalFilter: React.FC = () => {
             <div className={cn('first-row')}>
                 <IonSearchbar
                     className={cn('name')}
-                    placeholder='Filter by name'
+                    placeholder='Search for ID'
                     class='preemieCustom'
                     value={name}
                     clearIcon={closeCircleOutline}
