@@ -1,10 +1,10 @@
 .analyse-milk-widget__tabs {
-    margin-top: 8px;
+    margin-top: 3px;
 }
 
 .analyse-milk-widget__tab {
     width: 100%;
-    padding: 16px 0;
+    padding-bottom: 16px 
 }
 
 .analyse-milk-widget__tab-placeholder {

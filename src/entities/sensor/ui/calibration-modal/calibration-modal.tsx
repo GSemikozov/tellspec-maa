@@ -5,7 +5,7 @@ import { IonModal, IonRow } from '@ionic/react';
 import { classname } from '@shared/utils';
 import {
     selectSensorCalibrationLoading,
-    selectSensorCalibrationReady,
+    // selectSensorCalibrationReady,
     selectSensorDevice,
 } from '@entities/sensor/model';
 import { PreemieButton } from '@ui';
@@ -18,7 +18,7 @@ const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
-    const isCalibrationReady = useSelector(selectSensorCalibrationReady);
+    // const isCalibrationReady = useSelector(selectSensorCalibrationReady);
 
     const [open, setOpen] = React.useState(isCalibrationLoading);
     const [isNewCalibration, setNewCalibration] = React.useState(false);
@@ -62,8 +62,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     </>
                 ) : null}
 
-                {isNewCalibration && (
-                    /*** TODO: new calibration chart */
+             
                     <div>
                         <IonRow className={cn('actions')}>
                             <PreemieButton
@@ -93,7 +92,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             ) : null}
                         </IonRow>
                     </div>
-                )}
+                
             </div>
         </IonModal>
     );
