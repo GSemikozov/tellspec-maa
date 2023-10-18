@@ -121,22 +121,22 @@ export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportM
                             />
                         );
                     })}
-
-            {mockData.map(data => {
-                const { name, units, value } = data;
-                const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
-                return (
-                    <Scale
-                        key={data.name}
-                        label={name}
-                        value={typeof value === 'string' ? parseFloat(value) : value}
-                        units={units}
-                        minRequiredValue={minRequiredValue}
-                        maxRequiredValue={maxRequiredValue}
-                        step={step}
-                    />
-                );
-            })}
+            {analyseData &&
+                mockData.map(data => {
+                    const { name, units, value } = data;
+                    const { minRequiredValue, maxRequiredValue, step } = SCALE_VALUES[name] || {};
+                    return (
+                        <Scale
+                            key={data.name}
+                            label={name}
+                            value={typeof value === 'string' ? parseFloat(value) : value}
+                            units={units}
+                            minRequiredValue={minRequiredValue}
+                            maxRequiredValue={maxRequiredValue}
+                            step={step}
+                        />
+                    );
+                })}
         </div>
     );
 };
