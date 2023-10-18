@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -41,7 +41,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: 1,
+    numberOfContainers: undefined,
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
@@ -79,6 +79,8 @@ export const AddMilkForm: React.FunctionComponent = () => {
         reValidateMode: 'onChange',
     });
 
+    const [isFormEmpty, setIsFormEmpty] = useState<boolean>(false);
+
     const storageFreezerValue = watch('storageFreezer');
 
     const compartmentList = useSelector(state =>
@@ -94,6 +96,13 @@ export const AddMilkForm: React.FunctionComponent = () => {
         dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
         dispatch(fetchGroup({ preemie_group_id: groupId }));
     }, []);
+
+    React.useEffect(() => {
+        const values = getValues();
+        const formIsEmpty = Object.values(values).every(value => value === '' || undefined);
+        console.log(Object.values(values))
+        setIsFormEmpty(formIsEmpty);
+    }, [getValues()]);
 
     const handleMilkExpressionDateChange = e => {
         const receivedDate = e.target.value;
@@ -174,7 +183,10 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-    const handleResetForm = () => reset(defaultValues);
+    const handleResetForm = () => {
+        reset(defaultValues);
+        setIsFormEmpty(true);
+    };
 
     const today = new Date().toISOString().slice(0, 10);
 
@@ -188,7 +200,9 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton id='present-alert'>Clear the form</IonButton>
+                                <IonButton id='present-alert' disabled={isFormEmpty}>
+                                    Clear the form
+                                </IonButton>
                                 <IonAlert
                                     header='This form will be cleared. Do you want to proceed?'
                                     trigger='present-alert'
