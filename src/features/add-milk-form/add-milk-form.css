@@ -1,7 +1,7 @@
 .add-milk-form__header {
     padding-right: 16px;
     display: flex;
-    align-items: baseline;
+
 }
 
 .add-milk-form__header > * {
@@ -9,7 +9,7 @@
 }
 
 .add-milk-form__main {
-    padding: 16px;
+    padding: 0 16px 16px 16px;
 }
 
 .add-milk-form__form-column > *:not(:last-child) {

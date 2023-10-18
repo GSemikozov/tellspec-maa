@@ -25,8 +25,12 @@ export const ReportGlobalFilter: React.FC = () => {
         dispatch(reportsActions.setReportsFilterByName(e.target.value));
         updateURL({ name: e.target.value });
         if (e.key === 'Enter') {
-            Keyboard.hide()
+            Keyboard.hide();
         }
+    };
+
+    const handleClear = () => {
+        dispatch(reportsActions.setReportsFilterByName(''));
     };
 
     const handleStatusChange = e => {
@@ -46,13 +50,12 @@ export const ReportGlobalFilter: React.FC = () => {
                 <IonSearchbar
                     className={cn('name')}
                     placeholder='Filter by name'
-                    animated={true}
                     class='preemieCustom'
                     value={name}
                     clearIcon={closeCircleOutline}
+                    onIonClear={handleClear}
                     showClearButton='focus'
                     onKeyDown={handleNameChange}
-                 
                 />
 
                 <div className={cn('calendar')}>
