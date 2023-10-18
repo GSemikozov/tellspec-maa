@@ -43,8 +43,8 @@ export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationCh
                         : calibrationScanData.factory_white_ref;
 
                 series = [
-                    { name: 'Current calibration', data: currentCalibrationSeries },
                     { name: 'Factory calibration', data: factoryCalibrationSeries },
+                    { name: 'Current calibration', data: currentCalibrationSeries },
                 ];
                 break;
             }

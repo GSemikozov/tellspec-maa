@@ -98,5 +98,5 @@ export const generateDefaultChartConfig = (data: any): ApexOptions => ({
             },
         },
     },
-    colors: ['#E503B0', '#3dc04a'],
+    colors: ['#3dc04a', '#E503B0'],
 });
