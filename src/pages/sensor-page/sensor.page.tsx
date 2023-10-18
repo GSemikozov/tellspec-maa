@@ -29,10 +29,12 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
-
+    
+    
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+
 
     React.useEffect(() => {
         dispatch(getSensorScanner());

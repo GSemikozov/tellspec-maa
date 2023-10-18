@@ -77,11 +77,21 @@ export const generateMilkChartConfig = (data: any): ApexOptions => ({
                 fontWeight: 400,
             },
         },
-        categories: data?.wavelengths || [],
+        categories: data?.wavelengths || [
+            '1350',
+            '1450',
+            '1550',
+            '1650',
+            '1750',
+            '1850',
+            '1950',
+            '2050',
+            '2150',
+        ],
         labels: {
             style: { fontSize: '1em', fontWeight: 400 },
             formatter: function (val: string) {
-                return parseFloat(val).toFixed(1);
+                return parseFloat(val).toFixed(0);
             },
         },
     },

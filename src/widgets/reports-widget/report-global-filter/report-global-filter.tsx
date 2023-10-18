@@ -54,7 +54,7 @@ export const ReportGlobalFilter: React.FC = () => {
                     value={name}
                     clearIcon={closeCircleOutline}
                     onIonClear={handleClear}
-                    showClearButton='focus'
+                    showClearButton='always'
                     onKeyDown={handleNameChange}
                 />
 
