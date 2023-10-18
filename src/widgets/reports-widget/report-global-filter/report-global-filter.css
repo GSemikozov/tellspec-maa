@@ -9,15 +9,27 @@
     position: absolute;
     top: 20px;
     display: flex;
-    align-items: end;
-    justify-content: end;
-    width: 600px;
+    align-items: flex-start;
+    justify-content: space-around;
+    /* width: 600px; */
+
+    width: 73%;
 }
 
 .report-global-filter__second-row {
-    margin-top: 50px;
+    margin-top: 35px;
 }
 
 .report-global-filter__name {
     margin-right: 2rem;
+}
+
+.report-global-filter__first-row ion-searchbar.preemieCustom {
+    width: 55%;
+}
+
+.report-global-filter__first-row ion-searchbar.preemieCustom input {
+    border-bottom: 1.3px solid var(--ion-color-primary);
+    box-shadow: none;
+    width: 40rem;
 }

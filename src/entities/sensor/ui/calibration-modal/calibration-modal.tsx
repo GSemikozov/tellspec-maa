@@ -59,10 +59,6 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                 />
                             </div>
                         </div>
-                    </>
-                ) : null}
-
-                {/* {isNewCalibration && ( */}
                 <div>
                     <IonRow className={cn('actions')}>
                         <PreemieButton
@@ -92,6 +88,10 @@ export const CalibrationModal: React.FunctionComponent = () => {
                         ) : null}
                     </IonRow>
                 </div>
+                    </>
+                ) : null}
+
+                {/* {isNewCalibration && ( */}
                 {/* )} */}
             </div>
         </IonModal>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonLabel, IonRow, IonSegment, IonSegmentButton } from '@ionic/react';
+import { IonLabel, IonRow, IonSearchbar, IonSegment, IonSegmentButton } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { PreemieInput } from '@ui';
+// import { PreemieInput } from '@ui';
 import { DateRange } from '@ui/date-range';
 import { fetchReport, reportsActions, selectReportFilters } from '@entities/reports';
 
@@ -12,6 +12,8 @@ import { updateURL } from './report-global-filter.utils';
 import type { AppDispatch } from '@app';
 
 import './report-global-filter.css';
+import { closeCircleOutline } from 'ionicons/icons';
+import { Keyboard } from '@capacitor/keyboard';
 
 const cn = classname('report-global-filter');
 
@@ -22,6 +24,9 @@ export const ReportGlobalFilter: React.FC = () => {
     const handleNameChange = e => {
         dispatch(reportsActions.setReportsFilterByName(e.target.value));
         updateURL({ name: e.target.value });
+        if (e.key === 'Enter') {
+            Keyboard.hide()
+        }
     };
 
     const handleStatusChange = e => {
@@ -38,12 +43,16 @@ export const ReportGlobalFilter: React.FC = () => {
     return (
         <div className={cn()}>
             <div className={cn('first-row')}>
-                <PreemieInput
+                <IonSearchbar
                     className={cn('name')}
-                    label='Filter by name'
-                    labelPlacement='floating'
+                    placeholder='Filter by name'
+                    animated={true}
+                    class='preemieCustom'
                     value={name}
-                    onChange={handleNameChange}
+                    clearIcon={closeCircleOutline}
+                    showClearButton='focus'
+                    onKeyDown={handleNameChange}
+                 
                 />
 
                 <div className={cn('calendar')}>

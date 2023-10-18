@@ -94,7 +94,7 @@ export const SensorManager: React.FunctionComponent = () => {
 
         if (currentDevice && calibrationRequired) {
             return {
-                title: 'Calibration required',
+                title: '',
                 content: (
                     <>
                         <div className={cn('actions')}>
