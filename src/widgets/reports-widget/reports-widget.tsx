@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LogoAnimation } from '@ui/logo/animated-logo';
-import { DateRange, setEndDay, setStartDay } from '@ui/date-range';
 import { ReportsIcon } from '@ui/icons';
 import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
@@ -11,6 +10,7 @@ import { fetchReport, selectIsReportLoading, selectReportsByDate } from '@entiti
 import { ReportModal } from './reports-modal';
 import { ReportTable } from './report-table';
 import { ActionsPanel } from './actions-panel';
+import { ReportGlobalFilter } from './report-global-filter';
 
 import type { AppDispatch } from '@app';
 
@@ -21,39 +21,16 @@ const cn = classname('reports-widget');
 export const ReportsWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const date = new Date();
-    const fromDefaultDate = setStartDay(date);
-    const toDefaultDate = setEndDay(date);
-
     const [selectedMilkID, setSelectedMilkID] = React.useState<string | null>();
     const [isReportModalOpened, setIsReportModalOpened] = React.useState(false);
     const [reportsSelection, setReportsSelection] = React.useState({});
 
-    const [from, setFrom] = React.useState<string>(fromDefaultDate);
-    const [to, setTo] = React.useState<string>(toDefaultDate);
-
     const reportsLoading = useSelector(selectIsReportLoading);
-    const reports = useSelector(state => selectReportsByDate(state, from, to));
+    const reports = useSelector(selectReportsByDate);
 
     useEffect(() => {
-        dispatch(
-            fetchReport({
-                last_modified_gte: undefined,
-                last_modified_lte: undefined,
-            }),
-        );
+        dispatch(fetchReport());
     }, []);
-
-    const handleDateRangeChange = range => {
-        setFrom(range.from);
-        setTo(range.to);
-        dispatch(
-            fetchReport({
-                last_modified_gte: range.from,
-                last_modified_lte: range.to,
-            }),
-        );
-    };
 
     const handleModalClose = () => {
         setIsReportModalOpened(false);
@@ -87,21 +64,10 @@ export const ReportsWidget: React.FunctionComponent = () => {
     return (
         <PageArea>
             <PageArea.Header
-                className={cn('header')}
+                className={cn('page-area-header')}
                 title='Milk Reports'
                 icon={<ReportsIcon />}
-                actions={
-                    reportsLoading ? null : (
-                        <div className={cn('calendar')}>
-                            <h5>Search for analysis dates:</h5>
-                            <DateRange
-                                defaultFrom={from}
-                                defaultTo={to}
-                                onChange={handleDateRangeChange}
-                            />
-                        </div>
-                    )
-                }
+                actions={reportsLoading ? null : <ReportGlobalFilter />}
             />
 
             <PageArea.Main className={cn('main')}>{renderMain}</PageArea.Main>

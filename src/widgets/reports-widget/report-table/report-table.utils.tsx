@@ -2,7 +2,7 @@ import type { Report, ReportAnalyseData } from '@entities/reports';
 import type { FilterFn } from '@tanstack/react-table';
 
 export enum ColumnNamesMapping {
-    PROTEIN = 'Protein',
+    PROTEIN = 'Protein (True Protein)',
     FAT = 'Fat',
     ENERGY = 'Energy',
     LINOLEICACID = 'Linoleic Acid',
@@ -20,10 +20,16 @@ export const getParameterByName = (name: ColumnNamesMapping, analyseData?: Repor
     return analyseData.result.find(parameter => parameter.name === name);
 };
 
-export const statusFilter: FilterFn<any> = (row, _, value): boolean => {
+export const globalFilterFn: FilterFn<any> = (row, _, filters): boolean => {
+    const { status, name } = filters;
+    const milkID = row.getValue('milk_id') as string;
     const reportData: Report = row.getValue('dataAnalysed');
 
-    switch (value) {
+    if (name && milkID.indexOf(name) === -1) {
+        return false;
+    }
+
+    switch (status) {
         case 'analysed':
             return !!reportData.data?.analyseData;
         case 'unanalysed':

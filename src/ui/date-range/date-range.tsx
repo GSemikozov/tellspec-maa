@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { IonBackdrop, IonButton, IonDatetime, IonRow } from '@ionic/react';
+import { IonBackdrop, IonButton, IonCol, IonDatetime, IonLabel, IonRow } from '@ionic/react';
 
 import { formatUTCDate, setEndDay, setStartDay } from '@ui/date-range/utils';
 import { classname } from '@shared/utils';
@@ -41,6 +41,7 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
         if (name === 'from') {
             setFrom(setStartDay(date));
+            setTo(date.getTime() > dateTo.getTime() ? setEndDay(date) : to);
         } else {
             setTo(setEndDay(date));
         }
@@ -96,22 +97,33 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
                           <div className={cn('popover')}>
                               <IonRow style={{ flexWrap: 'nowrap' }}>
-                                  <IonDatetime
-                                      name='from'
-                                      max={today}
-                                      presentation='date'
-                                      onIonChange={handleDateChange}
-                                      value={from}
-                                      //   isDateEnabled={isFromEnabled}
-                                  />
+                                  <IonCol>
+                                      <IonLabel color='primary'>
+                                          <h2>Filter reports from:</h2>
+                                      </IonLabel>
+                                      <IonDatetime
+                                          name='from'
+                                          max={today}
+                                          presentation='date'
+                                          onIonChange={handleDateChange}
+                                          value={from}
+                                          //   isDateEnabled={isFromEnabled}
+                                      />
+                                  </IonCol>
 
-                                  <IonDatetime
-                                      name='to'
-                                      max={today}
-                                      presentation='date'
-                                      onIonChange={handleDateChange}
-                                      value={to}
-                                  />
+                                  <IonCol>
+                                      <IonLabel color='primary'>
+                                          <h2>Filter reports to:</h2>
+                                      </IonLabel>
+                                      <IonDatetime
+                                          name='to'
+                                          min={from}
+                                          max={today}
+                                          presentation='date'
+                                          onIonChange={handleDateChange}
+                                          value={to}
+                                      />
+                                  </IonCol>
                               </IonRow>
 
                               <IonRow className='ion-justify-content-end'>

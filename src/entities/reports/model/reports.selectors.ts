@@ -10,6 +10,11 @@ export const selectIsReportLoading = createSelector(
     reportsState => reportsState.status === 'loading',
 );
 
+export const selectReportFilters = createSelector(
+    [selectReportSliceState],
+    reportsState => reportsState.filter,
+);
+
 export const selectReportList = createSelector([selectReportSliceState], reportsState =>
     Object.values(reportsState.byIds),
 );
@@ -32,9 +37,9 @@ export const selectReportScanIdByMilkId = createSelector([selectReportByMilkId],
 });
 
 export const selectReportsByDate = createSelector(
-    [selectReportList, (_, from = '', to = '') => [from, to]],
-    (reportList, dateInterval) => {
-        const [from, to] = dateInterval;
+    [selectReportFilters, selectReportList],
+    (filters, reportList) => {
+        const { from, to } = filters;
 
         if (!from && !to) {
             return reportList;

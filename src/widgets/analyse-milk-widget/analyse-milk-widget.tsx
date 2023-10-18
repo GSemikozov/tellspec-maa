@@ -88,7 +88,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const handleChangeMilkId = useEventAsync(async (milkId: string) => {
         setMilkId(milkId);
         lazyFetchReport({ milk_id: milkId });
-       
     });
 
     const handleAnalyseMilk = React.useCallback(async () => {
@@ -169,7 +168,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 icon={<AnalyseMilkIcon />}
                 actions={
                     <div className={cn('header-scanner')}>
-                        {!milkOptions.length ? null : (
+                        {
                             <BarcodeScanner
                                 title='Select or Scan Milk ID'
                                 options={milkOptions}
@@ -177,7 +176,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 disabled={milksLoading}
                                 onChange={handleChangeMilkId}
                             />
-                        )}
+                        }
                     </div>
                 }
             />
