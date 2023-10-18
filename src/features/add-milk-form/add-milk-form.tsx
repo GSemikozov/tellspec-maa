@@ -41,7 +41,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: 1,
+    numberOfContainers: undefined,
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
