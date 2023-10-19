@@ -64,7 +64,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                     className='calibration-button'
                                     size='small'
                                     loading={saveActiveCalibrationLoading}
-                                    onClick={saveActiveCalibration}
+                                    onClick={() => saveActiveCalibration(currentDevice)}
                                 >
                                     Accept calibration
                                 </PreemieButton>
@@ -73,7 +73,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                     className='calibration-button'
                                     size='small'
                                     loading={calibrateSensorLoading}
-                                    onClick={calibrateSensor}
+                                    onClick={() => calibrateSensor(currentDevice)}
                                 >
                                     Re-calibrate
                                 </PreemieButton>
