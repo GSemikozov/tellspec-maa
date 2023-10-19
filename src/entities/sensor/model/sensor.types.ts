@@ -1,6 +1,6 @@
-import { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
+import { TellspecSensorDevice } from '@api/native';
 
-import { GetSensorScannerResponse } from '../api';
+import { GetCalibrationResponse, GetSensorScannerResponse } from '../api';
 
 export enum CalibrationStatus {
     DISCONNECTED = 'disconnected',
@@ -14,7 +14,7 @@ export type Calibration = {
     model: string;
     serial_number: string;
     config: string;
-    scan: TellspecSensorScannedData;
+    scan: GetCalibrationResponse['scan'];
 };
 
 export type SensorDevice = Omit<TellspecSensorDevice, 'activeCal'> & {
