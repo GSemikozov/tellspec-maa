@@ -1,6 +1,8 @@
 import React from 'react';
 import { IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
 
+import { formatDateWithoutTime } from '@ui/date-range';
+
 import { classname } from '@shared/utils';
 
 import type { IFreezer } from '@entities/groups';
@@ -56,7 +58,13 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Infant delivery date:</IonText>
-                                    <IonText>{sensitiveData.infantDeliveryDate}</IonText>
+                                    <IonText>
+                                        {formatDateWithoutTime(
+                                            new Date(
+                                                sensitiveData.infantDeliveryDate + 'T00:00:00',
+                                            ),
+                                        )}
+                                    </IonText>
                                 </p>
                             </div>
                         ) : null}
@@ -65,7 +73,11 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Milk expression date:</IonText>
-                                    <IonText>{sensitiveData.expressionDate}</IonText>
+                                    <IonText>
+                                        {formatDateWithoutTime(
+                                            new Date(sensitiveData.expressionDate + 'T00:00:00'),
+                                        )}
+                                    </IonText>
                                 </p>
                             </div>
                         ) : null}
@@ -76,7 +88,11 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Milk expiration date:</IonText>
-                                    <IonText>{sensitiveData.expirationDate}</IonText>
+                                    <IonText>
+                                        {formatDateWithoutTime(
+                                            new Date(sensitiveData.expirationDate + 'T00:00:00'),
+                                        )}
+                                    </IonText>
                                 </p>
                             </div>
                         ) : null}
@@ -85,7 +101,11 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Date received:</IonText>
-                                    <IonText>{sensitiveData.receivedDate}</IonText>
+                                    <IonText>
+                                        {formatDateWithoutTime(
+                                            new Date(sensitiveData?.receivedDate + 'T00:00:00'),
+                                        )}
+                                    </IonText>
                                 </p>
                             </div>
                         ) : null}

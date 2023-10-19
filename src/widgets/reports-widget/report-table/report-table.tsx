@@ -11,7 +11,7 @@ import {
 import { IonCheckbox } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import { formatUTCDate } from '@ui/date-range/utils';
+import { formatDateWithoutTime } from '@ui/date-range';
 import { selectReportFilters } from '@entities/reports';
 import { MockData } from '@widgets/test-results/mock-data';
 
@@ -78,7 +78,7 @@ const columns = [
             let value;
             const isDataExists = data?.data?.analyseData;
             if (isDataExists) {
-                value = formatUTCDate(new Date(date));
+                value = formatDateWithoutTime(new Date(date));
             } else {
                 value = '-';
             }
@@ -204,8 +204,8 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
         enableSortingRemoval: false,
         sortingFns: {
             customNameSorting: (rowA, rowB) => {
-                const rowADate = formatUTCDate(new Date(rowA.original.last_modified_at));
-                const rowBDate = formatUTCDate(new Date(rowB.original.last_modified_at));
+                const rowADate = formatDateWithoutTime(new Date(rowA.original.last_modified_at));
+                const rowBDate = formatDateWithoutTime(new Date(rowB.original.last_modified_at));
 
                 if (rowADate === rowBDate) {
                     return (rowA.getValue('milk_id') as string) <
@@ -222,8 +222,8 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                 const rowADate = new Date(rowA.original.last_modified_at);
                 const rowBDate = new Date(rowB.original.last_modified_at);
 
-                const rowADateString = formatUTCDate(rowADate);
-                const rowBDateString = formatUTCDate(rowBDate);
+                const rowADateString = formatDateWithoutTime(rowADate);
+                const rowBDateString = formatDateWithoutTime(rowBDate);
 
                 if (rowADateString === rowBDateString) {
                     return (
