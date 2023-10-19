@@ -53,7 +53,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                 const data = Array.isArray(analyseData) ? analyseData[0] : analyseData;
 
                 if (!data) {
-                    // onSetSpectrumScan(null);
+                    onSetSpectrumScan(null);
                     return;
                 }
 
