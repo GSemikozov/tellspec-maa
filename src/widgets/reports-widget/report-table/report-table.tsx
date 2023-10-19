@@ -82,7 +82,9 @@ const columns = [
         {
             header: 'Protein',
             cell: info => {
+              
                 const result = info.getValue<ReportAnalyseDataResult>();
+             
                 return result?.value || '-';
             },
         },
