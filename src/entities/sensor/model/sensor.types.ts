@@ -1,6 +1,6 @@
-import { TellspecSensorDevice } from '@api/native';
+import { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
 
-import { GetCalibrationResponse, GetSensorScannerResponse } from '../api';
+import { GetSensorScannerResponse } from '../api';
 
 export enum CalibrationStatus {
     DISCONNECTED = 'disconnected',
@@ -10,7 +10,12 @@ export enum CalibrationStatus {
     READY = 'ready',
 }
 
-export type Calibration = GetCalibrationResponse;
+export type Calibration = {
+    model: string;
+    serial_number: string;
+    config: string;
+    scan: TellspecSensorScannedData;
+};
 
 export type SensorDevice = Omit<TellspecSensorDevice, 'activeCal'> & {
     batteryLevel?: number;
@@ -33,4 +38,6 @@ export type SensorState = {
     sensorScanning: {
         status: 'idle' | 'progress';
     };
+
+    saveCalibrationStatus: 'idle' | 'progress';
 };

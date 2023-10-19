@@ -12,7 +12,7 @@ export type UseAnalyseMilkReportOptions<T = Report> = {
 
 export type UseAnalyseMilkReportResponse<T = Report> = [
     (payload: FetchReportRequest) => Promise<T | null>,
-    (report: Report) => void,
+    (report: Report | null) => void,
     { report: T | null; loading: boolean },
 ];
 
@@ -55,7 +55,7 @@ export const useAnalyseMilkReport = ({
         return null;
     }, []);
 
-    const handleSetReport = React.useCallback((newReport: Report) => {
+    const handleSetReport = React.useCallback((newReport: Report | null) => {
         setReport(newReport);
     }, []);
 

@@ -3,12 +3,9 @@ import { useSelector } from 'react-redux';
 import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-import {
-    selectSensorCalibrationLoading,
-    // selectSensorCalibrationReady,
-    selectSensorDevice,
-} from '@entities/sensor/model';
 import { PreemieButton } from '@ui';
+import { selectSensorDevice } from '@entities/sensor/model';
+import { useCalibrateSensor, useSaveCalibrationSensor } from '@entities/sensor/hooks';
 
 import { SensorCalibrationChart } from '../sensor-calibration-chart';
 
@@ -17,27 +14,26 @@ import './calibration-modal.css';
 const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
-    const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
-    // const isCalibrationReady = useSelector(selectSensorCalibrationReady); // TODO: check if works as expected
+    const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
 
-    const [open, setOpen] = React.useState(isCalibrationLoading);
-    // const [isNewCalibration, setNewCalibration] = React.useState(false);
+    const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
+        useSaveCalibrationSensor();
+
+    const [open, setOpen] = React.useState(calibrateSensorLoading);
+
+    const handleCloseModal = () => setOpen(false);
 
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;
 
     React.useEffect(() => {
-        setOpen(isCalibrationLoading);
-    }, [isCalibrationLoading]);
-
-    // React.useEffect(() => {
-    //     !isCalibrationLoading && isCalibrationReady && setNewCalibration(true);
-    // }, [isCalibrationReady]);
+        setOpen(calibrateSensorLoading);
+    }, [calibrateSensorLoading]);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
             <div className={cn()}>
-                {isCalibrationLoading && (
+                {calibrateSensorLoading ? (
                     <>
                         <h1>Calibration in process...</h1>
                         <p>
@@ -46,7 +42,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             seconds.
                         </p>
                     </>
-                )}
+                ) : null}
 
                 {activeCalibration ? (
                     <>
@@ -59,40 +55,40 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                 />
                             </div>
                         </div>
-                <div>
-                    <IonRow className={cn('actions')}>
-                        <PreemieButton
-                            className='calibration-button'
-                            size='small'
-                            onClick={() => console.log('accept calibration click')}
-                        >
-                            {'accept calibration'}
-                        </PreemieButton>
 
-                        <PreemieButton
-                            className='calibration-button'
-                            size='small'
-                            onClick={() => console.log('re-calibrate click')}
-                        >
-                            {'Re-calibrate'}
-                        </PreemieButton>
+                        <div>
+                            <IonRow className={cn('actions')}>
+                                <PreemieButton
+                                    className='calibration-button'
+                                    size='small'
+                                    loading={saveActiveCalibrationLoading}
+                                    onClick={saveActiveCalibration}
+                                >
+                                    Accept calibration
+                                </PreemieButton>
 
-                        {currentDevice ? (
-                            <PreemieButton
-                                className='calibration-button'
-                                size='small'
-                                onClick={() => console.log('cancel click')}
-                            >
-                                {'Cancel'}
-                            </PreemieButton>
-                        ) : null}
-                    </IonRow>
-                </div>
+                                <PreemieButton
+                                    className='calibration-button'
+                                    size='small'
+                                    loading={calibrateSensorLoading}
+                                    onClick={calibrateSensor}
+                                >
+                                    Re-calibrate
+                                </PreemieButton>
+
+                                {currentDevice ? (
+                                    <PreemieButton
+                                        className='calibration-button'
+                                        size='small'
+                                        onClick={handleCloseModal}
+                                    >
+                                        Cancel
+                                    </PreemieButton>
+                                ) : null}
+                            </IonRow>
+                        </div>
                     </>
                 ) : null}
-
-                {/* {isNewCalibration && ( */}
-                {/* )} */}
             </div>
         </IonModal>
     );

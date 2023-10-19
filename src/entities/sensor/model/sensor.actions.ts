@@ -23,53 +23,30 @@ import { EMULATION_SCAN_ID } from '../sensor.constants';
 import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
 import { SENSOR_DISCONNECTED, isSensorDisconnectedError } from '../helpers';
 
+import { SensorDevice } from './sensor.types';
+
 import type { RootState } from '@app/store';
 import type { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
 
-// TODO: move to service
-type saveCalibrationOptions = {
-    user: RootState['user'];
-    sensor: RootState['sensor'];
+type getPreparedCalibrationOptions = {
+    currentDevice: SensorDevice;
     preferConfig: string;
     sensorScannedData: TellspecSensorScannedData;
 };
 
-const saveCalibration = async ({
-    sensor,
-    user,
+const getPreparedCalibration = ({
+    currentDevice,
     preferConfig,
     sensorScannedData,
-}: saveCalibrationOptions) => {
-    if (!sensor.currentDevice) {
-        return;
-    }
-
-    const scanCalibrationData = tellspecPrepareScanCalibration({
-        sensorScannedData,
-        model: sensor.currentDevice.name,
-        activeConfigName: preferConfig,
-        userEmail: user.email,
-    });
-
-    const requestCalibration: SetCalibrationRequest = {
-        model: sensor.currentDevice.name,
-        serial_number: sensor.currentDevice.serial,
-        white_reference: scanCalibrationData,
-    };
-
-    await apiInstance.sensor.setCalibration(requestCalibration);
-
-    const toNativeStore = {
-        model: sensor.currentDevice.name,
-        serial_number: sensor.currentDevice.serial,
+}: getPreparedCalibrationOptions) => {
+    const result = {
+        model: currentDevice.name,
+        serial_number: currentDevice.serial,
         config: preferConfig,
-        scan: scanCalibrationData,
+        scan: sensorScannedData,
     };
 
-    console.log('[calibrateDevice/saveCalibration]: toNativeStore', toNativeStore);
-    await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, toNativeStore);
-
-    return toNativeStore;
+    return result;
 };
 
 export const getSensorCalibration = createAsyncThunk(
@@ -132,7 +109,7 @@ export const connectSensorDevice = createAsyncThunk(
 );
 
 export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async (_, thunkAPI) => {
-    const { user, sensor } = thunkAPI.getState() as RootState;
+    const { sensor } = thunkAPI.getState() as RootState;
 
     await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
@@ -177,9 +154,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
 
             if (preferConfig === configs.activeConfig.toLowerCase()) {
                 // the config is already active.
-                result = await saveCalibration({
-                    user,
-                    sensor,
+                result = getPreparedCalibration({
+                    currentDevice: sensor.currentDevice,
                     preferConfig,
                     sensorScannedData: preparedSensorScannedData,
                 });
@@ -204,9 +180,8 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
                         // we found a config that we can use. Its not active, se we need to set the device accordantly
                         await tellspecSetActiveConfig({ name: preferConfig });
 
-                        result = await saveCalibration({
-                            user,
-                            sensor,
+                        result = getPreparedCalibration({
+                            currentDevice: sensor.currentDevice,
                             preferConfig,
                             sensorScannedData: preparedSensorScannedData,
                         });
@@ -251,6 +226,50 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         throw error;
     }
 });
+
+export const saveActiveCalibrationSensor = createAsyncThunk(
+    'sensor/saveActiveCalibration',
+    async (_, thunkAPI) => {
+        const { user, sensor } = thunkAPI.getState() as RootState;
+
+        if (!sensor.currentDevice) {
+            return;
+        }
+
+        const activeCalibration = sensor.currentDevice.activeCal;
+        const activeCalibrationConfig = sensor.currentDevice.activeConfig;
+
+        if (!activeCalibration || !activeCalibrationConfig) {
+            return;
+        }
+
+        const scanCalibrationData = tellspecPrepareScanCalibration({
+            model: sensor.currentDevice.name,
+            activeConfigName: activeCalibrationConfig,
+            sensorScannedData: activeCalibration.scan,
+            userEmail: user.email,
+        });
+
+        const requestCalibration: SetCalibrationRequest = {
+            model: sensor.currentDevice.name,
+            serial_number: sensor.currentDevice.serial,
+            white_reference: scanCalibrationData,
+        };
+
+        await apiInstance.sensor.setCalibration(requestCalibration);
+
+        const preparedCalibration = getPreparedCalibration({
+            currentDevice: sensor.currentDevice,
+            preferConfig: activeCalibrationConfig,
+            sensorScannedData: activeCalibration.scan,
+        });
+
+        console.log('[sensor/saveCalibration]: result', preparedCalibration);
+        await nativeStore.set(NativeStorageKeys.DEVICE_CALIBRATION, preparedCalibration);
+
+        return preparedCalibration;
+    },
+);
 
 export const removeDevice = createAsyncThunk(
     'sensor/removeDevice',

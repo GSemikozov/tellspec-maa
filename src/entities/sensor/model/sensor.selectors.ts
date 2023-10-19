@@ -60,3 +60,8 @@ export const selectIsSensorScanning = createSelector(
     [selectSensorScanningState],
     sensorScanningState => sensorScanningState.status === 'progress',
 );
+
+export const selectIsActiveCalibrationSaveLoading = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.saveCalibrationStatus === 'progress',
+);
