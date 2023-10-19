@@ -27,7 +27,9 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const activeCalibration = currentDevice?.activeCal;
 
     React.useEffect(() => {
-        setOpen(calibrateSensorLoading);
+        if (calibrateSensorLoading) {
+            setOpen(calibrateSensorLoading);
+        }
     }, [calibrateSensorLoading]);
 
     return (
@@ -54,7 +56,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             info@preemiesensor.com.
                         </p>
                         <div className={cn('section-chart', { fluid: true })}>
-                            <p>Spectrum of last calibration</p>
+                            <p>Spectrum of current calibration</p>
                             <div className={cn('chart')}>
                                 <SensorCalibrationChart
                                     variant='reference-calibration'
