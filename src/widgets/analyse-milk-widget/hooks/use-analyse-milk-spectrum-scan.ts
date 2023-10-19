@@ -10,7 +10,7 @@ export type RequiredSpectrumScanInterface = Pick<SpectrumScanData, 'uuid' | 'abs
 
 export type UseAnalyseMilkSpectrumScanResponse<T = RequiredSpectrumScanInterface> = [
     (scanId: string) => Promise<T | null>,
-    (sensorScannedData: T) => void,
+    (sensorScannedData: T | null) => void,
     { spectrumScan: T | null; loading: boolean },
 ];
 
@@ -53,7 +53,7 @@ export const useAnalyseMilkSpectrumScan = (): UseAnalyseMilkSpectrumScanResponse
     }, []);
 
     const handleSetSpectrumScan = React.useCallback(
-        (spectrumScan: RequiredSpectrumScanInterface) => {
+        (spectrumScan: RequiredSpectrumScanInterface | null) => {
             setSpectrumScan(spectrumScan);
         },
         [],
