@@ -46,7 +46,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     </>
                 ) : null}
 
-                {activeCalibration ? (
+                {!calibrateSensorLoading && activeCalibration ? (
                     <>
                         <p>
                             Calibration is a process to compensate for the sensor drift and changing
