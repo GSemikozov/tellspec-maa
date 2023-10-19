@@ -3,7 +3,7 @@
     flex-wrap: wrap;
 
     width: 100%;
-    padding: 6px 16px;
+    padding: 6px 16px !important;
 }
 
 .actions-panel > * {

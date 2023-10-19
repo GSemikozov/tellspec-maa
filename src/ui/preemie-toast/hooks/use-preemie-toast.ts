@@ -26,7 +26,7 @@ export const usePreemieToast = (): [
                 type,
                 animated = false,
                 position = 'top',
-                duration = 5000,
+                // duration = 5000,
                 delay,
                 buttons = [],
                 ...otherPresentOptions
@@ -50,9 +50,9 @@ export const usePreemieToast = (): [
                 ...otherPresentOptions,
                 animated,
                 position,
-                duration,
+                // duration,
                 cssClass,
-                buttons: [...buttons, { text: 'Cancel', role: 'cancel' }],
+                buttons: [...buttons, { text: 'Close', role: 'cancel' }],
             });
         },
         [presentToast],
