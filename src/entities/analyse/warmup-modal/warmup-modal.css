@@ -1,0 +1,22 @@
+.warmup-modal {
+    height: 100%;
+    box-shadow: unset;
+}
+
+.warmup-modal__modal-actions {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+    gap: 1rem;
+}
+.warmup-modal p {
+    font-size: 2rem;
+    margin: 2rem;
+}
+
+.warmup-modal__second-modal-actions {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+     gap: 1rem;
+}

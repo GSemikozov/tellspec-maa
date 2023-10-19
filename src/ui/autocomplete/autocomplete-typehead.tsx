@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     IonButton,
     IonButtons,
@@ -25,6 +25,8 @@ import type {
 } from '@ionic/core';
 
 import './autocomplete-typehead.css';
+
+import { WarmupModal } from '@entities/analyse/warmup-modal';
 
 const cn = classname('autocomplete-typehead');
 

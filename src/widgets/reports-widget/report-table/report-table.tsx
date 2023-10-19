@@ -84,7 +84,7 @@ const columns = [
             cell: info => {
               
                 const result = info.getValue<ReportAnalyseDataResult>();
-             
+                console.log(result)
                 return result?.value || '-';
             },
         },

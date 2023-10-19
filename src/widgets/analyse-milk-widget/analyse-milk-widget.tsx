@@ -22,6 +22,7 @@ import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/cor
 import type { AppDispatch } from '@app/store';
 
 import './analyse-milk-widget.css';
+import { WarmupModal } from '@entities/analyse/warmup-modal';
 
 const cn = classname('analyse-milk-widget');
 
@@ -186,6 +187,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
             <PageArea.Main>
                 <div className={cn('tabs')}>
+                    <WarmupModal />
                     <IonSegment
                         value={activeTab}
                         disabled={!hasMilkId}
