@@ -46,8 +46,15 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     </>
                 ) : null}
 
-                {activeCalibration ? (
+                {!calibrateSensorLoading && activeCalibration ? (
                     <>
+                        <p>
+                            Calibration is a process to compensate for the sensor drift and changing
+                            environmental conditions within the sensor. Your calibration curve (in
+                            magenta) should be similar to the factory calibration (in green). If it
+                            is not similar then you should re-calibrate or contact us at
+                            info@preemiesensor.com.
+                        </p>
                         <div className={cn('section-chart', { fluid: true })}>
                             <p>Spectrum of current calibration</p>
                             <div className={cn('chart')}>
