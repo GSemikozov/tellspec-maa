@@ -32,6 +32,7 @@ export const ReportGlobalFilter: React.FC = () => {
 
     const handleClear = () => {
         dispatch(reportsActions.setReportsFilterByName(''));
+        updateURL({ name: '' });
     };
 
     const handleStatusChange = e => {
@@ -56,7 +57,7 @@ export const ReportGlobalFilter: React.FC = () => {
                     clearIcon={closeCircleOutline}
                     onIonClear={handleClear}
                     showClearButton='always'
-                    onKeyDown={handleNameChange}
+                    onKeyUp={handleNameChange}
                 />
 
                 <div className={cn('calendar')}>
