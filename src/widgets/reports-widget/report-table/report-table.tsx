@@ -18,16 +18,8 @@ import { MockData } from '@widgets/test-results/mock-data';
 import { getParameterByName, ColumnNamesMapping, globalFilterFn } from './report-table.utils';
 
 import type { Report, ReportAnalyseDataResult } from '@entities/reports';
-import type { SortingFn } from '@tanstack/react-table';
 
 import './report-table.css';
-
-declare module '@tanstack/table-core' {
-    interface SortingFns {
-        customNameSorting: SortingFn<Report>;
-        customDateSorting: SortingFn<Report>;
-    }
-}
 
 const cn = classname('report-table');
 
@@ -65,13 +57,11 @@ const columns = [
 
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
-        sortingFn: 'customNameSorting',
     }),
 
     columnHelper.accessor(row => row, {
         id: 'dataAnalysed',
         header: 'Date Analysed',
-        sortingFn: 'customDateSorting',
         cell: info => {
             const data = info.getValue() as Report;
             const date = data.last_modified_at;
@@ -153,16 +143,13 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const [sorting, setSorting] = React.useState<SortingState>([
         {
             id: 'milk_id',
-            desc: true,
+            desc: false,
         },
     ]);
 
     const handleRowSelectionChange = updaterOrValue => {
         const ids =
             typeof updaterOrValue === 'function' ? updaterOrValue(rowSelection) : updaterOrValue;
-        // const selectableKeys = Object.keys(ids).filter(id => {
-        //     return reports.find(report => report.milk_id === id)?.data.analyseData;
-        // });
 
         const selectableKeys = Object.keys(ids).filter(id => {
             return reports.find(report => report.milk_id === id);
@@ -202,40 +189,6 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
         onSortingChange: setSorting,
         onRowSelectionChange: handleRowSelectionChange,
         enableSortingRemoval: false,
-        sortingFns: {
-            customNameSorting: (rowA, rowB) => {
-                const rowADate = formatDateWithoutTime(new Date(rowA.original.last_modified_at));
-                const rowBDate = formatDateWithoutTime(new Date(rowB.original.last_modified_at));
-
-                if (rowADate === rowBDate) {
-                    return (rowA.getValue('milk_id') as string) <
-                        (rowB.getValue('milk_id') as string)
-                        ? 1
-                        : -1;
-                }
-
-                return 0;
-            },
-            customDateSorting: (rowA, rowB) => {
-                const sortingOrderDesc = sorting[0].desc;
-
-                const rowADate = new Date(rowA.original.last_modified_at);
-                const rowBDate = new Date(rowB.original.last_modified_at);
-
-                const rowADateString = formatDateWithoutTime(rowADate);
-                const rowBDateString = formatDateWithoutTime(rowBDate);
-
-                if (rowADateString === rowBDateString) {
-                    return (
-                        (rowA.getValue('milk_id') as string).localeCompare(
-                            rowB.getValue('milk_id'),
-                        ) * (sortingOrderDesc ? -1 : 1)
-                    );
-                }
-
-                return rowADate.getTime() - rowBDate.getTime();
-            },
-        },
     });
 
     const HeaderCellText = ({ title }) => {
