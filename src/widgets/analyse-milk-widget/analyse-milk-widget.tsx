@@ -50,12 +50,14 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         useAnalyseMilkReport({
             onComplete: async reportData => {
                 const analyseData = extractReportAnalyseData(reportData);
+                const data = Array.isArray(analyseData) ? analyseData[0] : analyseData;
 
-                if (!analyseData) {
+                if (!data) {
+                    onSetSpectrumScan(null);
                     return;
                 }
 
-                fetchSpectrumScan(analyseData.scanId);
+                fetchSpectrumScan(data.scanId);
             },
         });
 

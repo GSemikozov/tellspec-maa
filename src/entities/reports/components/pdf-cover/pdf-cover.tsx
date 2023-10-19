@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns';
 
+import { formatDateWithoutTime } from '@ui/date-range';
 import { getUser } from '@entities/user/model/user.selectors';
-import PreemieLogo from '../../../../../public/img/MAA-logo.png'
-import coverImage from './images/pdf-cover.jpeg';
+
+import PreemieLogo from '../../../../../public/img/MAA-logo.png';
+
+import CoverImage from './images/pdf-cover.jpeg';
 
 import './pdf-cover.css';
 
@@ -16,10 +18,10 @@ type PDFCover = {
 export const PDFCover: React.FC<PDFCover> = props => {
     const user = useSelector(getUser);
     const date = new Date(props.reportDate);
-    const formattedDate = format(date, 'yyyy/MM/dd');
+    const formattedDate = formatDateWithoutTime(date);
 
     return (
-        <div className={'pdf-milk-cover'} style={{ background: `url(${coverImage})` }}>
+        <div className={'pdf-milk-cover'} style={{ background: `url(${CoverImage})` }}>
             <div className={'pdf-milk-imgContainer'}>
                 <img src={PreemieLogo} alt='Logo' />
             </div>

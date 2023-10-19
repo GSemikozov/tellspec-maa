@@ -2,6 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonLabel, IonRow, IonSearchbar, IonSegment, IonSegmentButton } from '@ionic/react';
 
+import { Keyboard } from '@capacitor/keyboard';
+import { closeCircleOutline } from 'ionicons/icons';
+
 import { classname } from '@shared/utils';
 // import { PreemieInput } from '@ui';
 import { DateRange } from '@ui/date-range';
@@ -12,8 +15,6 @@ import { updateURL } from './report-global-filter.utils';
 import type { AppDispatch } from '@app';
 
 import './report-global-filter.css';
-import { closeCircleOutline } from 'ionicons/icons';
-import { Keyboard } from '@capacitor/keyboard';
 
 const cn = classname('report-global-filter');
 
@@ -31,6 +32,7 @@ export const ReportGlobalFilter: React.FC = () => {
 
     const handleClear = () => {
         dispatch(reportsActions.setReportsFilterByName(''));
+        updateURL({ name: '' });
     };
 
     const handleStatusChange = e => {
@@ -55,7 +57,7 @@ export const ReportGlobalFilter: React.FC = () => {
                     clearIcon={closeCircleOutline}
                     onIonClear={handleClear}
                     showClearButton='always'
-                    onKeyDown={handleNameChange}
+                    onKeyUp={handleNameChange}
                 />
 
                 <div className={cn('calendar')}>

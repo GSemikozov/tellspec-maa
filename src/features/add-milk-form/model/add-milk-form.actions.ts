@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { apiInstance } from '@api/network';
 import { buildAddReportRequestBody } from '@entities/reports/api';
 import { reportsActions } from '@entities/reports';
+import { milkActions } from '@entities/milk';
 
 import type { Milk } from '@entities/milk';
 
@@ -24,6 +25,7 @@ export const addMilk = createAsyncThunk('addMilkForm/fetch', async (data: Milk, 
         }
 
         dispatch(reportsActions.addReport(report));
+        dispatch(milkActions.addMilk(data));
     } catch (error: any) {
         throw new Error(error.message ?? "Can't save milk. Try again later");
     }

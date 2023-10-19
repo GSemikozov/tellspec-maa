@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     IonAlert,
@@ -41,7 +41,7 @@ const defaultValues = {
     milkId: '',
     milkVolume: '',
     donorId: '',
-    numberOfContainers: undefined,
+    numberOfContainers: 1,
     infantDeliveryDate: '',
     milkExpressionDate: '',
     milkExpirationDate: '',
@@ -71,15 +71,13 @@ export const AddMilkForm: React.FunctionComponent = () => {
         watch,
         getValues,
         setValue,
-        formState: { errors, touchedFields, isValid },
+        formState: { errors, touchedFields, isValid, isDirty },
     } = useForm<AddMilkFormFieldValues>({
         defaultValues,
         resolver: yupResolver(validationSchema),
         mode: 'onChange',
         reValidateMode: 'onChange',
     });
-
-    const [isFormEmpty, setIsFormEmpty] = useState<boolean>(false);
 
     const storageFreezerValue = watch('storageFreezer');
 
@@ -96,12 +94,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         dispatch(donorsAsyncActions.fetchDonors(fetchDonorsRequest));
         dispatch(fetchGroup({ preemie_group_id: groupId }));
     }, []);
-
-    React.useEffect(() => {
-        const values = getValues();
-        const formIsEmpty = Object.values(values).every(value => value === '' || undefined);
-        setIsFormEmpty(formIsEmpty);
-    }, [getValues()]);
 
     const handleMilkExpressionDateChange = e => {
         const receivedDate = e.target.value;
@@ -184,7 +176,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
 
     const handleResetForm = () => {
         reset(defaultValues);
-        setIsFormEmpty(true);
     };
 
     const today = new Date().toISOString().slice(0, 10);
@@ -199,7 +190,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                     actions={
                         <>
                             <div className={cn('actions-clear')}>
-                                <IonButton id='present-alert' disabled={isFormEmpty}>
+                                <IonButton id='present-alert' disabled={!isDirty}>
                                     Clear the form
                                 </IonButton>
                                 <IonAlert
@@ -404,10 +395,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
                                     disabled
                                     {...register('milkExpirationDate')}
                                 >
-                                    <div slot='label'>
-                                        Milk Expiration Date{' '}
-                                      
-                                    </div>
+                                    <div slot='label'>Milk Expiration Date </div>
                                 </PreemieInput>
 
                                 <p className={cn('form-group-error')}>

@@ -1,8 +1,11 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchMilkById, fetchMilks, fetchMilksByIds } from './milk.actions';
 
 import type { MilkSliceState } from './milk.types';
+import type { Milk } from '@entities/milk';
 
 const initialState: MilkSliceState = {
     status: 'idle',
@@ -12,7 +15,12 @@ const initialState: MilkSliceState = {
 export const milkSlice = createSlice({
     name: 'milk',
     initialState,
-    reducers: {},
+    reducers: {
+        addMilk: (state, action: PayloadAction<Milk>) => {
+            const data = action.payload;
+            state.byIds = Object.assign(state.byIds, { [data.milk_id]: data });
+        },
+    },
     extraReducers: builder => {
         builder.addCase(fetchMilks.pending, state => {
             state.status = 'loading';

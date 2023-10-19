@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { format } from 'date-fns';
 import { createPortal } from 'react-dom';
 import { IonBackdrop, IonButton, IonCol, IonDatetime, IonLabel, IonRow } from '@ionic/react';
 
-import { formatUTCDate, setEndDay, setStartDay } from '@ui/date-range/utils';
+import { setStartDay, setEndDay, formatDateWithoutTime } from '@ui/date-range/date-range.utils';
 import { classname } from '@shared/utils';
 
 import type { DatetimeChangeEventDetail } from '@ionic/react';
@@ -57,27 +58,17 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
     const handleCancel = () => {
         setIsOpened(false);
-        onChange({
-            from: defaultFrom,
-            to: defaultTo,
-        });
     };
 
     const dateFrom = new Date(from);
     const dateTo = new Date(to);
 
     const buttonLabel =
-        from && to ? `${formatUTCDate(dateFrom)} - ${formatUTCDate(dateTo)}` : 'Select dates';
+        from && to
+            ? `${formatDateWithoutTime(dateFrom)} - ${formatDateWithoutTime(dateTo)}`
+            : 'Select dates';
 
-    // TODO: implement this kind of validation
-    // const isFromEnabled = (dateString: string) => {
-    //     const date = new Date(dateString);
-    //     const utcFrom = date.getUTCDate();
-    //     const utcTo = dateTo.getUTCDate();
-    //     return utcFrom < utcTo;
-    // };
-
-    const today = new Date().toISOString().slice(0, 10);
+    const today = format(new Date(), 'yyyy-MM-dd');
 
     return (
         <div className={cn()}>
@@ -107,7 +98,6 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
                                           presentation='date'
                                           onIonChange={handleDateChange}
                                           value={from}
-                                          //   isDateEnabled={isFromEnabled}
                                       />
                                   </IonCol>
 
