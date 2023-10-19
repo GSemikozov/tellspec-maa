@@ -28,6 +28,7 @@
 .sensor-manager__actions-buttons {
     display: flex;
     margin-top: 1rem !important;
+    gap: 1rem;
 }
 
 .sensor-manager__video-modal {

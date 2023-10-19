@@ -4,7 +4,10 @@
 
 .analyse-milk-widget__tab {
     width: 100%;
-    padding-bottom: 16px 
+
+}
+ion-segment-button {
+    height: 4rem !important;
 }
 
 .analyse-milk-widget__tab-placeholder {

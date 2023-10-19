@@ -10,7 +10,6 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin: 1rem;
 }
 /* .report-modal__close-button {
 
@@ -20,18 +19,19 @@
     display: flex;
     width: 100%;
     height: 100%;
-    margin: 4rem 0;
+    margin: 1rem 0;
     margin-bottom: 1rem;
     padding: 0 2rem;
 }
 .report-modal__close-button {
     display: flex;
     justify-self: flex-end;
+    padding: 2rem;
 }
 
 .report-modal__test-results {
     background-color: var(--ion-color-tertiary-tint);
     width: 100%;
     overflow: scroll;
-    height: 80%;
+    height: 87%;
 }

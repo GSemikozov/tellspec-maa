@@ -23,12 +23,12 @@ export const WarmupModal = () => {
                 {currentSensorTemperature !== undefined && currentSensorTemperature < 29.0 ? (
                     <>
                         <p>
-                            For best results we suggest that you need to warm-up your Preemie Sensor
+                            For best results we suggest that you need to warm up your Preemie Sensor
                             before you analyse the milk.
                         </p>
                         <div className={cn('modal-actions')}>
-                            <IonButton> Analyse Milk</IonButton>
-                            <IonButton> Warm-Up sensor</IonButton>
+                            <IonButton disabled> Analyse Milk</IonButton>
+                            <IonButton> Warm Up sensor</IonButton>
                             <IonButton> Cancel</IonButton>
                         </div>
                     </>

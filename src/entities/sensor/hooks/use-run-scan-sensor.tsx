@@ -124,7 +124,15 @@ export const useRunScanSensor = ({
             <IonAlert
                 header='Scan Validation Result'
                 isOpen={isOpen}
-                message={scanValidationResult}
+                message={
+                    scanValidationResult === 'bad'
+                        ? 'The scan was not usable. Please consider rescanning, or taking a new sample. If the problem persistes, please contact info@preemiesensor.com'
+                        : scanValidationResult === 'not_ideal'
+                        ? 'There may be a problem with the scan. Please consider rescanning, or taking a new sample.'
+                        : scanValidationResult === 'ok'
+                        ? ''
+                        : null
+                }
                 buttons={['OK']}
             />
         );

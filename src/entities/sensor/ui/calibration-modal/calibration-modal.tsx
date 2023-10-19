@@ -40,7 +40,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
             <div className={cn()}>
                 {calibrateSensorLoading ? (
                     <>
-                        <h1>Calibration in process...</h1>
+                        <h1>Calibration in progress...</h1>
                         <p>
                             Please refrain from touching or interfering with the sensor during
                             calibration, to ensure accurate results. This will take about 20
