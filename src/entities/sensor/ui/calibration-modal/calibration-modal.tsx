@@ -14,14 +14,17 @@ import './calibration-modal.css';
 const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
+    const [open, setOpen] = React.useState(false);
+    const handleCloseModal = () => setOpen(false);
+
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
 
     const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
-        useSaveCalibrationSensor();
-
-    const [open, setOpen] = React.useState(calibrateSensorLoading);
-
-    const handleCloseModal = () => setOpen(false);
+        useSaveCalibrationSensor({
+            onComplete: async () => {
+                handleCloseModal();
+            },
+        });
 
     const currentDevice = useSelector(selectSensorDevice);
     const activeCalibration = currentDevice?.activeCal;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { log } from '@shared/utils';
 import { usePreemieToast } from '@ui';
+import { useEventAsync } from '@shared/hooks';
 
 import {
     SensorDevice,
@@ -13,12 +14,20 @@ import { isSensorDisconnectedError } from '../helpers';
 
 import type { AppDispatch } from '@app';
 
+type UseSaveCalibrationSensorOptions = {
+    onComplete?: () => Promise<void>;
+};
+
 type UseCalibrateSensorResult = [
     (device: SensorDevice | null) => Promise<void>,
     { loading: boolean },
 ];
 
-export const useSaveCalibrationSensor = (): UseCalibrateSensorResult => {
+export const useSaveCalibrationSensor = ({
+    onComplete,
+}: UseSaveCalibrationSensorOptions): UseCalibrateSensorResult => {
+    const handleCompleteEvent = useEventAsync(onComplete);
+
     const dispatch = useDispatch<AppDispatch>();
 
     const [presentToast] = usePreemieToast();
@@ -34,9 +43,18 @@ export const useSaveCalibrationSensor = (): UseCalibrateSensorResult => {
 
                 await log('useSaveCalibrationSensor:device', device);
 
-                await presentToast({ message: 'Start saving active calibration...' });
+                await presentToast({
+                    message: 'Start saving active calibration...',
+                });
 
                 await dispatch(saveActiveCalibrationSensor()).unwrap();
+
+                await presentToast({
+                    type: 'success',
+                    message: 'Calibration accepted',
+                });
+
+                handleCompleteEvent();
             } catch (error: any) {
                 await log('useSaveCalibrationSensor:error', error);
 
@@ -52,7 +70,7 @@ export const useSaveCalibrationSensor = (): UseCalibrateSensorResult => {
                 });
             }
         },
-        [loading],
+        [loading, handleCompleteEvent],
     );
 
     return [call, { loading }];
