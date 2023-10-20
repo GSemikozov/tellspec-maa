@@ -40,4 +40,5 @@ export type SensorState = {
     };
 
     saveCalibrationStatus: 'idle' | 'progress';
+    warmupSensorStatus: 'idle' | 'progress';
 };

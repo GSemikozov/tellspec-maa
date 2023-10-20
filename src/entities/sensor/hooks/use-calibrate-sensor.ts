@@ -5,18 +5,27 @@ import { useIonRouter } from '@ionic/react';
 import { log } from '@shared/utils';
 import { usePreemieToast } from '@ui';
 import { routesMapping } from '@app/routes';
+import { useEventAsync } from '@shared/hooks';
 
 import { SensorDevice, calibrateSensorDevice, selectSensorCalibrationLoading } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
 
 import type { AppDispatch } from '@app';
 
+type UseCalibrateSensorOptions = {
+    onError?: () => Promise<void>;
+};
+
 type UseCalibrateSensorResult = [
     (device: SensorDevice | null) => Promise<void>,
     { loading: boolean },
 ];
 
-export const useCalibrateSensor = (): UseCalibrateSensorResult => {
+export const useCalibrateSensor = ({
+    onError,
+}: UseCalibrateSensorOptions = {}): UseCalibrateSensorResult => {
+    const handleErrorEvent = useEventAsync(onError);
+
     const router = useIonRouter();
 
     const dispatch = useDispatch<AppDispatch>();
@@ -52,6 +61,8 @@ export const useCalibrateSensor = (): UseCalibrateSensorResult => {
                     type: 'error',
                     message: errorMessage,
                 });
+
+                handleErrorEvent();
             }
         },
         [isCalibrationLoading],
