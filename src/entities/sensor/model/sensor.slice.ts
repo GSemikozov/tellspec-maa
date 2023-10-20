@@ -39,13 +39,13 @@ export const sensorSlice = createSlice({
     extraReducers: builder => {
         // warmup sensor
         builder.addCase(warmupSensorDevice.pending, state => {
-            state.saveCalibrationStatus = 'progress';
+            state.warmupSensorStatus = 'progress';
         });
         builder.addCase(warmupSensorDevice.fulfilled, state => {
-            state.saveCalibrationStatus = 'idle';
+            state.warmupSensorStatus = 'idle';
         });
         builder.addCase(warmupSensorDevice.rejected, state => {
-            state.saveCalibrationStatus = 'idle';
+            state.warmupSensorStatus = 'idle';
         });
 
         // update save active calibration status
