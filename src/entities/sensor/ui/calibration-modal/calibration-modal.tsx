@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { IonModal, IonRow, useIonRouter } from '@ionic/react';
+import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui';
