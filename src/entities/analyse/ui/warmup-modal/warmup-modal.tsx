@@ -43,12 +43,6 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    console.log(
-        'activeCalibration',
-        activeCalibration?.scan['scan-data']['scan-performed-utc'] ?? '',
-    );
-    console.log('needRecalibration', needRecalibration);
-
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
