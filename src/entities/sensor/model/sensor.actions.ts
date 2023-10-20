@@ -247,6 +247,33 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     }
 });
 
+export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async (_, thunkAPI) => {
+    const { sensor } = thunkAPI.getState() as RootState;
+
+    await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
+
+    if (!sensor.currentDevice) {
+        return;
+    }
+
+    try {
+        await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
+
+        for (let i = 0; i < 5; i++) {
+            await tellspecStartScan();
+            await thunkAPI.dispatch(getSensorStatus()).unwrap();
+        }
+    } catch (error: any) {
+        await log('sensor/warmupSensor:error', error);
+
+        if (isSensorDisconnectedError(error)) {
+            throw new Error(error);
+        }
+
+        throw error;
+    }
+});
+
 export const saveActiveCalibrationSensor = createAsyncThunk(
     'sensor/saveActiveCalibration',
     async (_, thunkAPI) => {
@@ -292,7 +319,6 @@ export const removeDevice = createAsyncThunk(
         let removedCurrent = false;
 
         if (sensor.currentDevice?.uuid === deviceUuid) {
-            // await tellspecDisconnect();
             await tellspecRemoveDevice();
 
             removedCurrent = true;

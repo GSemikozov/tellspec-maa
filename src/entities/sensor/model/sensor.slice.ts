@@ -11,6 +11,7 @@ import {
     getSensorStatus,
     getSensorScanner,
     saveActiveCalibrationSensor,
+    warmupSensorDevice,
 } from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
@@ -27,6 +28,7 @@ const initialState: SensorState = {
     },
 
     saveCalibrationStatus: 'idle',
+    warmupSensorStatus: 'idle',
 };
 
 export const sensorSlice = createSlice({
@@ -35,6 +37,17 @@ export const sensorSlice = createSlice({
     reducers: {},
 
     extraReducers: builder => {
+        // warmup sensor
+        builder.addCase(warmupSensorDevice.pending, state => {
+            state.saveCalibrationStatus = 'progress';
+        });
+        builder.addCase(warmupSensorDevice.fulfilled, state => {
+            state.saveCalibrationStatus = 'idle';
+        });
+        builder.addCase(warmupSensorDevice.rejected, state => {
+            state.saveCalibrationStatus = 'idle';
+        });
+
         // update save active calibration status
         builder.addCase(saveActiveCalibrationSensor.pending, state => {
             state.saveCalibrationStatus = 'progress';

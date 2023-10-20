@@ -16,9 +16,10 @@ import './actions-panel.css';
 const cn = classname('actions-panel');
 
 type ActionsPanelProps = {
-    analyseMilkLoading: boolean;
-    onAnalyseMilk: () => Promise<void>;
     selectedID: string;
+    analyseMilkLoading: boolean;
+    onAnalyseMilk: () => void;
+
     showOnlyAnalyse?: boolean;
     isMilkAnalysed?: boolean;
 };

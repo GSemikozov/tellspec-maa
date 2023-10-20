@@ -14,6 +14,7 @@ import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk'
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
 import { appActions } from '@app';
+import { WarmupModal } from '@entities/analyse/ui';
 
 import { ActionsPanel } from './actions-panel';
 import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
@@ -22,7 +23,6 @@ import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/cor
 import type { AppDispatch } from '@app/store';
 
 import './analyse-milk-widget.css';
-import { WarmupModal } from '@entities/analyse/warmup-modal';
 
 const cn = classname('analyse-milk-widget');
 
@@ -36,6 +36,11 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const { routeInfo } = useIonRouter();
     const [presentToast] = usePreemieToast();
+
+    const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
+
+    const handleOpenWarmupModal = () => setWarmupOpenModal(true);
+    const handleCloseWarmupModal = () => setWarmupOpenModal(false);
 
     const [milkId, setMilkId] = React.useState<string>('');
     const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
@@ -187,7 +192,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
             <PageArea.Main>
                 <div className={cn('tabs')}>
-                    {/* <WarmupModal /> */}
                     <IonSegment
                         value={activeTab}
                         disabled={!hasMilkId}
@@ -207,10 +211,10 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     {showActions && reportMilk ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
+                                selectedID={milkId}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
-                                onAnalyseMilk={handleAnalyseMilk}
-                                selectedID={milkId}
+                                onAnalyseMilk={handleOpenWarmupModal}
                                 isMilkAnalysed={!!reportMilk.data.analyseData}
                             />
                         </div>
@@ -219,6 +223,14 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
                 {scanValidationResultComponent}
             </PageArea.Main>
+
+            <WarmupModal
+                open={warmupModalOpen}
+                analyseMilkLoading={analyseMilkLoading}
+                onClose={handleCloseWarmupModal}
+                onAnalyseMilk={handleAnalyseMilk}
+                isMilkAnalysed={!!reportMilk?.data.analyseData}
+            />
         </PageArea>
     );
 };
