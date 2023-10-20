@@ -53,7 +53,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         <div className={cn('modal-actions')}>
                             <IonButton disabled>{analyseMilkTitle}</IonButton>
                             <IonButton disabled={warmupSensorLoading} onClick={warmupSensor}>
-                                Warm Up sensor
+                                Warm Up Sensor
                             </IonButton>
                             <IonButton onClick={onClose}>Cancel</IonButton>
                         </div>
