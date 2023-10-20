@@ -1,17 +1,10 @@
 import React from 'react';
 import { IonButton, IonModal } from '@ionic/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
 import { isGivenDateOlderThan } from '@shared/time';
-import {
-    getSensorStatus,
-    selectSensorDeviceActiveCalibration,
-    selectSensorDeviceTemperature,
-    useWarmupSensor,
-} from '@entities/sensor';
-
-import type { AppDispatch } from '@app';
+import { selectSensorDeviceActiveCalibration, useWarmupSensor } from '@entities/sensor';
 
 import './warmup-modal.css';
 
@@ -36,10 +29,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     isMilkAnalysed,
 }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
-    const temperature = useSelector(selectSensorDeviceTemperature);
     const activeCalibration = useSelector(selectSensorDeviceActiveCalibration);
+
+    const currentSensorTemperature =
+        activeCalibration?.scan['scan-info'].dlp_header.temperature ?? 0;
 
     const needRecalibration = isGivenDateOlderThan(
         activeCalibration?.['last_modified_at'] ?? '',
@@ -50,17 +43,12 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    React.useEffect(() => {
-        dispatch(getSensorStatus());
-    }, []);
-
-    console.log('temperature', temperature);
     console.log('needRecalibration', needRecalibration);
 
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
-                {temperature < 29 || needRecalibration ? (
+                {currentSensorTemperature < 29 || needRecalibration ? (
                     <>
                         <p>
                             For best results we suggest that you need to warm up your Preemie Sensor

@@ -10,7 +10,7 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
 } from '@api/native';
-import { connectSensorDevice, selectSensorDevice, getSensorStatus } from '@entities/sensor';
+import { connectSensorDevice, selectSensorDevice } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 import { userSelectors } from '@entities/user';
 
@@ -199,16 +199,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         if (!isAuthenticated) {
             return;
         }
-
-        dispatch(getSensorStatus());
-
-        // if (!currentDevice) {
-        //     stopSensorStatusPolling();
-        // }
-
-        // if (currentDevice && !isPolling) {
-        //     startSensorStatusPolling();
-        // }
     }, [isAuthenticated, currentDevice, handleResetStatus]);
 
     React.useEffect(() => {
