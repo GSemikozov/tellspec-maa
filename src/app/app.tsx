@@ -13,6 +13,7 @@ import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { SensorPage } from '@pages/sensor-page';
 import { userSelectors } from '@entities/user';
+import { appActions } from '@app/model/app.slice';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 import { selectIsAppFetching, selectLayoutClassName } from '@app/model';
@@ -57,6 +58,9 @@ export const App: React.FunctionComponent = () => {
         if (!isAuthenticated) {
             return;
         }
+
+        // reset layout after loading the cached state
+        dispatch(appActions.showSidebar());
 
         dispatch(fetchBleStatus());
     }, [isAuthenticated]);

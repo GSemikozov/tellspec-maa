@@ -131,7 +131,7 @@ export const useRunScanSensor = ({
                         ? 'There may be a problem with the scan. Please consider rescanning, or taking a new sample.'
                         : scanValidationResult === 'ok'
                         ? ''
-                        : null
+                        : ''
                 }
                 buttons={['OK']}
             />

@@ -57,11 +57,13 @@ const columns = [
 
     columnHelper.accessor('milk_id', {
         header: 'Milk ID',
+        enableSorting: false,
     }),
 
     columnHelper.accessor(row => row, {
         id: 'dataAnalysed',
         header: 'Date Analysed',
+        enableSorting: false,
         cell: info => {
             const data = info.getValue() as Report;
             const date = data.last_modified_at;
@@ -82,9 +84,8 @@ const columns = [
         {
             header: 'Protein',
             cell: info => {
-              
                 const result = info.getValue<ReportAnalyseDataResult>();
-                console.log(result)
+                console.log(result);
                 return result?.value || '-';
             },
         },
@@ -142,12 +143,7 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
     const { reports, onRowSelectionChange, onRowClick } = props;
     const filters = useSelector(selectReportFilters);
     const [rowSelection, setRowSelection] = React.useState<SelectedRows>({});
-    const [sorting, setSorting] = React.useState<SortingState>([
-        {
-            id: 'milk_id',
-            desc: false,
-        },
-    ]);
+    const [sorting, setSorting] = React.useState<SortingState>([]);
 
     const handleRowSelectionChange = updaterOrValue => {
         const ids =

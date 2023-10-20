@@ -31,6 +31,19 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
         return null;
     }
 
+    const infantDeliveryDate =
+        sensitiveData?.infantDeliveryDate &&
+        formatDateWithoutTime(new Date(sensitiveData.infantDeliveryDate + 'T00:00:00'));
+    const expressionDate =
+        sensitiveData?.expressionDate &&
+        formatDateWithoutTime(new Date(sensitiveData.expressionDate + 'T00:00:00'));
+    const expirationDate =
+        sensitiveData?.expirationDate &&
+        formatDateWithoutTime(new Date(sensitiveData.expirationDate + 'T00:00:00'));
+    const receivedDate =
+        sensitiveData?.receivedDate &&
+        formatDateWithoutTime(new Date(sensitiveData?.receivedDate + 'T00:00:00'));
+
     return (
         <>
             <IonGrid className={cn()}>
@@ -54,58 +67,40 @@ export const ReportInfo: React.FunctionComponent<ReportInfoProps> = props => {
                             </div>
                         ) : null}
 
-                        {sensitiveData.infantDeliveryDate ? (
+                        {infantDeliveryDate ? (
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Infant delivery date:</IonText>
-                                    <IonText>
-                                        {formatDateWithoutTime(
-                                            new Date(
-                                                sensitiveData.infantDeliveryDate + 'T00:00:00',
-                                            ),
-                                        )}
-                                    </IonText>
+                                    <IonText>{infantDeliveryDate}</IonText>
                                 </p>
                             </div>
                         ) : null}
 
-                        {sensitiveData.expirationDate ? (
+                        {expressionDate ? (
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Milk expression date:</IonText>
-                                    <IonText>
-                                        {formatDateWithoutTime(
-                                            new Date(sensitiveData.expressionDate + 'T00:00:00'),
-                                        )}
-                                    </IonText>
+                                    <IonText>{expressionDate}</IonText>
                                 </p>
                             </div>
                         ) : null}
                     </IonCol>
 
                     <IonCol size='6' className={cn('column')}>
-                        {sensitiveData.expirationDate ? (
+                        {expirationDate ? (
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Milk expiration date:</IonText>
-                                    <IonText>
-                                        {formatDateWithoutTime(
-                                            new Date(sensitiveData.expirationDate + 'T00:00:00'),
-                                        )}
-                                    </IonText>
+                                    <IonText>{expirationDate}</IonText>
                                 </p>
                             </div>
                         ) : null}
 
-                        {sensitiveData.receivedDate ? (
+                        {receivedDate ? (
                             <div className={cn('segment')}>
                                 <p>
                                     <IonText>Date received:</IonText>
-                                    <IonText>
-                                        {formatDateWithoutTime(
-                                            new Date(sensitiveData?.receivedDate + 'T00:00:00'),
-                                        )}
-                                    </IonText>
+                                    <IonText>{receivedDate}</IonText>
                                 </p>
                             </div>
                         ) : null}
