@@ -46,6 +46,11 @@ export const selectSensorDevice = createSelector(
     sensorState => sensorState.currentDevice,
 );
 
+export const selectSensorDeviceActiveCalibration = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.currentDevice?.activeCal,
+);
+
 export const selectSensorDeviceBatteryLevel = createSelector(
     [selectSensorDevice],
     sensorDevice => sensorDevice?.batteryLevel ?? 100,
@@ -54,6 +59,11 @@ export const selectSensorDeviceBatteryLevel = createSelector(
 export const selectSensorDeviceTemperature = createSelector(
     [selectSensorDevice],
     sensorDevice => sensorDevice?.temperature ?? 0,
+);
+
+export const selectSensorDeviceHumidity = createSelector(
+    [selectSensorDevice],
+    sensorDevice => sensorDevice?.humidity ?? 0,
 );
 
 export const selectSensorPairedDevices = createSelector(

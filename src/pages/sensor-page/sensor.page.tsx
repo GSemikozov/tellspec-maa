@@ -11,6 +11,8 @@ import {
     SensorCalibrationChart,
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
+    selectSensorDeviceTemperature,
+    selectSensorDeviceHumidity,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -29,12 +31,12 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
-    
-    
+
     const currentDevice = useSelector(selectSensorDevice);
     const sensorScannerData = useSelector(selectSensorScannerData);
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
-
+    const temperature = useSelector(selectSensorDeviceTemperature);
+    const humidity = useSelector(selectSensorDeviceHumidity);
 
     React.useEffect(() => {
         dispatch(getSensorScanner());
@@ -131,11 +133,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {Number(
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.humidity,
-                                                ).toFixed()}
-                                                % RH
+                                                {Number(humidity).toFixed()}% RH
                                             </div>
                                         </div>
                                     ) : null}
@@ -150,10 +148,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.temperature
-                                                }
+                                                {temperature}
                                                 °C
                                             </div>
                                         </div>

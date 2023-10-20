@@ -10,7 +10,7 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
 } from '@api/native';
-import { connectSensorDevice, useSensorStatusPolling, selectSensorDevice } from '@entities/sensor';
+import { connectSensorDevice, selectSensorDevice, getSensorStatus } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 import { userSelectors } from '@entities/user';
 
@@ -41,9 +41,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
     const mountedRef = React.useRef(false);
     const cancelSignalRef = React.useRef<boolean>(false);
-
-    const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
-        useSensorStatusPolling();
 
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
     const currentDevice = useSelector(selectSensorDevice);
@@ -203,14 +200,16 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             return;
         }
 
-        if (!currentDevice) {
-            stopSensorStatusPolling();
-        }
+        dispatch(getSensorStatus());
 
-        if (currentDevice && !isPolling) {
-            startSensorStatusPolling();
-        }
-    }, [isAuthenticated, isPolling, currentDevice, handleResetStatus]);
+        // if (!currentDevice) {
+        //     stopSensorStatusPolling();
+        // }
+
+        // if (currentDevice && !isPolling) {
+        //     startSensorStatusPolling();
+        // }
+    }, [isAuthenticated, currentDevice, handleResetStatus]);
 
     React.useEffect(() => {
         const resetListener = () => {
