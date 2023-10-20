@@ -35,7 +35,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         activeCalibration?.scan['scan-info'].dlp_header.temperature ?? 0;
 
     const needRecalibration = isGivenDateOlderThan(
-        activeCalibration?.['last_modified_at'] ?? '',
+        activeCalibration?.scan['scan-data']['scan-performed-utc'] ?? '',
         MAX_TIME_SINCE_LAST_CALIBRATION_MS,
     );
 
@@ -43,6 +43,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
+    console.log(
+        'activeCalibration',
+        activeCalibration?.scan['scan-data']['scan-performed-utc'] ?? '',
+    );
     console.log('needRecalibration', needRecalibration);
 
     return (
