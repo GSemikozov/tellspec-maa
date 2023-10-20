@@ -187,7 +187,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
             <PageArea.Main>
                 <div className={cn('tabs')}>
-                    <WarmupModal />
+                    {/* <WarmupModal /> */}
                     <IonSegment
                         value={activeTab}
                         disabled={!hasMilkId}
