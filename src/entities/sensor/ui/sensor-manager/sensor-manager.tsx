@@ -8,12 +8,12 @@ import {
     SensorDevice,
     getSensorCalibration,
     getSensorScanner,
-    getSensorStatus,
     removeDevice,
     selectSensorCalibrationReady,
     selectSensorDevice,
 } from '@entities/sensor/model';
 import { AppDispatch } from '@app';
+import { useSensorStatusPolling } from '@entities/sensor/hooks';
 
 import type { PluginListenerHandle } from '@capacitor/core';
 
@@ -28,6 +28,11 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
 
     const sensorStatusListenerRef = React.useRef<PluginListenerHandle | null>(null);
     const currentDeviceRef = React.useRef<SensorDevice | null>(null);
+
+    const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
+        useSensorStatusPolling({
+            skip: !calibrationReady,
+        });
 
     {
         // for provide data to listener
@@ -80,10 +85,19 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
 
     React.useEffect(() => {
         // effect for manage receiving sensor sensor status
-        if (calibrationReady) {
-            dispatch(getSensorStatus());
+        if (!isAuthenticated || !currentDevice) {
+            stopSensorStatusPolling();
+            return;
         }
-    }, [calibrationReady]);
+
+        if (!isPolling) {
+            startSensorStatusPolling();
+        }
+
+        return () => {
+            stopSensorStatusPolling();
+        };
+    }, [isAuthenticated, currentDevice, isPolling]);
 
     React.useEffect(() => {
         // effect for fetching data depends on current sensor

@@ -45,13 +45,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    console.log('currentSensorTemperature', currentSensorTemperature);
-    console.log('needRecalibration', currentTime, lastSensorInteractionTime, needRecalibration);
-
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
-                {currentSensorTemperature < 29 || needRecalibration ? (
+                {currentSensorTemperature < 30 || needRecalibration ? (
                     <>
                         <p>
                             For best results we suggest that you need to warm up your Preemie Sensor
