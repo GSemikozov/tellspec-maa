@@ -39,7 +39,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     const lastSensorInteractionTime = currentDevice?.lastInteractionAt ?? 0;
 
     const needRecalibration =
-        ((currentTime - lastSensorInteractionTime) / 60) * 1000 >= SENSOR_IDLE_MINUTES_TO_RE_WARMUP;
+        (currentTime - lastSensorInteractionTime) / (60 * 1000) >= SENSOR_IDLE_MINUTES_TO_RE_WARMUP;
 
     const [warmupSensor, { loading: warmupSensorLoading }] = useWarmupSensor();
 
