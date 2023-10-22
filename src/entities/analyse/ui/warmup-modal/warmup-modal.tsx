@@ -6,6 +6,7 @@ import { classname } from '@shared/utils';
 import {
     selectSensorDevice,
     selectSensorDeviceActiveCalibration,
+    selectSensorDeviceTemperature,
     useWarmupSensor,
 } from '@entities/sensor';
 
@@ -32,11 +33,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     isMilkAnalysed,
 }) => {
-    const activeCalibration = useSelector(selectSensorDeviceActiveCalibration);
     const currentDevice = useSelector(selectSensorDevice);
-
-    const currentSensorTemperature =
-        activeCalibration?.scan['scan-info'].dlp_header.temperature ?? 0;
+    const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
 
     const currentTime = +new Date();
     const lastSensorInteractionTime = currentDevice?.lastInteractionAt ?? 0;
