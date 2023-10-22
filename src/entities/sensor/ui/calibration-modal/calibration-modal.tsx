@@ -1,19 +1,27 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { IonModal, IonRow, useIonRouter } from '@ionic/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui';
-import { selectSensorDevice } from '@entities/sensor/model';
+import {
+    selectSensorDevice,
+    selectSensorDeviceActiveCalibration,
+    sensorActions,
+} from '@entities/sensor/model';
 import { useCalibrateSensor, useSaveCalibrationSensor } from '@entities/sensor/hooks';
 
 import { SensorCalibrationChart } from '../sensor-calibration-chart';
+
+import type { AppDispatch } from '@app';
 
 import './calibration-modal.css';
 
 const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
     const [open, setOpen] = React.useState(false);
 
     const handleCloseModal = () => setOpen(false);
@@ -27,13 +35,14 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
         useSaveCalibrationSensor({
             onComplete: async () => {
+                dispatch(sensorActions.acceptSensorCalibration());
+
                 handleCloseModal();
-                window.location.reload();
             },
         });
 
     const currentDevice = useSelector(selectSensorDevice);
-    const activeCalibration = currentDevice?.activeCal;
+    const deviceActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
     React.useEffect(() => {
         if (calibrateSensorLoading) {
@@ -55,7 +64,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     </>
                 ) : null}
 
-                {!calibrateSensorLoading && activeCalibration ? (
+                {!calibrateSensorLoading && deviceActiveCalibration ? (
                     <>
                         <p>
                             Calibration is a process to compensate for the sensor drift and changing
@@ -69,7 +78,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             <div className={cn('chart')}>
                                 <SensorCalibrationChart
                                     variant='reference-calibration'
-                                    calibration={activeCalibration}
+                                    calibration={deviceActiveCalibration}
                                 />
                             </div>
                         </div>

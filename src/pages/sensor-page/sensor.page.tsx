@@ -1,16 +1,16 @@
 import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
     CalibrationModal,
-    getSensorScanner,
     selectSensorDevice,
     useCalibrateSensor,
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
+    selectServerSensorCalibartionData,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -18,25 +18,19 @@ import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
 import { Layout } from '@widgets/layout';
 
-import type { AppDispatch } from '@app';
-
 import './sensor.page.css';
 
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
-    const dispatch = useDispatch<AppDispatch>();
-
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
 
     const currentDevice = useSelector(selectSensorDevice);
+    const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
+
     const sensorScannerData = useSelector(selectSensorScannerData);
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
-
-    React.useEffect(() => {
-        dispatch(getSensorScanner());
-    }, []);
 
     const handleRemoveSensor = () => {
         if (!currentDevice) {
@@ -65,8 +59,6 @@ export const SensorPage: React.FunctionComponent = () => {
             </IonPage>
         );
     }
-
-    const activeCalibration = currentDevice.activeCal;
 
     return (
         <IonPage>
@@ -262,26 +254,15 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     ) : null}
 
-                                    {activeCalibration ? (
-                                        <>
-                                            {/* <div className={cn('section-chart', { fluid: true })}>
-                                                <p>Spectrum of last calibration</p>
+                                    {serverSensorCalibration ? (
+                                        <div className={cn('section-chart', { fluid: true })}>
+                                            <p>Reference calibration spectrum</p>
 
-                                                <SensorCalibrationChart
-                                                    variant='last-calibration'
-                                                    calibration={activeCalibration}
-                                                />
-                                            </div> */}
-
-                                            <div className={cn('section-chart', { fluid: true })}>
-                                                <p>Reference calibration spectrum</p>
-
-                                                <SensorCalibrationChart
-                                                    variant='reference-calibration'
-                                                    calibration={activeCalibration}
-                                                />
-                                            </div>
-                                        </>
+                                            <SensorCalibrationChart
+                                                variant='reference-calibration'
+                                                calibration={serverSensorCalibration}
+                                            />
+                                        </div>
                                     ) : null}
                                 </div>
                             </div>

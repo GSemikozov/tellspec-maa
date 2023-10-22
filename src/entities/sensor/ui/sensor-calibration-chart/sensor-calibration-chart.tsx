@@ -5,10 +5,11 @@ import { generateDefaultChartConfig } from './helpers';
 
 import type { ApexOptions } from 'apexcharts';
 import type { Calibration } from '@entities/sensor/model';
+import type { GetCalibrationResponse } from '@entities/sensor/api';
 
 type SensorCalibrationChartProps = {
     variant: 'last-calibration' | 'reference-calibration';
-    calibration: Calibration;
+    calibration: GetCalibrationResponse | Calibration;
 };
 
 export const SensorCalibrationChart: React.FunctionComponent<SensorCalibrationChartProps> = ({

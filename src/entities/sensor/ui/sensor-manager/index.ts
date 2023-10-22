@@ -1,1 +1,1 @@
-export { SensorManager } from './sensor-manager';
+export * from './sensor-manager';

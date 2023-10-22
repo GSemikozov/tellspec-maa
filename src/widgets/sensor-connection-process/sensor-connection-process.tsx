@@ -10,7 +10,7 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
 } from '@api/native';
-import { connectSensorDevice, selectSensorDevice } from '@entities/sensor';
+import { connectSensorDevice, selectSensorDevice, useCalibrateSensor } from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 import { userSelectors } from '@entities/user';
 
@@ -38,6 +38,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [presentToast] = usePreemieToast();
+
+    const [calibrateSensor] = useCalibrateSensor();
 
     const mountedRef = React.useRef(false);
     const cancelSignalRef = React.useRef<boolean>(false);
@@ -146,7 +148,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         setDiscoveredDevicesModalOpen(false);
 
         try {
-            await dispatch(connectSensorDevice(device)).unwrap();
+            const { requiredCalibration } = await dispatch(connectSensorDevice(device)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
 
@@ -154,6 +156,10 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 type: 'success',
                 message: createToastMessage(SensorConnectionProcessStatus.PAIRING_SUCCESS),
             });
+
+            if (requiredCalibration) {
+                await calibrateSensor(device);
+            }
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);
 
