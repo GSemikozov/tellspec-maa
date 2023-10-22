@@ -36,7 +36,7 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
     const [presentAlert] = useIonAlert();
 
-    const currentSensor = useSelector(selectSensorDevice);
+    const currentDevice = useSelector(selectSensorDevice);
 
     // const handlePrintLabels = () => {
     //     const reportAnalyseDataResult = report.data.analyseData?.result;
@@ -79,7 +79,11 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     const handleAnalyseButtonClick = async () =>
         isMilkAnalysed ? handleConfirmReAnalyse() : onAnalyseMilk();
 
-    if (currentSensor && showOnlyAnalyse) {
+    if (!currentDevice) {
+        return null;
+    }
+
+    if (showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
 
         return (
