@@ -48,6 +48,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
+    console.log('currentSensorTemperature', currentSensorTemperature);
+    console.log('needRecalibration', currentTime, lastSensorInteractionTime, needRecalibration);
+
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
