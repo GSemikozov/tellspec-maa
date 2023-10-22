@@ -41,7 +41,7 @@ export const useWarmupSensor = ({
 
             await presentToast({
                 type: 'success',
-                message: 'Calibration accepted',
+                message: 'The sensor warmed up successfully',
             });
 
             handleCompleteEvent();
