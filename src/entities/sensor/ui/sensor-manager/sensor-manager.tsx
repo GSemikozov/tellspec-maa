@@ -83,7 +83,7 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
 
     React.useEffect(() => {
         // effect for manage receiving sensor sensor status
-        if (!isAuthenticated || !currentDevice) {
+        if (!isAuthenticated || !currentDevice || !calibrationReady) {
             stopSensorStatusPolling();
             return;
         }
