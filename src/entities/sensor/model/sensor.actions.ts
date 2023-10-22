@@ -256,7 +256,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     try {
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 7; i++) {
             await tellspecStartScan();
         }
     } catch (error: any) {
