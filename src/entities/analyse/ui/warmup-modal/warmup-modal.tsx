@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { classname } from '@shared/utils';
 import {
     selectSensorDevice,
-    selectSensorDeviceActiveCalibration,
     selectSensorDeviceTemperature,
     useWarmupSensor,
 } from '@entities/sensor';
