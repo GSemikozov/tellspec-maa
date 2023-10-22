@@ -11,6 +11,8 @@ import {
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
     selectServerSensorCalibartionData,
+    selectSensorDeviceTemperature,
+    selectSensorDeviceHumidity,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -30,7 +32,10 @@ export const SensorPage: React.FunctionComponent = () => {
     const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
 
     const sensorScannerData = useSelector(selectSensorScannerData);
+
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+    const humidity = useSelector(selectSensorDeviceHumidity);
+    const temperature = useSelector(selectSensorDeviceTemperature);
 
     const handleRemoveSensor = () => {
         if (!currentDevice) {
@@ -111,8 +116,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
 
-                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
-                                        .humidity ? (
+                                    {humidity ? (
                                         <div className={cn('section-option')}>
                                             <p>Humidity</p>
 
@@ -121,17 +125,12 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {Number(
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.humidity,
-                                                ).toFixed()}
-                                                % RH
+                                                {Number(humidity).toFixed()}% RH
                                             </div>
                                         </div>
                                     ) : null}
 
-                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
-                                        .temperature ? (
+                                    {temperature ? (
                                         <div className={cn('section-option')}>
                                             <p>Temperature</p>
 
@@ -140,10 +139,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.temperature
-                                                }
+                                                {temperature}
                                                 °C
                                             </div>
                                         </div>

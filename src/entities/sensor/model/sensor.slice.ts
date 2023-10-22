@@ -102,7 +102,7 @@ export const sensorSlice = createSlice({
 
             state.currentDevice = {
                 ...currentDevice,
-                batteryLevel: action.payload.battery,
+                batteryLevel: Number(action.payload.battery),
                 humidity: action.payload.humidity,
                 temperature: action.payload.temperature,
                 lampTime: action.payload.lampTime,
