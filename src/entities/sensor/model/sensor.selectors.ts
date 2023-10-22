@@ -23,7 +23,11 @@ export const selectSensorCalibrationDisconnected = createSelector(
 export const selectSensorCalibrationRequired = createSelector(
     [selectSensorCalibrationStatus],
     calibrationStatus =>
-        [CalibrationStatus.ERROR, CalibrationStatus.REQUIRED].includes(calibrationStatus),
+        [
+            CalibrationStatus.ERROR,
+            CalibrationStatus.REQUIRED,
+            CalibrationStatus.NEED_ACCEPT,
+        ].includes(calibrationStatus),
 );
 
 export const selectSensorCalibrationLoading = createSelector(
@@ -84,4 +88,14 @@ export const selectIsActiveCalibrationSaveLoading = createSelector(
 export const selectIsWarmupSensorLoading = createSelector(
     [selectSensorState],
     sensorState => sensorState.warmupSensorStatus === 'progress',
+);
+
+export const selectServerSensorCalibartion = createSelector(
+    [selectSensorState],
+    sensorState => sensorState.serverSensorCalibration,
+);
+
+export const selectServerSensorCalibartionData = createSelector(
+    [selectServerSensorCalibartion],
+    serverSensorCalibration => serverSensorCalibration.data,
 );

@@ -71,8 +71,6 @@ export const connectSensorDevice = createAsyncThunk(
     'sensor/connect',
     async (device: TellspecSensorDevice) => {
         try {
-            // await tellspecDisconnect();
-
             const shallowDevice = { ...device };
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const calibrationReady = Boolean(calibrationData);
@@ -86,15 +84,14 @@ export const connectSensorDevice = createAsyncThunk(
             }
 
             await log('sensor/connect:shallowDeviceResult', shallowDevice);
-            await log('sensor/connect:result', {
-                device: shallowDevice,
-                requiredCalibration: !calibrationReady,
-            });
 
-            return {
+            const result = {
                 device: shallowDevice,
                 requiredCalibration: !calibrationReady,
             };
+
+            await log('sensor/connect:result', result);
+            return result;
         } catch (error: any) {
             await log('sensor/connect:error', error);
 

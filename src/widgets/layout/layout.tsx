@@ -2,7 +2,7 @@ import React from 'react';
 import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
-import { SensorManager } from '@entities/sensor';
+import { SensorSidebarManager } from '@entities/sensor';
 import { SidebarMenu } from '@widgets/sidebar-menu';
 import { Alert } from '@features/alert';
 import { Backdrop } from '@features/backdrop';
@@ -18,7 +18,7 @@ interface LayoutProps {
 }
 
 export const Layout: React.FunctionComponent<LayoutProps> = props => {
-    const { children, rightSideBar = <SensorManager /> } = props;
+    const { children, rightSideBar = <SensorSidebarManager /> } = props;
 
     const sidebarOpen = useSelector(selectIsSidebarOpen);
     const showSidebar = sidebarOpen && rightSideBar;
@@ -46,7 +46,10 @@ export const Layout: React.FunctionComponent<LayoutProps> = props => {
                                     </IonCol>
 
                                     {showSidebar ? (
-                                        <IonCol size='5' className='ion-padding-top ion-padding-end'>
+                                        <IonCol
+                                            size='5'
+                                            className='ion-padding-top ion-padding-end'
+                                        >
                                             {rightSideBar}
                                         </IonCol>
                                     ) : null}
