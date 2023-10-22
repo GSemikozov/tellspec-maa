@@ -30,6 +30,11 @@ export const selectSensorCalibrationRequired = createSelector(
         ].includes(calibrationStatus),
 );
 
+export const selectSensorCalibrationError = createSelector(
+    [selectSensorCalibrationStatus],
+    calibrationStatus => [CalibrationStatus.ERROR].includes(calibrationStatus),
+);
+
 export const selectSensorCalibrationLoading = createSelector(
     [selectSensorCalibrationStatus],
     calibrationStatus => [CalibrationStatus.PROGRESS].includes(calibrationStatus),

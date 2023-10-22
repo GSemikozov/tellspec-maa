@@ -7,7 +7,12 @@ import { usePreemieToast } from '@ui';
 import { routesMapping } from '@app/routes';
 import { useEventAsync } from '@shared/hooks';
 
-import { SensorDevice, calibrateSensorDevice, selectSensorCalibrationLoading } from '../model';
+import {
+    SensorDevice,
+    calibrateSensorDevice,
+    selectSensorCalibrationLoading,
+    selectSensorCalibrationError,
+} from '../model';
 import { isSensorDisconnectedError } from '../helpers';
 
 import type { AppDispatch } from '@app';
@@ -18,7 +23,7 @@ type UseCalibrateSensorOptions = {
 
 type UseCalibrateSensorResult = [
     (device: SensorDevice | null) => Promise<void>,
-    { loading: boolean },
+    { loading: boolean; hasError?: boolean },
 ];
 
 export const useCalibrateSensor = ({
@@ -33,6 +38,7 @@ export const useCalibrateSensor = ({
     const [presentToast] = usePreemieToast();
 
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
+    const isCalibrationError = useSelector(selectSensorCalibrationError);
 
     const call = React.useCallback(
         async (device: SensorDevice | null) => {
@@ -68,5 +74,5 @@ export const useCalibrateSensor = ({
         [isCalibrationLoading],
     );
 
-    return [call, { loading: isCalibrationLoading }];
+    return [call, { loading: isCalibrationLoading, hasError: isCalibrationError }];
 };

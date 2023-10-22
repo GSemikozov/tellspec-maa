@@ -26,11 +26,12 @@ export const CalibrationModal: React.FunctionComponent = () => {
 
     const handleCloseModal = () => setOpen(false);
 
-    const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor({
-        onError: async () => {
-            handleCloseModal();
-        },
-    });
+    const [calibrateSensor, { loading: calibrateSensorLoading, hasError: hasCalibrationError }] =
+        useCalibrateSensor({
+            onError: async () => {
+                handleCloseModal();
+            },
+        });
 
     const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
         useSaveCalibrationSensor({
@@ -45,10 +46,15 @@ export const CalibrationModal: React.FunctionComponent = () => {
     const deviceActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
     React.useEffect(() => {
+        if (hasCalibrationError) {
+            setOpen(false);
+            return;
+        }
+
         if (calibrateSensorLoading) {
             setOpen(calibrateSensorLoading);
         }
-    }, [calibrateSensorLoading]);
+    }, [calibrateSensorLoading, hasCalibrationError]);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
