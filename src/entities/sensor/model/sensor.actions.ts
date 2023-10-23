@@ -258,6 +258,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
 
         for (let i = 0; i < 7; i++) {
             await tellspecStartScan();
+            await thunkAPI.dispatch(getSensorStatus()).unwrap();
         }
     } catch (error: any) {
         await log('sensor/warmupSensor:error', error);
