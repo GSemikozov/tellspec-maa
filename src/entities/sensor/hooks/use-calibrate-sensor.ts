@@ -51,7 +51,7 @@ export const useCalibrateSensor = ({
 
                 await log('useCalibrateSensor:device', device);
 
-                await presentToast({ message: 'Start calibration...' });
+                // await presentToast({ message: 'Start calibration...' });
 
                 await dispatch(calibrateSensorDevice()).unwrap();
             } catch (error: any) {
