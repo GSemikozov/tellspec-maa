@@ -47,6 +47,16 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
     }, []);
 
     React.useEffect(() => {
+        // effect for fetching data depends on current sensor
+        if (!isAuthenticated || !currentDevice) {
+            return;
+        }
+
+        dispatch(getSensorScanner());
+        dispatch(getSensorCalibration());
+    }, [isAuthenticated, currentDevice]);
+
+    React.useEffect(() => {
         // effect for work with sensor status listener
         if (!isAuthenticated || !currentDevice) {
             reseSensorStatusListener();
@@ -92,17 +102,6 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
             startSensorStatusPolling();
         }
     }, [isAuthenticated, currentDevice, calibrationReady, isPolling]);
-
-    React.useEffect(() => {
-        // effect for fetching data depends on current sensor
-        if (!isAuthenticated || !currentDevice) {
-            reseSensorStatusListener();
-            return;
-        }
-
-        dispatch(getSensorScanner());
-        dispatch(getSensorCalibration());
-    }, []);
 
     return children;
 };
