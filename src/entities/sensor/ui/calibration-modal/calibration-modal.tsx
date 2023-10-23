@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IonModal, IonRow } from '@ionic/react';
+import { IonModal, IonRow, IonSpinner } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui';
@@ -62,6 +62,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                 {calibrateSensorLoading ? (
                     <>
                         <h1>Calibration in progress...</h1>
+                        <IonSpinner name='bubbles' color='primary' />
                         <p>
                             Please refrain from touching or interfering with the sensor during
                             calibration, to ensure accurate results. This will take about 20
