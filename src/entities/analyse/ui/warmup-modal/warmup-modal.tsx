@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonButton, IonModal } from '@ionic/react';
+import { IonButton, IonModal, IonSpinner } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { classname } from '@shared/utils';
@@ -48,6 +48,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
+                {warmupSensorLoading && <IonSpinner name='bubbles' color='primary' />}
                 {currentSensorTemperature < 30 || needRecalibration ? (
                     <>
                         <p>
