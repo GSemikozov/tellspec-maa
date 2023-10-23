@@ -34,7 +34,7 @@ import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
 import './add-milk-form.css';
-import { WarmupModal } from '@entities/analyse/warmup-modal';
+// import { WarmupModal } from '@entities/analyse/warmup-modal';
 
 const cn = classname('add-milk-form');
 

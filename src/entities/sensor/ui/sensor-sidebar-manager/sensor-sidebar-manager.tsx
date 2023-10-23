@@ -107,9 +107,11 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
         return {
             title: '',
             content: (
-                <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
-                    Unpair Sensor
-                </IonButton>
+                <div className={cn()}>
+                    <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
+                        Unpair Sensor
+                    </IonButton>
+                </div>
             ),
         };
     }, [
