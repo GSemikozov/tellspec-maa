@@ -101,8 +101,8 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
             !isAuthenticated ||
             !currentDevice ||
             !calibrationReady ||
-            !warmupLoading ||
-            !sensorScanning
+            warmupLoading ||
+            sensorScanning
         ) {
             stopSensorStatusPolling();
             return;
