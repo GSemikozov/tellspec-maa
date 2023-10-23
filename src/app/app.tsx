@@ -13,6 +13,7 @@ import { ReportsPage } from '@pages/reports';
 import { SettingsPage } from '@pages/settings';
 import { SensorPage } from '@pages/sensor-page';
 import { userSelectors } from '@entities/user';
+import { SensorManager } from '@entities/sensor';
 import { appActions } from '@app/model/app.slice';
 import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
@@ -72,43 +73,49 @@ export const App: React.FunctionComponent = () => {
     return (
         <IonApp>
             <IonReactRouter>
-                <SensorConnectionProcessProvider>
-                    <IonRouterOutlet className={layoutClassName} animated={false}>
-                        <PublicOnlyRoute exact path={routesMapping.login}>
-                            <LoginPage />
-                        </PublicOnlyRoute>
+                <SensorManager>
+                    <SensorConnectionProcessProvider>
+                        <IonRouterOutlet className={layoutClassName} animated={false}>
+                            <PublicOnlyRoute exact path={routesMapping.login}>
+                                <LoginPage />
+                            </PublicOnlyRoute>
 
-                        <PublicOnlyRoute exact path={routesMapping.forgetPassword}>
-                            <ForgetPasswordPage />
-                        </PublicOnlyRoute>
+                            <PublicOnlyRoute exact path={routesMapping.forgetPassword}>
+                                <ForgetPasswordPage />
+                            </PublicOnlyRoute>
 
-                        <ProtectedRoute exact path={routesMapping.home}>
-                            <HomePage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.home}>
+                                <HomePage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.addMilk}>
-                            <AddMilkPage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.addMilk}>
+                                <AddMilkPage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.analyse}>
-                            <AnalysePage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.analyse}>
+                                <AnalysePage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.reports}>
-                            <ReportsPage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.reports}>
+                                <ReportsPage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.settings}>
-                            <SettingsPage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.settings}>
+                                <SettingsPage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.sensorPage}>
-                            <SensorPage />
-                        </ProtectedRoute>
+                            <ProtectedRoute exact path={routesMapping.sensorPage}>
+                                <SensorPage />
+                            </ProtectedRoute>
 
-                        <ProtectedRoute exact path={routesMapping.pdfPage} component={PDFPage} />
-                    </IonRouterOutlet>
-                </SensorConnectionProcessProvider>
+                            <ProtectedRoute
+                                exact
+                                path={routesMapping.pdfPage}
+                                component={PDFPage}
+                            />
+                        </IonRouterOutlet>
+                    </SensorConnectionProcessProvider>
+                </SensorManager>
             </IonReactRouter>
         </IonApp>
     );

@@ -7,6 +7,7 @@ export enum CalibrationStatus {
     ERROR = 'error',
     REQUIRED = 'required',
     PROGRESS = 'progress',
+    NEED_ACCEPT = 'need_accept',
     READY = 'ready',
 }
 
@@ -23,6 +24,7 @@ export type SensorDevice = Omit<TellspecSensorDevice, 'activeCal'> & {
     temperature?: number;
     lampTime?: string;
     activeCal?: Calibration;
+    lastInteractionAt?: number;
 };
 
 export type SensorScannerData = GetSensorScannerResponse;
@@ -41,4 +43,9 @@ export type SensorState = {
 
     saveCalibrationStatus: 'idle' | 'progress';
     warmupSensorStatus: 'idle' | 'progress';
+
+    serverSensorCalibration: {
+        data: GetCalibrationResponse | null;
+        status: 'idle' | 'progress';
+    };
 };

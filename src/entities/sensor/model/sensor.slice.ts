@@ -12,34 +12,67 @@ import {
     getSensorScanner,
     saveActiveCalibrationSensor,
     warmupSensorDevice,
+    getSensorCalibration,
 } from './sensor.actions';
 
 import type { SensorState } from './sensor.types';
 
 const initialState: SensorState = {
+    currentDevice: null,
     calibrationStatus: CalibrationStatus.DISCONNECTED,
     calibrationRequired: false,
-    currentDevice: null,
+
     sensorScannerData: null,
     pairedDevices: [],
 
     sensorScanning: {
         status: 'idle',
     },
-
     saveCalibrationStatus: 'idle',
     warmupSensorStatus: 'idle',
+
+    serverSensorCalibration: {
+        data: null,
+        status: 'idle',
+    },
 };
 
 export const sensorSlice = createSlice({
     name: 'sensor',
     initialState,
-    reducers: {},
+    reducers: {
+        acceptSensorCalibration: state => {
+            state.calibrationStatus = CalibrationStatus.READY;
+        },
+    },
 
     extraReducers: builder => {
+        // get server calibration
+        builder.addCase(getSensorCalibration.pending, state => {
+            state.serverSensorCalibration.status = 'progress';
+        });
+        builder.addCase(getSensorCalibration.fulfilled, (state, action) => {
+            state.serverSensorCalibration.status = 'idle';
+
+            if (!action.payload) {
+                return state;
+            }
+
+            state.serverSensorCalibration.data = action.payload;
+        });
+        builder.addCase(getSensorCalibration.rejected, state => {
+            state.serverSensorCalibration.data = null;
+            state.serverSensorCalibration.status = 'idle';
+        });
+
         // warmup sensor
         builder.addCase(warmupSensorDevice.pending, state => {
+            if (!state.currentDevice) {
+                return state;
+            }
+
             state.warmupSensorStatus = 'progress';
+            state.currentDevice.lastInteractionAt = +new Date();
         });
         builder.addCase(warmupSensorDevice.fulfilled, state => {
             state.warmupSensorStatus = 'idle';
@@ -69,10 +102,11 @@ export const sensorSlice = createSlice({
 
             state.currentDevice = {
                 ...currentDevice,
-                batteryLevel: action.payload.battery,
+                batteryLevel: Number(action.payload.battery),
                 humidity: action.payload.humidity,
                 temperature: action.payload.temperature,
                 lampTime: action.payload.lampTime,
+                lastInteractionAt: +new Date(),
             };
         });
         builder.addCase(getSensorStatus.rejected, (state, action) => {
@@ -97,6 +131,7 @@ export const sensorSlice = createSlice({
             const updatedDevice = {
                 ...(state.currentDevice ?? {}),
                 ...device,
+                lastInteractionAt: +new Date(),
             };
 
             state.currentDevice = updatedDevice;
@@ -125,7 +160,7 @@ export const sensorSlice = createSlice({
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
         builder.addCase(calibrateSensorDevice.fulfilled, (state, action) => {
-            state.calibrationStatus = CalibrationStatus.READY;
+            state.calibrationStatus = CalibrationStatus.NEED_ACCEPT;
 
             if (!action.payload) {
                 return;
@@ -136,6 +171,7 @@ export const sensorSlice = createSlice({
             const updatedDevice = {
                 ...(state.currentDevice ?? {}),
                 ...device,
+                lastInteractionAt: +new Date(),
             };
 
             state.currentDevice = updatedDevice;
@@ -166,7 +202,12 @@ export const sensorSlice = createSlice({
 
         // sensor scanning
         builder.addCase(runSensorScan.pending, state => {
+            if (!state.currentDevice) {
+                return state;
+            }
+
             state.sensorScanning.status = 'progress';
+            state.currentDevice.lastInteractionAt = +new Date();
         });
         builder.addCase(runSensorScan.fulfilled, state => {
             state.sensorScanning.status = 'idle';

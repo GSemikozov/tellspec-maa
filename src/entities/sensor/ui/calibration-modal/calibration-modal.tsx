@@ -1,44 +1,60 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IonModal, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui';
-import { selectSensorDevice } from '@entities/sensor/model';
+import {
+    selectSensorDevice,
+    selectSensorDeviceActiveCalibration,
+    sensorActions,
+} from '@entities/sensor/model';
 import { useCalibrateSensor, useSaveCalibrationSensor } from '@entities/sensor/hooks';
 
 import { SensorCalibrationChart } from '../sensor-calibration-chart';
+
+import type { AppDispatch } from '@app';
 
 import './calibration-modal.css';
 
 const cn = classname('calibration-modal');
 
 export const CalibrationModal: React.FunctionComponent = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
     const [open, setOpen] = React.useState(false);
 
     const handleCloseModal = () => setOpen(false);
 
-    const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor({
-        onError: async () => {
-            handleCloseModal();
-        },
-    });
+    const [calibrateSensor, { loading: calibrateSensorLoading, hasError: hasCalibrationError }] =
+        useCalibrateSensor({
+            onError: async () => {
+                handleCloseModal();
+            },
+        });
 
     const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
         useSaveCalibrationSensor({
             onComplete: async () => {
+                dispatch(sensorActions.acceptSensorCalibration());
+
                 handleCloseModal();
             },
         });
 
     const currentDevice = useSelector(selectSensorDevice);
-    const activeCalibration = currentDevice?.activeCal;
+    const deviceActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
     React.useEffect(() => {
+        if (hasCalibrationError) {
+            setOpen(false);
+            return;
+        }
+
         if (calibrateSensorLoading) {
             setOpen(calibrateSensorLoading);
         }
-    }, [calibrateSensorLoading]);
+    }, [calibrateSensorLoading, hasCalibrationError]);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
@@ -54,7 +70,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                     </>
                 ) : null}
 
-                {!calibrateSensorLoading && activeCalibration ? (
+                {!calibrateSensorLoading && deviceActiveCalibration ? (
                     <>
                         <p>
                             Calibration is a process to compensate for the sensor drift and changing
@@ -68,7 +84,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                             <div className={cn('chart')}>
                                 <SensorCalibrationChart
                                     variant='reference-calibration'
-                                    calibration={activeCalibration}
+                                    calibration={deviceActiveCalibration}
                                 />
                             </div>
                         </div>

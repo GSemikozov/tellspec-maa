@@ -1,16 +1,18 @@
 import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
     CalibrationModal,
-    getSensorScanner,
     selectSensorDevice,
     useCalibrateSensor,
     selectSensorScannerData,
     SensorCalibrationChart,
     useRemoveSensor,
     selectSensorDeviceBatteryLevel,
+    selectServerSensorCalibartionData,
+    selectSensorDeviceTemperature,
+    selectSensorDeviceHumidity,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -18,25 +20,22 @@ import { classname } from '@shared/utils';
 import { PageArea } from '@shared/ui';
 import { Layout } from '@widgets/layout';
 
-import type { AppDispatch } from '@app';
-
 import './sensor.page.css';
 
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
-    const dispatch = useDispatch<AppDispatch>();
-
     const [calibrateSensor, { loading: calibrateSensorLoading }] = useCalibrateSensor();
     const [removeSensor] = useRemoveSensor();
 
     const currentDevice = useSelector(selectSensorDevice);
-    const sensorScannerData = useSelector(selectSensorScannerData);
-    const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+    const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
 
-    React.useEffect(() => {
-        dispatch(getSensorScanner());
-    }, []);
+    const sensorScannerData = useSelector(selectSensorScannerData);
+
+    const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
+    const humidity = useSelector(selectSensorDeviceHumidity);
+    const temperature = useSelector(selectSensorDeviceTemperature);
 
     const handleRemoveSensor = () => {
         if (!currentDevice) {
@@ -65,8 +64,6 @@ export const SensorPage: React.FunctionComponent = () => {
             </IonPage>
         );
     }
-
-    const activeCalibration = currentDevice.activeCal;
 
     return (
         <IonPage>
@@ -119,8 +116,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
 
-                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
-                                        .humidity ? (
+                                    {humidity ? (
                                         <div className={cn('section-option')}>
                                             <p>Humidity</p>
 
@@ -129,17 +125,12 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {Number(
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.humidity,
-                                                ).toFixed()}
-                                                % RH
+                                                {Number(humidity).toFixed()}% RH
                                             </div>
                                         </div>
                                     ) : null}
 
-                                    {currentDevice.activeCal?.scan['scan-info'].dlp_header
-                                        .temperature ? (
+                                    {temperature ? (
                                         <div className={cn('section-option')}>
                                             <p>Temperature</p>
 
@@ -148,10 +139,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {
-                                                    currentDevice.activeCal?.scan['scan-info']
-                                                        .dlp_header.temperature
-                                                }
+                                                {temperature}
                                                 °C
                                             </div>
                                         </div>
@@ -262,26 +250,15 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     ) : null}
 
-                                    {activeCalibration ? (
-                                        <>
-                                            {/* <div className={cn('section-chart', { fluid: true })}>
-                                                <p>Spectrum of last calibration</p>
+                                    {serverSensorCalibration ? (
+                                        <div className={cn('section-chart', { fluid: true })}>
+                                            <p>Reference calibration spectrum</p>
 
-                                                <SensorCalibrationChart
-                                                    variant='last-calibration'
-                                                    calibration={activeCalibration}
-                                                />
-                                            </div> */}
-
-                                            <div className={cn('section-chart', { fluid: true })}>
-                                                <p>Reference calibration spectrum</p>
-
-                                                <SensorCalibrationChart
-                                                    variant='reference-calibration'
-                                                    calibration={activeCalibration}
-                                                />
-                                            </div>
-                                        </>
+                                            <SensorCalibrationChart
+                                                variant='reference-calibration'
+                                                calibration={serverSensorCalibration}
+                                            />
+                                        </div>
                                     ) : null}
                                 </div>
                             </div>
