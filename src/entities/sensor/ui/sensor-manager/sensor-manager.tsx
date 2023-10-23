@@ -9,6 +9,8 @@ import {
     getSensorCalibration,
     getSensorScanner,
     removeDevice,
+    selectIsSensorScanning,
+    selectIsWarmupSensorLoading,
     selectSensorCalibrationReady,
     selectSensorDevice,
 } from '@entities/sensor/model';
@@ -25,6 +27,8 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
     const currentDevice = useSelector(selectSensorDevice);
     const calibrationReady = useSelector(selectSensorCalibrationReady);
+    const warmupLoading = useSelector(selectIsWarmupSensorLoading);
+    const sensorScanning = useSelector(selectIsSensorScanning);
 
     const sensorStatusListenerRef = React.useRef<PluginListenerHandle | null>(null);
     const currentDeviceRef = React.useRef<SensorDevice | null>(null);
@@ -93,7 +97,13 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
 
     React.useEffect(() => {
         // effect for manage receiving sensor sensor status
-        if (!isAuthenticated || !currentDevice || !calibrationReady) {
+        if (
+            !isAuthenticated ||
+            !currentDevice ||
+            !calibrationReady ||
+            !warmupLoading ||
+            !sensorScanning
+        ) {
             stopSensorStatusPolling();
             return;
         }
@@ -101,7 +111,14 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
         if (!isPolling) {
             startSensorStatusPolling();
         }
-    }, [isAuthenticated, currentDevice, calibrationReady, isPolling]);
+    }, [
+        isAuthenticated,
+        currentDevice,
+        calibrationReady,
+        warmupLoading,
+        sensorScanning,
+        isPolling,
+    ]);
 
     return children;
 };
