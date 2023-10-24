@@ -233,11 +233,11 @@ export const ReportTable: React.FunctionComponent<ReportTableProps> = props => {
                                                 )}
                                             />
                                         )}
-                                        {
+                                        {/* {
                                             { asc: '▲', desc: '▼' }[
                                                 (header.column.getIsSorted() as string) ?? null
                                             ]
-                                        }
+                                        } */}
                                     </th>
                                 );
                             })}
