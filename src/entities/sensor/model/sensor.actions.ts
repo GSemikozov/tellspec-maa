@@ -16,7 +16,7 @@ import {
     tellspecStartScan,
 } from '@api/native';
 import { apiInstance } from '@api/network';
-import { log } from '@shared/utils';
+import { log, logForServer } from '@shared/utils';
 
 import { EMULATION_SCAN_ID } from '../sensor.constants';
 import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
@@ -257,7 +257,10 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
         for (let i = 0; i < 7; i++) {
-            await tellspecStartScan();
+            const scanResult = await tellspecStartScan();
+
+            logForServer('warmup-scan', scanResult);
+
             await thunkAPI.dispatch(getSensorStatus()).unwrap();
         }
     } catch (error: any) {

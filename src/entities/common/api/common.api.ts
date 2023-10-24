@@ -10,7 +10,6 @@ export class CommonApi extends BaseEndpoint {
             ...request,
             app: 'Preemie Milk Analysis App',
             version_store: '1',
-            date: +new Date(),
         };
 
         const response = await this.http.post<AddLogResponse>(this.addLogUrl, requestBody);

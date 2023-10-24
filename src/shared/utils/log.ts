@@ -1,16 +1,14 @@
 import { apiInstance } from '@api/network';
 
-// TODO: to env
-const ENABLED_NETWORK_COLLECT_LOGS = false;
-
-export const log = async (subject: string, payload: any): Promise<void> => {
+export const log = async (subject: string, payload: any, forServer = false): Promise<void> => {
     console.log(subject, `[stringified payload]: ${JSON.stringify(payload)}`);
 
-    if (!ENABLED_NETWORK_COLLECT_LOGS) {
-        return;
+    if (forServer) {
+        await apiInstance.common.addLog({
+            message: `${subject}/[payload]: ${JSON.stringify(payload)}`,
+        });
     }
-
-    await apiInstance.common.addLog({
-        message: `subject:[stringified payload]: ${JSON.stringify(payload)}`,
-    });
 };
+
+export const logForServer = async (subject: string, payload: any): Promise<void> =>
+    log(subject, payload, true);

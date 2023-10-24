@@ -33,8 +33,7 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
     const sensorStatusListenerRef = React.useRef<PluginListenerHandle | null>(null);
     const currentDeviceRef = React.useRef<SensorDevice | null>(null);
 
-    const [startSensorStatusPolling, stopSensorStatusPolling, { isPolling }] =
-        useSensorStatusPolling();
+    const [, stopSensorStatusPolling, { isPolling }] = useSensorStatusPolling();
 
     {
         // for provide data to listener
@@ -108,9 +107,9 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
             return;
         }
 
-        if (!isPolling) {
-            startSensorStatusPolling();
-        }
+        // if (!isPolling) {
+        //     startSensorStatusPolling();
+        // }
     }, [
         isAuthenticated,
         currentDevice,

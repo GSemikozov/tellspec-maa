@@ -10,7 +10,12 @@ import {
     tellspecCheckBleState,
     tellspecEnableDiscovery,
 } from '@api/native';
-import { connectSensorDevice, selectSensorDevice, useCalibrateSensor } from '@entities/sensor';
+import {
+    connectSensorDevice,
+    getSensorStatus,
+    selectSensorDevice,
+    useCalibrateSensor,
+} from '@entities/sensor';
 import { fetchBleStatus } from '@app/model/app.actions';
 import { userSelectors } from '@entities/user';
 
@@ -42,7 +47,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const [calibrateSensor] = useCalibrateSensor();
 
     const mountedRef = React.useRef(false);
-    const cancelSignalRef = React.useRef<boolean>(false);
 
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
     const currentDevice = useSelector(selectSensorDevice);
@@ -78,8 +82,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
     const handleStartDiscovery: SensorConnectionProcessContextValue['onStartDiscovery'] =
         React.useCallback(async ({ enableBleCheck } = {}) => {
             try {
-                cancelSignalRef.current = false;
-
                 if (enableBleCheck) {
                     setStatus(SensorConnectionProcessStatus.CHECKING_BLE);
 
@@ -94,11 +96,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                     if (tellspecBleState.status === 'error') {
                         throw new Error(tellspecBleState.message);
                     }
-                }
-
-                if (cancelSignalRef.current) {
-                    cancelSignalRef.current = false;
-                    return;
                 }
 
                 setStatus(SensorConnectionProcessStatus.DISCOVERING);
@@ -139,8 +136,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
 
         setDiscoveredDevices([]);
         setUpdateDiscoveredDevicesListener(null);
-
-        // cancelSignalRef.current = true;
     }, [handleCloseDiscoveryDevicesModal]);
 
     const handleConnectDevice = React.useCallback(async (device: TellspecSensorDevice) => {
@@ -160,6 +155,8 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             if (requiredCalibration) {
                 await calibrateSensor(device);
             }
+
+            await dispatch(getSensorStatus()).unwrap();
         } catch (error: any) {
             setStatus(SensorConnectionProcessStatus.ERROR);
 
