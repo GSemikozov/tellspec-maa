@@ -259,7 +259,18 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         for (let i = 0; i < 7; i++) {
             const scanResult = await tellspecStartScan();
 
-            logForServer('warmup-scan', scanResult);
+            const dataToLog = {
+                SysHumidity: scanResult.SysHumidity,
+                SysTemperature: scanResult.SysTemperature,
+                HWRev: scanResult.HWRev,
+                SerialNumber: scanResult.SerialNumber,
+                TivaRev: scanResult.TivaRev,
+                SpectrumRev: scanResult.SpectrumRev,
+                KeyTimestamp: scanResult.KeyTimestamp,
+                ADCPGA: scanResult.ADCPGA,
+            };
+
+            logForServer('warmup-scan', dataToLog);
 
             await thunkAPI.dispatch(getSensorStatus()).unwrap();
         }
