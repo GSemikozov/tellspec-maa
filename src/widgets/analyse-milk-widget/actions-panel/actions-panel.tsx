@@ -32,15 +32,12 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     selectedID,
     isMilkAnalysed,
 }) => {
-
     // const dispatch = useDispatch<AppDispatch>();
-
 
     const [presentAlert] = useIonAlert();
 
     const currentDevice = useSelector(selectSensorDevice);
-console.log(currentDevice)
-
+    console.log(currentDevice);
 
     // const handlePrintLabels = () => {
     //     const reportAnalyseDataResult = report.data.analyseData?.result;
@@ -61,7 +58,7 @@ console.log(currentDevice)
     //     );
     // };
 
-//uncomment
+    //uncomment
     const handleConfirmReAnalyse = async () => {
         await presentAlert({
             subHeader:
@@ -81,12 +78,8 @@ console.log(currentDevice)
         });
     };
 
-    const handleAnalyseButtonClick = async () => 
+    const handleAnalyseButtonClick = async () =>
         isMilkAnalysed ? handleConfirmReAnalyse() : onAnalyseMilk();
-
-    // if (!currentDevice) {
-    //     return null;
-    // }
 
     if (showOnlyAnalyse) {
         const analyseTitle = analyseMilkLoading ? 'Analyse loading...' : 'Analyse This Milk';
@@ -99,8 +92,6 @@ console.log(currentDevice)
             </div>
         );
     }
-    
-
 
     const reAnalyseTitle = analyseMilkLoading ? 'Re-analyse loading...' : 'Re-analyse This Milk';
 
@@ -109,7 +100,6 @@ console.log(currentDevice)
             {/* <IonButton expand='full' disabled={analyseMilkLoading} onClick={handlePrintLabels}>
                 Print Milk Bag Labels
             </IonButton> */}
-            
 
             <IonButton
                 expand='full'
@@ -119,13 +109,15 @@ console.log(currentDevice)
                 Print Milk Test Results
             </IonButton>
 
-            <IonButton
-                expand='full'
-                disabled={analyseMilkLoading || !currentDevice}
-                onClick={handleAnalyseButtonClick}
-            >
-                {isMilkAnalysed ? reAnalyseTitle : 'Analyse this milk'}
-            </IonButton> 
+            {currentDevice ? (
+                <IonButton
+                    expand='full'
+                    disabled={analyseMilkLoading || !currentDevice}
+                    onClick={handleAnalyseButtonClick}
+                >
+                    {isMilkAnalysed ? reAnalyseTitle : 'Analyse this milk'}
+                </IonButton>
+            ) : null}
         </div>
     );
 };
