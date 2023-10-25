@@ -12,6 +12,7 @@ import { AppDispatch } from '@app';
 
 import './settings.css';
 
+
 const cn = classname('settings');
 
 const expirationMonth = ['1 month', '2 months', '3 months', '4 months', '5 months', '6 months'];
@@ -102,6 +103,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                 <div className={cn('section')}>
                                     <div className={cn('apk-number')}>MAA version: v1.1.0</div>
                                 </div>
+                               
                             </div>
                             {/* </div> */}
                         </PageArea.Main>

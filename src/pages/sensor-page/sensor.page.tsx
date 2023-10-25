@@ -37,6 +37,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const humidity = useSelector(selectSensorDeviceHumidity);
     const temperature = useSelector(selectSensorDeviceTemperature);
 
+
     const handleRemoveSensor = () => {
         if (!currentDevice) {
             return;
