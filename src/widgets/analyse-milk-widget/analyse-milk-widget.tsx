@@ -168,8 +168,9 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     );
 
     const hasMilkId = milkId !== '';
-
+    
     const showActions = hasMilkId; // && connectedSensor !== null;
+  
     const showOnlyAnalyseButton = extractReportAnalyseData(reportMilk) === null;
 
     return (
@@ -189,6 +190,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                     </div>
                 }
             />
+                    
 
             <PageArea.Main>
                 <div className={cn('tabs')}>
@@ -217,7 +219,9 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 onAnalyseMilk={handleOpenWarmupModal}
                                 isMilkAnalysed={!!reportMilk.data.analyseData}
                             />
+                           
                         </div>
+                       
                     ) : null}
                 </div>
 
