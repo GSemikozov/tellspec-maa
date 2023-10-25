@@ -48,7 +48,11 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
-                {warmupSensorLoading && <IonSpinner name='bubbles' color='primary' />}
+                {warmupSensorLoading && (
+                    <div style={{ marginTop: '20rem', textAlign: 'center' }}>
+                        <IonSpinner name='bubbles' color='primary' />
+                    </div>
+                )}
                 {currentSensorTemperature < 30 || needRecalibration ? (
                     <>
                         <p>
