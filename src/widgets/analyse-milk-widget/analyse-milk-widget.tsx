@@ -208,14 +208,14 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
                     <div className={cn('tab')}>{activeTabComponent}</div>
 
-                    {showActions && reportMilk ? (
+                    {showActions ? (
                         <div className={cn('actions-panel')}>
                             <ActionsPanel
                                 selectedID={milkId}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
                                 onAnalyseMilk={handleOpenWarmupModal}
-                                isMilkAnalysed={!!reportMilk.data.analyseData}
+                                isMilkAnalysed={!!reportMilk?.data.analyseData}
                             />
                         </div>
                     ) : null}
