@@ -5705,7 +5705,24 @@ napi-build-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.2.tgz#b1fddc0b2c46e380a0b7a76f984dd47c41a13806"
   integrity sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==
 
-native-run@^1.5.0, native-run@^1.7.2, native-run@^1.7.3:
+native-run@^1.5.0:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/native-run/-/native-run-1.7.4.tgz#b98b74812805cef8665cfceec651e66e662123e3"
+  integrity sha512-yDEwTp66vmXpqFiSQzz4sVQgyq5U58gGRovglY4GHh12ITyWa6mh6Lbpm2gViVOVD1JYFtYnwcgr7GTFBinXNA==
+  dependencies:
+    "@ionic/utils-fs" "^3.1.6"
+    "@ionic/utils-terminal" "^2.3.3"
+    bplist-parser "^0.3.2"
+    debug "^4.3.4"
+    elementtree "^0.1.7"
+    ini "^3.0.1"
+    plist "^3.0.6"
+    split2 "^4.1.0"
+    through2 "^4.0.2"
+    tslib "^2.4.0"
+    yauzl "^2.10.0"
+
+native-run@^1.7.2, native-run@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/native-run/-/native-run-1.7.3.tgz#892b95ee77a99c679f530719c73f58c1a46b1a8d"
   integrity sha512-vEw8X3Yu8TAbP4/uCJV3nCsCrhfHgUecRRDc69ZU9EK0QXHHc7YDzmIeI7SfA08ywzPlC9YcpITcB6bgMbrtwQ==
@@ -7414,7 +7431,7 @@ tar@^6.1.11:
 
 "tellspec-sensor-sdk@git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#next":
   version "0.0.2"
-  resolved "git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#77a2a53535afd143baf4a0a78bb67cd5c41b77bf"
+  resolved "git+ssh://git@bitbucket.org:tellspecapp/capacitor-tellspec-sensor-sdk.git#c69762ee930508efa382a69cfb96a11557e63bae"
   dependencies:
     "@capacitor/cli" "^3.2.0"
 
