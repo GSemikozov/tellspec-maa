@@ -58,7 +58,6 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
     //     );
     // };
 
-    //uncomment
     const handleConfirmReAnalyse = async () => {
         await presentAlert({
             subHeader:

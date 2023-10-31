@@ -17,11 +17,11 @@
     flex-wrap: wrap;
     justify-content: space-around;
 }
-.sensor-sidebar-manager__actions ion-text {
-    display: flex;
-    justify-content: center;
+.sensor-sidebar-manager__accordion-group h3 {
+font-size: 2rem;
 }
 .sensor-sidebar-manager__actions ion-button {
+    font-size: 1.3rem !important;
     margin: 0.5rem;
 }
 
