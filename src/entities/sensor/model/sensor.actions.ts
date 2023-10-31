@@ -14,6 +14,7 @@ import {
     tellspecRunScan,
     tellspecSetActiveConfig,
     tellspecStartScan,
+    tellspecWarmupByLamp,
 } from '@api/native';
 import { apiInstance } from '@api/network';
 import { log, logForServer } from '@shared/utils';
@@ -257,6 +258,8 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
         for (let i = 0; i < 7; i++) {
+            await tellspecWarmupByLamp();
+
             const scanResult = await tellspecStartScan();
 
             const dataToLog = {
