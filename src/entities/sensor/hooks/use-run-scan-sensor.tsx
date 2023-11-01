@@ -120,19 +120,21 @@ export const useRunScanSensor = ({
     const scanValidationResultComponent = React.useMemo(() => {
         const isOpen = scanValidationResult !== '';
 
+        let message = '';
+
+        if (scanValidationResult.includes('bad')) {
+            message =
+                'The scan was not usable. Please consider rescanning, or taking a new sample. If the problem persistes, please contact info@preemiesensor.com';
+        } else if (scanValidationResult.includes('not_ideal')) {
+            message =
+                'There may be a problem with the scan. Please consider rescanning, or taking a new sample.';
+        }
+
         return (
             <IonAlert
                 header='Scan Validation Result'
                 isOpen={isOpen}
-                message={
-                    scanValidationResult === 'bad'
-                        ? 'The scan was not usable. Please consider rescanning, or taking a new sample. If the problem persistes, please contact info@preemiesensor.com'
-                        : scanValidationResult === 'not_ideal'
-                        ? 'There may be a problem with the scan. Please consider rescanning, or taking a new sample.'
-                        : scanValidationResult === 'ok'
-                        ? ''
-                        : ''
-                }
+                message={message}
                 buttons={['OK']}
             />
         );
