@@ -54,11 +54,15 @@
 }
 
 .add-milk-form__actions-clear {
+    
     display: flex;
     justify-content: flex-end;
     margin: 1rem 0 !important;
 
     width: 100%;
+}
+.add-milk-form__actions-clear ion-button{
+    font-size: 1.3rem !important;
 }
 .add-milk-form__asterisk{
     font-size: 20px;

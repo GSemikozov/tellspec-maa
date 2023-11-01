@@ -77,7 +77,7 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
                     <>
                         <div className={cn('actions')}>
                             <IonButton disabled={discovering} onClick={handleClickStartDiscovery}>
-                                Select Preemie Sensor
+                               Select Preemie Sensor
                             </IonButton>
                         </div>
                     </>
@@ -144,7 +144,7 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
                 <IonAccordion value='first'>
                     <IonItem slot='header' color='none' className={cn('accordion-header')}>
                         <IonTitle className='ion-no-padding ion-no-margin  '>
-                            Video tutorials
+                            <h3>Video tutorials</h3>
                         </IonTitle>
                     </IonItem>
 
