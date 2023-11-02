@@ -59,7 +59,7 @@ const MENU_ITEMS = [
         id: 'settings',
         title: 'Settings',
         to: routesMapping.settings,
-        icon: <SettingsIcon size={32} color='currentColor' />,
+        icon: <SettingsIcon size={40} color='currentColor' />,
     },
 ];
 
