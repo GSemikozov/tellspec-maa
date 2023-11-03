@@ -2,7 +2,7 @@ import { IonButton, useIonRouter } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { routesMapping } from '@app/routes';
-import { usePreemieToast } from '@ui';
+import { PreemieButton, usePreemieToast } from '@ui';
 
 import './report-nonanalysed.css';
 
@@ -28,9 +28,9 @@ export const ReportNonAnalysed = ({ milkId, onModalClose }: any) => {
         <>
             <div className={cn()}>
                 <h1>This milk has not be analysed yet. Please analyse it to see test tesults.</h1>
-                <IonButton className={cn('analyse-button')} onClick={handleAnalyseReroute}>
+                <PreemieButton className={cn('analyse-button')} onClick={handleAnalyseReroute}>
                     Analyse this milk
-                </IonButton>
+                </PreemieButton>
             </div>
         </>
     );

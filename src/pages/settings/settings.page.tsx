@@ -35,7 +35,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                         <PageArea.Header
                             className={cn('header')}
                             title='Settings'
-                            icon={<SettingsIcon />}
+                            icon={<SettingsIcon size={38}/>}
                         />
 
                         <PageArea.Main>

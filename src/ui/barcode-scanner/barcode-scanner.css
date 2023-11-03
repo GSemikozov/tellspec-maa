@@ -5,6 +5,7 @@
 
 .barcode-scanner__scanner-button {
     margin: 0 !important;
+    font-size: 1.3rem;
 }
 
 .barcode-scanner__scanner-button::part(native) {

@@ -1,9 +1,10 @@
 import React from 'react';
-import { IonCol, IonRow, IonButton } from '@ionic/react';
+import { IonCol, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 
 import './actions-panel.css';
+import { PreemieButton } from '@ui/button';
 
 const cn = classname('actions-panel');
 
@@ -19,9 +20,9 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props =>
     return (
         <IonRow>
             <IonCol className={cn()}>
-                <IonButton href={printURL} disabled={isPrintButtonDisabled}>
+                <PreemieButton href={printURL} disabled={isPrintButtonDisabled}>
                     Print Milk Report(s)
-                </IonButton>
+                </PreemieButton>
             </IonCol>
         </IonRow>
     );

@@ -66,11 +66,11 @@ export const ForgetPasswordForm: React.FunctionComponent = () => {
                     {isFetching ? 'loading...' : 'Reset password'}
                 </PreemieButton>
 
-                <h5 className='forgot-password'>
-                    <IonText>
+                    <IonText className='forgot-password'>
+                <h5 >
                         <NavLink to={routesMapping.login}>Back to login</NavLink>
-                    </IonText>
                 </h5>
+                    </IonText>
             </IonList>
         </form>
     );

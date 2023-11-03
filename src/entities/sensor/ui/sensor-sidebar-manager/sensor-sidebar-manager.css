@@ -30,6 +30,12 @@ font-size: 2rem;
     margin-top: 1rem !important;
     gap: 1rem;
 }
+.sensor-sidebar-manager__actions-buttons ion-button{
+    font-size: 1.3rem;
+}
+.seral-number{
+    font-size: 1.3rem !important;
+}
 
 .sensor-sidebar-manager__video-modal {
     --width: 80%;
@@ -63,7 +69,7 @@ font-size: 2rem;
 }
 
 .sensor-sidebar-manager__videos-container p {
-    font-size: 14px;
+    font-size: 1.5rem;
 }
 
 .sensor-sidebar-manager__actions-buttons ion-title {

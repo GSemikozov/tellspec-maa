@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    IonButton,
     IonButtons,
     IonContent,
     IonHeader,
@@ -25,6 +24,7 @@ import type {
 } from '@ionic/core';
 
 import './autocomplete-typehead.css';
+import { PreemieButton } from '@ui/button';
 
 const cn = classname('autocomplete-typehead');
 
@@ -103,7 +103,12 @@ export const AutocompleteTypehead = <T extends BaseAutocompleteItem>({
                     <IonRadioGroup value={chosenItem} onIonChange={handleChange}>
                         {filteredItems.map(item => (
                             <IonItem lines='none' key={item.value} className={'list-item'}>
-                                <IonRadio justify='start' labelPlacement='end' value={item.value}>
+                                <IonRadio
+                                    justify='start'
+                                    labelPlacement='end'
+                                    value={item.value}
+                                    className={cn('list-item')}
+                                >
                                     {item.title}
                                 </IonRadio>
                             </IonItem>
@@ -115,8 +120,8 @@ export const AutocompleteTypehead = <T extends BaseAutocompleteItem>({
             <IonFooter className={cn('footer')}>
                 <IonToolbar>
                     <IonButtons slot='end'>
-                        <IonButton onClick={handleCancel}>Cancel</IonButton>
-                        <IonButton onClick={handleConfirm}>Done</IonButton>
+                        <PreemieButton onClick={handleCancel}>Cancel</PreemieButton>
+                        <PreemieButton onClick={handleConfirm}>Done</PreemieButton>
                     </IonButtons>
                 </IonToolbar>
             </IonFooter>

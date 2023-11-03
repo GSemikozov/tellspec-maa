@@ -107,7 +107,7 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
         return {
             title: '',
             content: (
-                <div className={cn()}>
+                <div className={cn('actions')}>
                     <IonButton onClick={() => removeSensor(currentDevice.uuid)}>
                         Unpair Sensor
                     </IonButton>
@@ -208,7 +208,7 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
                 </IonAccordion>
             </IonAccordionGroup>
 
-            <IonTitle className='ion-text-center ion-margin-top'>{currentDevice?.serial}</IonTitle>
+            <IonTitle className='ion-text-center ion-margin-top serial-number'>{currentDevice?.serial}</IonTitle>
 
             <SensorManagerInteractiveImage />
         </div>
