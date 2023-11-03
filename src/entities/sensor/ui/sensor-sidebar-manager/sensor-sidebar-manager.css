@@ -84,3 +84,12 @@ font-size: 2rem;
     width: 100%;
     border-bottom: 1px solid var(--ion-color-primary);
 }
+
+.sensor-sidebar-manager__accordion-header h3{
+    margin-top: 10px;
+}
+.serial-number h2{
+    font-size: 2rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+}

@@ -208,7 +208,9 @@ export const SensorSidebarManager: React.FunctionComponent = () => {
                 </IonAccordion>
             </IonAccordionGroup>
 
-            <IonTitle className='ion-text-center ion-margin-top serial-number'>{currentDevice?.serial}</IonTitle>
+            <IonTitle className='ion-text-center serial-number'>
+                <h2>{currentDevice?.serial}</h2>
+            </IonTitle>
 
             <SensorManagerInteractiveImage />
         </div>

@@ -3,7 +3,7 @@ import {
     //useDispatch,
     useSelector,
 } from 'react-redux';
-import { IonButton, useIonAlert } from '@ionic/react';
+import { useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 // import { labelPrinterAsyncActions } from '@features/label-printer';
