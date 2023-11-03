@@ -10,6 +10,7 @@ import {
 } from '@entities/sensor';
 
 import './warmup-modal.css';
+import { PreemieButton } from '@ui/button';
 
 const cn = classname('warmup-modal');
 
@@ -61,20 +62,20 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         </p>
 
                         <div className={cn('modal-actions')}>
-                            <IonButton disabled>{analyseMilkTitle}</IonButton>
-                            <IonButton disabled={warmupSensorLoading} onClick={warmupSensor}>
+                            <PreemieButton disabled>{analyseMilkTitle}</PreemieButton>
+                            <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
                                 Warm Up Sensor
-                            </IonButton>
+                            </PreemieButton>
                             <IonButton onClick={onClose}>Cancel</IonButton>
                         </div>
                     </>
                 ) : (
                     <div className={cn('second-modal-actions')}>
-                        <IonButton disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
+                        <PreemieButton disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
                             {analyseMilkTitle}
-                        </IonButton>
+                        </PreemieButton>
 
-                        <IonButton onClick={onClose}>Cancel</IonButton>
+                        <PreemieButton onClick={onClose}>Cancel</PreemieButton>
                     </div>
                 )}
             </div>
