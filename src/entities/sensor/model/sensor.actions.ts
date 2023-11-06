@@ -261,7 +261,10 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
         for (let i = 0; i < maxRetries; i++) {
-            const warmupResult = await tellspecWarmupByLamp({ currentRetry: i, maxRetries });
+            const warmupResult = await tellspecWarmupByLamp({
+                currentRetry: i,
+                maxRetries: maxRetries - 1,
+            });
 
             const dataToLog = {
                 temperature: warmupResult.temperature,
