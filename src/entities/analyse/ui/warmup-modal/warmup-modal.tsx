@@ -1,7 +1,8 @@
 import React from 'react';
-import { IonButton, IonModal, IonSpinner } from '@ionic/react';
+import { IonButton, IonModal, IonSpinner, useIonAlert } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
+import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import {
     selectSensorDevice,
@@ -10,11 +11,11 @@ import {
 } from '@entities/sensor';
 
 import './warmup-modal.css';
-import { PreemieButton } from '@ui/button';
 
 const cn = classname('warmup-modal');
 
 const SENSOR_IDLE_MINUTES_TO_RE_WARMUP = 15;
+const RECOMMENDED_TEMP_FOR_SCAN = 30;
 
 export type WarmupModalProps = {
     open: boolean;
@@ -33,6 +34,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     isMilkAnalysed,
 }) => {
+    const [presentAlert] = useIonAlert();
+
+    const [disabledAnalyse, setDisabledAnalyse] = React.useState(true);
+
     const currentDevice = useSelector(selectSensorDevice);
     const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
 
@@ -46,6 +51,25 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
+    const handleCancelWarmup = () => {
+        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
+            presentAlert({
+                header: 'Warning',
+                subHeader:
+                    'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            setDisabledAnalyse(false);
+                            onClose();
+                        },
+                    },
+                ],
+            });
+        }
+    };
+
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
@@ -54,7 +78,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         <IonSpinner name='bubbles' color='primary' />
                     </div>
                 )}
-                {currentSensorTemperature < 30 || needRecalibration ? (
+
+                {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? (
                     <>
                         <p>
                             For best results we suggest that you need to warm up your Preemie Sensor
@@ -62,11 +87,15 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         </p>
 
                         <div className={cn('modal-actions')}>
-                            <PreemieButton disabled>{analyseMilkTitle}</PreemieButton>
+                            <PreemieButton disabled={disabledAnalyse} onClick={onAnalyseMilk}>
+                                {analyseMilkTitle}
+                            </PreemieButton>
+
                             <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
                                 Warm Up Sensor
                             </PreemieButton>
-                            <IonButton onClick={onClose}>Cancel</IonButton>
+
+                            <PreemieButton onClick={onClose}>Cancel</PreemieButton>
                         </div>
                     </>
                 ) : (

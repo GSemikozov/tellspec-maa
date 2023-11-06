@@ -6,7 +6,7 @@ import { appActions, appSelectors } from '@app';
 
 import type { AppDispatch } from '@app';
 
-export const Alert: React.FC = () => {
+export const Alert: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [presentAlert] = useIonAlert();
     const { alertHeader, alertSubHeader, alertMessage, isAlertVisible } = useSelector(

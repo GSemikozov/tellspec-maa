@@ -12,8 +12,6 @@ import {
 } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
 
-
-
 import type { AppDispatch } from '@app';
 
 type UseWarmupSensorOptions = {
@@ -36,17 +34,13 @@ export const useWarmupSensor = ({
 
     const currentSensorTemperatureRef = React.useRef<number>(0);
 
-  
-
     {
         currentSensorTemperatureRef.current = currentSensorTemperature;
     }
 
     const call = React.useCallback(async () => {
         try {
-          
-
-        if (loading) {
+            if (loading) {
                 return;
             }
 
