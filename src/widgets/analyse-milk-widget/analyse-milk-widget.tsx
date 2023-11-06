@@ -15,6 +15,7 @@ import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
 import { appActions } from '@app';
 import { WarmupModal } from '@entities/analyse/ui';
+import { selectSensorDevice } from '@entities/sensor';
 
 import { ActionsPanel } from './actions-panel';
 import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
@@ -30,20 +31,31 @@ enum AnalyseWidgetTabs {
     SPECTRUM = 'spectrum',
     TEST_RESULTS = 'testResults',
 }
-
 export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
-
+    
     const { routeInfo } = useIonRouter();
     const [presentToast] = usePreemieToast();
-
+    
     const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
+    const currentDevice = useSelector(selectSensorDevice);
+    
+    const handleOpenWarmupModal = () =>{
+        
+        if (!currentDevice) {
+            presentToast({
+                message: 'Your sensor is not connected. Please connect the sensor.',
+            });
+        }
+        else {
+            setWarmupOpenModal(true)};
+    }
+    
 
-    const handleOpenWarmupModal = () => setWarmupOpenModal(true);
-    const handleCloseWarmupModal = () => setWarmupOpenModal(false);
+const handleCloseWarmupModal = () => setWarmupOpenModal(false);
 
-    const [milkId, setMilkId] = React.useState<string>('');
-    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
+const [milkId, setMilkId] = React.useState<string>('');
+const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
         AnalyseWidgetTabs.TEST_RESULTS,
     );
 

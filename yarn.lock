@@ -1331,29 +1331,29 @@
     debug "^4.0.0"
     tslib "^2.0.1"
 
-"@ionic/core@7.5.2":
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-7.5.2.tgz#139919f6a2ab2667c1fe6167b65dd5a037134616"
-  integrity sha512-0O8YgaE7CzrhDLGpnNq2Ia4bR+qFE1uHJHafoNWhoTXkydNnqSMZlxMCvtSetfv9bwLic93lcXYNoZ8I8zV3XA==
+"@ionic/core@7.5.3":
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-7.5.3.tgz#2930dc4da0a5765930bb1cf12a9aed2a2775b5e7"
+  integrity sha512-nd4NV6gSgohLvKHGmf+jAcgzI1387eKq3enjBfE574FK/ikl5CeIltv0MBVJr9lz0pNSL/y9m1tdaFg+syASuA==
   dependencies:
     "@stencil/core" "^4.6.0"
     ionicons "^7.2.1"
     tslib "^2.1.0"
 
 "@ionic/react-router@^7.0.0":
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/@ionic/react-router/-/react-router-7.5.2.tgz#17637f1f1d03b59e4f714f2010b722d00fb14d5b"
-  integrity sha512-NQ/1nrqjEkHQ4utbM5NDfHpeDLtmpH8jwjwL8mDKDw5PDrOZXy1vnwiIJlYEe7fXOiIpBR+YLahcZ2bTOrZVAQ==
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/@ionic/react-router/-/react-router-7.5.3.tgz#5f01d694c11e45609e9a86d0076ea13d502df3bd"
+  integrity sha512-Ca8lmhPF7q8DCjYVDfWfs3S0t/gVfviHFp/KJHLf41ZBeJwbT8r6b4ZJfL/2lLVjO+Zrluqzn9kc6+KlwqnTvA==
   dependencies:
-    "@ionic/react" "7.5.2"
+    "@ionic/react" "7.5.3"
     tslib "*"
 
-"@ionic/react@7.5.2", "@ionic/react@^7.0.0":
-  version "7.5.2"
-  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-7.5.2.tgz#5bedae9931620024b0d47178a2eeea66f2f39c48"
-  integrity sha512-NCLca/syKh7OJ8RLLw8rFENhG4QLlvkfePvfqlsFLslY384Ocvo8364jEqn17XeSv/E8IeC7OlVBHjj7LO40lg==
+"@ionic/react@7.5.3", "@ionic/react@^7.0.0":
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-7.5.3.tgz#5be5224c2780c02e7acdbda7a8662ff92a724afd"
+  integrity sha512-qnHz/g84mqLenUAoyi6HL181xvq3izVG/sD2hQ6iX3QjGQKMnbWNVo6M3YK4FJI1ht91NzhFxs6qvXHFcA1o4g==
   dependencies:
-    "@ionic/core" "7.5.2"
+    "@ionic/core" "7.5.3"
     ionicons "^7.0.0"
     tslib "*"
 
@@ -1997,9 +1997,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^18.0.27":
-  version "18.2.33"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.33.tgz#055356243dc4350a9ee6c6a2c07c5cae12e38877"
-  integrity sha512-v+I7S+hu3PIBoVkKGpSYYpiBT1ijqEzWpzQD62/jm4K74hPpSP7FF9BnKG6+fg2+62weJYkkBWDJlZt5JO/9hg==
+  version "18.2.34"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.34.tgz#aed20f19473721ba328feb99d1ec3307ebc1a8dd"
+  integrity sha512-U6eW/alrRk37FU/MS2RYMjx0Va2JGIVXELTODaTIYgvWGCV4Y4TfTUzG8DdmpDNIT0Xpj/R7GfyHOJJrDttcvg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3624,9 +3624,9 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.4.535:
-  version "1.4.571"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.571.tgz#8aa71539eb82db98740c3ec861256cc34e0356fd"
-  integrity sha512-Sc+VtKwKCDj3f/kLBjdyjMpNzoZsU6WuL/wFb6EH8USmHEcebxRXcRrVpOpayxd52tuey4RUDpUsw5OS5LhJqg==
+  version "1.4.574"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.574.tgz#6de04d7c6e244e5ffcae76d2e2a33b02cab66781"
+  integrity sha512-bg1m8L0n02xRzx4LsTTMbBPiUd9yIR+74iPtS/Ao65CuXvhVZHP0ym1kSdDG3yHFDXqHQQBKujlN1AQ8qZnyFg==
 
 elementtree@^0.1.7:
   version "0.1.7"
@@ -5700,27 +5700,10 @@ napi-build-utils@^1.0.1:
   resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.2.tgz#b1fddc0b2c46e380a0b7a76f984dd47c41a13806"
   integrity sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==
 
-native-run@^1.5.0:
+native-run@^1.5.0, native-run@^1.7.2, native-run@^1.7.3:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/native-run/-/native-run-1.7.4.tgz#b98b74812805cef8665cfceec651e66e662123e3"
   integrity sha512-yDEwTp66vmXpqFiSQzz4sVQgyq5U58gGRovglY4GHh12ITyWa6mh6Lbpm2gViVOVD1JYFtYnwcgr7GTFBinXNA==
-  dependencies:
-    "@ionic/utils-fs" "^3.1.6"
-    "@ionic/utils-terminal" "^2.3.3"
-    bplist-parser "^0.3.2"
-    debug "^4.3.4"
-    elementtree "^0.1.7"
-    ini "^3.0.1"
-    plist "^3.0.6"
-    split2 "^4.1.0"
-    through2 "^4.0.2"
-    tslib "^2.4.0"
-    yauzl "^2.10.0"
-
-native-run@^1.7.2, native-run@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/native-run/-/native-run-1.7.3.tgz#892b95ee77a99c679f530719c73f58c1a46b1a8d"
-  integrity sha512-vEw8X3Yu8TAbP4/uCJV3nCsCrhfHgUecRRDc69ZU9EK0QXHHc7YDzmIeI7SfA08ywzPlC9YcpITcB6bgMbrtwQ==
   dependencies:
     "@ionic/utils-fs" "^3.1.6"
     "@ionic/utils-terminal" "^2.3.3"
@@ -7799,9 +7782,9 @@ universalify@^0.2.0:
   integrity sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==
 
 universalify@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
-  integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.1.tgz#168efc2180964e6386d061e094df61afe239b18d"
+  integrity sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==
 
 untildify@^4.0.0:
   version "4.0.0"

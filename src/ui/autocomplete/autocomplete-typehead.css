@@ -5,3 +5,10 @@
 .autocomplete-typehead__footer .button {
     --color: var(--ion-color-primary);
 }
+
+.autocomplete-typehead__searchbar{
+    font-size: 1.5rem;
+}
+.autocomplete-typehead__list-item{
+    font-size: 1.5rem;
+}

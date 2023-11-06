@@ -9,6 +9,7 @@ import { classname } from '@shared/utils';
 import type { DatetimeChangeEventDetail } from '@ionic/react';
 
 import './date-range.css';
+import { PreemieButton } from '@ui/button';
 
 const cn = classname('date-range');
 
@@ -72,14 +73,14 @@ export const DateRange: React.FunctionComponent<DataRangeProps> = props => {
 
     return (
         <div className={cn()}>
-            <IonButton
+            <PreemieButton
                 fill='outline'
                 className={cn('button')}
                 onClick={handlePopoverToggle}
                 disabled={disabled}
             >
                 {buttonLabel}
-            </IonButton>
+            </PreemieButton>
 
             {isOpened
                 ? createPortal(

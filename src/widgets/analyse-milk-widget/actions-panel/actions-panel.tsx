@@ -3,7 +3,7 @@ import {
     //useDispatch,
     useSelector,
 } from 'react-redux';
-import { IonButton, useIonAlert } from '@ionic/react';
+import { useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 // import { labelPrinterAsyncActions } from '@features/label-printer';
@@ -12,6 +12,7 @@ import { selectSensorDevice } from '@entities/sensor';
 // import type { AppDispatch } from '@app';
 
 import './actions-panel.css';
+import { PreemieButton } from '@ui/button';
 
 const cn = classname('actions-panel');
 
@@ -85,9 +86,9 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
 
         return (
             <div className={cn()}>
-                <IonButton expand='full' disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
+                <PreemieButton expand='full' disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
                     {analyseTitle}
-                </IonButton>
+                </PreemieButton>
             </div>
         );
     }
@@ -100,22 +101,22 @@ export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = ({
                 Print Milk Bag Labels
             </IonButton> */}
 
-            <IonButton
+            <PreemieButton
                 expand='full'
                 disabled={analyseMilkLoading}
                 href={`/pdf/${encodeURIComponent(selectedID)}`}
             >
                 Print Milk Test Results
-            </IonButton>
+            </PreemieButton>
 
             {currentDevice ? (
-                <IonButton
+                <PreemieButton
                     expand='full'
                     disabled={analyseMilkLoading || !currentDevice}
                     onClick={handleAnalyseButtonClick}
                 >
                     {isMilkAnalysed ? reAnalyseTitle : 'Analyse this milk'}
-                </IonButton>
+                </PreemieButton>
             ) : null}
         </div>
     );

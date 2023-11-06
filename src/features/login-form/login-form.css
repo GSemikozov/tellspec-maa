@@ -15,10 +15,13 @@
 .forgot-password {
     text-align: center;
     color: black;
+    font-size: 1.4rem;
 }
+
 
 .forgot-password a {
     text-decoration: none;
+    font-size: 1.5rem;
 }
 
 .error {

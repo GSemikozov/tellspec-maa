@@ -53,7 +53,7 @@ export const ReportGlobalFilter: React.FC = () => {
                     className={cn('name')}
                     placeholder='Search for ID'
                     class='preemieCustom'
-                    value={name}
+                    value={name}  
                     clearIcon={closeCircleOutline}
                     onIonClear={handleClear}
                     showClearButton='always'

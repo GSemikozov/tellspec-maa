@@ -66,6 +66,7 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
+
     return (
         <IonPage>
             <IonContent>
@@ -236,7 +237,6 @@ export const SensorPage: React.FunctionComponent = () => {
                                             </IonChip>
                                         </div>
                                     </div>
-
                                     {sensorScannerData ? (
                                         <div className={cn('section-option')}>
                                             <p>Last Calibration Date</p>
@@ -250,7 +250,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                             </div>
                                         </div>
                                     ) : null}
-
+                                    
                                     {serverSensorCalibration ? (
                                         <div className={cn('section-chart', { fluid: true })}>
                                             <p>Reference calibration spectrum</p>

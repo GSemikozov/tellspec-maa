@@ -129,7 +129,7 @@ export const LoginForm: React.FunctionComponent<KeyboardActions> = () => {
 
                 {/* {requestError ? <div className='error'>{requestError}</div> : null} */}
 
-                <PreemieButton type='submit' expand='block' size='default' disabled={isFetching}>
+                <PreemieButton type='submit' expand='block' size='default' disabled={isFetching} >
                     {isFetching ? 'loading...' : 'Log in'}
                 </PreemieButton>
             </IonList>
