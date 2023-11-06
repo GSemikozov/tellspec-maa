@@ -14,7 +14,6 @@ import {
     tellspecRunScan,
     tellspecSetActiveConfig,
     tellspecStartScan,
-    tellspecWarmupByLamp,
 } from '@api/native';
 import { apiInstance } from '@api/network';
 import { log, logForServer } from '@shared/utils';
@@ -24,7 +23,6 @@ import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
 import { SENSOR_DISCONNECTED, isSensorDisconnectedError } from '../helpers';
 
 import { SensorDevice } from './sensor.types';
-import { sensorActions } from './sensor.slice';
 
 import type { RootState } from '@app/store';
 import type { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
@@ -256,23 +254,25 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     }
 
     try {
-        const maxRetries = 7;
-
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
-        for (let i = 0; i < maxRetries; i++) {
-            const warmupResult = await tellspecWarmupByLamp({
-                currentRetry: i,
-                maxRetries: maxRetries - 1,
-            });
+        for (let i = 0; i < 15; i++) {
+            const scanResult = await tellspecStartScan();
 
             const dataToLog = {
-                temperature: warmupResult.temperature,
-                humidity: warmupResult.humidity,
+                SysHumidity: scanResult.SysHumidity,
+                SysTemperature: scanResult.SysTemperature,
+                HWRev: scanResult.HWRev,
+                SerialNumber: scanResult.SerialNumber,
+                TivaRev: scanResult.TivaRev,
+                SpectrumRev: scanResult.SpectrumRev,
+                KeyTimestamp: scanResult.KeyTimestamp,
+                ADCPGA: scanResult.ADCPGA,
             };
 
             logForServer('warmup-scan', dataToLog);
-            thunkAPI.dispatch(sensorActions.setSensorStatus(warmupResult));
+
+            await thunkAPI.dispatch(getSensorStatus()).unwrap();
         }
     } catch (error: any) {
         await log('sensor/warmupSensor:error', error);

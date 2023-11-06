@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonModal, IonSpinner, useIonAlert } from '@ionic/react';
+import { IonModal, IonSpinner } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { PreemieButton } from '@ui/button';
@@ -34,9 +34,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     isMilkAnalysed,
 }) => {
-    const [presentAlert] = useIonAlert();
-
-    const [disabledAnalyse, setDisabledAnalyse] = React.useState(true);
+    // const [presentAlert] = useIonAlert();
+    //
+    // const [disabledAnalyse, setDisabledAnalyse] = React.useState(true);
 
     const currentDevice = useSelector(selectSensorDevice);
     const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
@@ -51,24 +51,24 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    const handleCancelWarmup = () => {
-        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
-            presentAlert({
-                header: 'Warning',
-                subHeader:
-                    'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
-                buttons: [
-                    {
-                        text: 'OK',
-                        handler: () => {
-                            setDisabledAnalyse(false);
-                            onClose();
-                        },
-                    },
-                ],
-            });
-        }
-    };
+    // const handleCancelWarmup = () => {
+    //     if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
+    //         presentAlert({
+    //             header: 'Warning',
+    //             subHeader:
+    //                 'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
+    //             buttons: [
+    //                 {
+    //                     text: 'OK',
+    //                     handler: () => {
+    //                         setDisabledAnalyse(false);
+    //                         onClose();
+    //                     },
+    //                 },
+    //             ],
+    //         });
+    //     }
+    // };
 
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
@@ -87,16 +87,12 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         </p>
 
                         <div className={cn('modal-actions')}>
-                            <PreemieButton disabled={disabledAnalyse} onClick={onAnalyseMilk}>
+                            <PreemieButton onClick={onAnalyseMilk}>
                                 {analyseMilkTitle}
                             </PreemieButton>
 
                             <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
                                 Warm Up Sensor
-                            </PreemieButton>
-
-                            <PreemieButton onClick={handleCancelWarmup}>
-                                Cancel warmup
                             </PreemieButton>
 
                             <PreemieButton onClick={onClose}>Cancel</PreemieButton>
