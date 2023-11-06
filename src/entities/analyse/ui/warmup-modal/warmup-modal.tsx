@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonButton, IonModal, IonSpinner, useIonAlert } from '@ionic/react';
+import { IonModal, IonSpinner, useIonAlert } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { PreemieButton } from '@ui/button';
@@ -93,6 +93,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
                             <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
                                 Warm Up Sensor
+                            </PreemieButton>
+
+                            <PreemieButton onClick={handleCancelWarmup}>
+                                Cancel warmup
                             </PreemieButton>
 
                             <PreemieButton onClick={onClose}>Cancel</PreemieButton>
