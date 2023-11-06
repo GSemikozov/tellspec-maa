@@ -65,8 +65,11 @@ export const tellspecGetConfigs = async () => {
     return TellspecSensorSdk.getConfigs();
 };
 
-export const tellspecWarmupByLamp = async () => {
-    return TellspecSensorSdk.warmupByLamp();
+export const tellspecWarmupByLamp = async (options: {
+    currentRetry: number;
+    maxRetries: number;
+}) => {
+    return TellspecSensorSdk.warmupByLamp(options);
 };
 
 export const tellspecStartScan = async () => {

@@ -24,6 +24,7 @@ import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
 import { SENSOR_DISCONNECTED, isSensorDisconnectedError } from '../helpers';
 
 import { SensorDevice } from './sensor.types';
+import { sensorActions } from './sensor.slice';
 
 import type { RootState } from '@app/store';
 import type { TellspecSensorDevice, TellspecSensorScannedData } from '@api/native';
@@ -255,27 +256,20 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     }
 
     try {
+        const maxRetries = 7;
+
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
-        for (let i = 0; i < 7; i++) {
-            await tellspecWarmupByLamp();
-
-            const scanResult = await tellspecStartScan();
+        for (let i = 0; i < maxRetries; i++) {
+            const warmupResult = await tellspecWarmupByLamp({ currentRetry: i, maxRetries });
 
             const dataToLog = {
-                SysHumidity: scanResult.SysHumidity,
-                SysTemperature: scanResult.SysTemperature,
-                HWRev: scanResult.HWRev,
-                SerialNumber: scanResult.SerialNumber,
-                TivaRev: scanResult.TivaRev,
-                SpectrumRev: scanResult.SpectrumRev,
-                KeyTimestamp: scanResult.KeyTimestamp,
-                ADCPGA: scanResult.ADCPGA,
+                temperature: warmupResult.temperature,
+                humidity: warmupResult.humidity,
             };
 
             logForServer('warmup-scan', dataToLog);
-
-            await thunkAPI.dispatch(getSensorStatus()).unwrap();
+            thunkAPI.dispatch(sensorActions.setSensorStatus(warmupResult));
         }
     } catch (error: any) {
         await log('sensor/warmupSensor:error', error);

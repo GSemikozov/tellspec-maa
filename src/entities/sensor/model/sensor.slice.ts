@@ -15,7 +15,7 @@ import {
     getSensorCalibration,
 } from './sensor.actions';
 
-import type { SensorState } from './sensor.types';
+import type { SensorState, SetSensorStatusAction } from './sensor.types';
 
 const initialState: SensorState = {
     currentDevice: null,
@@ -43,6 +43,25 @@ export const sensorSlice = createSlice({
     reducers: {
         acceptSensorCalibration: state => {
             state.calibrationStatus = CalibrationStatus.READY;
+        },
+
+        setSensorStatus: (state, action: SetSensorStatusAction) => {
+            const currentDevice = state.currentDevice;
+
+            if (!currentDevice) {
+                return;
+            }
+
+            const { temperature, humidity, battery, lampTime } = action.payload;
+
+            state.currentDevice = {
+                ...currentDevice,
+                batteryLevel: Number(battery),
+                humidity,
+                temperature,
+                lampTime,
+                lastInteractionAt: +new Date(),
+            };
         },
     },
 

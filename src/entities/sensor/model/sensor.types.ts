@@ -1,3 +1,5 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { TellspecSensorDevice } from '@api/native';
 
 import { GetCalibrationResponse, GetSensorScannerResponse } from '../api';
@@ -49,3 +51,10 @@ export type SensorState = {
         status: 'idle' | 'progress';
     };
 };
+
+export type SetSensorStatusAction = PayloadAction<{
+    temperature: number;
+    humidity: number;
+    battery: number;
+    lampTime: string;
+}>;
