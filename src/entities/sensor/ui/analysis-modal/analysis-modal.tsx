@@ -7,13 +7,13 @@ import { useState } from 'react';
 
 const cn = classname('analysis-modal');
 
-export const AnalysisModal = () => {
-    const [open, setOpen] = useState(true);
+export const AnalysisModal = ({isOpen, close}) => {
+    // const [open, setOpen] = useState(true);
 
-    const handleClose = () => setOpen(false);
+    // const handleClose = () => setOpen(false);
 
     return (
-        <IonModal isOpen={open}>
+        <IonModal isOpen={isOpen}>
             <div className={cn('title')}>
                 <h1>Now you are ready to analyse milk.</h1>
                 <h2>
@@ -56,7 +56,7 @@ export const AnalysisModal = () => {
                 <IonCheckbox labelPlacement='end'>
                     <h3>Do not show these instructions again today.</h3>
                 </IonCheckbox>
-                <PreemieButton className={cn('actions-button')} onClick={handleClose}>
+                <PreemieButton className={cn('actions-button')} onClick={close}>
                     OK
                 </PreemieButton>
             </div>

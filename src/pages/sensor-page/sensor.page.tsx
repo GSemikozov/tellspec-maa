@@ -22,6 +22,7 @@ import { Layout } from '@widgets/layout';
 
 import './sensor.page.css';
 
+
 const cn = classname('sensor-page');
 
 export const SensorPage: React.FunctionComponent = () => {
@@ -265,6 +266,7 @@ export const SensorPage: React.FunctionComponent = () => {
                             </div>
 
                             <CalibrationModal />
+                            
                         </PageArea.Main>
                     </PageArea>
                 </Layout>
