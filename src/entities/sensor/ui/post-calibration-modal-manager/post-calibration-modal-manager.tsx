@@ -18,7 +18,7 @@ export const PostCalibrationModalManager: React.FunctionComponent = () => {
     const handleCloseCalibrationModal = () => setCalibrationModalOpen(false);
 
     const [sensorAnalyseInstructionsModalOpen, setSensorAnalyseInstructionsModalOpen] =
-        React.useState(true);
+        React.useState(false);
 
     const handleCloseSensorAnalyseInstructionsModalOpen = () =>
         setSensorAnalyseInstructionsModalOpen(false);
@@ -37,11 +37,14 @@ export const PostCalibrationModalManager: React.FunctionComponent = () => {
 
                 handleCloseCalibrationModal();
 
-                const isPreventInstructions = await nativeStore.get(
-                    NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL,
-                );
+                const isPreventInstructions =
+                    (await nativeStore.get(
+                        NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL,
+                    )) ?? {};
 
-                setSensorAnalyseInstructionsModalOpen(!!isPreventInstructions.value);
+                if (isPreventInstructions.value) {
+                    setSensorAnalyseInstructionsModalOpen(true);
+                }
             },
         });
 
