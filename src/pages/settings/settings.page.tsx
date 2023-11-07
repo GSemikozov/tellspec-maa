@@ -8,7 +8,8 @@ import { classname } from '@shared/utils';
 import { userSelectors } from '@entities/user';
 import { selectGroupFreezers, fetchGroup } from '@entities/groups';
 import { Layout } from '@widgets/layout';
-import { AppDispatch } from '@app';
+
+import type { AppDispatch } from '@app';
 
 import './settings.css';
 
@@ -35,7 +36,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                         <PageArea.Header
                             className={cn('header')}
                             title='Settings'
-                            icon={<SettingsIcon size={38}/>}
+                            icon={<SettingsIcon size={38} />}
                         />
 
                         <PageArea.Main>

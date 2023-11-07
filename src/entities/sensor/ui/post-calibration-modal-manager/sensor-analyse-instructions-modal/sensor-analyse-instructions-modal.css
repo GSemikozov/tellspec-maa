@@ -3,8 +3,31 @@
 }
 
 .sensor-analyse-instructions-modal__header {
-    margin-bottom: 24px;
-    font-size: 2.4rem;
+    margin-bottom: 20px;
+}
+
+.sensor-analyse-instructions-modal__header h2,
+.sensor-analyse-instructions-modal__header h3 {
+    margin: 0;
+}
+
+.sensor-analyse-instructions-modal__header h2 {
+    font-size: 2rem;
+}
+
+.sensor-analyse-instructions-modal__header h3 {
+    margin-top: 6px;
+    font-size: 1.6rem;
+}
+
+.sensor-analyse-instructions-modal__main ol {
+    margin: 0;
+    padding-left: 24px;
+}
+
+.sensor-analyse-instructions-modal__main ol li {
+    font-size: 1.4rem;
+    line-height: 20px;
 }
 
 .sensor-analyse-instructions-modal__actions {
