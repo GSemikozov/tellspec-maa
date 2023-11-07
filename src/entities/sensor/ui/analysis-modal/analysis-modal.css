@@ -1,0 +1,32 @@
+.analysis-modal {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+.analysis-modal__title {
+    margin-left: 3rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.analysis-modal__title h1 {
+    margin-bottom: 0;
+    font-size: 2rem;
+}
+.analysis-modal__title h2 {
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+}
+
+.analysis-modal__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.analysis-modal__actions-button {
+    width: 20rem !important;
+}

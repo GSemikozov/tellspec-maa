@@ -11,6 +11,7 @@ import { Layout } from '@widgets/layout';
 import { AppDispatch } from '@app';
 
 import './settings.css';
+import { AnalysisModal } from '@entities/sensor/ui/analysis-modal';
 
 const cn = classname('settings');
 
@@ -37,6 +38,8 @@ export const SettingsPage: React.FunctionComponent = () => {
                             title='Settings'
                             icon={<SettingsIcon size={38}/>}
                         />
+
+                        <AnalysisModal />
 
                         <PageArea.Main>
                             <div className={cn('container')}>
