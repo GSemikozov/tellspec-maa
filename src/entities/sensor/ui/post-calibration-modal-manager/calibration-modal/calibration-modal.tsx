@@ -1,60 +1,42 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IonModal, IonRow, IonSpinner } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui';
 import {
+    SensorDevice,
     selectSensorDevice,
     selectSensorDeviceActiveCalibration,
-    sensorActions,
 } from '@entities/sensor/model';
-import { useCalibrateSensor, useSaveCalibrationSensor } from '@entities/sensor/hooks';
-
-import { SensorCalibrationChart } from '../sensor-calibration-chart';
-
-import type { AppDispatch } from '@app';
+import { SensorCalibrationChart } from '@entities/sensor/ui';
 
 import './calibration-modal.css';
 
 const cn = classname('calibration-modal');
 
-export const CalibrationModal: React.FunctionComponent = () => {
-    const dispatch = useDispatch<AppDispatch>();
+export type CalibrationModalProps = {
+    open: boolean;
+    calibrateSensorLoading: boolean;
+    saveActiveCalibrationLoading: boolean;
+    onCalibrateSensor: (device: SensorDevice | null) => Promise<void>;
+    onSaveCalibrationSensor: (device: SensorDevice | null) => Promise<void>;
+    onClose: () => void;
+};
 
-    const [open, setOpen] = React.useState(false);
-
-    const handleCloseModal = () => setOpen(false);
-
-    const [calibrateSensor, { loading: calibrateSensorLoading, hasError: hasCalibrationError }] =
-        useCalibrateSensor({
-            onError: async () => {
-                handleCloseModal();
-            },
-        });
-
-    const [saveActiveCalibration, { loading: saveActiveCalibrationLoading }] =
-        useSaveCalibrationSensor({
-            onComplete: async () => {
-                dispatch(sensorActions.acceptSensorCalibration());
-
-                handleCloseModal();
-            },
-        });
-
+export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = ({
+    open,
+    calibrateSensorLoading,
+    saveActiveCalibrationLoading,
+    onCalibrateSensor,
+    onSaveCalibrationSensor,
+    onClose,
+}) => {
     const currentDevice = useSelector(selectSensorDevice);
     const deviceActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
-    React.useEffect(() => {
-        if (hasCalibrationError) {
-            setOpen(false);
-            return;
-        }
-
-        if (calibrateSensorLoading) {
-            setOpen(calibrateSensorLoading);
-        }
-    }, [calibrateSensorLoading, hasCalibrationError]);
+    const handleCalibrateSensor = () => onCalibrateSensor(currentDevice);
+    const handleSaveCalibrationSensor = () => onSaveCalibrationSensor(currentDevice);
 
     return (
         <IonModal backdropDismiss={false} isOpen={open}>
@@ -96,7 +78,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                     className='calibration-button'
                                     size='small'
                                     loading={saveActiveCalibrationLoading}
-                                    onClick={() => saveActiveCalibration(currentDevice)}
+                                    onClick={handleSaveCalibrationSensor}
                                 >
                                     Accept calibration
                                 </PreemieButton>
@@ -105,7 +87,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                     className='calibration-button'
                                     size='small'
                                     loading={calibrateSensorLoading}
-                                    onClick={() => calibrateSensor(currentDevice)}
+                                    onClick={handleCalibrateSensor}
                                 >
                                     Re-calibrate
                                 </PreemieButton>
@@ -114,7 +96,7 @@ export const CalibrationModal: React.FunctionComponent = () => {
                                     <PreemieButton
                                         className='calibration-button'
                                         size='small'
-                                        onClick={handleCloseModal}
+                                        onClick={onClose}
                                     >
                                         Cancel
                                     </PreemieButton>

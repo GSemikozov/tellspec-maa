@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { endOfDay, isBefore, startOfDay } from 'date-fns';
 
 import { apiInstance } from '@api/network';
 import { clearStorageData, getStorageData } from '@app/app.utils';
 import { RootState } from '@app/store';
-import { retrieveBlePermissions } from '@api/native';
+import { NativeStorageKeys, nativeStore, retrieveBlePermissions } from '@api/native';
 
 type State = RootState | null;
 
@@ -33,5 +34,28 @@ export const fetchBleStatus = createAsyncThunk(
         console.log('[fetchBleStatus]', hasPermissions);
 
         return hasPermissions;
+    },
+);
+
+export const updatePreventInstructions = createAsyncThunk(
+    'app/updatePreventInstructions',
+    async () => {
+        const preventInstructions = await nativeStore.get(
+            NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL,
+        );
+
+        if (!preventInstructions) {
+            return;
+        }
+
+        const preventInstructionsDate = preventInstructions.timestamps;
+        const now = new Date();
+
+        if (isBefore(endOfDay(preventInstructionsDate), startOfDay(now))) {
+            nativeStore.set(NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL, {
+                value: false,
+                timestamps: +now,
+            });
+        }
     },
 );

@@ -4,5 +4,7 @@ export enum NativeStorageKeys {
     DEVICE = 'device',
     DEVICE_CALIBRATION = 'deviceCalibration',
 
+    PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL = 'preventSensorAnalyseInstructionsModal',
+
     IS_EMULATE_NATIVE_SDK = 'isEmulateNativeSdk',
 }

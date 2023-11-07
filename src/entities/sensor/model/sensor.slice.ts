@@ -41,6 +41,10 @@ export const sensorSlice = createSlice({
     name: 'sensor',
     initialState,
     reducers: {
+        cancelWarmup: state => {
+            state.warmupSensorStatus = 'idle';
+        },
+
         acceptSensorCalibration: state => {
             state.calibrationStatus = CalibrationStatus.READY;
         },

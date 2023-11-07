@@ -1,0 +1,20 @@
+.sensor-analyse-instructions-modal {
+    padding: 32px;
+}
+
+.sensor-analyse-instructions-modal__header {
+    margin-bottom: 24px;
+    font-size: 2.4rem;
+}
+
+.sensor-analyse-instructions-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.sensor-analyse-instructions-modal__actions ion-checkbox {
+    font-size: 1.6rem;
+}

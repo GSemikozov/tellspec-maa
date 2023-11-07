@@ -256,7 +256,12 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     try {
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
-        for (let i = 0; i < 15; i++) {
+        const maxRetries = 15;
+
+        let currentRetry = 0;
+        let warmupSensorStatus = sensor.warmupSensorStatus;
+
+        while (currentRetry < maxRetries && warmupSensorStatus === 'progress') {
             const scanResult = await tellspecStartScan();
 
             const dataToLog = {
@@ -273,6 +278,9 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
             logForServer('warmup-scan', dataToLog);
 
             await thunkAPI.dispatch(getSensorStatus()).unwrap();
+
+            warmupSensorStatus = (thunkAPI.getState() as RootState).sensor.warmupSensorStatus;
+            currentRetry++;
         }
     } catch (error: any) {
         await log('sensor/warmupSensor:error', error);

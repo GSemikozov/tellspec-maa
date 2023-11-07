@@ -9,6 +9,7 @@ import {
     warmupSensorDevice,
     selectIsWarmupSensorLoading,
     selectSensorDeviceTemperature,
+    sensorActions,
 } from '../model';
 import { isSensorDisconnectedError } from '../helpers';
 
@@ -18,7 +19,7 @@ type UseWarmupSensorOptions = {
     onComplete?: () => Promise<void>;
 };
 
-type UseWarmupSensorResult = [() => Promise<void>, { loading: boolean }];
+type UseWarmupSensorResult = [() => Promise<void>, () => void, { loading: boolean }];
 
 export const useWarmupSensor = ({
     onComplete,
@@ -77,5 +78,9 @@ export const useWarmupSensor = ({
         }
     }, [loading, handleCompleteEvent]);
 
-    return [call, { loading }];
+    const forceCancel = React.useCallback(() => {
+        dispatch(sensorActions.cancelWarmup());
+    }, []);
+
+    return [call, forceCancel, { loading }];
 };

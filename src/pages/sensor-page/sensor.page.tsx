@@ -3,7 +3,6 @@ import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import {
-    CalibrationModal,
     selectSensorDevice,
     useCalibrateSensor,
     selectSensorScannerData,
@@ -13,6 +12,7 @@ import {
     selectServerSensorCalibartionData,
     selectSensorDeviceTemperature,
     selectSensorDeviceHumidity,
+    PostCalibrationModalManager,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -36,7 +36,6 @@ export const SensorPage: React.FunctionComponent = () => {
     const batteryLevel = useSelector(selectSensorDeviceBatteryLevel);
     const humidity = useSelector(selectSensorDeviceHumidity);
     const temperature = useSelector(selectSensorDeviceTemperature);
-
 
     const handleRemoveSensor = () => {
         if (!currentDevice) {
@@ -65,7 +64,6 @@ export const SensorPage: React.FunctionComponent = () => {
             </IonPage>
         );
     }
-
 
     return (
         <IonPage>
@@ -250,7 +248,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                             </div>
                                         </div>
                                     ) : null}
-                                    
+
                                     {serverSensorCalibration ? (
                                         <div className={cn('section-chart', { fluid: true })}>
                                             <p>Reference calibration spectrum</p>
@@ -264,7 +262,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                 </div>
                             </div>
 
-                            <CalibrationModal />
+                            <PostCalibrationModalManager />
                         </PageArea.Main>
                     </PageArea>
                 </Layout>

@@ -1,4 +1,4 @@
-import { IonButton, useIonRouter } from '@ionic/react';
+import { useIonRouter } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { routesMapping } from '@app/routes';
