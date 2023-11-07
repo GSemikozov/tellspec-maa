@@ -39,8 +39,6 @@ export const SettingsPage: React.FunctionComponent = () => {
                             icon={<SettingsIcon size={38}/>}
                         />
 
-                        <AnalysisModal />
-
                         <PageArea.Main>
                             <div className={cn('container')}>
                                 <div className={cn('section')}>
