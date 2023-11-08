@@ -42,7 +42,7 @@ export const PostCalibrationModalManager: React.FunctionComponent = () => {
                         NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL,
                     )) ?? {};
 
-                if (isPreventInstructions.value) {
+                if (!isPreventInstructions.value) {
                     setSensorAnalyseInstructionsModalOpen(true);
                 }
             },
