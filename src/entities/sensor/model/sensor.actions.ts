@@ -256,7 +256,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     try {
         await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
 
-        const maxRetries = 15;
+        const maxRetries = 10;
 
         let currentRetry = 0;
         let warmupSensorStatus = sensor.warmupSensorStatus;

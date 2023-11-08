@@ -54,7 +54,7 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                         </>
                     ) : null}
 
-                    {!calibrateSensorLoading && deviceActiveCalibration ? (
+                    {!calibrateSensorLoading ? (
                         <>
                             <p>
                                 Calibration is a process to compensate for the sensor drift and
@@ -63,15 +63,18 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                                 calibration (in green). If it is not similar then you should
                                 re-calibrate or contact us at info@preemiesensor.com.
                             </p>
-                            <div className={cn('section-chart', { fluid: true })}>
-                                <p>Spectrum of current calibration</p>
-                                <div className={cn('chart')}>
-                                    <SensorCalibrationChart
-                                        variant='reference-calibration'
-                                        calibration={deviceActiveCalibration}
-                                    />
+
+                            {deviceActiveCalibration ? (
+                                <div className={cn('section-chart', { fluid: true })}>
+                                    <p>Spectrum of current calibration</p>
+                                    <div className={cn('chart')}>
+                                        <SensorCalibrationChart
+                                            variant='reference-calibration'
+                                            calibration={deviceActiveCalibration}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            ) : null}
 
                             <div>
                                 <IonRow className={cn('actions')}>
@@ -93,13 +96,15 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                                         Re-calibrate
                                     </PreemieButton>
 
-                                    <PreemieButton
-                                        className='calibration-button'
-                                        size='small'
-                                        onClick={onClose}
-                                    >
-                                        Cancel
-                                    </PreemieButton>
+                                    {deviceActiveCalibration ? (
+                                        <PreemieButton
+                                            className='calibration-button'
+                                            size='small'
+                                            onClick={onClose}
+                                        >
+                                            Cancel
+                                        </PreemieButton>
+                                    ) : null}
                                 </IonRow>
                             </div>
                         </>

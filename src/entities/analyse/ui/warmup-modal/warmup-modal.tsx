@@ -48,7 +48,11 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         (currentTime - lastSensorInteractionTime) / (60 * 1000) >= SENSOR_IDLE_MINUTES_TO_RE_WARMUP;
 
     const [warmupSensor, forceCancelWarmupSensor, { loading: warmupSensorLoading }] =
-        useWarmupSensor();
+        useWarmupSensor({
+            onComplete: async () => {
+                setDisabledAnalyse(false);
+            },
+        });
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
