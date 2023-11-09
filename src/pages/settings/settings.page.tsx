@@ -101,7 +101,7 @@ export const SettingsPage: React.FunctionComponent = () => {
                                     <p>Add another storage</p>
                                 </div>
                                 <div className={cn('section')}>
-                                    <div className={cn('apk-number')}>MAA version: v1.2.0</div>
+                                    <div className={cn('apk-number')}>MAA version: v1.3.0</div>
                                 </div>
                             </div>
                             {/* </div> */}
