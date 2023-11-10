@@ -19,7 +19,12 @@ import { NativeStorageKeys, nativeStore, useSetupStore } from '@api/native';
 import { SensorConnectionProcessProvider } from '@widgets/sensor-connection-process';
 import { selectIsAppFetching, selectLayoutClassName } from '@app/model';
 
-import { fetchAppSettings, fetchBleStatus, updatePreventInstructions } from './model/app.actions';
+import {
+    fetchAppSettings,
+    fetchBleStatus,
+    updateIsFirstSensorCalibration,
+    updatePreventInstructions,
+} from './model/app.actions';
 import { routesMapping } from './routes';
 import { PublicOnlyRoute, ProtectedRoute } from './components';
 
@@ -65,6 +70,7 @@ export const App: React.FunctionComponent = () => {
 
         dispatch(fetchBleStatus());
         dispatch(updatePreventInstructions());
+        dispatch(updateIsFirstSensorCalibration());
     }, [isAuthenticated]);
 
     if (!readyStore || isAppFetching) {

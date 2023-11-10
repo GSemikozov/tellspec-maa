@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { IonModal, IonRow, IonSpinner } from '@ionic/react';
 
 import { classname } from '@shared/utils';
+import { NativeStorageKeys, nativeStore } from '@api/native';
 import { PreemieButton } from '@ui';
 import {
     SensorDevice,
     selectSensorDevice,
     selectSensorDeviceActiveCalibration,
-} from '@entities/sensor/model';
-import { SensorCalibrationChart } from '@entities/sensor/ui';
+    SensorCalibrationChart,
+} from '@entities/sensor';
 
 import './calibration-modal.css';
 
@@ -32,11 +33,24 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
     onSaveCalibrationSensor,
     onClose,
 }) => {
+    const [isFirstCalibration, setIsFirstCalibration] = React.useState(true);
+
     const currentDevice = useSelector(selectSensorDevice);
     const deviceActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
     const handleCalibrateSensor = () => onCalibrateSensor(currentDevice);
     const handleSaveCalibrationSensor = () => onSaveCalibrationSensor(currentDevice);
+
+    React.useEffect(() => {
+        const run = async () => {
+            const isFirstCalibration =
+                (await nativeStore.get(NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION)) ?? {};
+
+            setIsFirstCalibration(Boolean(isFirstCalibration.value));
+        };
+
+        run();
+    }, []);
 
     return (
         <>
@@ -96,7 +110,7 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                                         Re-calibrate
                                     </PreemieButton>
 
-                                    {deviceActiveCalibration ? (
+                                    {!isFirstCalibration && deviceActiveCalibration ? (
                                         <PreemieButton
                                             className='calibration-button'
                                             size='small'

@@ -59,3 +59,26 @@ export const updatePreventInstructions = createAsyncThunk(
         }
     },
 );
+
+export const updateIsFirstSensorCalibration = createAsyncThunk(
+    'app/updateIsFirstSensorCalibration',
+    async () => {
+        const isFirstSensorCalibration = await nativeStore.get(
+            NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION,
+        );
+
+        if (!isFirstSensorCalibration) {
+            return;
+        }
+
+        const isFirstSensorCalibrationDate = isFirstSensorCalibration.timestamps;
+        const now = new Date();
+
+        if (isBefore(endOfDay(isFirstSensorCalibrationDate), startOfDay(now))) {
+            nativeStore.set(NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION, {
+                value: true,
+                timestamps: +now,
+            });
+        }
+    },
+);
