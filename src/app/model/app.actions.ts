@@ -67,12 +67,18 @@ export const updateIsFirstSensorCalibration = createAsyncThunk(
             NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION,
         );
 
+        const now = new Date();
+
         if (!isFirstSensorCalibration) {
+            await nativeStore.set(NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION, {
+                value: true,
+                timestamps: +now,
+            });
+
             return;
         }
 
         const isFirstSensorCalibrationDate = isFirstSensorCalibration.timestamps;
-        const now = new Date();
 
         if (isBefore(endOfDay(isFirstSensorCalibrationDate), startOfDay(now))) {
             nativeStore.set(NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION, {
