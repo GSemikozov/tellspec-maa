@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 import {
     selectSensorDevice,
@@ -248,7 +249,10 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {lastCalibrationDate}
+                                                {format(
+                                                    new Date(lastCalibrationDate),
+                                                    'yyyy/MM/dd HH:mm',
+                                                )}
                                             </div>
                                         </div>
                                     ) : null}
