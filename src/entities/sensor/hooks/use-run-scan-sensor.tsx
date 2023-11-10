@@ -71,7 +71,7 @@ export const useRunScanSensor = ({
                     throw new Error('An error occured on analyse milk');
                 }
 
-                const saveScanResponseValidationResult = saveScanResponse['saveScanResponse'];
+                const saveScanResponseValidationResult = saveScanResponse['scan-validation'];
 
                 if (saveScanResponseValidationResult.includes('bad')) {
                     throw new Error('Result is bad, please repeat the scan.');

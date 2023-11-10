@@ -139,26 +139,13 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
             return null;
         }
 
-        const mismatchSerialNumber = sensorCalibration.scan['scan-data'][
+        const mismatchSerialNumber = !sensorCalibration.scan['scan-data'][
             'scanner-serial-number'
         ].startsWith(device.serial);
 
         const needRecalibrationTimeIssue = isGivenDateOlderThan(
             sensorCalibration['last_modified_at'],
             MAX_TIME_SINCE_LAST_CALIBRATION_MS,
-        );
-
-        console.log(
-            'mismatchSerialNumber',
-            mismatchSerialNumber,
-            sensorCalibration.scan['scan-data']['scanner-serial-number'],
-            device.serial,
-        );
-
-        console.log(
-            'needRecalibrationTimeIssue',
-            needRecalibrationTimeIssue,
-            sensorCalibration['last_modified_at'],
         );
 
         // mismatch of serial number or the calibration is out of date
