@@ -13,7 +13,6 @@ import {
     selectSensorDeviceTemperature,
     selectSensorDeviceHumidity,
     PostCalibrationModalManager,
-    selectSensorDeviceActiveCalibration,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -31,7 +30,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const currentDevice = useSelector(selectSensorDevice);
     const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
-    const sensorActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
+    const sensorServiceCalibration = useSelector(selectServerSensorCalibartionData);
 
     const sensorScannerData = useSelector(selectSensorScannerData);
 
@@ -67,8 +66,7 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
-    const lastCalibrationDate =
-        sensorActiveCalibration?.scan?.['scan-data']?.['scan-performed-utc'];
+    const lastCalibrationDate = sensorServiceCalibration?.last_modified_at;
 
     return (
         <IonPage>
