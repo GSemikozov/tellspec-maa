@@ -250,7 +250,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                 })}
                                             >
                                                 {format(
-                                                    new Date(lastCalibrationDate),
+                                                    new Date(lastCalibrationDate + 'Z'),
                                                     'yyyy/MM/dd HH:mm',
                                                 )}
                                             </div>

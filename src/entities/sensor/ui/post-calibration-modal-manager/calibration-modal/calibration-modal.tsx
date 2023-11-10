@@ -50,7 +50,7 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
         };
 
         run();
-    }, []);
+    }, [open]);
 
     return (
         <>
