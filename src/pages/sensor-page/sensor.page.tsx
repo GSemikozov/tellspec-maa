@@ -1,7 +1,6 @@
 import React from 'react';
 import { IonChip, IonContent, IonPage, IonText } from '@ionic/react';
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns';
 
 import {
     selectSensorDevice,
@@ -14,6 +13,7 @@ import {
     selectSensorDeviceTemperature,
     selectSensorDeviceHumidity,
     PostCalibrationModalManager,
+    selectSensorDeviceActiveCalibration,
 } from '@entities/sensor';
 import { TargetOfflineIcon, SensorIcon } from '@ui/icons';
 import { PreemieButton } from '@ui/button';
@@ -31,6 +31,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
     const currentDevice = useSelector(selectSensorDevice);
     const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
+    const sensorActiveCalibration = useSelector(selectSensorDeviceActiveCalibration);
 
     const sensorScannerData = useSelector(selectSensorScannerData);
 
@@ -65,6 +66,9 @@ export const SensorPage: React.FunctionComponent = () => {
             </IonPage>
         );
     }
+
+    const lastCalibrationDate =
+        sensorActiveCalibration?.scan?.['scan-data']?.['scan-performed-utc'];
 
     return (
         <IonPage>
@@ -237,7 +241,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     </div>
 
-                                    {sensorScannerData?.last_calibration ? (
+                                    {lastCalibrationDate ? (
                                         <div className={cn('section-option')}>
                                             <p>Last Calibration Date</p>
 
@@ -246,10 +250,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                                     information: true,
                                                 })}
                                             >
-                                                {format(
-                                                    new Date(sensorScannerData.last_calibration),
-                                                    'yyyy/MM/dd HH:mm:ss',
-                                                )}
+                                                {lastCalibrationDate}
                                             </div>
                                         </div>
                                     ) : null}

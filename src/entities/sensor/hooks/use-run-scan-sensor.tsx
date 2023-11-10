@@ -71,6 +71,12 @@ export const useRunScanSensor = ({
                     throw new Error('An error occured on analyse milk');
                 }
 
+                const saveScanResponseValidationResult = saveScanResponse['saveScanResponse'];
+
+                if (saveScanResponseValidationResult.includes('bad')) {
+                    throw new Error('Result is bad, please repeat the scan.');
+                }
+
                 const scanId = sensorScannedData.uuid;
 
                 const modelData = await apiInstance.sensor.runModel({
@@ -92,7 +98,7 @@ export const useRunScanSensor = ({
 
                 await apiInstance.reports.updateReport(updatedReport);
 
-                setScanValidationResult(saveScanResponse['scan-validation']);
+                setScanValidationResult(saveScanResponseValidationResult);
 
                 handleCompleteEvent({
                     newReport: updatedReport,

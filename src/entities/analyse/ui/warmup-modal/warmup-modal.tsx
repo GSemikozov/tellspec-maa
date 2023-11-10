@@ -78,11 +78,11 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
-                {warmupSensorLoading && (
+                {warmupSensorLoading ? (
                     <div style={{ marginTop: '20rem', textAlign: 'center' }}>
                         <IonSpinner name='bubbles' color='primary' />
                     </div>
-                )}
+                ) : null}
 
                 {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? (
                     <>
@@ -92,7 +92,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         </p>
 
                         <div className={cn('modal-actions')}>
-                            <PreemieButton disabled={disabledAnalyse} onClick={onAnalyseMilk}>
+                            <PreemieButton
+                                disabled={disabledAnalyse || warmupSensorLoading}
+                                onClick={onAnalyseMilk}
+                            >
                                 {analyseMilkTitle}
                             </PreemieButton>
 
