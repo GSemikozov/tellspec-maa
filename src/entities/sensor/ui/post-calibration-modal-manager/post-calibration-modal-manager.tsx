@@ -37,6 +37,11 @@ export const PostCalibrationModalManager: React.FunctionComponent = () => {
 
                 handleCloseCalibrationModal();
 
+                await nativeStore.set(NativeStorageKeys.IS_FIRST_SENSOR_CALIBRATION, {
+                    value: false,
+                    timestamps: +new Date(),
+                });
+
                 const isPreventInstructions =
                     (await nativeStore.get(
                         NativeStorageKeys.PREVENT_SENSOR_ANALYSE_INSTRUCTIONS_MODAL,
