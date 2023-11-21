@@ -103,7 +103,11 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                                 Warm Up Sensor
                             </PreemieButton>
 
-                            <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
+                            {disabledAnalyse ? (
+                                <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
+                            ) : (
+                                <PreemieButton onClick={onClose}>Cancel</PreemieButton>
+                            )}
                         </div>
                     </>
                 ) : (
