@@ -36,7 +36,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 }) => {
     const [presentAlert] = useIonAlert();
 
-    const [disabledAnalyse, setDisabledAnalyse] = React.useState(true);
+    const [isFirstWarmup, setIsFirstWarmup] = React.useState(true);
 
     const currentDevice = useSelector(selectSensorDevice);
     const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
@@ -50,13 +50,20 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     const [warmupSensor, forceCancelWarmupSensor, { loading: warmupSensorLoading }] =
         useWarmupSensor({
             onComplete: async () => {
-                setDisabledAnalyse(false);
+                setIsFirstWarmup(false);
             },
         });
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
     const handleCancelWarmup = () => {
+        if (!isFirstWarmup) {
+            forceCancelWarmupSensor();
+            onClose();
+
+            return;
+        }
+
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
             presentAlert({
                 header: 'Warning',
@@ -66,7 +73,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     {
                         text: 'OK',
                         handler: () => {
-                            setDisabledAnalyse(false);
+                            setIsFirstWarmup(false);
                             forceCancelWarmupSensor();
                         },
                     },
@@ -97,7 +104,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
                         <div className={cn('modal-actions')}>
                             <PreemieButton
-                                disabled={disabledAnalyse || warmupSensorLoading}
+                                disabled={
+                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading
+                                }
                                 onClick={onAnalyseMilk}
                             >
                                 {analyseMilkTitle}
