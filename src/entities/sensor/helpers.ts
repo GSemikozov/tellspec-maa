@@ -4,6 +4,8 @@ import { SensorDisconnectedError } from './errors';
 
 export const SENSOR_DISCONNECTED = 'Sensor connection lost.';
 
+export const resolveSensorEmptyError = (error: unknown) => !error;
+
 export const resolveSensorDisconnectedError = (error: any) =>
     error?.message === 'Sensor disconnected' || error?.message === SENSOR_DISCONNECTED;
 
@@ -22,7 +24,7 @@ export const withSensorHealthcheck = async <T>(
     } catch (error: unknown) {
         console.log('withSensorHealthcheck:error', JSON.stringify(error));
 
-        if (resolveSensorDisconnectedError(error)) {
+        if (resolveSensorEmptyError(error) || resolveSensorDisconnectedError(error)) {
             throw new SensorDisconnectedError();
         }
 

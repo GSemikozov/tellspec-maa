@@ -249,6 +249,8 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         while (currentRetry < maxRetries && warmupSensorStatus === 'progress') {
             const scanResult = await tellspecStartScan();
 
+            console.log('sensor/warmupSensor:', currentRetry, maxRetries, warmupSensorStatus);
+
             const dataToLog = {
                 SysHumidity: scanResult.SysHumidity,
                 SysTemperature: scanResult.SysTemperature,
