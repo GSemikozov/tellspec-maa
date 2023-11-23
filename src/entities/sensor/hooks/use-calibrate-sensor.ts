@@ -38,7 +38,7 @@ export const useCalibrateSensor = ({
 
     const isCalibrationLoading = useSelector(selectSensorCalibrationLoading);
     const isCalibrationError = useSelector(selectSensorCalibrationError);
-
+ы
     const call = React.useCallback(
         async (device: SensorDevice | null) => {
             try {

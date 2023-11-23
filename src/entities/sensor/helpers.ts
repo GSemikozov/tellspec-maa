@@ -1,4 +1,4 @@
-import { tellspecRetrieveDeviceConnect, tellspecGetSensorStatus } from '@api/native';
+import { tellspecRetrieveDeviceConnect } from '@api/native';
 
 import { SensorDisconnectedError } from './errors';
 
@@ -20,6 +20,8 @@ export const withSensorHealthcheck = async <T>(
 
         return result;
     } catch (error: unknown) {
+        console.log('withSensorHealthcheck:error', JSON.stringify(error));
+
         if (resolveSensorDisconnectedError(error)) {
             throw new SensorDisconnectedError();
         }

@@ -184,9 +184,11 @@ export const sensorSlice = createSlice({
 
         // calibrate sensor device
         builder.addCase(calibrateSensorDevice.pending, state => {
+            console.log('[calibrateDevice.pending]');
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
         builder.addCase(calibrateSensorDevice.fulfilled, (state, action) => {
+            console.log('[calibrateDevice.fulfilled]', JSON.stringify(action));
             state.calibrationStatus = CalibrationStatus.NEED_ACCEPT;
 
             if (!action.payload) {

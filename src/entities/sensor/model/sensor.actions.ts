@@ -240,7 +240,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
         throw new SensorDisconnectedError();
     }
 
-    return warmupSensorDevice(sensor.currentDevice.uuid, async () => {
+    return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
         const maxRetries = 10;
 
         let currentRetry = 0;

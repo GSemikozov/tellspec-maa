@@ -9,13 +9,9 @@ import {
     getSensorCalibration,
     getSensorScanner,
     removeDevice,
-    selectIsSensorScanning,
-    selectIsWarmupSensorLoading,
-    selectSensorCalibrationReady,
     selectSensorDevice,
 } from '@entities/sensor/model';
 import { AppDispatch } from '@app';
-import { useSensorStatusPolling } from '@entities/sensor/hooks';
 
 import type { PluginListenerHandle } from '@capacitor/core';
 
@@ -26,14 +22,9 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
 
     const isAuthenticated = useSelector(userSelectors.isUserAuthenticated);
     const currentDevice = useSelector(selectSensorDevice);
-    const calibrationReady = useSelector(selectSensorCalibrationReady);
-    const warmupLoading = useSelector(selectIsWarmupSensorLoading);
-    const sensorScanning = useSelector(selectIsSensorScanning);
 
     const sensorStatusListenerRef = React.useRef<PluginListenerHandle | null>(null);
     const currentDeviceRef = React.useRef<SensorDevice | null>(null);
-
-    const [, stopSensorStatusPolling, { isPolling }] = useSensorStatusPolling();
 
     {
         // for provide data to listener
@@ -93,31 +84,6 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
             reseSensorStatusListener();
         };
     }, [isAuthenticated, reseSensorStatusListener]);
-
-    React.useEffect(() => {
-        // effect for manage receiving sensor sensor status
-        if (
-            !isAuthenticated ||
-            !currentDevice ||
-            !calibrationReady ||
-            warmupLoading ||
-            sensorScanning
-        ) {
-            stopSensorStatusPolling();
-            return;
-        }
-
-        // if (!isPolling) {
-        //     startSensorStatusPolling();
-        // }
-    }, [
-        isAuthenticated,
-        currentDevice,
-        calibrationReady,
-        warmupLoading,
-        sensorScanning,
-        isPolling,
-    ]);
 
     return children;
 };
