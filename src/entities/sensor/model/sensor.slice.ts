@@ -38,6 +38,21 @@ const initialState: SensorState = {
 };
 
 const isSensoRejectedWithDisconnectedError = (payload: unknown) => {
+    console.log('isSensoRejectedWithDisconnectedError:start', JSON.stringify(payload));
+
+    const result =
+        typeof payload === 'object' &&
+        payload !== null &&
+        'error' in payload &&
+        isSensorDisconnectedError(payload.error);
+
+    console.log('isSensoRejectedWithDisconnectedError:result', result);
+
+    console.log(
+        'isSensoRejectedWithDisconnectedError:isSensorDisconnectedError',
+        isSensorDisconnectedError((payload as any).error),
+    );
+
     return (
         typeof payload === 'object' &&
         payload !== null &&
