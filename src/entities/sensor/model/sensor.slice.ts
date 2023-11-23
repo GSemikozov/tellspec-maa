@@ -37,6 +37,15 @@ const initialState: SensorState = {
     },
 };
 
+const isSensoRejectedWithDisconnectedError = (payload: unknown) => {
+    return (
+        typeof payload === 'object' &&
+        payload !== null &&
+        'error' in payload &&
+        isSensorDisconnectedError(payload.error)
+    );
+};
+
 export const sensorSlice = createSlice({
     name: 'sensor',
     initialState,
@@ -133,7 +142,7 @@ export const sensorSlice = createSlice({
             };
         });
         builder.addCase(getSensorStatus.rejected, (state, action) => {
-            if (isSensorDisconnectedError(action.payload)) {
+            if (isSensoRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -177,18 +186,16 @@ export const sensorSlice = createSlice({
             state.pairedDevices = [updatedDevice];
         });
         builder.addCase(connectSensorDevice.rejected, (state, action) => {
-            if (isSensorDisconnectedError(action.payload)) {
+            if (isSensoRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
 
         // calibrate sensor device
         builder.addCase(calibrateSensorDevice.pending, state => {
-            console.log('[calibrateDevice.pending]');
             state.calibrationStatus = CalibrationStatus.PROGRESS;
         });
         builder.addCase(calibrateSensorDevice.fulfilled, (state, action) => {
-            console.log('[calibrateDevice.fulfilled]', JSON.stringify(action));
             state.calibrationStatus = CalibrationStatus.NEED_ACCEPT;
 
             if (!action.payload) {
@@ -220,11 +227,9 @@ export const sensorSlice = createSlice({
             }
         });
         builder.addCase(calibrateSensorDevice.rejected, (state, action) => {
-            console.log('[calibrateDevice.rejected]', JSON.stringify(action));
-
             state.calibrationStatus = CalibrationStatus.ERROR;
 
-            if (isSensorDisconnectedError(action.payload)) {
+            if (isSensoRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -244,7 +249,7 @@ export const sensorSlice = createSlice({
         builder.addCase(runSensorScan.rejected, (state, action) => {
             state.sensorScanning.status = 'idle';
 
-            if (isSensorDisconnectedError(action.payload)) {
+            if (isSensoRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
