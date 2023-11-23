@@ -10,7 +10,6 @@ import {
     tellspecPrepareScanCalibration,
     tellspecPrepareSensorScannedData,
     tellspecRemoveDevice,
-    tellspecRetrieveDeviceConnect,
     tellspecRunScan,
     tellspecSetActiveConfig,
     tellspecStartScan,
@@ -20,7 +19,8 @@ import { log, logForServer } from '@shared/utils';
 
 import { EMULATION_SCAN_ID } from '../sensor.constants';
 import { prepareSpectrumScanData, type SetCalibrationRequest } from '../api';
-import { SENSOR_DISCONNECTED, isSensorDisconnectedError } from '../helpers';
+import { withSensorHealthcheck } from '../helpers';
+import { SensorDisconnectedError } from '../errors';
 
 import { SensorDevice } from './sensor.types';
 
@@ -70,8 +70,9 @@ export const getSensorCalibration = createAsyncThunk(
 export const connectSensorDevice = createAsyncThunk(
     'sensor/connect',
     async (device: TellspecSensorDevice) => {
-        try {
+        return withSensorHealthcheck(device.uuid, async () => {
             const shallowDevice = { ...device };
+
             const calibrationData = await tellspecGetDeviceInfo(shallowDevice);
             const calibrationReady = Boolean(calibrationData);
 
@@ -92,15 +93,7 @@ export const connectSensorDevice = createAsyncThunk(
 
             await log('sensor/connect:result', result);
             return result;
-        } catch (error: any) {
-            await log('sensor/connect:error', error);
-
-            if (isSensorDisconnectedError(error)) {
-                throw new Error(SENSOR_DISCONNECTED);
-            }
-
-            throw error;
-        }
+        });
     },
 );
 
@@ -110,11 +103,13 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
-        return;
+        return new SensorDisconnectedError();
     }
 
-    try {
-        await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
+    return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
+        if (!sensor.currentDevice) {
+            return new SensorDisconnectedError();
+        }
 
         // get the ScannerData
         const scannerData = await apiInstance.sensor.getScanner(
@@ -233,15 +228,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
         await log('sensor/calibrate:calibrationResult', calibrationResult);
 
         return calibrationResult;
-    } catch (error: any) {
-        await log('sensor/calibrate:error', error);
-
-        if (isSensorDisconnectedError(error)) {
-            throw new Error(error);
-        }
-
-        throw error;
-    }
+    });
 });
 
 export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async (_, thunkAPI) => {
@@ -250,12 +237,10 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
-        return;
+        return new SensorDisconnectedError();
     }
 
-    try {
-        await tellspecRetrieveDeviceConnect(sensor.currentDevice.uuid);
-
+    return warmupSensorDevice(sensor.currentDevice.uuid, async () => {
         const maxRetries = 10;
 
         let currentRetry = 0;
@@ -282,15 +267,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
             warmupSensorStatus = (thunkAPI.getState() as RootState).sensor.warmupSensorStatus;
             currentRetry++;
         }
-    } catch (error: any) {
-        await log('sensor/warmupSensor:error', error);
-
-        if (isSensorDisconnectedError(error)) {
-            throw new Error(error);
-        }
-
-        throw error;
-    }
+    });
 });
 
 export const saveActiveCalibrationSensor = createAsyncThunk(
@@ -299,7 +276,7 @@ export const saveActiveCalibrationSensor = createAsyncThunk(
         const { sensor } = thunkAPI.getState() as RootState;
 
         if (!sensor.currentDevice) {
-            return;
+            return new SensorDisconnectedError();
         }
 
         const activeCalibration = sensor.currentDevice.activeCal;
@@ -374,9 +351,13 @@ export const runSensorScan = createAsyncThunk(
     async (userEmail: string, thunkAPI) => {
         const { sensor } = thunkAPI.getState() as RootState;
 
-        try {
+        if (!sensor.currentDevice) {
+            return new SensorDisconnectedError();
+        }
+
+        return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
             if (!sensor.currentDevice) {
-                throw new Error(SENSOR_DISCONNECTED);
+                return new SensorDisconnectedError();
             }
 
             if (await isEmulateNativeSdk()) {
@@ -397,40 +378,24 @@ export const runSensorScan = createAsyncThunk(
             }
 
             return tellspecRunScan(sensor.currentDevice, userEmail);
-        } catch (error: any) {
-            console.error(error);
-
-            if (isSensorDisconnectedError(error)) {
-                throw new Error(error);
-            }
-
-            throw new Error("Can't run sensor scanning. Try again later");
-        }
+        });
     },
 );
 
 export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async (_, thunkAPI) => {
     const { sensor } = thunkAPI.getState() as RootState;
 
-    try {
-        if (!sensor.currentDevice) {
-            throw new Error(SENSOR_DISCONNECTED);
-        }
+    if (!sensor.currentDevice) {
+        return new SensorDisconnectedError();
+    }
 
+    return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
         const sensorStatus = await tellspecGetSensorStatus();
 
         await log('sensor/getSensorStatus:sensorStatus', sensorStatus);
 
         return sensorStatus;
-    } catch (error) {
-        console.error(error);
-
-        if (isSensorDisconnectedError(error)) {
-            return thunkAPI.rejectWithValue(SENSOR_DISCONNECTED);
-        }
-
-        throw new Error('Someting goes wrong on getting sensor status. Try again later');
-    }
+    });
 });
 
 export const getSensorScanner = createAsyncThunk('sensor/getSensorScanner', async (_, thunkAPI) => {

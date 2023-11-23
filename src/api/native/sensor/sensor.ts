@@ -125,9 +125,6 @@ export const tellspecGetDeviceInfo = async (device: TellspecSensorDevice): Promi
         throw new Error('Missing device info');
     }
 
-    // connect and get info
-    await tellspecRetrieveDeviceConnect(device.uuid);
-
     const getCalibration = async (config: string) => {
         const sensorCalibration = await apiInstance.sensor.getCalibration(
             device.name,

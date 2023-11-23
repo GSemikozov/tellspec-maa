@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SENSOR_DISCONNECTED } from '../helpers';
+import { isSensorDisconnectedError } from '../errors';
 
 import { CalibrationStatus } from './sensor.types';
 import {
@@ -133,7 +133,7 @@ export const sensorSlice = createSlice({
             };
         });
         builder.addCase(getSensorStatus.rejected, (state, action) => {
-            if (action.payload === SENSOR_DISCONNECTED) {
+            if (isSensorDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -149,6 +149,10 @@ export const sensorSlice = createSlice({
 
         // connect sensor device
         builder.addCase(connectSensorDevice.fulfilled, (state, action) => {
+            if (!action.payload) {
+                return;
+            }
+
             const { device, requiredCalibration } = action.payload;
 
             const updatedDevice = {
@@ -173,7 +177,7 @@ export const sensorSlice = createSlice({
             state.pairedDevices = [updatedDevice];
         });
         builder.addCase(connectSensorDevice.rejected, (state, action) => {
-            if (action.payload === SENSOR_DISCONNECTED) {
+            if (isSensorDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -218,7 +222,7 @@ export const sensorSlice = createSlice({
 
             state.calibrationStatus = CalibrationStatus.ERROR;
 
-            if (action.payload === SENSOR_DISCONNECTED) {
+            if (isSensorDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -238,7 +242,7 @@ export const sensorSlice = createSlice({
         builder.addCase(runSensorScan.rejected, (state, action) => {
             state.sensorScanning.status = 'idle';
 
-            if (action.payload === SENSOR_DISCONNECTED) {
+            if (isSensorDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
