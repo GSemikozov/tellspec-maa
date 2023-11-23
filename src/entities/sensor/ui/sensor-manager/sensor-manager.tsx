@@ -69,6 +69,12 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
                         case 'off': {
                             const currentDeviceFromRef = currentDeviceRef.current;
 
+                            console.log(
+                                'sensorStatusListener',
+                                currentDeviceFromRef,
+                                currentDevice,
+                            );
+
                             if (currentDeviceFromRef !== null) {
                                 dispatch(removeDevice(currentDeviceFromRef.uuid));
                             }
@@ -83,7 +89,7 @@ export const SensorManager: React.FunctionComponent<SensorManagerProps> = ({ chi
         return () => {
             reseSensorStatusListener();
         };
-    }, [isAuthenticated, reseSensorStatusListener]);
+    }, [isAuthenticated, currentDevice, reseSensorStatusListener]);
 
     return children;
 };

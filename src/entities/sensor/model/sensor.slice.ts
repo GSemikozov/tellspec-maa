@@ -37,7 +37,13 @@ const initialState: SensorState = {
     },
 };
 
-const isSensoRejectedWithDisconnectedError = (payload: unknown) => {
+const isSensorRejectedWithEmptyError = (payload: unknown) => {
+    console.log('isSensorRejectedWithEmptyError:start', JSON.stringify(payload));
+
+    return typeof payload === 'object' && payload !== null && 'error' in payload && !payload.error;
+};
+
+const isSensorRejectedWithDisconnectedError = (payload: unknown) => {
     console.log('isSensoRejectedWithDisconnectedError:start', JSON.stringify(payload));
 
     const result =
@@ -157,7 +163,7 @@ export const sensorSlice = createSlice({
             };
         });
         builder.addCase(getSensorStatus.rejected, (state, action) => {
-            if (isSensoRejectedWithDisconnectedError(action.payload)) {
+            if (isSensorRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -201,7 +207,7 @@ export const sensorSlice = createSlice({
             state.pairedDevices = [updatedDevice];
         });
         builder.addCase(connectSensorDevice.rejected, (state, action) => {
-            if (isSensoRejectedWithDisconnectedError(action.payload)) {
+            if (isSensorRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
@@ -244,7 +250,10 @@ export const sensorSlice = createSlice({
         builder.addCase(calibrateSensorDevice.rejected, (state, action) => {
             state.calibrationStatus = CalibrationStatus.ERROR;
 
-            if (isSensoRejectedWithDisconnectedError(action.payload)) {
+            if (
+                isSensorRejectedWithEmptyError(action.payload) ||
+                isSensorRejectedWithDisconnectedError(action.payload)
+            ) {
                 state.currentDevice = null;
             }
         });
@@ -264,7 +273,7 @@ export const sensorSlice = createSlice({
         builder.addCase(runSensorScan.rejected, (state, action) => {
             state.sensorScanning.status = 'idle';
 
-            if (isSensoRejectedWithDisconnectedError(action.payload)) {
+            if (isSensorRejectedWithDisconnectedError(action.payload)) {
                 state.currentDevice = null;
             }
         });
