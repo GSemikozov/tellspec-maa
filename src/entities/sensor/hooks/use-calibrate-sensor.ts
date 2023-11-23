@@ -13,7 +13,6 @@ import {
     selectSensorCalibrationLoading,
     selectSensorCalibrationError,
 } from '../model';
-import { isSensorDisconnectedError } from '../helpers';
 
 import type { AppDispatch } from '@app';
 
@@ -57,15 +56,9 @@ export const useCalibrateSensor = ({
             } catch (error: any) {
                 await log('useCalibrateSensor:error', error);
 
-                let errorMessage = error.message;
-
-                if (isSensorDisconnectedError(error)) {
-                    errorMessage = error.message;
-                }
-
                 await presentToast({
                     type: 'error',
-                    message: errorMessage,
+                    message: error.message,
                 });
 
                 handleErrorEvent();

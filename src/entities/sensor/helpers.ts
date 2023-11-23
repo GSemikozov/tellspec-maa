@@ -9,15 +9,12 @@ export const resolveSensorDisconnectedError = (error: any) =>
 
 export const withSensorHealthcheck = async <T>(
     deviceUuid: string,
-    executor?: () => Promise<T>,
-): Promise<T | null> => {
+    executor: () => Promise<T>,
+): Promise<T> => {
     try {
         await tellspecRetrieveDeviceConnect(deviceUuid);
 
-        let result: T | null = null;
-        if (executor) {
-            result = await executor();
-        }
+        const result = await executor();
 
         await tellspecGetSensorStatus();
 

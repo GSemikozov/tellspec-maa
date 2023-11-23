@@ -7,7 +7,7 @@ import { AppDispatch } from '@app';
 import { tellspecRetrieveDeviceConnect } from '@api/native';
 
 import { removeDevice, selectSensorDevice } from '../model';
-import { isSensorDisconnectedError } from '../helpers';
+import { isSensorDisconnectedError } from '../errors';
 
 type UseRemoveSensorOptions = {
     onComplete?: () => void | Promise<void>;

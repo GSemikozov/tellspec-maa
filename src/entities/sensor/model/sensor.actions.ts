@@ -103,12 +103,12 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     await log('sensor/calibrate:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
-        return new SensorDisconnectedError();
+        throw new SensorDisconnectedError();
     }
 
     return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
         if (!sensor.currentDevice) {
-            return new SensorDisconnectedError();
+            throw new SensorDisconnectedError();
         }
 
         // get the ScannerData
@@ -237,7 +237,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
     await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
 
     if (!sensor.currentDevice) {
-        return new SensorDisconnectedError();
+        throw new SensorDisconnectedError();
     }
 
     return warmupSensorDevice(sensor.currentDevice.uuid, async () => {
@@ -276,7 +276,7 @@ export const saveActiveCalibrationSensor = createAsyncThunk(
         const { sensor } = thunkAPI.getState() as RootState;
 
         if (!sensor.currentDevice) {
-            return new SensorDisconnectedError();
+            throw new SensorDisconnectedError();
         }
 
         const activeCalibration = sensor.currentDevice.activeCal;
@@ -352,12 +352,12 @@ export const runSensorScan = createAsyncThunk(
         const { sensor } = thunkAPI.getState() as RootState;
 
         if (!sensor.currentDevice) {
-            return new SensorDisconnectedError();
+            throw new SensorDisconnectedError();
         }
 
         return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
             if (!sensor.currentDevice) {
-                return new SensorDisconnectedError();
+                throw new SensorDisconnectedError();
             }
 
             if (await isEmulateNativeSdk()) {
@@ -386,7 +386,7 @@ export const getSensorStatus = createAsyncThunk('sensor/getSensorStatus', async 
     const { sensor } = thunkAPI.getState() as RootState;
 
     if (!sensor.currentDevice) {
-        return new SensorDisconnectedError();
+        throw new SensorDisconnectedError();
     }
 
     return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {

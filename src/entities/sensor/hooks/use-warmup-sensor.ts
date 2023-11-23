@@ -11,7 +11,6 @@ import {
     selectSensorDeviceTemperature,
     sensorActions,
 } from '../model';
-import { isSensorDisconnectedError } from '../helpers';
 
 import type { AppDispatch } from '@app';
 
@@ -65,15 +64,9 @@ export const useWarmupSensor = ({
         } catch (error: any) {
             await log('useWarmupSensor:error', error);
 
-            let errorMessage = error.message;
-
-            if (isSensorDisconnectedError(error)) {
-                errorMessage = error.message;
-            }
-
             await presentToast({
                 type: 'error',
-                message: errorMessage,
+                message: error.message,
             });
         }
     }, [loading, handleCompleteEvent]);
