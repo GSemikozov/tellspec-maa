@@ -16,7 +16,7 @@ export const withSensorHealthcheck = async <T>(
 
         const result = await executor();
 
-        await tellspecGetSensorStatus();
+        // await tellspecGetSensorStatus();
 
         return result;
     } catch (error: unknown) {
