@@ -231,7 +231,7 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     });
 });
 
-export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async (_, thunkAPI) => {
+export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async (_, thunkAPI: any) => {
     const { sensor } = thunkAPI.getState() as RootState;
 
     await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
@@ -268,6 +268,7 @@ export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async 
 
             warmupSensorStatus = (thunkAPI.getState() as RootState).sensor.warmupSensorStatus;
             currentRetry++;
+            
         }
     });
 });
