@@ -30,8 +30,7 @@ export const SensorPage: React.FunctionComponent = () => {
     const [removeSensor] = useRemoveSensor();
 
     const currentDevice = useSelector(selectSensorDevice);
-    const serverSensorCalibration = useSelector(selectServerSensorCalibartionData);
-    const sensorServiceCalibration = useSelector(selectServerSensorCalibartionData);
+    const sensorServerCalibration = useSelector(selectServerSensorCalibartionData);
 
     const sensorScannerData = useSelector(selectSensorScannerData);
 
@@ -67,7 +66,7 @@ export const SensorPage: React.FunctionComponent = () => {
         );
     }
 
-    const lastCalibrationDate = sensorServiceCalibration?.last_modified_at;
+    const lastCalibrationDate = sensorServerCalibration?.last_modified_at;
 
     return (
         <IonPage>
@@ -257,13 +256,13 @@ export const SensorPage: React.FunctionComponent = () => {
                                         </div>
                                     ) : null}
 
-                                    {serverSensorCalibration ? (
+                                    {sensorServerCalibration ? (
                                         <div className={cn('section-chart', { fluid: true })}>
                                             <p>Reference calibration spectrum</p>
 
                                             <SensorCalibrationChart
                                                 variant='reference-calibration'
-                                                calibration={serverSensorCalibration}
+                                                calibration={sensorServerCalibration}
                                             />
                                         </div>
                                     ) : null}

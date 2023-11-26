@@ -12,7 +12,6 @@ import {
     calibrateSensorDevice,
     selectSensorCalibrationLoading,
     selectSensorCalibrationError,
-    getSensorCalibration,
 } from '../model';
 
 import type { AppDispatch } from '@app';
@@ -54,7 +53,6 @@ export const useCalibrateSensor = ({
                 // await presentToast({ message: 'Start calibration...' });
 
                 await dispatch(calibrateSensorDevice()).unwrap();
-                await dispatch(getSensorCalibration()).unwrap();
             } catch (error: any) {
                 await log('useCalibrateSensor:error', error);
 

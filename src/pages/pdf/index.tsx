@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Printer } from '@ionic-native/printer';
-import { useHistory } from 'react-router';
+import { IonFabButton, IonIcon, useIonRouter } from '@ionic/react';
+import { print as printIcon, arrowBack as arrowBackIcon } from 'ionicons/icons';
+
 import { userSelectors } from '@entities/user';
 import { fetchMilksByIds, selectIsMilkLoading, selectMilkByIds } from '@entities/milk';
 import { fetchGroup, selectGroupFreezers, selectIsGroupLoading } from '@entities/groups';
 import { PDFTemplate } from '@entities/reports/components/pdf-template';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { LogoAnimation } from '@ui/logo/animated-logo';
-import { IonFabButton, IonIcon } from '@ionic/react';
-import { print as printIcon, arrowBack as arrowBackIcon } from 'ionicons/icons';
 
 import type { RouteComponentProps } from 'react-router';
 import type { AppDispatch } from '@app';
@@ -22,7 +22,8 @@ interface PDFPageProps extends RouteComponentProps<{ ids: string }> {}
 export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
-    const history = useHistory();
+
+    const router = useIonRouter();
 
     const user = useSelector(userSelectors.getUser);
     const milks = useSelector(state => selectMilkByIds(state, ids));
@@ -42,7 +43,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
             ? `Milk ${milks[0].milk_id} report on ${formattedDate}`
             : `Milk reports on ${formattedDate}`;
 
-    const handleBackClick = () => history.goBack();
+    const handleBackClick = () => router.goBack();
 
     const print = () =>
         Printer.print(undefined, { margin: false, autoFit: false, name: filename }).catch(e => {
@@ -50,7 +51,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
             setTimeout(print, 3000);
         });
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (ids.length > 0) {
             const fetchDonorsRequest = {
                 completeData: true,
@@ -68,7 +69,7 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
         }
     }, [ids]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (milks.length === 0) {
             return;
         }

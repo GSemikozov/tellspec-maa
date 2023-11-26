@@ -78,6 +78,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         },
                     },
                 ],
+                onDidDismiss: () => {
+                    setIsFirstWarmup(false);
+                },
             });
         }
     };
@@ -91,7 +94,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     </div>
                 ) : null}
 
-                {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? (
+                {isFirstWarmup || needRecalibration ? (
                     <>
                         <p>
                             For best results we suggest that you need to warm up your Preemie Sensor
@@ -104,9 +107,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
                         <div className={cn('modal-actions')}>
                             <PreemieButton
-                                disabled={
-                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading
-                                }
+                                disabled={isFirstWarmup || warmupSensorLoading}
+                                loading={analyseMilkLoading}
                                 onClick={onAnalyseMilk}
                             >
                                 {analyseMilkTitle}
@@ -121,7 +123,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     </>
                 ) : (
                     <div className={cn('second-modal-actions')}>
-                        <PreemieButton disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
+                        <PreemieButton loading={analyseMilkLoading} onClick={onAnalyseMilk}>
                             {analyseMilkTitle}
                         </PreemieButton>
 
