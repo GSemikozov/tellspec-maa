@@ -11,7 +11,6 @@ import { fetchGroup, selectGroupFreezers, selectIsGroupLoading } from '@entities
 import { PDFTemplate } from '@entities/reports/components/pdf-template';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { LogoAnimation } from '@ui/logo/animated-logo';
-import { useSensorConnectionProcess } from '@widgets/sensor-connection-process';
 
 import type { RouteComponentProps } from 'react-router';
 import type { AppDispatch } from '@app';
@@ -25,8 +24,6 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
     const history = useHistory();
-
-    const { onRetrievePairedDeviceFromStorage } = useSensorConnectionProcess();
 
     const user = useSelector(userSelectors.getUser);
     const milks = useSelector(state => selectMilkByIds(state, ids));
@@ -53,13 +50,6 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
             console.log(e);
             setTimeout(print, 3000);
         });
-
-    React.useEffect(
-        () => () => {
-            onRetrievePairedDeviceFromStorage();
-        },
-        [onRetrievePairedDeviceFromStorage],
-    );
 
     React.useEffect(() => {
         if (ids.length > 0) {
