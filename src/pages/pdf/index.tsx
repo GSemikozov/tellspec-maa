@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Printer } from '@ionic-native/printer';
-import { IonFabButton, IonIcon, useIonRouter } from '@ionic/react';
+import { useHistory } from 'react-router';
+import { IonFabButton, IonIcon } from '@ionic/react';
 import { print as printIcon, arrowBack as arrowBackIcon } from 'ionicons/icons';
 
 import { userSelectors } from '@entities/user';
@@ -10,6 +11,7 @@ import { fetchGroup, selectGroupFreezers, selectIsGroupLoading } from '@entities
 import { PDFTemplate } from '@entities/reports/components/pdf-template';
 import { donorsAsyncActions, donorsSelectors } from '@entities/donors';
 import { LogoAnimation } from '@ui/logo/animated-logo';
+import { useSensorConnectionProcess } from '@widgets/sensor-connection-process';
 
 import type { RouteComponentProps } from 'react-router';
 import type { AppDispatch } from '@app';
@@ -22,8 +24,9 @@ interface PDFPageProps extends RouteComponentProps<{ ids: string }> {}
 export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
     const ids = decodeURIComponent(match.params.ids);
     const dispatch = useDispatch<AppDispatch>();
+    const history = useHistory();
 
-    const router = useIonRouter();
+    const { onRetrievePairedDeviceFromStorage } = useSensorConnectionProcess();
 
     const user = useSelector(userSelectors.getUser);
     const milks = useSelector(state => selectMilkByIds(state, ids));
@@ -43,13 +46,20 @@ export const PDFPage: React.FC<PDFPageProps> = ({ match }) => {
             ? `Milk ${milks[0].milk_id} report on ${formattedDate}`
             : `Milk reports on ${formattedDate}`;
 
-    const handleBackClick = () => router.goBack();
+    const handleBackClick = () => history.goBack();
 
     const print = () =>
         Printer.print(undefined, { margin: false, autoFit: false, name: filename }).catch(e => {
             console.log(e);
             setTimeout(print, 3000);
         });
+
+    React.useEffect(
+        () => () => {
+            onRetrievePairedDeviceFromStorage();
+        },
+        [onRetrievePairedDeviceFromStorage],
+    );
 
     React.useEffect(() => {
         if (ids.length > 0) {

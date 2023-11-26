@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonModal, IonSpinner, useIonAlert } from '@ionic/react';
+import { IonModal, useIonAlert } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { PreemieButton } from '@ui/button';
@@ -89,7 +89,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     return (
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
-                {warmupSensorLoading ? (
+                {analyseMilkLoading || warmupSensorLoading ? (
                     <div style={{ marginTop: '2rem', textAlign: 'center' }}>
                         {/* <IonSpinner name='bubbles' color='primary' /> */}
                         <ProgressBar />
@@ -109,8 +109,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
                         <div className={cn('modal-actions')}>
                             <PreemieButton
-                                disabled={isFirstWarmup || warmupSensorLoading}
-                                loading={analyseMilkLoading}
+                                disabled={
+                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading
+                                }
                                 onClick={onAnalyseMilk}
                             >
                                 {analyseMilkTitle}
@@ -125,7 +126,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     </>
                 ) : (
                     <div className={cn('second-modal-actions')}>
-                        <PreemieButton loading={analyseMilkLoading} onClick={onAnalyseMilk}>
+                        <PreemieButton disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
                             {analyseMilkTitle}
                         </PreemieButton>
 

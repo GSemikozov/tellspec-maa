@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCol, IonRow, useIonRouter } from '@ionic/react';
+import { IonCol, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
 import { PreemieButton } from '@ui/button';
@@ -15,17 +15,13 @@ type ActionsPanelProps = {
 export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props => {
     const { selectedIDS } = props;
 
-    const router = useIonRouter();
-
+    const printURL = `/pdf/${encodeURIComponent(selectedIDS.join(','))}`;
     const isPrintButtonDisabled = selectedIDS.length === 0;
-
-    const handleClickButton = () =>
-        router.push(`/pdf/${encodeURIComponent(selectedIDS.join(','))}`);
 
     return (
         <IonRow>
             <IonCol className={cn()}>
-                <PreemieButton disabled={isPrintButtonDisabled} onClick={handleClickButton}>
+                <PreemieButton href={printURL} disabled={isPrintButtonDisabled}>
                     Print Milk Report(s)
                 </PreemieButton>
             </IonCol>

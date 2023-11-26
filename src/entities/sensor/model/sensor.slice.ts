@@ -38,15 +38,11 @@ const initialState: SensorState = {
 };
 
 const isSensorRejectedWithDisconnectedError = (payload: unknown) => {
-    console.log('isSensoRejectedWithDisconnectedError:start', JSON.stringify(payload));
-
     const result =
         typeof payload === 'object' &&
         payload !== null &&
         'error' in payload &&
         isSensorDisconnectedError(payload.error);
-
-    console.log('isSensoRejectedWithDisconnectedError:result', result);
 
     return result;
 };
@@ -57,6 +53,10 @@ export const sensorSlice = createSlice({
     reducers: {
         cancelWarmup: state => {
             state.warmupSensorStatus = 'idle';
+        },
+
+        cancelSensorCalibration: state => {
+            state.calibrationStatus = CalibrationStatus.DISCONNECTED;
         },
 
         acceptSensorCalibration: state => {
