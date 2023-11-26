@@ -11,6 +11,7 @@ import {
 } from '@entities/sensor';
 
 import './warmup-modal.css';
+import ProgressBar from '../progress-bar/progress-bar';
 
 const cn = classname('warmup-modal');
 
@@ -89,8 +90,9 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         <IonModal isOpen={open} onDidDismiss={onClose}>
             <div className={cn()}>
                 {warmupSensorLoading ? (
-                    <div style={{ marginTop: '20rem', textAlign: 'center' }}>
-                        <IonSpinner name='bubbles' color='primary' />
+                    <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+                        {/* <IonSpinner name='bubbles' color='primary' /> */}
+                        <ProgressBar />
                     </div>
                 ) : null}
 

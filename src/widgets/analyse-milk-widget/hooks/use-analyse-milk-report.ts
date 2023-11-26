@@ -33,7 +33,7 @@ export const useAnalyseMilkReport = ({
             const response = await apiInstance.reports.fetchReport(payload);
 
             if (response.data === null || response.data.length === 0) {
-                throw new Error('Unabled to find milk information');
+                throw new Error('Unable to find milk information');
             }
 
             const [report] = response.data;

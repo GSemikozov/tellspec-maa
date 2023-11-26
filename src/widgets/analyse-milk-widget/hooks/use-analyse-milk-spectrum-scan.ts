@@ -30,7 +30,7 @@ export const useAnalyseMilkSpectrumScan = (): UseAnalyseMilkSpectrumScanResponse
             const response = await apiInstance.sensor.getScanData(scanId);
 
             if (response.data === null || response.data.length === 0) {
-                throw new Error('Unabled to find spectrum scan information');
+                throw new Error('Unable to find spectrum scan information');
             }
 
             const [spectrumScanDataItem] = response.data;
