@@ -20,6 +20,7 @@ export type SensorConnectionProcessContextValue = {
     onOpenDiscoveryDevicesModal: () => void;
     onCloseDiscoveryDevicesModal: () => void;
     onConnectDevice: (device: TellspecSensorDevice) => void;
+    onRetrievePairedDeviceFromStorage: () => Promise<void>;
 
     onResetStatus: () => void;
 };

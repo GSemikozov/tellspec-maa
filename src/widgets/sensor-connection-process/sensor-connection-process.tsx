@@ -167,36 +167,36 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         }
     }, []);
 
-    React.useEffect(() => {
+    const handleRetrievePairedDeviceFromStorage = React.useCallback(async () => {
         if (!isAuthenticated) {
             return;
         }
 
-        const retrievePairedDeviceFromStorage = async () => {
-            try {
-                if (!currentDevice) {
-                    return;
-                }
-
-                await dispatch(connectSensorDevice(currentDevice)).unwrap();
-
-                setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
-            } catch (error: any) {
-                setStatus(SensorConnectionProcessStatus.ERROR);
-
-                await presentToast({
-                    type: 'error',
-                    message: error?.message,
-                });
+        try {
+            if (!currentDevice) {
+                return;
             }
-        };
 
+            await dispatch(connectSensorDevice(currentDevice)).unwrap();
+
+            setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
+        } catch (error: any) {
+            setStatus(SensorConnectionProcessStatus.ERROR);
+
+            await presentToast({
+                type: 'error',
+                message: error?.message,
+            });
+        }
+    }, [isAuthenticated, currentDevice, connectSensorDevice]);
+
+    React.useEffect(() => {
         if (!mountedRef.current) {
             mountedRef.current = true;
 
-            retrievePairedDeviceFromStorage();
+            handleRetrievePairedDeviceFromStorage();
         }
-    }, [isAuthenticated, currentDevice]);
+    }, [handleRetrievePairedDeviceFromStorage]);
 
     React.useEffect(() => {
         if (!isAuthenticated) {
@@ -259,6 +259,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             onOpenDiscoveryDevicesModal: handleOpenDiscoveryDevicesModal,
             onCloseDiscoveryDevicesModal: handleCloseDiscoveryDevicesModal,
             onConnectDevice: handleConnectDevice,
+            onRetrievePairedDeviceFromStorage: handleRetrievePairedDeviceFromStorage,
 
             onResetStatus: handleResetStatus,
         }),

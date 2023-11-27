@@ -8,6 +8,7 @@ import { useEventAsync } from '@shared/hooks';
 import {
     SensorDevice,
     saveActiveCalibrationSensor,
+    getSensorCalibration,
     selectIsActiveCalibrationSaveLoading,
 } from '../model';
 
@@ -47,6 +48,7 @@ export const useSaveCalibrationSensor = ({
                 });
 
                 await dispatch(saveActiveCalibrationSensor()).unwrap();
+                await dispatch(getSensorCalibration()).unwrap();
 
                 await presentToast({
                     type: 'success',

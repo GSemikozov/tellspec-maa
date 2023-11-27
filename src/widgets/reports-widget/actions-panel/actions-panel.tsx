@@ -2,9 +2,9 @@ import React from 'react';
 import { IonCol, IonRow } from '@ionic/react';
 
 import { classname } from '@shared/utils';
+import { PreemieButton } from '@ui/button';
 
 import './actions-panel.css';
-import { PreemieButton } from '@ui/button';
 
 const cn = classname('actions-panel');
 
@@ -14,6 +14,7 @@ type ActionsPanelProps = {
 
 export const ActionsPanel: React.FunctionComponent<ActionsPanelProps> = props => {
     const { selectedIDS } = props;
+
     const printURL = `/pdf/${encodeURIComponent(selectedIDS.join(','))}`;
     const isPrintButtonDisabled = selectedIDS.length === 0;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IonModal, IonRow, IonSpinner } from '@ionic/react';
 
 import { classname } from '@shared/utils';
@@ -10,6 +10,7 @@ import {
     selectSensorDevice,
     selectSensorDeviceActiveCalibration,
     SensorCalibrationChart,
+    sensorActions,
 } from '@entities/sensor';
 
 import './calibration-modal.css';
@@ -33,6 +34,8 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
     onSaveCalibrationSensor,
     onClose,
 }) => {
+    const dispatch = useDispatch();
+
     const [isFirstCalibration, setIsFirstCalibration] = React.useState(true);
 
     const currentDevice = useSelector(selectSensorDevice);
@@ -40,6 +43,12 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
 
     const handleCalibrateSensor = () => onCalibrateSensor(currentDevice);
     const handleSaveCalibrationSensor = () => onSaveCalibrationSensor(currentDevice);
+
+    const handleClickCancelCalibration = () => {
+        dispatch(sensorActions.cancelSensorCalibration());
+
+        onClose();
+    };
 
     React.useEffect(() => {
         const run = async () => {
@@ -114,7 +123,7 @@ export const CalibrationModal: React.FunctionComponent<CalibrationModalProps> = 
                                         <PreemieButton
                                             className='calibration-button'
                                             size='small'
-                                            onClick={onClose}
+                                            onClick={handleClickCancelCalibration}
                                         >
                                             Cancel
                                         </PreemieButton>
