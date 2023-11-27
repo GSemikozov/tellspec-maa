@@ -112,6 +112,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const handleAnalyseMilk = React.useCallback(async () => {
         await call(reportMilk, userEmail);
+        
     }, [call, reportMilk, userEmail]);
 
     const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {

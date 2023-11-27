@@ -66,6 +66,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         }
 
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
+     
             presentAlert({
                 header: 'Warning',
                 subHeader:
@@ -93,21 +94,22 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     </div>
                 ) : null}
 
-                {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? (
+                {/* {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? ( */}
+                {needRecalibration ? (
                     <>
                         <p>
                             For best results we suggest that you need to warm up your Preemie Sensor
                             before you analyse the milk.
                         </p>
 
-                        {currentSensorTemperature > 0 ? (
+                        {/* {currentSensorTemperature > 0 ? (
                             <p>{`Current temperature of the sensor is ${currentSensorTemperature}C`}</p>
-                        ) : null}
+                        ) : null} */}
 
                         <div className={cn('modal-actions')}>
                             <PreemieButton
                                 disabled={
-                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading
+                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading || needRecalibration
                                 }
                                 onClick={onAnalyseMilk}
                             >
