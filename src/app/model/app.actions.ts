@@ -88,3 +88,13 @@ export const updateIsFirstSensorCalibration = createAsyncThunk(
         }
     },
 );
+
+export const updateIsFirstWarmup = createAsyncThunk('app/updateIsFirstWarmup', async () => {
+    const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
+
+    if (typeof isFirstWarmup !== 'boolean') {
+        await nativeStore.set(NativeStorageKeys.IS_FIRST_WARMUP, true);
+
+        return;
+    }
+});
