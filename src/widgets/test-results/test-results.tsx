@@ -1,13 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import { classname } from '@shared/utils';
-import { appActions } from '@app';
 
 import { Scale } from './scale';
 import { MockData } from './mock-data';
 
-import type { AppDispatch } from '@app/store';
 import type { Report } from '@entities/reports';
 
 import './test-results.css';
@@ -68,23 +65,7 @@ const SCALE_VALUES: Record<string, ScaleValue> = {
 };
 
 export const TestResults: React.FunctionComponent<TestResultsProps> = ({ reportMilk }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
     const mockData = MockData.data;
-
-    React.useEffect(() => {
-        if (!reportMilk) {
-            return;
-        }
-
-        if (reportMilk.data.analyseData) {
-            dispatch(appActions.hideSidebar());
-        }
-
-        return () => {
-            dispatch(appActions.showSidebar());
-        };
-    }, [reportMilk]);
 
     if (!reportMilk) {
         return <div className={cn('placeholder')}>This milk has not been analysed.</div>;

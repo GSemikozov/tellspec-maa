@@ -13,7 +13,6 @@ import { extractReportAnalyseData } from '@entities/reports';
 import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
-import { appActions } from '@app';
 import { WarmupModal } from '@entities/analyse/ui';
 
 import { ActionsPanel } from './actions-panel';
@@ -21,23 +20,30 @@ import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
 
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import type { AppDispatch } from '@app/store';
+import { AnalyseWidgetTabs } from './analyse-milk-widget.constants';
+import { useSidebarToggle } from './hooks/use-sidebar-toggle';
 
 import './analyse-milk-widget.css';
 
 const cn = classname('analyse-milk-widget');
 
-enum AnalyseWidgetTabs {
-    SPECTRUM = 'spectrum',
-    TEST_RESULTS = 'testResults',
-}
 export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { routeInfo } = useIonRouter();
     const [presentToast] = usePreemieToast();
 
-    const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
     const currentDevice = useSelector(selectSensorDevice);
+    const userEmail = useSelector(selectUserEmail);
+    const milksLoading = useSelector(selectIsMilkLoading);
+    const milkList = useSelector(selectMilkList);
+
+    const [, setModelScannedData] = React.useState<any>(null);
+    const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
+    const [milkId, setMilkId] = React.useState<string>('');
+    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
+        AnalyseWidgetTabs.TEST_RESULTS,
+    );
 
     const handleOpenWarmupModal = () => {
         if (!currentDevice) {
@@ -50,13 +56,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     };
 
     const handleCloseWarmupModal = () => setWarmupOpenModal(false);
-
-    const [milkId, setMilkId] = React.useState<string>('');
-    const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
-        AnalyseWidgetTabs.TEST_RESULTS,
-    );
-
-    const [, setModelScannedData] = React.useState<any>(null);
 
     const [fetchSpectrumScan, onSetSpectrumScan, { spectrumScan, loading: spectrumScanLoading }] =
         useAnalyseMilkSpectrumScan();
@@ -97,11 +96,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         },
     );
 
-    const userEmail = useSelector(selectUserEmail);
-
-    const milksLoading = useSelector(selectIsMilkLoading);
-    const milkList = useSelector(selectMilkList);
-
     const handleChangeMilkId = useEventAsync(async (milkId: string) => {
         onSetReport(null);
         onSetSpectrumScan(null);
@@ -112,7 +106,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const handleAnalyseMilk = React.useCallback(async () => {
         await call(reportMilk, userEmail);
-        
     }, [call, reportMilk, userEmail]);
 
     const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
@@ -120,7 +113,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     };
 
     React.useEffect(() => {
-        dispatch(appActions.showSidebar());
         dispatch(fetchMilks());
     }, []);
 
@@ -182,6 +174,8 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const showActions = hasMilkId; // && connectedSensor !== null;
 
     const showOnlyAnalyseButton = extractReportAnalyseData(reportMilk) === null;
+
+    useSidebarToggle(activeTab, reportMilk);
 
     return (
         <PageArea>

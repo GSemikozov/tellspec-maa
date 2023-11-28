@@ -34,6 +34,7 @@ import type { IFreezer } from '@entities/groups';
 import type { AddMilkFormFieldValues } from './add-milk-form.utils';
 
 import './add-milk-form.css';
+import { format } from 'date-fns';
 // import { WarmupModal } from '@entities/analyse/warmup-modal';
 
 const cn = classname('add-milk-form');
@@ -153,7 +154,6 @@ export const AddMilkForm: React.FunctionComponent = () => {
         }
     };
 
-
     const handleAddMilkAndAnalyse = async () => {
         const values = getValues();
 
@@ -180,7 +180,7 @@ export const AddMilkForm: React.FunctionComponent = () => {
         reset(defaultValues);
     };
 
-    const today = new Date().toISOString().slice(0, 10);
+    const today = format(new Date(), 'yyyy-MM-dd');
 
     return (
         <form className={cn()}>
