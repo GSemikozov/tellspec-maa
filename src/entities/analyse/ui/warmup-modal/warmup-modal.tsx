@@ -2,6 +2,7 @@ import React from 'react';
 import { IonModal, useIonAlert, IonSpinner } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
+import { NativeStorageKeys, nativeStore } from '@api/native';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
 import {
@@ -11,7 +12,6 @@ import {
 } from '@entities/sensor';
 
 import './warmup-modal.css';
-// import ProgressBar from '../progress-bar/progress-bar';
 
 const cn = classname('warmup-modal');
 
@@ -37,7 +37,12 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 }) => {
     const [presentAlert] = useIonAlert();
 
-    const [isFirstWarmup, setIsFirstWarmup] = React.useState(true);
+    const [isFirstWarmup, setIsFirstWarmup] = React.useState<boolean | null>(null);
+
+    const commitSetFirstWarmup = async (value: boolean) => {
+        await nativeStore.set(NativeStorageKeys.IS_FIRST_WARMUP, value);
+        setIsFirstWarmup(value);
+    };
 
     const currentDevice = useSelector(selectSensorDevice);
     const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
@@ -51,7 +56,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     const [warmupSensor, forceCancelWarmupSensor, { loading: warmupSensorLoading }] =
         useWarmupSensor({
             onComplete: async () => {
-                setIsFirstWarmup(false);
+                commitSetFirstWarmup(false);
             },
         });
 
@@ -74,70 +79,73 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     {
                         text: 'OK',
                         handler: () => {
-                            setIsFirstWarmup(false);
+                            commitSetFirstWarmup(false);
                             forceCancelWarmupSensor();
                         },
                     },
                 ],
                 onDidDismiss: () => {
-                    setIsFirstWarmup(false);
+                    commitSetFirstWarmup(false);
                 },
             });
         }
     };
 
-    return (
-        <IonModal isOpen={open} onDidDismiss={onClose}>
-            <div className={cn()}>
-                {analyseMilkLoading || warmupSensorLoading ? (
-                    <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-                        <IonSpinner name='bubbles' color='primary' />
-                        {/* <ProgressBar /> */}
-                    </div>
-                ) : null}
+    React.useEffect(() => {
+        const retrieveIsFirstWarmupFromStorage = async () => {
+            const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
 
-                {/* {currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration ? ( */}
-                {needRecalibration ? (
-                    <>
-                        <p>
-                            For best results we suggest that you need to warm up your Preemie Sensor
-                            before you analyse the milk.
-                        </p>
+            setIsFirstWarmup(isFirstWarmup);
+        };
 
-                        {/* {currentSensorTemperature > 0 ? (
-                            <p>{`Current temperature of the sensor is ${currentSensorTemperature}C`}</p>
-                        ) : null} */}
+        retrieveIsFirstWarmupFromStorage();
+    }, []);
 
-                        <div className={cn('modal-actions')}>
-                            <PreemieButton
-                                disabled={
-                                    isFirstWarmup ||
-                                    warmupSensorLoading ||
-                                    analyseMilkLoading ||
-                                    needRecalibration
-                                }
-                                onClick={onAnalyseMilk}
-                            >
-                                {analyseMilkTitle}
-                            </PreemieButton>
+    const renderContent = React.useMemo(() => {
+        if (!isFirstWarmup && !needRecalibration) {
+            return null;
+        }
 
-                            <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
-                                Warm Up Sensor
-                            </PreemieButton>
+        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN || needRecalibration) {
+            const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
-                            <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
+            const isDisabledAnalyse =
+                warmupSensorLoading || analyseMilkLoading || needRecalibration;
+
+            return (
+                <>
+                    {analyseMilkLoading || warmupSensorLoading ? (
+                        <div className={cn('loading')}>
+                            <IonSpinner name='bubbles' color='primary' />
                         </div>
-                    </>
-                ) : (
-                    <div className={cn('second-modal-actions')}>
-                        <PreemieButton disabled={analyseMilkLoading} onClick={onAnalyseMilk}>
+                    ) : null}
+
+                    <p>
+                        For best results we suggest that you need to warm up your Preemie Sensor
+                        before you analyse the milk.
+                    </p>
+
+                    {currentSensorTemperature > 0 ? <p>{currentTemperatureString}</p> : null}
+
+                    <div className={cn('modal-actions')}>
+                        <PreemieButton disabled={isDisabledAnalyse} onClick={onAnalyseMilk}>
                             {analyseMilkTitle}
                         </PreemieButton>
 
-                        <PreemieButton onClick={onClose}>Cancel</PreemieButton>
+                        <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
+                            Warm Up Sensor
+                        </PreemieButton>
+
+                        <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
                     </div>
-                )}
-            </div>
+                </>
+            );
+        }
+    }, [isFirstWarmup, analyseMilkLoading, warmupSensorLoading]);
+
+    return (
+        <IonModal isOpen={open} onDidDismiss={onClose}>
+            <div className={cn()}>{renderContent}</div>
         </IonModal>
     );
 };

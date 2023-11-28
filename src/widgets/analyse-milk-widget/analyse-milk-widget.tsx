@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonLabel, IonSegment, IonSegmentButton, useIonRouter } from '@ionic/react';
 
+import { NativeStorageKeys, nativeStore } from '@api/native';
 import { usePreemieToast, BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
 import { useEventAsync } from '@shared/hooks';
@@ -17,11 +18,11 @@ import { WarmupModal } from '@entities/analyse/ui';
 
 import { ActionsPanel } from './actions-panel';
 import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
+import { AnalyseWidgetTabs } from './analyse-milk-widget.constants';
+import { useSidebarToggle } from './hooks/use-sidebar-toggle';
 
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import type { AppDispatch } from '@app/store';
-import { AnalyseWidgetTabs } from './analyse-milk-widget.constants';
-import { useSidebarToggle } from './hooks/use-sidebar-toggle';
 
 import './analyse-milk-widget.css';
 
@@ -44,16 +45,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
         AnalyseWidgetTabs.TEST_RESULTS,
     );
-
-    const handleOpenWarmupModal = () => {
-        if (!currentDevice) {
-            presentToast({
-                message: 'Your sensor is not connected. Please connect the sensor.',
-            });
-        } else {
-            setWarmupOpenModal(true);
-        }
-    };
 
     const handleCloseWarmupModal = () => setWarmupOpenModal(false);
 
@@ -107,6 +98,25 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const handleAnalyseMilk = React.useCallback(async () => {
         await call(reportMilk, userEmail);
     }, [call, reportMilk, userEmail]);
+
+    const handleClickAnalyseMilk = async () => {
+        if (!currentDevice) {
+            await presentToast({
+                message: 'Your sensor is not connected. Please connect the sensor.',
+            });
+
+            return;
+        }
+
+        const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
+
+        if (isFirstWarmup) {
+            setWarmupOpenModal(true);
+            return;
+        }
+
+        handleAnalyseMilk();
+    };
 
     const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
         setActiveTab(event.target.value as AnalyseWidgetTabs);
@@ -219,7 +229,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 selectedID={milkId}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
-                                onAnalyseMilk={handleOpenWarmupModal}
+                                onAnalyseMilk={handleClickAnalyseMilk}
                                 isMilkAnalysed={!!reportMilk?.data.analyseData}
                             />
                         </div>
