@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonModal, useIonAlert } from '@ionic/react';
+import { IonModal, useIonAlert, IonSpinner } from '@ionic/react';
 import { useSelector } from 'react-redux';
 
 import { PreemieButton } from '@ui/button';
@@ -11,11 +11,11 @@ import {
 } from '@entities/sensor';
 
 import './warmup-modal.css';
-import ProgressBar from '../progress-bar/progress-bar';
+// import ProgressBar from '../progress-bar/progress-bar';
 
 const cn = classname('warmup-modal');
 
-const SENSOR_IDLE_MINUTES_TO_RE_WARMUP = 15;
+const SENSOR_IDLE_MINUTES_TO_RE_WARMUP = 10;
 const RECOMMENDED_TEMP_FOR_SCAN = 30;
 
 export type WarmupModalProps = {
@@ -66,7 +66,6 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         }
 
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
-     
             presentAlert({
                 header: 'Warning',
                 subHeader:
@@ -92,8 +91,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
             <div className={cn()}>
                 {analyseMilkLoading || warmupSensorLoading ? (
                     <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-                        {/* <IonSpinner name='bubbles' color='primary' /> */}
-                        <ProgressBar />
+                        <IonSpinner name='bubbles' color='primary' />
+                        {/* <ProgressBar /> */}
                     </div>
                 ) : null}
 
@@ -112,7 +111,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         <div className={cn('modal-actions')}>
                             <PreemieButton
                                 disabled={
-                                    isFirstWarmup || warmupSensorLoading || analyseMilkLoading || needRecalibration
+                                    isFirstWarmup ||
+                                    warmupSensorLoading ||
+                                    analyseMilkLoading ||
+                                    needRecalibration
                                 }
                                 onClick={onAnalyseMilk}
                             >
