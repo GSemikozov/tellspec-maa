@@ -9,6 +9,8 @@ import {
     tellspecAddListener,
     tellspecCheckBleState,
     tellspecEnableDiscovery,
+    nativeStore,
+    NativeStorageKeys,
 } from '@api/native';
 import {
     connectSensorDevice,
@@ -173,11 +175,13 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
         }
 
         try {
-            if (!currentDevice) {
+            const storageDevice = await nativeStore.get(NativeStorageKeys.DEVICE);
+
+            if (!storageDevice) {
                 return;
             }
 
-            await dispatch(connectSensorDevice(currentDevice)).unwrap();
+            await dispatch(connectSensorDevice(storageDevice)).unwrap();
 
             setStatus(SensorConnectionProcessStatus.PAIRING_SUCCESS);
         } catch (error: any) {
@@ -188,7 +192,7 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
                 message: error?.message,
             });
         }
-    }, [isAuthenticated, currentDevice, connectSensorDevice]);
+    }, [isAuthenticated, connectSensorDevice]);
 
     React.useEffect(() => {
         if (!mountedRef.current) {
@@ -197,12 +201,6 @@ export const SensorConnectionProcessProvider: React.FunctionComponent<React.Prop
             handleRetrievePairedDeviceFromStorage();
         }
     }, [handleRetrievePairedDeviceFromStorage]);
-
-    React.useEffect(() => {
-        if (!isAuthenticated) {
-            return;
-        }
-    }, [isAuthenticated, currentDevice, handleResetStatus]);
 
     React.useEffect(() => {
         const resetListener = () => {
