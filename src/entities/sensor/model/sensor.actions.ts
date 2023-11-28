@@ -91,6 +91,8 @@ export const connectSensorDevice = createAsyncThunk(
                 requiredCalibration: !calibrationReady,
             };
 
+            await nativeStore.set(NativeStorageKeys.DEVICE, shallowDevice);
+
             await log('sensor/connect:result', result);
             return result;
         });
@@ -231,47 +233,49 @@ export const calibrateSensorDevice = createAsyncThunk('sensor/calibrate', async 
     });
 });
 
-export const warmupSensorDevice = createAsyncThunk('sensor/warmupSensor', async (_, thunkAPI: any) => {
-    const { sensor } = thunkAPI.getState() as RootState;
+export const warmupSensorDevice = createAsyncThunk(
+    'sensor/warmupSensor',
+    async (_, thunkAPI: any) => {
+        const { sensor } = thunkAPI.getState() as RootState;
 
-    await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
+        await log('sensor/warmupSensor:currentDevice', sensor.currentDevice);
 
-    if (!sensor.currentDevice) {
-        throw new SensorDisconnectedError();
-    }
-
-    return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
-        const maxRetries = 10;
-
-        let currentRetry = 0;
-        let warmupSensorStatus = sensor.warmupSensorStatus;
-
-        while (currentRetry < maxRetries && warmupSensorStatus === 'progress') {
-            const scanResult = await tellspecStartScan();
-
-            console.log('sensor/warmupSensor:', currentRetry, maxRetries, warmupSensorStatus);
-
-            const dataToLog = {
-                SysHumidity: scanResult.SysHumidity,
-                SysTemperature: scanResult.SysTemperature,
-                HWRev: scanResult.HWRev,
-                SerialNumber: scanResult.SerialNumber,
-                TivaRev: scanResult.TivaRev,
-                SpectrumRev: scanResult.SpectrumRev,
-                KeyTimestamp: scanResult.KeyTimestamp,
-                ADCPGA: scanResult.ADCPGA,
-            };
-
-            logForServer('warmup-scan', dataToLog);
-
-            await thunkAPI.dispatch(getSensorStatus()).unwrap();
-
-            warmupSensorStatus = (thunkAPI.getState() as RootState).sensor.warmupSensorStatus;
-            currentRetry++;
-            
+        if (!sensor.currentDevice) {
+            throw new SensorDisconnectedError();
         }
-    });
-});
+
+        return withSensorHealthcheck(sensor.currentDevice.uuid, async () => {
+            const maxRetries = 10;
+
+            let currentRetry = 0;
+            let warmupSensorStatus = sensor.warmupSensorStatus;
+
+            while (currentRetry < maxRetries && warmupSensorStatus === 'progress') {
+                const scanResult = await tellspecStartScan();
+
+                console.log('sensor/warmupSensor:', currentRetry, maxRetries, warmupSensorStatus);
+
+                const dataToLog = {
+                    SysHumidity: scanResult.SysHumidity,
+                    SysTemperature: scanResult.SysTemperature,
+                    HWRev: scanResult.HWRev,
+                    SerialNumber: scanResult.SerialNumber,
+                    TivaRev: scanResult.TivaRev,
+                    SpectrumRev: scanResult.SpectrumRev,
+                    KeyTimestamp: scanResult.KeyTimestamp,
+                    ADCPGA: scanResult.ADCPGA,
+                };
+
+                logForServer('warmup-scan', dataToLog);
+
+                await thunkAPI.dispatch(getSensorStatus()).unwrap();
+
+                warmupSensorStatus = (thunkAPI.getState() as RootState).sensor.warmupSensorStatus;
+                currentRetry++;
+            }
+        });
+    },
+);
 
 export const saveActiveCalibrationSensor = createAsyncThunk(
     'sensor/saveActiveCalibration',

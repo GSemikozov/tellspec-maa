@@ -6,7 +6,6 @@ import { ReportsIcon } from '@ui/icons';
 import { PageArea } from '@shared/ui';
 import { classname } from '@shared/utils';
 import { fetchReport, selectIsReportLoading, selectReportsByDate } from '@entities/reports';
-import { useSensorConnectionProcess } from '@widgets/sensor-connection-process';
 
 import { ReportModal } from './reports-modal';
 import { ReportTable } from './report-table';
@@ -20,8 +19,6 @@ import './reports-widget.css';
 const cn = classname('reports-widget');
 
 export const ReportsWidget: React.FunctionComponent = () => {
-    const { onRetrievePairedDeviceFromStorage } = useSensorConnectionProcess();
-
     const dispatch = useDispatch<AppDispatch>();
 
     const [selectedMilkID, setSelectedMilkID] = React.useState<string | null>();
@@ -34,10 +31,6 @@ export const ReportsWidget: React.FunctionComponent = () => {
     React.useEffect(() => {
         dispatch(fetchReport());
     }, []);
-
-    React.useEffect(() => {
-        onRetrievePairedDeviceFromStorage();
-    }, [onRetrievePairedDeviceFromStorage]);
 
     const handleModalClose = () => {
         setIsReportModalOpened(false);
