@@ -28,6 +28,8 @@ import './analyse-milk-widget.css';
 
 const cn = classname('analyse-milk-widget');
 
+const SENSOR_IDLE_MINUTES_TO_RE_WARMUP = 10;
+
 export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
@@ -110,7 +112,14 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
         const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
 
-        if (isFirstWarmup) {
+        const currentTime = +new Date();
+        const lastSensorInteractionTime = currentDevice?.lastInteractionAt ?? 0;
+
+        const needRecalibration =
+            (currentTime - lastSensorInteractionTime) / (60 * 1000) >=
+            SENSOR_IDLE_MINUTES_TO_RE_WARMUP;
+
+        if (isFirstWarmup || needRecalibration) {
             setWarmupOpenModal(true);
             return;
         }
