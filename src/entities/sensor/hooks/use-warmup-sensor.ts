@@ -50,14 +50,14 @@ export const useWarmupSensor = ({
 
             await dispatch(warmupSensorDevice()).unwrap();
 
-            const message =
-                currentSensorTemperatureRef.current < 30
-                    ? 'Your Preemie Sensor still needs to be warmed again, please select the warm-up button again.'
-                    : 'The sensor warmed up successfully';
+            // const message =
+            //     currentSensorTemperatureRef.current < 30
+            //         ? 'Your Preemie Sensor still needs to be warmed again, please select the warm-up button again.'
+            //         : 'The sensor warmed up successfully';
 
             await presentToast({
                 type: 'success',
-                message,
+                message: 'The sensor warmed up successfully',
             });
 
             handleCompleteEvent();
