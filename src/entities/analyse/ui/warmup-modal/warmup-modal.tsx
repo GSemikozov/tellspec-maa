@@ -49,12 +49,12 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     // const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
     const handleCancelWarmup = React.useCallback(() => {
-        if (!isFirstWarmup) {
+       
             forceCancelWarmupSensor();
             onClose();
 
-            return;
-        }
+           
+        
 
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
             presentAlert({
@@ -92,10 +92,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
             return null;
         }
 
-        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
+        if (currentSensorTemperature ) {
             // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
-            const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading;
+            const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading || isFirstWarmup;
 
             return (
                 <>
