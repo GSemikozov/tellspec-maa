@@ -27,8 +27,6 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     analyseMilkLoading,
     onAnalyseMilk,
     onClose,
-
-    isMilkAnalysed,
 }) => {
     const [presentAlert] = useIonAlert();
 
@@ -48,7 +46,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
             },
         });
 
-    const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
+    // const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
     const handleCancelWarmup = React.useCallback(() => {
         if (!isFirstWarmup) {
@@ -95,7 +93,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         }
 
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
-            const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
+            // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
             const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading;
 
@@ -116,7 +114,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
                     <div className={cn('modal-actions')}>
                         <PreemieButton disabled={isDisabledAnalyse} onClick={onAnalyseMilk}>
-                            {analyseMilkTitle}
+                            Analyse milk
                         </PreemieButton>
 
                         <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
