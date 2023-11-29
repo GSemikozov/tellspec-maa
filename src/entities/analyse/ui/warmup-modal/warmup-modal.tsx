@@ -27,6 +27,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     analyseMilkLoading,
     onAnalyseMilk,
     onClose,
+
+    isMilkAnalysed,
 }) => {
     const [presentAlert] = useIonAlert();
 
@@ -48,34 +50,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     // const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    const handleCancelWarmup = React.useCallback(() => {
-        if (!isFirstWarmup) {
-            forceCancelWarmupSensor();
-            onClose();
-
-            return;
-        }
-
-        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
-            presentAlert({
-                header: 'Warning',
-                subHeader:
-                    'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
-                buttons: [
-                    {
-                        text: 'OK',
-                        handler: () => {
-                            commitSetFirstWarmup(false);
-                            forceCancelWarmupSensor();
-                        },
-                    },
-                ],
-                onDidDismiss: () => {
-                    commitSetFirstWarmup(false);
-                },
-            });
-        }
-    }, [isFirstWarmup, currentSensorTemperature, commitSetFirstWarmup]);
+    const handleCancelWarmup = () => {
+        forceCancelWarmupSensor();
+        onClose();
+    };
 
     React.useEffect(() => {
         const retrieveIsFirstWarmupFromStorage = async () => {
@@ -95,7 +73,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
             // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
-            const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading;
+            const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading || isFirstWarmup;
 
             return (
                 <>

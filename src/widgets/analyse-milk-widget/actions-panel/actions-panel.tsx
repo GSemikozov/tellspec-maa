@@ -6,8 +6,9 @@ import {
 import { useIonAlert } from '@ionic/react';
 
 import { classname } from '@shared/utils';
-// import { labelPrinterAsyncActions } from '@features/label-printer';
+// eslint-disable-next-line import/order
 import { selectSensorDevice } from '@entities/sensor';
+// import { labelPrinterAsyncActions } from '@features/label-printer';
 
 // import type { AppDispatch } from '@app';
 
