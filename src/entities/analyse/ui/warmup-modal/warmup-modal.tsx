@@ -112,7 +112,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                         before you analyse the milk.
                     </p>
 
-                    {currentSensorTemperature > 0 ? <p>{currentTemperatureString}</p> : null}
+                    {/* {currentSensorTemperature > 0 ? <p>{currentTemperatureString}</p> : null} */}
 
                     <div className={cn('modal-actions')}>
                         <PreemieButton disabled={isDisabledAnalyse} onClick={onAnalyseMilk}>
