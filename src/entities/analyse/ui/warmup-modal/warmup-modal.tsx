@@ -11,7 +11,7 @@ import './warmup-modal.css';
 
 const cn = classname('warmup-modal');
 
-const RECOMMENDED_TEMP_FOR_SCAN = 30;
+// const RECOMMENDED_TEMP_FOR_SCAN = 30;
 
 export type WarmupModalProps = {
     open: boolean;
@@ -48,35 +48,31 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     // const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
-    const handleCancelWarmup = React.useCallback(() => {
+    const handleCancelWarmup = () => {
        
             forceCancelWarmupSensor();
             onClose();
 
-           
-        
-
-        if (currentSensorTemperature < RECOMMENDED_TEMP_FOR_SCAN) {
-            presentAlert({
-                header: 'Warning',
-                subHeader:
-                    'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
-                buttons: [
-                    {
-                        text: 'OK',
-                        handler: () => {
-                            commitSetFirstWarmup(false);
-                            forceCancelWarmupSensor();
-                        },
-                    },
-                ],
-                onDidDismiss: () => {
-                    commitSetFirstWarmup(false);
-                },
-            });
-        }
-    }, [isFirstWarmup, currentSensorTemperature, commitSetFirstWarmup]);
-
+        // if (currentSensorTemperature ) {
+        //     presentAlert({
+        //         header: 'Warning',
+        //         subHeader:
+        //             'For best results we suggest that you need to warm up your Preemie Sensor before you analyse the milk.',
+        //         buttons: [
+        //             {
+        //                 text: 'OK',
+        //                 handler: () => {
+        //                     commitSetFirstWarmup(false);
+        //                     forceCancelWarmupSensor();
+        //                 },
+        //             },
+        //         ],
+        //         onDidDismiss: () => {
+        //             commitSetFirstWarmup(false);
+        //         },
+        //     });
+        // }
+    };
     React.useEffect(() => {
         const retrieveIsFirstWarmupFromStorage = async () => {
             const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
@@ -92,7 +88,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
             return null;
         }
 
-        if (currentSensorTemperature ) {
+        // if (currentSensorTemperature ) {
             // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
             const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading || isFirstWarmup;
@@ -125,7 +121,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
                     </div>
                 </>
             );
-        }
+        // }
     }, [isFirstWarmup, analyseMilkLoading, warmupSensorLoading, handleCancelWarmup]);
 
     return (

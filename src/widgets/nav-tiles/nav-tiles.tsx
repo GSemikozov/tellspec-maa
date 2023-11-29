@@ -77,8 +77,7 @@ export const NavTiles: React.FunctionComponent = () => {
                 <div className='tile-text-wrapper'>
                     <IonText className='ion-text-start'>
                         <h4>
-                            To view and print analyses for one or more milk samples and to print
-                            milk labels, tap here
+                            To view and print analyses for one or more milk samples, tap here
                         </h4>
                     </IonText>
                     <IonText className='ion-text-start'>
