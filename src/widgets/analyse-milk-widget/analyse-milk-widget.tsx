@@ -149,7 +149,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         }
 
         if (analyseMilkLoading) {
-            return <div className={cn('tab-placeholder')}>Analyse loading.</div>;
+            return <div className={cn('tab-placeholder')}>Analysis is being loaded.</div>;
         }
 
         if (activeTab === AnalyseWidgetTabs.SPECTRUM) {

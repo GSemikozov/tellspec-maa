@@ -57,6 +57,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
 
     const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
+   
     const handleCancelWarmup = () => {
         if (!isFirstWarmup) {
             forceCancelWarmupSensor();
