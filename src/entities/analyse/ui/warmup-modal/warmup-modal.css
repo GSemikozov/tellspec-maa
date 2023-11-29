@@ -9,6 +9,12 @@
     margin: 2rem;
     gap: 1rem;
 }
+
+.warmup-modal__loading {
+    margin-top: 24px;
+    text-align: center;
+}
+
 .warmup-modal p {
     font-size: 2rem;
     margin: 2rem;

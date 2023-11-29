@@ -22,6 +22,7 @@ export const clearStorageData = async (): Promise<void> => {
     await nativeStore.remove(NativeStorageKeys.GROUP_KEY);
     await nativeStore.remove(NativeStorageKeys.DEVICE);
     await nativeStore.remove(NativeStorageKeys.DEVICE_CALIBRATION);
+    await nativeStore.remove(NativeStorageKeys.IS_FIRST_WARMUP);
 };
 
 export const checkNetworkConnection = () => {

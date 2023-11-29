@@ -23,6 +23,7 @@ import {
     fetchAppSettings,
     fetchBleStatus,
     updateIsFirstSensorCalibration,
+    updateIsFirstWarmup,
     updatePreventInstructions,
 } from './model/app.actions';
 import { routesMapping } from './routes';
@@ -71,6 +72,7 @@ export const App: React.FunctionComponent = () => {
         dispatch(fetchBleStatus());
         dispatch(updatePreventInstructions());
         dispatch(updateIsFirstSensorCalibration());
+        dispatch(updateIsFirstWarmup());
     }, [isAuthenticated]);
 
     if (!readyStore || isAppFetching) {

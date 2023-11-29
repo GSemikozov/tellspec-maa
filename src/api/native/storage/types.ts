@@ -8,4 +8,6 @@ export enum NativeStorageKeys {
     IS_FIRST_SENSOR_CALIBRATION = 'isFirstSensorCalibration',
 
     IS_EMULATE_NATIVE_SDK = 'isEmulateNativeSdk',
+
+    IS_FIRST_WARMUP = 'isFirstWarmup',
 }

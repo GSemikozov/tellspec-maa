@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IonLabel, IonSegment, IonSegmentButton, useIonRouter } from '@ionic/react';
 
+import { NativeStorageKeys, nativeStore } from '@api/native';
 import { usePreemieToast, BarcodeScanner } from '@ui';
 import { AnalyseMilkIcon } from '@ui/icons';
 import { useEventAsync } from '@shared/hooks';
@@ -13,11 +14,12 @@ import { extractReportAnalyseData } from '@entities/reports';
 import { fetchMilks, selectIsMilkLoading, selectMilkList } from '@entities/milk';
 import { SpectrumAnalyse } from '@widgets/spectrum-analyse';
 import { TestResults } from '@widgets/test-results';
-import { appActions } from '@app';
 import { WarmupModal } from '@entities/analyse/ui';
 
 import { ActionsPanel } from './actions-panel';
 import { useAnalyseMilkReport, useAnalyseMilkSpectrumScan } from './hooks';
+import { AnalyseWidgetTabs } from './analyse-milk-widget.constants';
+import { useSidebarToggle } from './hooks/use-sidebar-toggle';
 
 import type { IonSegmentCustomEvent, SegmentChangeEventDetail } from '@ionic/core';
 import type { AppDispatch } from '@app/store';
@@ -26,37 +28,27 @@ import './analyse-milk-widget.css';
 
 const cn = classname('analyse-milk-widget');
 
-enum AnalyseWidgetTabs {
-    SPECTRUM = 'spectrum',
-    TEST_RESULTS = 'testResults',
-}
+const SENSOR_IDLE_MINUTES_TO_RE_WARMUP = 10;
+
 export const AnalyseMilkWidget: React.FunctionComponent = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { routeInfo } = useIonRouter();
     const [presentToast] = usePreemieToast();
 
-    const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
     const currentDevice = useSelector(selectSensorDevice);
+    const userEmail = useSelector(selectUserEmail);
+    const milksLoading = useSelector(selectIsMilkLoading);
+    const milkList = useSelector(selectMilkList);
 
-    const handleOpenWarmupModal = () => {
-        if (!currentDevice) {
-            presentToast({
-                message: 'Your sensor is not connected. Please connect the sensor.',
-            });
-        } else {
-            setWarmupOpenModal(true);
-        }
-    };
-
-    const handleCloseWarmupModal = () => setWarmupOpenModal(false);
-
+    const [, setModelScannedData] = React.useState<any>(null);
+    const [warmupModalOpen, setWarmupOpenModal] = React.useState(false);
     const [milkId, setMilkId] = React.useState<string>('');
     const [activeTab, setActiveTab] = React.useState<AnalyseWidgetTabs>(
         AnalyseWidgetTabs.TEST_RESULTS,
     );
 
-    const [, setModelScannedData] = React.useState<any>(null);
+    const handleCloseWarmupModal = () => setWarmupOpenModal(false);
 
     const [fetchSpectrumScan, onSetSpectrumScan, { spectrumScan, loading: spectrumScanLoading }] =
         useAnalyseMilkSpectrumScan();
@@ -97,11 +89,6 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
         },
     );
 
-    const userEmail = useSelector(selectUserEmail);
-
-    const milksLoading = useSelector(selectIsMilkLoading);
-    const milkList = useSelector(selectMilkList);
-
     const handleChangeMilkId = useEventAsync(async (milkId: string) => {
         onSetReport(null);
         onSetSpectrumScan(null);
@@ -112,15 +99,39 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const handleAnalyseMilk = React.useCallback(async () => {
         await call(reportMilk, userEmail);
-        
     }, [call, reportMilk, userEmail]);
+
+    const handleClickAnalyseMilk = async () => {
+        if (!currentDevice) {
+            await presentToast({
+                message: 'Your sensor is not connected. Please connect the sensor.',
+            });
+
+            return;
+        }
+
+        const isFirstWarmup = await nativeStore.get(NativeStorageKeys.IS_FIRST_WARMUP);
+
+        const currentTime = +new Date();
+        const lastSensorInteractionTime = currentDevice?.lastInteractionAt ?? 0;
+
+        const needRecalibration =
+            (currentTime - lastSensorInteractionTime) / (60 * 1000) >=
+            SENSOR_IDLE_MINUTES_TO_RE_WARMUP;
+
+        if (isFirstWarmup || needRecalibration) {
+            setWarmupOpenModal(true);
+            return;
+        }
+
+        handleAnalyseMilk();
+    };
 
     const handleChangeTab = (event: IonSegmentCustomEvent<SegmentChangeEventDetail>) => {
         setActiveTab(event.target.value as AnalyseWidgetTabs);
     };
 
     React.useEffect(() => {
-        dispatch(appActions.showSidebar());
         dispatch(fetchMilks());
     }, []);
 
@@ -183,6 +194,8 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
 
     const showOnlyAnalyseButton = extractReportAnalyseData(reportMilk) === null;
 
+    useSidebarToggle(activeTab, reportMilk);
+
     return (
         <PageArea>
             <PageArea.Header
@@ -225,7 +238,7 @@ export const AnalyseMilkWidget: React.FunctionComponent = () => {
                                 selectedID={milkId}
                                 showOnlyAnalyse={showOnlyAnalyseButton}
                                 analyseMilkLoading={analyseMilkLoading}
-                                onAnalyseMilk={handleOpenWarmupModal}
+                                onAnalyseMilk={handleClickAnalyseMilk}
                                 isMilkAnalysed={!!reportMilk?.data.analyseData}
                             />
                         </div>
