@@ -102,7 +102,7 @@ export const SensorPage: React.FunctionComponent = () => {
                                     </div>
 
                                     <div className={cn('section-option')}>
-                                        <p>Paired with</p>
+                                        <p>Serial number</p>
 
                                         <div
                                             className={cn('section-option-action', {
@@ -121,7 +121,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                     {humidity ? (
                                         <div className={cn('section-option')}>
-                                            <p>Humidity</p>
+                                            <p>Internal Humidity</p>
 
                                             <div
                                                 className={cn('section-option-action', {
@@ -135,7 +135,7 @@ export const SensorPage: React.FunctionComponent = () => {
 
                                     {temperature ? (
                                         <div className={cn('section-option')}>
-                                            <p>Temperature</p>
+                                            <p>Internal Temperature</p>
 
                                             <div
                                                 className={cn('section-option-action', {

@@ -49,9 +49,8 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     // const analyseMilkTitle = isMilkAnalysed ? 'Re-analyse milk' : 'Analyse milk';
 
     const handleCancelWarmup = () => {
-       
-            forceCancelWarmupSensor();
-            onClose();
+        forceCancelWarmupSensor();
+        onClose();
 
         // if (currentSensorTemperature ) {
         //     presentAlert({
@@ -89,38 +88,38 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         }
 
         // if (currentSensorTemperature ) {
-            // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
+        // const currentTemperatureString = `Current temperature of the sensor is ${currentSensorTemperature}C`;
 
-            const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading || isFirstWarmup;
+        const isDisabledAnalyse = warmupSensorLoading || analyseMilkLoading || isFirstWarmup;
 
-            return (
-                <>
-                    {analyseMilkLoading || warmupSensorLoading ? (
-                        <div className={cn('loading')}>
-                            <IonSpinner name='bubbles' color='primary' />
-                        </div>
-                    ) : null}
-
-                    <p>
-                        For best results we suggest that you need to warm up your Preemie Sensor
-                        before you analyse the milk.
-                    </p>
-
-                    {/* {currentSensorTemperature > 0 ? <p>{currentTemperatureString}</p> : null} */}
-
-                    <div className={cn('modal-actions')}>
-                        <PreemieButton disabled={isDisabledAnalyse} onClick={onAnalyseMilk}>
-                            Analyse milk
-                        </PreemieButton>
-
-                        <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
-                            Warm Up Sensor
-                        </PreemieButton>
-
-                        <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
+        return (
+            <>
+                {analyseMilkLoading || warmupSensorLoading ? (
+                    <div className={cn('loading')}>
+                        <IonSpinner name='bubbles' color='primary' />
                     </div>
-                </>
-            );
+                ) : null}
+
+                <p>
+                    For best results we suggest that you need to warm up your Preemie Sensor before
+                    you analyse the milk. Please remove any cuvette from the wll of the sensor.
+                </p>
+
+                {/* {currentSensorTemperature > 0 ? <p>{currentTemperatureString}</p> : null} */}
+
+                <div className={cn('modal-actions')}>
+                    <PreemieButton disabled={isDisabledAnalyse} onClick={onAnalyseMilk}>
+                        Analyse milk
+                    </PreemieButton>
+
+                    <PreemieButton disabled={warmupSensorLoading} onClick={warmupSensor}>
+                        Warm Up Sensor
+                    </PreemieButton>
+
+                    <PreemieButton onClick={handleCancelWarmup}>Cancel</PreemieButton>
+                </div>
+            </>
+        );
         // }
     }, [isFirstWarmup, analyseMilkLoading, warmupSensorLoading, handleCancelWarmup]);
 
