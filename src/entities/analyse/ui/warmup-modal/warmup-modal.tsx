@@ -1,11 +1,18 @@
 import React from 'react';
-import { IonModal, useIonAlert, IonSpinner } from '@ionic/react';
-import { useSelector } from 'react-redux';
+import {
+    IonModal,
+    // useIonAlert,
+    IonSpinner,
+} from '@ionic/react';
+// import { useSelector } from 'react-redux';
 
 import { NativeStorageKeys, nativeStore } from '@api/native';
 import { PreemieButton } from '@ui/button';
 import { classname } from '@shared/utils';
-import { selectSensorDeviceTemperature, useWarmupSensor } from '@entities/sensor';
+import {
+    // selectSensorDeviceTemperature,
+    useWarmupSensor,
+} from '@entities/sensor';
 
 import './warmup-modal.css';
 
@@ -27,8 +34,10 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
     analyseMilkLoading,
     onAnalyseMilk,
     onClose,
+
+    // isMilkAnalysed,
 }) => {
-    const [presentAlert] = useIonAlert();
+    // const [presentAlert] = useIonAlert();
 
     const [isFirstWarmup, setIsFirstWarmup] = React.useState<boolean | null>(null);
 
@@ -37,7 +46,7 @@ export const WarmupModal: React.FunctionComponent<WarmupModalProps> = ({
         setIsFirstWarmup(value);
     }, []);
 
-    const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
+    // const currentSensorTemperature = useSelector(selectSensorDeviceTemperature);
 
     const [warmupSensor, forceCancelWarmupSensor, { loading: warmupSensorLoading }] =
         useWarmupSensor({
